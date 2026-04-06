@@ -1,5 +1,9 @@
 General direction !!!
 
+Usage of github : 
+The main is only to a ready to use product, everything need to work and be testing BEFORE merging to the main.
+Each service, each different portion of the project need to have his own branch. 
+
 Framework used :
 Frontend -> React(JavaScript/Typescript)
 Backend -> NestJS()
