@@ -4,10 +4,113 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+	id						String 		@id @default(uuid())
+	username				String		@unique
+	email					String 		@unique
+	password_hash			String?
+	avatar_url				String?
+	is_online				Boolean 	@default(false)
+	is_two_factor_enabled	Boolean 	@default(false)
+	two_factor_secret		String?
+	oauth_provider			String?
+	oauth_id 				String?		@unique		
+	created_at				DateTime 	@default(now())
+	updated_at				DateTime	@updatedAt
+
+	matches_participated	Match_Participant[]
+	rewards					Daily_Reward[]
+
+	sent_friendships		Friendship[]	@relation("requester")
+	received_friendships	Friendship[]	@relation("addressee")
+}
+
+model Friendship {
+	id 						String 		@id @default(uuid())
+	status					String 		@default("pending")
+	created_at				DateTime	@default(now())
+
+	requester_id			String 	
+	requester 				User 		@relation("requester", fields: [requester_id], references: [id])
+
+	addressee_id			String
+	addressee    			User     	@relation("addressee", fields: [addressee_id], references: [id])
+}
+
+model Match {
+	id 						String		@id @default(uuid())
+	game_mode				String
+	status					String 		@default("ongoing")
+	played_at				DateTime	@default(now())
+
+	target_champion_id		String
+	target_champion 		Champion 	@relation(fields: [target_champion_id], references: [id])
+
+	participants			Match_Participant[]
+	guesses 				Guess[]
+}
+
+model Match_Participant {
+	id 						String		@id @default(uuid())
+	result					String?
+	score					Int 		@default(0)
+
+	match_id				String
+	match 					Match 		@relation(fields: [match_id], references: [id])
+	
+	user_id					String
+	user 					User 		@relation(fields: [user_id], references: [id])
+
+	guesses 				Guess[]
+}
+
+model Guess {
+	id 						String 				@id @default(uuid())
+	attempt_number			Int
+	comparison_result		Json
+
+	match_id				String
+	match 					Match 				@relation(fields: [match_id], references: [id])
+
+	champion_id				String
+	champion 				Champion 			@relation(fields: [champion_id], references: [id])
+	
+	participant_id 			String
+	participant 			Match_Participant 	@relation(fields: [participant_id], references: [id])
+}
+
+model Champion {
+	id 						String 		@id @default(uuid())
+	name					String		@unique
+	gender					String
+	position				String
+	species 				String
+	resource_type			String
+	range_type				String
+	region					String
+	release_year			Int
+
+	guesses 				Guess[]
+	target_in 				Match[]
+}
+
+model Daily_Reward  {
+	id 						String 		@id @default(uuid())
+	streak_count			Int 		@default(0)
+	points_earned			Int 		@default(0)
+	xp_points				Int 		@default(0)
+	level					Int 		@default(0)
+	elo_rating				Int 		@default(1000)
+	reward_date				DateTime 	@default(now())
+
+	user_id					String
+	user 					User 		@relation(fields: [user_id], references: [id])
 }
