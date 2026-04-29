@@ -2,7 +2,7 @@
   font-family: Inter, system-ui, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #e5e7eb;
+  color: #3f0da3;
   background-color: #111827;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -91,7 +91,7 @@ input {
 }
 
 .chat-sidebar {
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 1px solid rgba(173, 24, 24, 0.08);
   background: rgba(11, 18, 32, 0.85);
   padding: 1rem;
 }
@@ -111,7 +111,7 @@ input {
   min-height: 300px;
   padding: 1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(158, 69, 69, 0.08);
   background: rgba(255, 255, 255, 0.03);
   overflow-y: auto;
 }
@@ -147,7 +147,7 @@ button {
 }
 
 button:hover {
-  background: #1d4ed8;
+  background: hsla(283, 4%, 64%, 0.372);
 }
 
 h1 {
