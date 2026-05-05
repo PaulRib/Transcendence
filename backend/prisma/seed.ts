@@ -1,11 +1,15 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs'; // -> pour lire les fichiers JSON
 import * as path from 'path'; // -> pour gérer les chemins de fichiers
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 import "dotenv/config"; 
 
-const prisma = new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL,
-} as any);
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
+
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
 	const filePath = path.join(__dirname, 'data', 'champions.json');
