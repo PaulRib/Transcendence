@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { PublicUser } from './types/public-user.type';
+import type { PublicUser } from './types/public-user.type';
 
 @Controller('users')
 export class UsersController {

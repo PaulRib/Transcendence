@@ -20,7 +20,7 @@ export class UsersService {
         const foundUser = this.users.find((currentUser) => currentUser.id === id);
         
         if (!foundUser) {
-            throw new NotFoundException(`User width id "${id}" not found`);
+            throw new NotFoundException(`User with id "${id}" not found`);
         }
         return foundUser;
     }
