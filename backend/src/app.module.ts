@@ -7,3 +7,4 @@ import { PrismaModule } from '../prisma/prisma.module';
   imports: [HealthModule, UsersModule, PrismaModule],
 })
 export class AppModule {}
+export class CHampionsModule {}
