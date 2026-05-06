@@ -4,7 +4,6 @@ function HomePage() {
   const navigate = useNavigate();
 
   const handlePlayClick = () => {
-    // Plus tard, il faudra créer la route '/game' dans votre App.tsx
     navigate('/game');
   };
 

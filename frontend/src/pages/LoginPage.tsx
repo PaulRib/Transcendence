@@ -9,10 +9,11 @@ function LoginPage() {
         <input type="password" placeholder="Password" />
         <button type="submit">Login</button>
       </form>
-      If you don't have account <Link to="RegisterPage.tsx"> Click here</Link>
+      <p>
+        If you don't have an account,<Link to="/register" className="link">Click here</Link>
+      </p>
       </section>
   );
 }
 
 export default LoginPage;
-/* Temp Login de test*/

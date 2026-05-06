@@ -27,7 +27,9 @@ body {
 
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
+  color: #2563eb;
+
 }
 
 button,
@@ -198,6 +200,16 @@ p {
   margin-top: 0.5rem;
 }
 
+.link {
+  font-weight: bold;
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.link:hover {
+  filter: brightness(1.2);
+}
+
 .color-legend {
   list-style-type: none;
   padding-left: 0;
@@ -225,4 +237,6 @@ p {
   .nav {
     flex-wrap: wrap;
   }
+
 }
+
