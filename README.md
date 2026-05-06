@@ -1,9 +1,4 @@
-After cloning, you must run `npm install` on both the backend and the frontend then follow the database launcher. @Murad @Amine @Paul @Mehdi!!!
-
-To launch database, first launch dockers and follow those steps :
-`npx prisma generate` then
-`npx prisma migrate dev --name init` then
-`npx prisma db seed` 
+After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
 
 If you wanna see a visual image of the database : `npx prisma studio`
 
