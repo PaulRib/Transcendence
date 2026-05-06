@@ -1,0 +1,228 @@
+:root {
+  font-family: Inter, system-ui, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #ffffff;
+  background-color: #111827;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  min-width: 320px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: rgb(44, 44, 48)
+}
+
+.topbar {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgb(29, 29, 32);
+  backdrop-filter: blur(6px);
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav a {
+  padding: 0.45rem 0.8rem;
+  border-radius: 10px;
+  color: #ffffff;
+  transition: background-color 0.5s ease, color 0.2s ease;
+}
+
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.content-shell {
+  flex: 1;
+  display: flex; /* Utilisé `flex` à la place de `grid` le temps que la sidebar est cachée */
+  justify-content: center; 
+  min-height: 0;
+}
+
+/* Vous pourrez décommenter ceci quand vous réactiverez la barre de chat :
+.content-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+*/
+
+.page-content {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.page-content > section,
+.page-content > main,
+.page-content > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+}
+
+.chat-sidebar {
+  border-left: 1px solid rgba(173, 24, 24, 0.08);
+  background: rgba(11, 18, 32, 0.85);
+  padding: 1rem;
+}
+
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-panel h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.chat-messages {
+  min-height: 300px;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(158, 69, 69, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  overflow-y: auto;
+}
+
+.chat-form,
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.50rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+input::placeholder {
+  color: #94a3b8;
+}
+
+button {
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background: hsla(283, 4%, 64%, 0.372);
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: 2.5rem;
+}
+
+h2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+p {
+  margin: 0;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+}
+
+/* === HOME PAGE - RULES === */
+.rules-container {
+  text-align: center;
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+}
+
+.rules-container h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.rules-list {
+  list-style-position: inside;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.color-legend {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .content-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-sidebar {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .page-content {
+    padding: 1.5rem;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+}

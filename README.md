@@ -1,3 +1,5 @@
+After cloning, you must run `npm install` on both the backend and the frontend.
+
 General direction !!!
 
 Usage of github : 
