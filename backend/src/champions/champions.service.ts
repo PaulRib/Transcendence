@@ -5,19 +5,18 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ChampionsService {
   constructor(private prisma: PrismaService) {}
 
+  private seededRandom(seed: number) {
+	const x = Math.sin(seed) * 10000;
+	return x - Math.floor(x);
+  }
+
   async getAllNames() {
     return this.prisma.champion.findMany({
       select: { name: true },
     });
   }
 
-
-  private seededRandom(seed: number) {
-	const x = Math.sin(seed) * 10000;
-	return x - Math.floor(x);
-  }
-
-  async selectDayChamp(nb: number) {
+  async selectDayChamp() {
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 
@@ -65,7 +64,7 @@ export class ChampionsService {
 	if (!selectedChampion) {
         throw new Error('Failed to retrieve a replacement champion');
     }
-	
+
 	const newDaily = await this.prisma.dailyMatch.create({
 		data: {
 			date: today,
