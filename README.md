@@ -7,6 +7,7 @@ General direction !!!
 Usage of github : 
 The main is only to a ready to use product, everything need to work and be testing BEFORE merging to the main.
 Each service, each different portion of the project need to have his own branch. 
+Try, at best, to have one commit per files, to assure clear commit messages for others
 
 Framework used :
 Frontend -> React(JavaScript/Typescript)
