@@ -5,6 +5,10 @@ services:
     container_name: backend
     ports:
       - "3000:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
   db:
     build: ./database
     container_name: postgres_db
