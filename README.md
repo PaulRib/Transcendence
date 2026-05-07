@@ -1,40 +1,129 @@
-After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
+# 🚀 React + NestJS — Notes de projet
 
-If you wanna see a visual image of the database : `npx prisma studio`
+<div align="center">
 
-General direction !!!
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=0B1220)
+![NestJS](https://img.shields.io/badge/Backend-NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Security](https://img.shields.io/badge/Security-Backend_First-10B981?style=for-the-badge&logo=shield&logoColor=white)
 
-Usage of github : 
-The main is only to a ready to use product, everything need to work and be testing BEFORE merging to the main.
-Each service, each different portion of the project need to have his own branch. 
-Try, at best, to have one commit per files, to assure clear commit messages for others
+</div>
 
-Framework used :
-Frontend -> React(JavaScript/Typescript)
-Backend -> NestJS(Typescript)
-BDD -> PostgreSQL
+---
 
+## 🧭 Architecture générale
 
-Confirmed modules : 
-- Major : Framework backend & frontend
-- Major : Real-time features (WebSockets)
-- Major : Users interaction (basic chat, profile, friends)
-- Major : Remote players
-- Major : User management and authentication
-- Major : Advanced permissions system
-- Minor : ORM for database
-- Minor : Game stats and match history
-- Minor : gamification system (daily reward?)
-- Minor : Compability with at least 2 additional browsers
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <h3>🎨 Frontend React</h3>
+      <p>Le frontend gère toute la partie visible et interactive de l’application.</p>
+      <ul>
+        <li>Affichage</li>
+        <li>Interface utilisateur</li>
+        <li>Appels API</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <h3>🧠 Backend NestJS</h3>
+      <p>Le backend contient la logique importante et sécurisée de l’application.</p>
+      <ul>
+        <li>Logique métier</li>
+        <li>Base de données</li>
+        <li>Sécurité</li>
+        <li>Validation</li>
+        <li>Authentification</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-To validate :
-- Major : Multiplayer (realtime?)
-- Major : IA Opponent
-- Minor : Content moderation AI
-- Minor : Advanced chat feature
-- Minor : Custom-made design system
-- Minor : Multiple languages (at least 3)
-- Minor : Remote authentication
-- Minor : 2FA 
+---
 
-Total points : 16(26)/19 points
+## 🔐 Règle importante
+
+> [!WARNING]
+> Le frontend n’est jamais digne de confiance.
+>
+> Les validations importantes doivent être faites côté backend.
+
+---
+
+# ⚛️ Frontend React
+
+---
+
+## 🟦 `useState`
+
+`useState` permet de stocker une donnée React qui peut changer.
+
+```tsx
+const [status, setStatus] = useState('loading');
+```
+
+| Élément | Rôle |
+|---|---|
+| `status` | Valeur actuelle |
+| `setStatus()` | Setter React qui modifie la valeur |
+
+> Quand le state change, React ré-affiche automatiquement le composant.
+
+---
+
+## 🟪 `useEffect`
+
+`useEffect` permet d’exécuter du code après l’affichage du composant.
+
+```tsx
+useEffect(() => {
+  // code
+}, []);
+```
+
+Avec `[]` :
+
+```tsx
+useEffect(() => {
+  // code exécuté une seule fois
+}, []);
+```
+
+### Utilisations fréquentes
+
+- Fetch API
+- Chargement de données
+- WebSockets
+- Timers
+
+---
+
+## 🟧 `fetch`
+
+`fetch` envoie une requête HTTP au backend.
+
+```tsx
+const response = await fetch('http://localhost:3000/api/health');
+```
+
+Équivalent frontend de :
+
+```bash
+curl http://localhost:3000/api/health
+```
+
+---
+
+## 🟨 `async / await`
+
+`async / await` est utilisé pour les opérations asynchrones.
+
+```tsx
+async function test() {
+  const response = await fetch('http://localhost:3000/api/health');
+}
+```
+
+| Mot-clé | Rôle |
+|---|---|
+| `async` | Fonction asynchrone |
+| `await` | Attend le résulta
