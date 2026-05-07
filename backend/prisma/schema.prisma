@@ -99,6 +99,7 @@ model Champion {
 
 	guesses 				Guess[]
 	target_in 				Match[]
+	dailychamp				DailyMatch[]
 }
 
 model Daily_Reward  {
@@ -112,4 +113,11 @@ model Daily_Reward  {
 
 	user_id					String
 	user 					User 		@relation(fields: [user_id], references: [id])
+}
+
+model DailyMatch {
+	id 						String		@id @default(uuid())
+	date 					DateTime	@unique @default(now())
+	championId 				String
+	champion 				Champion 	@relation(fields: [championId], references: [id])
 }

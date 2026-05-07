@@ -1,10 +1,28 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  private pool: Pool;
+
+  constructor() {
+    // Configuration de l'adaptateur identique au seed
+    const connectionString = process.env.DATABASE_URL;
+    const pool = new Pool({ connectionString });
+    const adapter = new PrismaPg(pool);
+
+    super({ adapter });
+    this.pool = pool;
+  }
+
   async onModuleInit() {
-    // Cette ligne établit la connexion réelle avec ton Docker Postgres
     await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
+    await this.pool.end();
   }
 }

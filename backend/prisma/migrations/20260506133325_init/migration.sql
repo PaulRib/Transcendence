@@ -90,6 +90,15 @@ CREATE TABLE "Daily_Reward" (
     CONSTRAINT "Daily_Reward_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "DailyMatch" (
+    "id" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "championId" TEXT NOT NULL,
+
+    CONSTRAINT "DailyMatch_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
@@ -101,6 +110,9 @@ CREATE UNIQUE INDEX "User_oauth_id_key" ON "User"("oauth_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Champion_name_key" ON "Champion"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DailyMatch_date_key" ON "DailyMatch"("date");
 
 -- AddForeignKey
 ALTER TABLE "Friendship" ADD CONSTRAINT "Friendship_requester_id_fkey" FOREIGN KEY ("requester_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -128,3 +140,6 @@ ALTER TABLE "Guess" ADD CONSTRAINT "Guess_participant_id_fkey" FOREIGN KEY ("par
 
 -- AddForeignKey
 ALTER TABLE "Daily_Reward" ADD CONSTRAINT "Daily_Reward_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "DailyMatch" ADD CONSTRAINT "DailyMatch_championId_fkey" FOREIGN KEY ("championId") REFERENCES "Champion"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
