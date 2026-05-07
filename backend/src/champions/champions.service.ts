@@ -10,6 +10,7 @@ export class ChampionsService {
 	return x - Math.floor(x);
   }
 
+  //Change function to return name starting by a letter
   async getAllNames() {
     return this.prisma.champion.findMany({
       select: { name: true },
@@ -37,7 +38,6 @@ export class ChampionsService {
 	const yesterdayMatch = await this.prisma.dailyMatch.findUnique({
 		where: { date: yesterday },
 	});
-
 
 	//seed based on date
 	const seed = today.getFullYear() * 10000 + (today.getMonth() + 1 ) * 100 + today.getDate();
