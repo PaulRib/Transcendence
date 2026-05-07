@@ -9,9 +9,10 @@ function LoginPage() {
         <input type="password" placeholder="Password" />
         <button type="submit">Login</button>
       </form>
-      <p>
-        If you don't have an account,<Link to="/register" className="link">Click here</Link>
-      </p>
+      <div className="register-prompt">
+        <span>or</span>
+        <Link to="/register"><button type="button">register</button></Link>
+      </div>
       </section>
   );
 }
