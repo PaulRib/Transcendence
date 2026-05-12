@@ -49,8 +49,20 @@ input {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgb(29, 29, 32);
   backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
+.login_button {
+  padding: 0.45rem 0.8rem;
+  border-radius: 10px;
+  color: #ffffff;
+  transition: background-color 0.5s ease, color 0.2s ease;
+}
+.login_button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
 .nav {
   display: flex;
   justify-content: center;
@@ -179,6 +191,8 @@ p {
   align-items: center;
 }
 
+
+
 /* === HOME PAGE - RULES === */
 .rules-container {
   text-align: center;
@@ -235,6 +249,5 @@ p {
   .nav {
     flex-wrap: wrap;
   }
-
 }
 

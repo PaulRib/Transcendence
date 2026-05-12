@@ -13,16 +13,16 @@ function HomePage() {
       
       <div className="rules-container">
         <h2>Comment jouer ?</h2>
-        <p>Le but est de deviner le mot mystère.</p>
+        <p>Le but est de deviner le champion .</p>
         <ul className="rules-list">
-          <li>Chaque proposition doit être un mot valide.</li>
+          <li>Chaque proposition doit être un champion valide.</li>
           <li>Appuyez sur "Entrée" pour valider votre mot.</li>
-          <li>Après chaque essai, la couleur des lettres changera pour vous indiquer si vous êtes proche de la solution :</li>
+          <li>Après chaque essai, vous verrez les caracterisque du personnage et leur correspondance</li>
         </ul>
         <ul className="color-legend">
-          <li>🟩 <strong>Vert</strong> : La lettre est dans le mot et à la <strong>bonne</strong> place.</li>
-          <li>🟨 <strong>Jaune</strong> : La lettre est dans le mot, mais à la <strong>mauvaise</strong> place.</li>
-          <li>⬛ <strong>Gris</strong> : La lettre n'est <strong>pas</strong> dans le mot.</li>
+          <li>🟩 <strong>Vert</strong> : Si c'est correct </li>
+          <li>🟨 <strong>Jaune</strong> : Si c'est incomplet ou qu'il y a une caractéristique en trop.</li>
+          <li>🟥 <strong>Rouge</strong> : Si la caractéristique ne correspond pas du tout au personnage.</li>
         </ul>
       </div>
       
