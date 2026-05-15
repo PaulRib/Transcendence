@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-
-type HealthResponse = {
-  status: string;
-};
+import { getBackendHealth } from '../api/health.api';
 
 function HomePage() {
   const [backendStatus, setBackendStatus] = useState<string>('loading');
@@ -11,13 +8,7 @@ function HomePage() {
   useEffect(() => {
     async function fetchBackendHealth() {
       try {
-        const response = await fetch('http://localhost:3000/api/health');
-
-        if (!response.ok) {
-          throw new Error('Backend health request failed');
-        }
-
-        const data: HealthResponse = await response.json();
+        const data = await getBackendHealth();
         setBackendStatus(data.status);
       } catch {
         setError('Cannot reach backend');
