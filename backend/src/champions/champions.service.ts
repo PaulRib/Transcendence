@@ -24,15 +24,4 @@ export class ChampionsService {
     });
   }
 
-  async getChampByLetter(letter: string) {
-    return this.prisma.champion.findMany({
-      where: {
-        name: {
-          startsWith: letter,
-        },
-      },
-      select: { name: true },
-    });
-  }
-
 }
