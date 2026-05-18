@@ -8,4 +8,6 @@ fclean:
 	docker-compose down -v
 	docker system prune -a
 
-.PHONY: all clean fclean
+re: fclean all
+
+.PHONY: all clean fclean re
