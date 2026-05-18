@@ -29,25 +29,6 @@ function GamePage() {
 
   return (
     <section>
-      <h1>ft_transcendancedle</h1>
-      <p>Welcome to the project frontend.</p>
-
-      <section>
-        <h2>Backend connection</h2>
-
-        {error ? (
-          <p>{error}</p>
-        ) : (
-          <p>Backend status: {backendStatus}</p>
-        )}
-      </section>
-
-      <section>
-        <h2>Champion of the day</h2>
-
-        <p>{dailyChampionName}</p>
-
-      </section>
 
       <section>
         <h2>Champion selector</h2>
