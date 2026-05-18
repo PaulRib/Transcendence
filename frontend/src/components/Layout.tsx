@@ -7,7 +7,7 @@ function Layout() {
             <header className="topbar">
                 <nav className="nav">
                     <Link to="/">Home</Link>
-                    <Link to="/profile">Profile</Link>
+                    <Link to="/profile">Profil</Link>
                 </nav>
                 <div className="auth-nav">
                     <Link to="/login" className="login_button">Login</Link>
