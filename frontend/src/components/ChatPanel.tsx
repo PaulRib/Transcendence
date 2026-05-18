@@ -1,17 +1,23 @@
+import * as React from 'react';
+
 function ChatPanel() {
   return (
-    <section className="chat-panel">
-      <h2>Chat</h2>
-      
-      <div className="chat-messages">
-        <p>No messages yet.</p>
-      </div>
-
-      <form className="chat-form">
-        <input type="text" placeholder="Write a message..." />
-        <button type="submit">Send</button>
-      </form>
-    </section>
+    React.createElement(
+      "section",
+      { className: "chat-panel" },
+      React.createElement("h2", null, "Chat"),
+      React.createElement(
+        "div",
+        { className: "chat-messages" },
+        React.createElement("p", null, "No messages yet.")
+      ),
+      React.createElement(
+        "form",
+        { className: "chat-form" },
+        React.createElement("input", { type: "text", placeholder: "Write a message..." }),
+        React.createElement("button", { type: "submit" }, "Send")
+      )
+    )
   );
 }
 
