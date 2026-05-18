@@ -71,4 +71,70 @@ export class DailymatchesService {
 	
 	return newDaily.champion;
 	}
+
+	private compareArrays(arr1: string[], arr2: string[]): 'correct' | 'partial' | 'incorrect' {
+		const matches = arr1.filter(item => arr2.includes(item)).length;
+
+		if (matches === 0) return 'incorrect';
+		if (matches === arr1.length && arr1.length === arr2.length) return 'correct';
+		return 'partial';
+	}
+
+	private parseToArrays(Value: string): string[] {
+		if (!Value) return [];
+		return Value.split(',').map(item => item.trim());
+	}
+
+	async verifyGuess(guessName: string) {
+		const todayChamp = await this.selectDayChamp();
+		const guessedChamp = await this.championsService.getExactChampByName(guessName);
+		if (!guessedChamp) {
+			throw new Error("Can't find the champion");
+		}
+
+		const guessedPos = this.parseToArrays(guessedChamp.position);
+		const todayPos = this.parseToArrays(todayChamp.position);
+		
+		const guessedSpecies = this.parseToArrays(guessedChamp.species);
+		const todaySpecies = this.parseToArrays(todayChamp.species);
+
+		const guessedRange = this.parseToArrays(guessedChamp.range_type);
+		const todayRange = this.parseToArrays(todayChamp.range_type);
+
+		const guessedRegions = this.parseToArrays(guessedChamp.region);
+		const todayRegions = this.parseToArrays(todayChamp.region);
+
+		return {
+			name: guessedChamp.name,
+			gender: {
+				value: guessedChamp.gender,
+				status: guessedChamp.gender === todayChamp.gender ? 'correct' : 'incorrect'
+			},
+			resourceType: {
+				value: guessedChamp.resource_type,
+				status: guessedChamp.resource_type === todayChamp.resource_type ? 'correct' : 'incorrect'
+			},
+			positions: {
+				value: guessedChamp.position,
+				status: this.compareArrays(guessedPos, todayPos)
+			},
+			species: {
+				value: guessedChamp.species,
+				status: this.compareArrays(guessedSpecies, todaySpecies)
+			},
+			rangeType: {
+				value: guessedChamp.range_type,
+				status: this.compareArrays(guessedRange, todayRange)
+			},
+			region: {
+				value: guessedChamp.region,
+				status: this.compareArrays(guessedRegions, todayRegions)
+			},
+			releaseYear: {
+				value: guessedChamp.release_year,
+				status: guessedChamp.release_year === todayChamp.release_year ? 'correct' : 
+				guessedChamp.release_year < todayChamp.release_year ? 'higher' : 'lower'
+			}
+		}
+	}
 }
