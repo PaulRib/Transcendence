@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { PublicUser } from './types/public-user.type'
 
 @Injectable()
@@ -16,13 +16,22 @@ export class UsersService {
         },
     ];
 
-    getUserById(id: string): PublicUser | null {
+    getUserById(id: string): PublicUser {
         const foundUser = this.users.find((currentUser) => currentUser.id === id);
-        return foundUser ?? null;
+        
+        if (!foundUser) {
+            throw new NotFoundException(`User with id "${id}" not found`);
+        }
+        return foundUser;
     }
 
-    getUserByUsername(username: string): PublicUser | null {
+    getUserByUsername(username: string): PublicUser {
         const foundUser = this.users.find((currentUser) => currentUser.username === username);
-        return foundUser ?? null;
+        
+        if(!foundUser){
+            throw new NotFoundException(
+                `User with username "${username}" not found`);
+        }
+        return foundUser;
     }
 }
