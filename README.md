@@ -1,10 +1,13 @@
-After cloning, you must run `npm install` on both the backend and the frontend.
+After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
+
+If you wanna see a visual image of the database : `npx prisma studio`
 
 General direction !!!
 
 Usage of github : 
 The main is only to a ready to use product, everything need to work and be testing BEFORE merging to the main.
 Each service, each different portion of the project need to have his own branch. 
+Try, at best, to have one commit per files, to assure clear commit messages for others
 
 Framework used :
 Frontend -> React(JavaScript/Typescript)
