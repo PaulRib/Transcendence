@@ -4,6 +4,22 @@ export type ChampionDay =  {
     name: string;
 };
 
+export type GuessAttribute<T> = {
+	value: T;
+	status: 'correct' | 'partial' | 'incorrect' | 'higher' | 'lower';
+};
+
+export type GuessReponse = {
+	name: string;
+	gender: GuessAttribute<string>;
+	resource_type: GuessAttribute<string>;
+	position: GuessAttribute<string[]>;
+	species: GuessAttribute<string[]>;
+	range_type: GuessAttribute<string[]>;
+	region: GuessAttribute<string[]>;
+	release_year: GuessAttribute<number>;
+};
+
 export async function getDailyChamp(): Promise<ChampionDay> {
     const response = await fetch(`${API_BASE_URL}/dailymatches/champ`);
 
