@@ -13,10 +13,10 @@ export type GuessReponse = {
 	name: string;
 	gender: GuessAttribute<string>;
 	resource_type: GuessAttribute<string>;
-	position: GuessAttribute<string[]>;
-	species: GuessAttribute<string[]>;
-	range_type: GuessAttribute<string[]>;
-	region: GuessAttribute<string[]>;
+	position: GuessAttribute<string>;
+	species: GuessAttribute<string>;
+	range_type: GuessAttribute<string>;
+	region: GuessAttribute<string>;
 	release_year: GuessAttribute<number>;
 };
 
@@ -30,4 +30,18 @@ export async function getDailyChamp(): Promise<ChampionDay> {
     const data: ChampionDay = await response.json();
 
     return data;
+}
+
+export async function sendGuess(championName: string): Promise<GuessReponse> {
+	const response = await fetch(`${API_BASE_URL}/dailymatches/guess`, {
+		method: 'POST',
+		headers: { 
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({ name: championName}),
+	});
+	if (!response.ok) {
+		throw new Error('Failed to submit guess');
+	}
+	return response.json();
 }
