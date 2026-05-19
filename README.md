@@ -2,6 +2,8 @@ After cloning, you must run `npm install` on both the backend and the frontend. 
 
 If you wanna see a visual image of the database : `npx prisma studio`
 
+Run `npm install @prisma/client` and `npx prisma generate` if you have some errors on VScode.
+
 General direction !!!
 
 Usage of github : 
