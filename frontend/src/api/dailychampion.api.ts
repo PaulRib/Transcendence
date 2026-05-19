@@ -5,7 +5,7 @@ export type ChampionDay =  {
 };
 
 export async function getDailyChamp(): Promise<ChampionDay> {
-    const response = await fetch(`${API_BASE_URL}/champions/daily`);
+    const response = await fetch(`${API_BASE_URL}/dailymatches/champ`);
 
     if (!response.ok) {
         throw new Error('Champion names request failed');

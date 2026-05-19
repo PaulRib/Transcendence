@@ -1,76 +1,36 @@
-import { useEffect, useState } from 'react';
-import { getBackendHealth } from '../api/health.api';
-import { getChampionNames, type ChampionName } from '../api/champions.api';
-import { getDailyChamp } from '../api/dailychampion.api';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
-  const [dailyChampionName, setDailyChampionName] = useState<string>('');
-  const [championNames, setChampionNames] = useState<ChampionName[]>([]);
-  const [selectedChampion, setSelectedChampion] = useState<string>('');
-  const [backendStatus, setBackendStatus] = useState<string>('loading');
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchBackendHealth() {
-      try {
-        const data = await getBackendHealth();
-        setBackendStatus(data.status);
-        const names = await getChampionNames();
-        setChampionNames(names);
-        const dailyChampion = await getDailyChamp();
-        setDailyChampionName(dailyChampion.name);
-      } catch {
-        setError('Cannot reach backend');
-        setBackendStatus('error');
-      }
-    }
-    fetchBackendHealth();
-  }, []);
+  const handlePlayClick = () => {
+    navigate('/game');
+  };
 
   return (
     <section>
-      <h1>ft_transcendancedle</h1>
-      <p>Welcome to the project frontend.</p>
-
-      <section>
-        <h2>Backend connection</h2>
-
-        {error ? (
-          <p>{error}</p>
-        ) : (
-          <p>Backend status: {backendStatus}</p>
-        )}
-      </section>
-
-      <section>
-        <h2>Champion of the day</h2>
-
-        <p>{dailyChampionName}</p>
-
-      </section>
-
-      <section>
-        <h2>Champion selector</h2>
-
-       <select
-          value={(selectedChampion)}
-          onChange={(event) => setSelectedChampion(event.target.value)}
-          >
-            <option value="">Choose a champion</option>
-
-            {championNames.map((champion) => (
-              <option key={champion.name} value={champion.name}>
-                {champion.name}
-              </option>
-            ))}
-          </select>
-        {selectedChampion && (
-          <p>Selected champion: {selectedChampion}</p>
-        )}
-      </section>
+      <h1>ft_transcendle</h1>
+      
+      <div className="rules-container">
+        <h2>Comment jouer ?</h2>
+        <p>Le but est de deviner le champion .</p>
+        <ul className="rules-list">
+          <li>Chaque proposition doit être un champion valide.</li>
+          <li>Appuyez sur "Entrée" pour valider votre mot.</li>
+          <li>Après chaque essai, vous verrez les caracterisque du personnage et leur correspondance</li>
+        </ul>
+        <ul className="color-legend">
+          <li>🟩 <strong>Vert</strong> : Si c'est correct </li>
+          <li>🟨 <strong>Jaune</strong> : Si c'est incomplet ou qu'il y a une caractéristique en trop.</li>
+          <li>🟥 <strong>Rouge</strong> : Si la caractéristique ne correspond pas du tout au personnage.</li>
+        </ul>
+      </div>
+      
+      <div>
+        <button onClick={handlePlayClick}>Jouer</button>
+      </div>
     </section>
   );
 }
 
 export default HomePage;
-/* Temp HomePage de test */

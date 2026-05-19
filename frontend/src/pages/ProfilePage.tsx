@@ -2,8 +2,8 @@ function ProfilePage() {
   return (
     <section>
       <h1>Profile</h1>
-      <p>Username: demo_user</p>
-      <p>Status: offline</p>
+      <p>Username: </p>
+      <p>Status: </p>
     </section>
   );
 }

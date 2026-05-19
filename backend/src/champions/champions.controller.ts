@@ -5,13 +5,16 @@ import { ChampionsService } from './champions.service';
 export class ChampionsController {
   constructor(private readonly championsService: ChampionsService) {}
 
-  @Get('daily') // Endpoint: GET /champions/daily
-  async getDailyChampion() {
-    return this.championsService.selectDayChamp();
-  }
+
 
   @Get('names') // Endpoint: GET /champions/names
   async getAllNames() {
     return this.championsService.getAllNames();
   }
+
+  @Get('name')
+  async getChampByName(name: string) {
+	return this.championsService.getChampByName(name);
+  }
+
 }
