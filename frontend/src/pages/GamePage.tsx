@@ -45,9 +45,11 @@ function GamePage() {
               </option>
             ))}
           </select>
-        {selectedChampion && (
+        {selectedChampion && ( 
           <p>Selected champion: {selectedChampion}</p>
         )}
+
+        <input> select champion</input>
       </section>
     </section>
   );
