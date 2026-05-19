@@ -9,4 +9,8 @@ export class DailymatchesController {
   async getDailyChampion() {
 	return this.dailymatchesService.selectDayChamp();
 }
+  @Get('guess')
+   async verifyGuess(guessName: string) {
+	return this.dailymatchesService.verifyGuess(guessName);
+   }
 }
