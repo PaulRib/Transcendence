@@ -1,0 +1,38 @@
+/* Style de base pour chaque cellule d'attribut */
+.guess-box {
+display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  /* Contour noir net et solide */
+  border: 2px solid #000000;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 4px;
+  padding: 4px;
+  /* Ombre discrète pour détacher la case du fond */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.guess-box.correct {
+  background-color: #28a745;
+}
+
+.guess-box.partial {
+  background-color: #da8b1b;
+  /*color: black; Meilleur contraste pour le texte sur fond orange */
+}
+
+.guess-box.incorrect {
+  background-color: #dc3545;
+}
+
+.guess-box.higher, .guess-box.lower {
+  background-color: #dc3545; 
+}
