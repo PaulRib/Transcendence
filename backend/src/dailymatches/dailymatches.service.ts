@@ -110,7 +110,7 @@ export class DailymatchesService {
 				value: guessedChamp.gender,
 				status: guessedChamp.gender === todayChamp.gender ? 'correct' : 'incorrect'
 			},
-			resourceType: {
+			resource_type: {
 				value: guessedChamp.resource_type,
 				status: guessedChamp.resource_type === todayChamp.resource_type ? 'correct' : 'incorrect'
 			},
@@ -122,7 +122,7 @@ export class DailymatchesService {
 				value: guessedChamp.species,
 				status: this.compareArrays(guessedSpecies, todaySpecies)
 			},
-			rangeType: {
+			range_type: {
 				value: guessedChamp.range_type,
 				status: this.compareArrays(guessedRange, todayRange)
 			},
@@ -130,7 +130,7 @@ export class DailymatchesService {
 				value: guessedChamp.region,
 				status: this.compareArrays(guessedRegions, todayRegions)
 			},
-			releaseYear: {
+			release_year: {
 				value: guessedChamp.release_year,
 				status: guessedChamp.release_year === todayChamp.release_year ? 'correct' : 
 				guessedChamp.release_year < todayChamp.release_year ? 'higher' : 'lower'
