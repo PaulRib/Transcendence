@@ -3,7 +3,6 @@
   line-height: 1.5;
   font-weight: 400;
   color: #ffffff;
-  background-color: #111827;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,6 +22,8 @@ body,
 
 body {
   min-width: 320px;
+  background-color: transparent;
+
 }
 
 a {
@@ -41,7 +42,7 @@ input {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: rgb(44, 44, 48)
+  background: transparent; /* Le filtre est maintenant géré directement sur le body */
 }
 
 .topbar {
@@ -78,7 +79,7 @@ input {
 }
 
 .nav a:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.071);
   color: #ffffff;
 }
 
@@ -88,13 +89,6 @@ input {
   justify-content: center; 
   min-height: 0;
 }
-
-/* Vous pourrez décommenter ceci quand vous réactiverez la barre de chat :
-.content-shell {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 320px;
-}
-*/
 
 .page-content {
   padding: 2rem;
@@ -112,6 +106,14 @@ input {
   width: 100%;
   max-width: 720px;
   text-align: center;
+  
+  /* Cadre semi-transparent pour faire ressortir le texte */
+  background: rgba(0, 0, 0, 0.425);
+  backdrop-filter: blur(8px);
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .chat-sidebar {
