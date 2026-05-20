@@ -1,9 +1,10 @@
 import { Link, Outlet } from 'react-router-dom';
-import ChatPanel from './ChatPanel';
+import DynamicBackground from './DynamicBackground';
 
 function Layout() {
     return (
         <div className="app-shell">
+            <DynamicBackground />
             <header className="topbar">
                 <nav className="nav">
                     <Link to="/">Home</Link>

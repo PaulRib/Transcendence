@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getBackendHealth } from '../api/health.api';
 import { getChampionNames, type ChampionName } from '../api/champions.api';
 import { getDailyChamp } from '../api/dailychampion.api';
+import './debug.css';
 
 export default function Debug() {
   const [dailyChampionName, setDailyChampionName] = useState<string>('');
@@ -33,11 +34,16 @@ export default function Debug() {
       
       <section>
         <h2>Backend connection</h2>
-        {error ? (
-          <p>{error}</p>
-        ) : (
-          <p>Backend status: {backendStatus}</p>
-        )}
+        <div className="backend-status-container">
+          <div 
+            className={`status-indicator ${backendStatus === 'loading' ? 'loading' : (backendStatus === 'error' || error ? 'error' : 'success')}`}
+          />
+          {error ? (
+            <p>{error}</p>
+          ) : (
+            <p>Backend status: {backendStatus}</p>
+          )}
+        </div>
       </section>
 
       <section>
