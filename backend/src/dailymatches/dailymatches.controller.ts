@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { DailymatchesService } from './dailymatches.service'; 
 
 @Controller('dailyMatches')
@@ -9,8 +9,8 @@ export class DailymatchesController {
   async getDailyChampion() {
 	return this.dailymatchesService.selectDayChamp();
 }
-  @Get('guess')
-   async verifyGuess(guessName: string) {
+  @Post('guess')
+   async verifyGuess(@Body('name') guessName: string) {
 	return this.dailymatchesService.verifyGuess(guessName);
    }
 }
