@@ -172,7 +172,7 @@ const handleInputChange = (text: string) => {
                 {/* 1. Case Image + Nom du Champion (Combinés pour être plus compact) */}
                 <div style={{ width: '80px', textAlign: 'center' }}>
                   <img 
-                    src={`/public/champions/${imageFilename}.png`} 
+                    src={`/champions/${imageFilename}.png`} 
                     style={{ width: '80px', height: '80px', borderRadius: '4px', display: 'block', margin: '0 auto' }}
                   />
                   <span style={{ 
