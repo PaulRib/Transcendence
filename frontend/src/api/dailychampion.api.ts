@@ -9,11 +9,11 @@ export type GuessAttribute<T> = {
 	status: 'correct' | 'partial' | 'incorrect' | 'higher' | 'lower';
 };
 
-export type GuessReponse = {
+export type GuessResponse = {
 	name: string;
 	gender: GuessAttribute<string>;
 	resource_type: GuessAttribute<string>;
-	position: GuessAttribute<string>;
+	positions: GuessAttribute<string>;
 	species: GuessAttribute<string>;
 	range_type: GuessAttribute<string>;
 	region: GuessAttribute<string>;
@@ -21,7 +21,7 @@ export type GuessReponse = {
 };
 
 export async function getDailyChamp(): Promise<ChampionDay> {
-    const response = await fetch(`${API_BASE_URL}/dailymatches/champ`);
+    const response = await fetch(`${API_BASE_URL}/dailyMatches/champ`);
 
     if (!response.ok) {
         throw new Error('Champion names request failed');
@@ -32,8 +32,8 @@ export async function getDailyChamp(): Promise<ChampionDay> {
     return data;
 }
 
-export async function sendGuess(championName: string): Promise<GuessReponse> {
-	const response = await fetch(`${API_BASE_URL}/dailymatches/guess`, {
+export async function sendGuess(championName: string): Promise<GuessResponse> {
+	const response = await fetch(`${API_BASE_URL}/dailyMatches/guess`, {
 		method: 'POST',
 		headers: { 
 			'Content-Type': 'application/json',
