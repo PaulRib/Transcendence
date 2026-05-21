@@ -9,6 +9,7 @@ import InfiniteGamePage from './InfiniteGamePage';
 import RankedGamePage from './RankedGamePage';
 import Debug from '../components/debug';
 import SelectGame from './selectGame';
+import SettingsPage from './settingsPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="settings" element={<SettingsPage />} />
           <Route path="register" element={<RegisterPage/>} />
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
