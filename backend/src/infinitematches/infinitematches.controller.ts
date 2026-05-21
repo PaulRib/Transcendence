@@ -12,10 +12,10 @@ export class InfinitematchesController {
 	return this.infiniteMatchesService.getRandomChamp();
 }
   @Post('guess')
-  async verifyGuess(
+  async verifyInfiniteGuess(
     @Body('guessName') guessName: string,
-    @Body('secretTargetId') secretTargetId: string
+    @Body('targetId') targetId: string
   ) {
-    return this.infiniteMatchesService.verifyInfiniteGuess(guessName, secretTargetId);
+    return this.infiniteMatchesService.verifyInfiniteGuess(guessName, targetId);
   }
 }
