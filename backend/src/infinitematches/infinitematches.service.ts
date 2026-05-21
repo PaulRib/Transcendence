@@ -26,7 +26,7 @@ export class InfinitematchesService {
 		const selectedChampion = await this.prisma.champion.findFirst({
 			skip: randomIndex,
 			take: 1,
-			orderBy: { id: 'asc' },
+			orderBy: { name: 'asc' },
 		});
 		if (!selectedChampion) {
       		throw new Error('Failed to get random champion');
