@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "../config/api";
 
-export type ChampionDay =  {
-	name: string;
+export type ChampionRandom =  {
+	id: string;
 };
 
 export type GuessAttribute<T> = {
@@ -21,19 +21,19 @@ export type GuessResponse = {
 	isWin: boolean;
 };
 
-export async function getInfiniteChamp(): Promise<ChampionDay> {
+export async function getInfiniteChamp(): Promise<ChampionRandom> {
 	const response = await fetch(`${API_BASE_URL}/infiniteMatches/random`);
 
 	if (!response.ok) {
 		throw new Error('Champion names request failed');
 	}
 
-	const data: ChampionDay = await response.json();
+	const data: ChampionRandom = await response.json();
 
 	return data;
 }
 
-export async function sendGuess(championName: string, targetId: string): Promise<GuessResponse> {
+export async function sendInfiniteGuess(championName: string, targetId: string): Promise<GuessResponse> {
 	const response = await fetch(`${API_BASE_URL}/infiniteMatches/guess`, {
 		method: 'POST',
 		headers: { 
