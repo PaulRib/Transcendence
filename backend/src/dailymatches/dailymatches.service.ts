@@ -41,7 +41,7 @@ export class DailymatchesService {
 	let selectedChampion = await this.prisma.champion.findFirst({
 		skip: randomIndex,
 		take: 1,
-		orderBy: { id: 'asc' },
+		orderBy: { name: 'asc' },
 	});
 
 	if (!selectedChampion) {
@@ -53,7 +53,7 @@ export class DailymatchesService {
 		selectedChampion = await this.prisma.champion.findFirst({
 			skip: randomIndex,
 			take: 1,
-			orderBy: { id: 'asc' },
+			orderBy: { name: 'asc' },
 		});
 	}
 
