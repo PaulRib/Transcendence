@@ -11,7 +11,7 @@ function LoginPage() {
       </form>
       <div className="register-prompt">
         <span>or</span>
-        <Link to="/register"><button type="button">register</button></Link>
+        <Link to="/register"><button type="button">Register</button></Link>
       </div>
       </section>
   );

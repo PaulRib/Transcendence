@@ -1,4 +1,4 @@
-import './ProfilePage.css';
+import '../css/ProfilePage.css';
 
 function ProfilePage() {
   const User = {
