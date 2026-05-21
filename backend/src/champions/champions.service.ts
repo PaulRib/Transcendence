@@ -30,4 +30,9 @@ export class ChampionsService {
 	})
   }
 
+  async getExactChampById(id: string) {
+	return this.prisma.champion.findUnique({
+		where: {id},
+	})
+  }
 }
