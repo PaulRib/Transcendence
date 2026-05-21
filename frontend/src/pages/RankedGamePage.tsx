@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getChampionNames, type ChampionName } from '../api/champions.api';
 import { sendGuess, type GuessResponse } from '../api/dailychampion.api';
-import '../Game.css'
+import '../css/Game.css'
 
-function GamePage() {
+function RankedGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
@@ -86,7 +86,7 @@ const handleInputChange = (text: string) => {
 
   return (
     <section style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <h2>LoLDle Prototype</h2>
+      <h2>Ranked mode</h2>
       {error && (
         <div style={{ color: '#721c24', backgroundColor: '#f8d7da', padding: '10px', borderRadius: '5px', marginBottom: '20px' }}>
           {error}
@@ -236,4 +236,4 @@ const handleInputChange = (text: string) => {
   );
 }
 
-export default GamePage;
+export default RankedGamePage;

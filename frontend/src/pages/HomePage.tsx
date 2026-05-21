@@ -4,7 +4,7 @@ function HomePage() {
   const navigate = useNavigate();
 
   const handlePlayClick = () => {
-    navigate('/game');
+    navigate('/selectGame');
   };
 
   return (
