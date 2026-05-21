@@ -93,6 +93,20 @@ const handleInputChange = (text: string) => {
         </div>
       )}
 
+	{hasWon && (
+		<div style={{
+			backgroundColor: 'rgba(40, 167, 69, 0.2)',
+			border: '3px solid #28a745',
+			borderRadius: '8px',
+			padding: '20px',
+			textAlign: 'center',
+			marginBottom: '20px',
+			boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
+		}}>
+			<h2 style={{ color: '#28a745', margin: 0, fontSize: '24px' }}>🎉 Victoire ! 🎉</h2>
+			<p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>
+		</div>
+	)}
       {/* Formulaire de saisie */}
       <form onSubmit={handleSubmitGuess} style={{ position: 'relative', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -147,22 +161,6 @@ const handleInputChange = (text: string) => {
           </ul>
         )}
       </form>
-
-		{hasWon && (
-			<div style={{
-				backgroundColor: 'rgba(40, 167, 69, 0.2)',
-				border: '3px solid #28a745',
-				borderRadius: '8px',
-				padding: '20px',
-				textAlign: 'center',
-				marginBottom: '20px',
-				boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
-			}}>
-				<h2 style={{ color: '#28a745', margin: 0, fontSize: '24px' }}>🎉 Victoire ! 🎉</h2>
-				<p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>
-				{/* Tu pourras ajouter ici l'image grand format du champion ou un bouton de partage */}
-			</div>
-			)}
 {/* Section de l'historique des tentatives */}
       <div style={{ marginTop: '30px', overflowX: 'auto' }}>
         

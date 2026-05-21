@@ -10,6 +10,7 @@ function ClassicGamePage() {
   const [guesses, setGuesses] = useState<GuessResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasWon, setHasWon] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadGameData() {
@@ -67,6 +68,9 @@ const handleInputChange = (text: string) => {
       setGuesses([result, ...guesses]);
       setInputValue('');
       setSuggestions([]);
+	  if (result.isWin) {
+		setHasWon(true);
+	  }
     } catch (err) {
       console.error(err);
       alert("Error during the try");
@@ -88,7 +92,20 @@ const handleInputChange = (text: string) => {
           {error}
         </div>
       )}
-
+	{hasWon && (
+		<div style={{
+			backgroundColor: 'rgba(40, 167, 69, 0.2)',
+			border: '3px solid #28a745',
+			borderRadius: '8px',
+			padding: '20px',
+			textAlign: 'center',
+			marginBottom: '20px',
+			boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
+		}}>
+			<h2 style={{ color: '#28a745', margin: 0, fontSize: '24px' }}>🎉 Victoire ! 🎉</h2>
+			<p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>
+		</div>
+	)}
       {/* Formulaire de saisie */}
       <form onSubmit={handleSubmitGuess} style={{ position: 'relative', marginBottom: '20px' }}>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -96,6 +113,7 @@ const handleInputChange = (text: string) => {
             type="text"
             placeholder="Enter a champ name..."
             value={inputValue}
+			disabled={hasWon}
             onChange={(e) => handleInputChange(e.target.value)}
             style={{ padding: '10px', flex: 1, fontSize: '16px' }}
           />
