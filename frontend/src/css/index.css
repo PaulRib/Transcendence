@@ -47,12 +47,14 @@ input {
 
 .topbar {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgb(29, 29, 32);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.233);
+  background: rgba(29, 29, 32, 0.331);
   backdrop-filter: blur(6px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 999;
 }
 .login_button {
   padding: 0.45rem 0.8rem;
@@ -414,4 +416,24 @@ p {
 
 .delete-btn:hover {
   background: #dc2626;
+}
+
+/* === SITE LOGO === */
+.nav-logo-link {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  background: transparent !important;
+}
+
+.site-logo {
+  height: 75px; /* Agrandissement du logo */
+  width: auto;
+  object-fit: contain;
+  margin: -15px 0; /* Marge négative pour ne pas agrandir la barre */
+  transition: transform 0.2s ease;
+}
+
+.nav-logo-link:hover .site-logo {
+  transform: scale(1.05);
 }
