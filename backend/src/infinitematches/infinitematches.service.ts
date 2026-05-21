@@ -35,9 +35,7 @@ export class InfinitematchesService {
 	}
 
 	async verifyInfiniteGuess(guessName: string, targetId: string) {
-    const todayChamp = await this.prisma.champion.findUnique({
-      where: { id: targetId }
-    });
+    const todayChamp = await this.championsService.getExactChampById(targetId);
     const guessedChamp = await this.championsService.getExactChampByName(guessName);
     
     if (!todayChamp || !guessedChamp) {
