@@ -24,7 +24,6 @@ async function main() {
 			where: { name: champion.name }, // On utilise l'index UNIQUE défini dans le schéma
       		update: {}, // Si le champion existe déjà, on ne touche à rien
 			create: {
-				id: champion.id,
 				name: champion.name,
 				gender: champion.gender,
 				position: champion.positions.join(', '), // Convertit le tableau en string pour le stockage

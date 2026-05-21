@@ -4,8 +4,9 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ChampionsModule } from './champions/champions.module';
 import { DailymatchesModule } from './dailymatches/dailymatches.module';
+import { InfinitematchesModule } from './infinitematches/infinitematches.module'
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule],
 })
 export class AppModule {}

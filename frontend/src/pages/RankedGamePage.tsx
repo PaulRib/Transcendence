@@ -100,6 +100,7 @@ const handleInputChange = (text: string) => {
             type="text"
             placeholder="Enter a champ name..."
             value={inputValue}
+			disabled={hasWon}
             onChange={(e) => handleInputChange(e.target.value)}
             style={{ padding: '10px', flex: 1, fontSize: '16px' }}
           />
@@ -147,6 +148,21 @@ const handleInputChange = (text: string) => {
         )}
       </form>
 
+		{hasWon && (
+			<div style={{
+				backgroundColor: 'rgba(40, 167, 69, 0.2)',
+				border: '3px solid #28a745',
+				borderRadius: '8px',
+				padding: '20px',
+				textAlign: 'center',
+				marginBottom: '20px',
+				boxShadow: '0 4px 15px rgba(0,0,0,0.5)'
+			}}>
+				<h2 style={{ color: '#28a745', margin: 0, fontSize: '24px' }}>🎉 Victoire ! 🎉</h2>
+				<p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>
+				{/* Tu pourras ajouter ici l'image grand format du champion ou un bouton de partage */}
+			</div>
+			)}
 {/* Section de l'historique des tentatives */}
       <div style={{ marginTop: '30px', overflowX: 'auto' }}>
         
@@ -164,7 +180,6 @@ const handleInputChange = (text: string) => {
               <div style={{ width: '80px' }}>Année</div>
             </div>
           )}
-
           {guesses.map((guess, index) => {
             // 1. Calcul du nom de fichier nettoyé pour l'image (ex: "dr. mundo" -> "drmundo")
             const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
