@@ -101,7 +101,7 @@ function InfiniteGamePage() {
 
   return (
 	<section className="game-section">
-	  <h2>Classic mode</h2>
+	  <h2>Infinite mode</h2>
 	  
 	  {error && <div className="error-alert">{error}</div>}
 

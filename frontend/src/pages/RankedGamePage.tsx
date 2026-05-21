@@ -83,7 +83,7 @@ function RankedGamePage() {
 
   return (
     <section className="game-section">
-      <h2>Classic mode</h2>
+      <h2>Ranked mode</h2>
       
       {error && <div className="error-alert">{error}</div>}
 
