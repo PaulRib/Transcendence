@@ -1,6 +1,7 @@
 import { Link, Outlet } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import DynamicBackground from './DynamicBackground';
+import logoUrl from '../assets/logo/logo.png';
 
 function Layout() {
     // Variable pour simuler la connexion (à remplacer par votre logique d'authentification)
@@ -29,8 +30,9 @@ function Layout() {
             <DynamicBackground />
             <header className="topbar">
                 <nav className="nav">
-                    <Link to="/">Home</Link>
-                    <Link to="/profile">Profil</Link>
+                    <Link to="/" className="nav-logo-link">
+                        <img src={logoUrl} alt="Logo Transcendence" className="site-logo" />
+                    </Link>
                 </nav>
                 <div className="auth-nav">
                     {isLoggedIn ? (

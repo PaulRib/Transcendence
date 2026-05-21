@@ -9,12 +9,12 @@ export class UsersController {
     @Get('by-username/:username')
     getUserByUsername(
         @Param('username') username: string,
-    ): PublicUser {
+    ): Promise<PublicUser> {
         return this.usersService.getUserByUsername(username);
     }
 
     @Get(':id')
-        getUserById(@Param('id') id: string): PublicUser {
+        getUserById(@Param('id') id: string): Promise<PublicUser> {
             return this.usersService.getUserById(id);
         }
 }

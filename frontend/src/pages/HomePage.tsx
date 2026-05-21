@@ -9,7 +9,7 @@ function HomePage() {
 
   return (
     <section>
-      <h1>ft_transcendle</h1>
+      <h1>42dle</h1>
       
       <div className="rules-container">
         <h2>Comment jouer ?</h2>
