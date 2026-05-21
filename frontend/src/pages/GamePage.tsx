@@ -10,6 +10,7 @@ function GamePage() {
   const [guesses, setGuesses] = useState<GuessResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasWon, setHasWon] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadGameData() {
@@ -67,6 +68,9 @@ const handleInputChange = (text: string) => {
       setGuesses([result, ...guesses]);
       setInputValue('');
       setSuggestions([]);
+	  if (result.isWin) {
+		setHasWon(true);
+	  }
     } catch (err) {
       console.error(err);
       alert("Error during the try");

@@ -18,6 +18,7 @@ export type GuessResponse = {
 	range_type: GuessAttribute<string>;
 	region: GuessAttribute<string>;
 	release_year: GuessAttribute<number>;
+	isWin: boolean;
 };
 
 export async function getDailyChamp(): Promise<ChampionDay> {

@@ -134,7 +134,8 @@ export class DailymatchesService {
 				value: guessedChamp.release_year,
 				status: guessedChamp.release_year === todayChamp.release_year ? 'correct' : 
 				guessedChamp.release_year < todayChamp.release_year ? 'higher' : 'lower'
-			}
+			},
+			isWin: guessedChamp.name === todayChamp.name
 		}
 	}
 }
