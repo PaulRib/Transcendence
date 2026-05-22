@@ -8,6 +8,6 @@ import { DailymatchesModule } from './dailymatches/dailymatches.module';
 import { InfinitematchesModule } from './infinitematches/infinitematches.module'
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule],
 })
 export class AppModule {}
