@@ -5,7 +5,7 @@ import logoUrl from '../assets/logo/logo.png';
 
 function Layout() {
     // Variable pour simuler la connexion (à remplacer par votre logique d'authentification)
-    const [isLoggedIn, setIsLoggedIn] = useState(true); 
+    const [isLoggedIn, setIsLoggedIn] = useState(false); 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -55,7 +55,7 @@ function Layout() {
                             )}
                         </div>
                     ) : (
-                        <Link to="/login" className="login_button" onClick={() => setIsLoggedIn(true)}>Login</Link>
+                        <Link to="/login" className="login_button" onClick={() => setIsLoggedIn(false)}>Login</Link>
                     )}
                 </div>
             </header>

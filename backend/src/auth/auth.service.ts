@@ -1,5 +1,7 @@
-import { Injectable, ConflictException } from "@nestjs/common";
+import { Injectable, ConflictException, UnauthorizedException } from "@nestjs/common";
+import { scryptSync } from "crypto";
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from "./dto/login.dto";
 import { UsersService } from "../users/users.service";
 
 @Injectable()
@@ -28,5 +30,26 @@ export class AuthService {
             registerDto.email,
             registerDto.password,
         );
+    }
+
+    async login(loginDto: LoginDto) {
+        const user = await this.usersService.findUserForLogin(loginDto.identifier);
+
+        if (!user || !user.password_hash) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        const [salt, storedHash] = user.password_hash.split(':');
+        const passwordHash = scryptSync(loginDto.password, salt, 64).toString('hex');
+
+        if (passwordHash !== storedHash) {
+            throw new UnauthorizedException('Invalid credentials');
+        }
+
+        return {
+            id: user.id,
+            username: user.username,
+            avatar_url: user.avatar_url,
+        };
     }
 }
