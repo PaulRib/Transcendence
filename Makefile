@@ -1,11 +1,11 @@
 all:
-	docker-compose up --build
+	docker compose up --build
 
 clean:
-	docker-compose down
+	docker compose down
 
 fclean:
-	docker-compose down -v
+	docker compose down -v
 	docker system prune -a
 
 re: fclean all
