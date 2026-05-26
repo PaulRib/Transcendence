@@ -1,4 +1,5 @@
 import { Injectable, ConflictException, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { scryptSync } from "crypto";
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from "./dto/login.dto";
@@ -6,7 +7,7 @@ import { UsersService } from "../users/users.service";
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly usersService: UsersService) {}
+    constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
 
     async register(registerDto: RegisterDto) {
         const usernameAlreadyExists = await this.usersService.userExistsByUsername(
@@ -46,10 +47,14 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
+        const payload = { sub: user.id, username: user.username};
         return {
-            id: user.id,
-            username: user.username,
-            avatar_url: user.avatar_url,
+            user: {
+                id: user.id,
+                username: user.username,
+                avatar_url: user.avatar_url,
+            },
+            access_token: await this.jwtService.signAsync(payload),
         };
     }
 }
