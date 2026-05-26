@@ -170,38 +170,39 @@ function RankedGamePage() {
               <div key={index} className="guess-row">
                 
                 {/* All guess boxes */}
-                <div className="champion-avatar-cell">
+                <div className="champion-avatar-cell" style={{ animationDelay: '0s' }}>
                   <img 
                     src={`/champions/${imageFilename}.png`} 
                     className="champion-avatar-img"
+                    alt={guess.name}
                   />
                 </div>
 
-                <div className={`guess-box ${guess.gender?.status || ''}`}>
+                <div className={`guess-box ${guess.gender?.status || ''}`} style={{ animationDelay: '0.45s' }}>
                   {guess.gender?.value}
                 </div>
 
-                <div className={`guess-box ${guess.positions?.status || ''}`}>
+                <div className={`guess-box ${guess.positions?.status || ''}`} style={{ animationDelay: '0.90s' }}>
                   {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
                 </div>
 
-                <div className={`guess-box ${guess.species?.status || ''}`}>
+                <div className={`guess-box ${guess.species?.status || ''}`} style={{ animationDelay: '1.35s' }}>
                   {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
                 </div>
 
-                <div className={`guess-box ${guess.resource_type?.status || ''}`}>
+                <div className={`guess-box ${guess.resource_type?.status || ''}`} style={{ animationDelay: '1.80s' }}>
                   {guess.resource_type?.value}
                 </div>
 
-                <div className={`guess-box ${guess.range_type?.status || ''}`}>
+                <div className={`guess-box ${guess.range_type?.status || ''}`} style={{ animationDelay: '2.25s' }}>
                   {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
                 </div>
 
-                <div className={`guess-box ${guess.region?.status || ''}`}>
+                <div className={`guess-box ${guess.region?.status || ''}`} style={{ animationDelay: '2.70s' }}>
                   {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
                 </div>
 
-                <div className={`guess-box ${guess.release_year?.status || ''}`}>
+                <div className={`guess-box ${guess.release_year?.status || ''}`} style={{ animationDelay: '3.15s' }}>
                   {guess.release_year?.value}
                   {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
                   {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}

@@ -183,49 +183,50 @@ function InfiniteGamePage() {
 			</div>
 		  )}
 
-		  {guesses.map((guess, index) => {
-			const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          {guesses.map((guess) => {
+            const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-			return (
-			  <div key={index} className="guess-row">
+            return (
+              <div key={guess.name} className="guess-row">
+                {/*All guess boxes*/}
 				
-				{/* All guess boxes */}
-				<div className="champion-avatar-cell">
-				  <img 
-					src={`/champions/${imageFilename}.png`} 
-					className="champion-avatar-img"
-				  />
-				</div>
+                <div className="champion-avatar-cell" style={{ animationDelay: '0s' }}>
+                  <img 
+                    src={`/champions/${imageFilename}.png`} 
+                    className="champion-avatar-img"
+                    alt={guess.name}
+                  />
+                </div>
 
-				<div className={`guess-box ${guess.gender?.status || ''}`}>
-				  {guess.gender?.value}
-				</div>
+                <div className={`guess-box ${guess.gender?.status || ''}`} style={{ animationDelay: '0.45s' }}>
+                  {guess.gender?.value}
+                </div>
 
-				<div className={`guess-box ${guess.positions?.status || ''}`}>
-				  {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
-				</div>
+                <div className={`guess-box ${guess.positions?.status || ''}`} style={{ animationDelay: '0.90s' }}>
+                  {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
+                </div>
 
-				<div className={`guess-box ${guess.species?.status || ''}`}>
-				  {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
-				</div>
+                <div className={`guess-box ${guess.species?.status || ''}`} style={{ animationDelay: '1.35s' }}>
+                  {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
+                </div>
 
-				<div className={`guess-box ${guess.resource_type?.status || ''}`}>
-				  {guess.resource_type?.value}
-				</div>
+                <div className={`guess-box ${guess.resource_type?.status || ''}`} style={{ animationDelay: '1.80s' }}>
+                  {guess.resource_type?.value}
+                </div>
 
-				<div className={`guess-box ${guess.range_type?.status || ''}`}>
-				  {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
-				</div>
+                <div className={`guess-box ${guess.range_type?.status || ''}`} style={{ animationDelay: '2.25s' }}>
+                  {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
+                </div>
 
-				<div className={`guess-box ${guess.region?.status || ''}`}>
-				  {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
-				</div>
+                <div className={`guess-box ${guess.region?.status || ''}`} style={{ animationDelay: '2.70s' }}>
+                  {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
+                </div>
 
-				<div className={`guess-box ${guess.release_year?.status || ''}`}>
-				  {guess.release_year?.value}
-				  {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
-				  {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}
-				</div>
+                <div className={`guess-box ${guess.release_year?.status || ''}`} style={{ animationDelay: '3.15s' }}>
+                  {guess.release_year?.value}
+                  {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
+                  {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}
+                </div>
 
 			  </div>
 			);

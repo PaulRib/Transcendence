@@ -195,3 +195,22 @@
 .guess-box.partial { background-color: #da8b1b; }
 .guess-box.incorrect { background-color: #dc3545; }
 .guess-box.higher, .guess-box.lower { background-color: #dc3545; }
+
+/* ==========================================
+   ANIMATION D'APPARITION SÉQUENTIELLE
+   ========================================== */
+@keyframes flipIn {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.champion-avatar-cell, .guess-box {
+  opacity: 0;
+  animation: flipIn 0.5s ease forwards;
+}
