@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getChampionNames, type ChampionName } from '../api/champions.api';
-import { sendGuess, type GuessResponse } from '../api/dailychampion.api';
+import { getChampionNames} from '../api/champions.api';
+import { sendGuess} from '../api/dailygame.api';
+import type { ChampionName, GuessResponse } from '../api/type.api';
 import '../css/Game.css';
 
 function RankedGamePage() {

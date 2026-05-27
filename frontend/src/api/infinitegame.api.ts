@@ -1,25 +1,5 @@
 import { API_BASE_URL } from "../config/api";
-
-export type ChampionRandom =  {
-	id: string;
-};
-
-export type GuessAttribute<T> = {
-	value: T;
-	status: 'correct' | 'partial' | 'incorrect' | 'higher' | 'lower';
-};
-
-export type GuessResponse = {
-	name: string;
-	gender: GuessAttribute<string>;
-	resource_type: GuessAttribute<string>;
-	positions: GuessAttribute<string>;
-	species: GuessAttribute<string>;
-	range_type: GuessAttribute<string>;
-	region: GuessAttribute<string>;
-	release_year: GuessAttribute<number>;
-	isWin: boolean;
-};
+import type { ChampionRandom , GuessResponse } from "./type.api";
 
 export async function getInfiniteChamp(): Promise<ChampionRandom> {
 	const response = await fetch(`${API_BASE_URL}/infiniteMatches/random`);
