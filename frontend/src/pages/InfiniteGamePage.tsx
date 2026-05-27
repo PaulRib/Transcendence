@@ -13,6 +13,7 @@ function InfiniteGamePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
+  const [showVictory, setShowVictory] = useState<boolean>(false);
   const [secretChampion, setSecretChampion] = useState<string>('');
 
 
@@ -22,6 +23,7 @@ function InfiniteGamePage() {
       setGuesses([]);
       setSuggestions([]);
       setHasWon(false);
+      setShowVictory(false);
       
       const randomChamp = await getInfiniteChamp();
       setSecretChampion(randomChamp.id);
@@ -87,6 +89,9 @@ function InfiniteGamePage() {
 	  setSuggestions([]);
 	  if (result.isWin) {
 		setHasWon(true);
+		setTimeout(() => {
+			setShowVictory(true);
+		}, 3750);
 	  }
 	} catch (err) {
 	  console.error(err);
@@ -106,7 +111,7 @@ function InfiniteGamePage() {
 	  
 	  {error && <div className="error-alert">{error}</div>}
 
-		{hasWon && (
+		{showVictory && (
 		<div className="victory-card">
 			<h2 className="victory-title">Félicitations ! Vous avez trouvé !</h2>
 			<button className="replay-btn" onClick={startNewGame}>
