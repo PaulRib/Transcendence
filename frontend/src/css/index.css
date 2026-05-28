@@ -231,9 +231,23 @@ p {
 .register-prompt {
   margin-top: 1rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 0.35rem;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.auth-secondary-link {
+  color: #93c5fd;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-secondary-link:hover {
+  color: #bfdbfe;
+  text-decoration: underline;
 }
 
 @media (max-width: 960px) {

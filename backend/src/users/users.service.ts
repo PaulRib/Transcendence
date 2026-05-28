@@ -3,6 +3,13 @@ import { PrismaService } from "../../prisma/prisma.service";
 import { PublicUser } from './types/public-user.type'
 import { randomBytes, scryptSync } from "crypto";
 
+type UserForLogin = {
+    id: string;
+    username: string;
+    avatar_url: string | null;
+    password_hash: string | null;
+};
+
 @Injectable()
 export class UsersService {
    constructor (private readonly prisma: PrismaService) {}
@@ -83,5 +90,22 @@ export class UsersService {
             return true;
         }
         return false;
+    }
+
+    async findUserForLogin(identifier: string): Promise<UserForLogin | null> {
+        return this.prisma.user.findFirst({
+            where: {
+                OR: [
+                    { username: identifier },
+                    { email: identifier },
+                ],
+            },
+            select: {
+                id: true,
+                username: true,
+                avatar_url: true,
+                password_hash: true,
+            },
+        });
     }
 }

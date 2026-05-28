@@ -116,7 +116,7 @@ function InfiniteGamePage() {
 		</div>
 		)}
 
-	  {/* Formulaire de saisie */}
+	  {/* Submit input */}
 	  <form onSubmit={handleSubmitGuess} className="search-form">
 		<div className="input-container">
 		  <input
@@ -136,28 +136,39 @@ function InfiniteGamePage() {
 		  </button>
 		</div>
 
-		{/* Menu déroulant de suggestions */}
+		{/* Suggestion list */}
 		{suggestions.length > 0 && (
-		  <ul className="suggestions-list">
+		<ul className="suggestions-list">
 			{suggestions.map((champion) => {
-			  const imagePath = `/champions/${champion.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-			  return (
+			const imageFilename = champion.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+			return (
 				<li
-				  key={champion.name}
-				  onClick={() => handleSelectChampion(champion.name)}
-				  className="suggestion-item"
-				  style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+				key={champion.name}
+				onClick={() => handleSelectChampion(champion.name)}
+				className="suggestion-item"
+				style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
 				>
-				  <img src={imagePath} alt={champion.name} style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
-				  {champion.name}
+				<img 
+					src={`/champions/${imageFilename}.png`} 
+					alt={champion.name}
+					style={{ 
+					width: '32px', 
+					height: '32px', 
+					borderRadius: '4px', 
+					objectFit: 'cover',
+					border: '1px solid #000' 
+					}}
+				/>
+				<span>{champion.name}</span>
 				</li>
-			  );
+			);
 			})}
-		  </ul>
+		</ul>
 		)}
 	  </form>
 
-	  {/* Section de l'historique des tentatives */}
+	  {/* Historique */}
 	  <div className="history-container">
 		<div className="history-grid">
 		  
@@ -174,56 +185,50 @@ function InfiniteGamePage() {
 			</div>
 		  )}
 
-		  {guesses.map((guess, index) => {
-			const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          {guesses.map((guess) => {
+            const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-			return (
-			  <div key={index} className="guess-row">
+            return (
+              <div key={guess.name} className="guess-row">
+                {/*All guess boxes*/}
 				
-				{/* 1. Case Image + Nom du Champion */}
-				<div className="champion-avatar-cell">
-				  <img 
-					src={`/champions/${imageFilename}.png`} 
-					className="champion-avatar-img"
-				  />
-				</div>
+                <div className="champion-avatar-cell" style={{ animationDelay: '0s' }}>
+                  <img 
+                    src={`/champions/${imageFilename}.png`} 
+                    className="champion-avatar-img"
+                    alt={guess.name}
+                  />
+                </div>
 
-				{/* 2. Case Genre */}
-				<div className={`guess-box ${guess.gender?.status || ''}`}>
-				  {guess.gender?.value}
-				</div>
+                <div className={`guess-box ${guess.gender?.status || ''}`} style={{ animationDelay: '0.45s' }}>
+                  {guess.gender?.value}
+                </div>
 
-				{/* 3. Case Position */}
-				<div className={`guess-box ${guess.positions?.status || ''}`}>
-				  {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
-				</div>
+                <div className={`guess-box ${guess.positions?.status || ''}`} style={{ animationDelay: '0.90s' }}>
+                  {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
+                </div>
 
-				{/* 4. Case Espèce */}
-				<div className={`guess-box ${guess.species?.status || ''}`}>
-				  {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
-				</div>
+                <div className={`guess-box ${guess.species?.status || ''}`} style={{ animationDelay: '1.35s' }}>
+                  {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
+                </div>
 
-				{/* 5. Case Type de Ressource */}
-				<div className={`guess-box ${guess.resource_type?.status || ''}`}>
-				  {guess.resource_type?.value}
-				</div>
+                <div className={`guess-box ${guess.resource_type?.status || ''}`} style={{ animationDelay: '1.80s' }}>
+                  {guess.resource_type?.value}
+                </div>
 
-				{/* 6. Case Type de Portée */}
-				<div className={`guess-box ${guess.range_type?.status || ''}`}>
-				  {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
-				</div>
+                <div className={`guess-box ${guess.range_type?.status || ''}`} style={{ animationDelay: '2.25s' }}>
+                  {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
+                </div>
 
-				{/* 7. Case Région */}
-				<div className={`guess-box ${guess.region?.status || ''}`}>
-				  {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
-				</div>
+                <div className={`guess-box ${guess.region?.status || ''}`} style={{ animationDelay: '2.70s' }}>
+                  {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
+                </div>
 
-				{/* 8. Case Année de sortie */}
-				<div className={`guess-box ${guess.release_year?.status || ''}`}>
-				  {guess.release_year?.value}
-				  {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
-				  {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}
-				</div>
+                <div className={`guess-box ${guess.release_year?.status || ''}`} style={{ animationDelay: '3.15s' }}>
+                  {guess.release_year?.value}
+                  {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
+                  {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}
+                </div>
 
 			  </div>
 			);
