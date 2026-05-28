@@ -10,6 +10,8 @@ import RankedGamePage from './RankedGamePage';
 import Debug from '../components/debug';
 import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
+import FriendsList from './FriendsList';
+import LeaderboardPage from './LeaderboardPage';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path="ranked" element={<RankedGamePage/>}/>
           <Route path="debug" element={<Debug/>}/>
           <Route path="selectGame" element={<SelectGame/>}/>
+          <Route path="leaderboard" element={<LeaderboardPage/>}/>
+          <Route path="friends" element={<FriendsList/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

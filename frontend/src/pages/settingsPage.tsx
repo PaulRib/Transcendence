@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
-  const [icon, setIcon] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   

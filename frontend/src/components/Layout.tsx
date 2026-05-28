@@ -48,6 +48,7 @@ function Layout() {
                                 <div className="dropdown-menu">
                                     <Link to="/profile" onClick={() => setIsDropdownOpen(false)}>Mon Profil</Link>
                                     <Link to="/friends" onClick={() => setIsDropdownOpen(false)}>Liste d'amis</Link>
+                                    <Link to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>Classement</Link>
                                     <Link to="/settings" onClick={() => setIsDropdownOpen(false)}>Paramètres</Link>
                                     <div className="dropdown-divider"></div>
                                     <button onClick={handleLogout}>Se déconnecter</button>

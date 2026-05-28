@@ -61,7 +61,9 @@ function InfiniteGamePage() {
 
 	const alreadyGuessedNames = guesses.map(g => g.name.toLowerCase());
 	const filtered = championNames.filter((champion) => {
-	  const matchesText = champion.name.toLowerCase().startsWith(text.toLowerCase());
+	  const searchNormalized = text.toLowerCase().replace(/[^a-z0-9]/g, '');
+	  const nameNormalized = champion.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+	  const matchesText = champion.name.toLowerCase().includes(text.toLowerCase()) || nameNormalized.includes(searchNormalized);
 	  const isNotAlreadyGuessed = !alreadyGuessedNames.includes(champion.name.toLowerCase());
 	  return matchesText && isNotAlreadyGuessed;
 	});
@@ -137,15 +139,20 @@ function InfiniteGamePage() {
 		{/* Menu déroulant de suggestions */}
 		{suggestions.length > 0 && (
 		  <ul className="suggestions-list">
-			{suggestions.map((champion) => (
-			  <li
-				key={champion.name}
-				onClick={() => handleSelectChampion(champion.name)}
-				className="suggestion-item"
-			  >
-				{champion.name}
-			  </li>
-			))}
+			{suggestions.map((champion) => {
+			  const imagePath = `/champions/${champion.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+			  return (
+				<li
+				  key={champion.name}
+				  onClick={() => handleSelectChampion(champion.name)}
+				  className="suggestion-item"
+				  style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
+				>
+				  <img src={imagePath} alt={champion.name} style={{ width: '30px', height: '30px', borderRadius: '50%' }} />
+				  {champion.name}
+				</li>
+			  );
+			})}
 		  </ul>
 		)}
 	  </form>
