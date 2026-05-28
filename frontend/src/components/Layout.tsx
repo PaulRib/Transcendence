@@ -2,10 +2,10 @@ import { Link, Outlet } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
+import { useAuth } from '../auth/AuthContext';
 
 function Layout() {
-    // Variable pour simuler la connexion (à remplacer par votre logique d'authentification)
-    const [isLoggedIn, setIsLoggedIn] = useState(false); 
+    const { currentUser, logout } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -20,9 +20,8 @@ function Layout() {
     }, []);
 
     const handleLogout = () => {
-        setIsLoggedIn(false);
+        logout();
         setIsDropdownOpen(false);
-        // Ajouter la logique de déconnexion ici (clear tokens, api call, etc.)
     };
 
     return (
@@ -35,7 +34,7 @@ function Layout() {
                     </Link>
                 </nav>
                 <div className="auth-nav">
-                    {isLoggedIn ? (
+                    {currentUser ? (
                         <div className="user-menu-container" ref={dropdownRef}>
                             <button 
                                 className="user-icon-btn" 
@@ -55,7 +54,7 @@ function Layout() {
                             )}
                         </div>
                     ) : (
-                        <Link to="/login" className="login_button" onClick={() => setIsLoggedIn(false)}>Login</Link>
+                        <Link to="/login" className="login_button">Login</Link>
                     )}
                 </div>
             </header>

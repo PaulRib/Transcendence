@@ -57,4 +57,8 @@ export class AuthService {
             access_token: await this.jwtService.signAsync(payload),
         };
     }
+
+    async getMe(userId: string){
+        return this.usersService.getUserById(userId);
+    }
 }

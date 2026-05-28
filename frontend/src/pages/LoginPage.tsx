@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
+import { useAuth } from '../auth/AuthContext';
 
 function LoginPage() {
+  const { login } = useAuth();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -12,12 +14,12 @@ function LoginPage() {
     event.preventDefault();
 
     try {
-      const user = await loginUser({
+      const loginResponse = await loginUser({
         identifier,
         password,
       });
-
-      setMessage(`Connecté en tant que ${user.username}`);
+      login(loginResponse.user, loginResponse.access_token);
+      setMessage(`Connecté en tant que ${loginResponse.user.username}`);
       setError(null);
     } catch {
       setError("Identifiant ou mot de passe incorrect(e)");
