@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 
 function LoginPage() {
-  const { login } = useAuth();
+  const { login, currentUser, isLoading } = useAuth();
+  const navigate = useNavigate()
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -19,7 +20,7 @@ function LoginPage() {
         password,
       });
       login(loginResponse.user, loginResponse.access_token);
-      setMessage(`Connecté en tant que ${loginResponse.user.username}`);
+      navigate('/');
       setError(null);
     } catch {
       setError("Identifiant ou mot de passe incorrect(e)");
@@ -27,6 +28,13 @@ function LoginPage() {
     }
   };
 
+  if (isLoading) {
+    return null;
+  }
+
+  if (currentUser) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <section>
       <h1>Connexion</h1>

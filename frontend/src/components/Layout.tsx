@@ -1,11 +1,12 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
 
 function Layout() {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, isLoading, logout } = useAuth();
+    const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -22,6 +23,7 @@ function Layout() {
     const handleLogout = () => {
         logout();
         setIsDropdownOpen(false);
+        navigate('/');
     };
 
     return (
@@ -34,7 +36,7 @@ function Layout() {
                     </Link>
                 </nav>
                 <div className="auth-nav">
-                    {currentUser ? (
+                    {isLoading ? null : currentUser ? (
                         <div className="user-menu-container" ref={dropdownRef}>
                             <button 
                                 className="user-icon-btn" 
