@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { PublicUser } from './types/public-user.type'
 import { randomBytes, scryptSync } from "crypto";
+import { UpdateProfileDto } from "./dto/update-profile.dto";
 
 type UserForLogin = {
     id: string;
@@ -107,5 +108,34 @@ export class UsersService {
                 password_hash: true,
             },
         });
+    }
+
+    async updateProfile(userId: string, updateProfileDto : UpdateProfileDto): Promise<PublicUser> {
+        if (updateProfileDto.username) {
+            const existingUser = await this.prisma.user.findUnique({
+                where: { username: updateProfileDto.username },
+                select: {
+                    id: true,
+                },
+            });
+
+            if (existingUser && existingUser.id !== userId) {
+                throw new ConflictException('Username already exists');
+            }
+        }
+
+        const updatedUser = await this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                username: updateProfileDto.username,
+                avatar_url: updateProfileDto.avatar_url,
+            },
+            select: {
+                id: true,
+                username: true,
+                avatar_url: true,
+            },
+        });
+        return updatedUser;
     }
 }
