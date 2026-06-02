@@ -6,6 +6,11 @@ export type AuthUser = {
     avatar_url: string | null;
 };
 
+export type LoginResponse = {
+    user: AuthUser;
+    access_token: string;
+};
+
 export type RegisterPayload = {
     username: string;
     email: string;
@@ -33,7 +38,7 @@ export async function registerUser(payload: RegisterPayload): Promise<AuthUser>{
     return response.json();
 }
 
-export async function loginUser(payload: LoginPayload): Promise<AuthUser> {
+export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -44,6 +49,21 @@ export async function loginUser(payload: LoginPayload): Promise<AuthUser> {
 
     if (!response.ok) {
         throw new Error('Login request failed');
+    }
+
+    return response.json();
+}
+
+export async function getCurrentUser(token: string): Promise<AuthUser> {
+    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Current user request failed');
     }
 
     return response.json();
