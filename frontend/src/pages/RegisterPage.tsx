@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 import { registerUser } from "../api/auth.api";
 
 function RegisterPage() {
@@ -7,6 +9,7 @@ function RegisterPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { currentUser, isLoading} = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -25,6 +28,14 @@ function RegisterPage() {
       setMessage(null);
     }
   };
+
+  if(isLoading){
+    return null;
+  }
+
+  if(currentUser) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <section>
