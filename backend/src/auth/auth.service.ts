@@ -35,7 +35,7 @@ export class AuthService {
 
     async login(loginDto: LoginDto) {
         const user = await this.usersService.findUserForLogin(loginDto.identifier);
-
+        console.log(user);
         if (!user || !user.password_hash) {
             throw new UnauthorizedException('Invalid credentials');
         }

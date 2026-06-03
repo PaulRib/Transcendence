@@ -1,3 +1,7 @@
+/* @tailwind base; a été retiré pour ne pas casser les styles par défaut existants */
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Arial, sans-serif;
   line-height: 1.5;
