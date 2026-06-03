@@ -12,6 +12,7 @@ import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
 import FriendsList from './FriendsList';
 import LeaderboardPage from './LeaderboardPage';
+import { ProtectedRoute } from '../auth/ProtectedRoute';
 
 function App() {
   return (
@@ -20,16 +21,20 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="settings" element={<SettingsPage />} />
           <Route path="register" element={<RegisterPage/>} />
-          <Route path="classic" element={<ClassicGamePage/>}/>
-          <Route path="infinite" element={<InfiniteGamePage/>}/>
-          <Route path="ranked" element={<RankedGamePage/>}/>
+          <Route path="selectGame" element={<SelectGame/>} />
+          <Route path="classic" element={<ClassicGamePage/>} />
+          <Route path="infinite" element={<InfiniteGamePage/>} />
           <Route path="debug" element={<Debug/>}/>
-          <Route path="selectGame" element={<SelectGame/>}/>
           <Route path="leaderboard" element={<LeaderboardPage/>}/>
-          <Route path="friends" element={<FriendsList/>}/>
+
+          {/* Protected Routes */}
+          <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+
+          <Route path="ranked" element={<ProtectedRoute><RankedGamePage/></ProtectedRoute>} />
+         
+          <Route path="friends" element={<ProtectedRoute><FriendsList/></ProtectedRoute>} />
         </Route>
       </Routes>
     </BrowserRouter>
