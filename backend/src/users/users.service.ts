@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException, ConflictException } from "@nestjs/common";
+import { Injectable, NotFoundException, ConflictException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { PublicUser } from './types/public-user.type'
 import { randomBytes, scryptSync } from "crypto";
 import { UpdateProfileDto } from "./dto/update-profile.dto";
+import { UpdatePasswordDto } from "./dto/update-password.dto";
 
 type UserForLogin = {
     id: string;
@@ -137,5 +138,38 @@ export class UsersService {
             },
         });
         return updatedUser;
+    }
+
+    async updatePassword(userId: string, updatePasswordDto: UpdatePasswordDto)
+    {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                password_hash: true,
+            },
+        });
+
+        if (!user || !user.password_hash) {
+            throw new NotFoundException(`User with id "${userId}" not found`);
+        }
+
+        const [salt, storedHash] = user.password_hash.split(':');
+        const currentPassword = scryptSync(updatePasswordDto.currentPassword, salt, 64).toString('hex');
+
+        if (currentPassword !== storedHash) {
+            throw new UnauthorizedException('Invalid current password');
+        }
+
+        const newSalt = randomBytes(16).toString('hex');
+        const newPasswordhash = scryptSync(updatePasswordDto.newPassword, newSalt, 64).toString('hex');
+
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                password_hash: `${newSalt}:${newPasswordhash}`,
+            },
+        });
+        
+        return { message: 'Password updated successfully' };
     }
 }
