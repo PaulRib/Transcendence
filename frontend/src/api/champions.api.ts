@@ -1,8 +1,5 @@
 import { API_BASE_URL } from "../config/api";
-
-export type ChampionName =  {
-    name: string;
-};
+import type { ChampionName } from "./type.api";
 
 export async function getChampionNames(): Promise<ChampionName[]> {
     const response = await fetch(`${API_BASE_URL}/champions/names`);
