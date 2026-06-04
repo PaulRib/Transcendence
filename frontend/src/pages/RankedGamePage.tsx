@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { getChampionNames, type ChampionName } from '../api/champions.api';
-import { sendGuess, type GuessResponse } from '../api/dailychampion.api';
+import { getChampionNames} from '../api/champions.api';
+import { sendGuess} from '../api/dailygame.api';
+import type { ChampionName, GuessResponse } from '../api/type.api';
 import '../css/Game.css';
 
 function RankedGamePage() {
@@ -11,6 +12,7 @@ function RankedGamePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
+  const [showVictory, setShowVictory] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadGameData() {
@@ -68,6 +70,9 @@ function RankedGamePage() {
       setSuggestions([]);
       if (result.isWin) {
         setHasWon(true);
+		setTimeout(() => {
+			setShowVictory(true);
+		}, 3750);
       }
     } catch (err) {
       console.error(err);
@@ -87,7 +92,7 @@ function RankedGamePage() {
       
       {error && <div className="error-alert">{error}</div>}
 
-      {hasWon && (
+      {showVictory && (
         <div className="victory-card">
           <h2 className="victory-title">🎉 Victoire ! 🎉</h2>
           <p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>

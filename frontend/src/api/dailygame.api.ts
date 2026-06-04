@@ -1,25 +1,6 @@
 import { API_BASE_URL } from "../config/api";
+import type { ChampionDay, GuessResponse } from "./type.api";
 
-export type ChampionDay =  {
-    name: string;
-};
-
-export type GuessAttribute<T> = {
-	value: T;
-	status: 'correct' | 'partial' | 'incorrect' | 'higher' | 'lower';
-};
-
-export type GuessResponse = {
-	name: string;
-	gender: GuessAttribute<string>;
-	resource_type: GuessAttribute<string>;
-	positions: GuessAttribute<string>;
-	species: GuessAttribute<string>;
-	range_type: GuessAttribute<string>;
-	region: GuessAttribute<string>;
-	release_year: GuessAttribute<number>;
-	isWin: boolean;
-};
 
 export async function getDailyChamp(): Promise<ChampionDay> {
     const response = await fetch(`${API_BASE_URL}/dailyMatches/champ`);
