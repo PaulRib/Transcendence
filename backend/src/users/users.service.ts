@@ -154,19 +154,19 @@ export class UsersService {
         }
 
         const [salt, storedHash] = user.password_hash.split(':');
-        const currentPassword = scryptSync(updatePasswordDto.currentPassword, salt, 64).toString('hex');
+        const currentPasswordHash = scryptSync(updatePasswordDto.currentPassword, salt, 64).toString('hex');
 
-        if (currentPassword !== storedHash) {
+        if (currentPasswordHash !== storedHash) {
             throw new UnauthorizedException('Invalid current password');
         }
 
         const newSalt = randomBytes(16).toString('hex');
-        const newPasswordhash = scryptSync(updatePasswordDto.newPassword, newSalt, 64).toString('hex');
+        const newPasswordHash = scryptSync(updatePasswordDto.newPassword, newSalt, 64).toString('hex');
 
         await this.prisma.user.update({
             where: { id: userId },
             data: {
-                password_hash: `${newSalt}:${newPasswordhash}`,
+                password_hash: `${newSalt}:${newPasswordHash}`,
             },
         });
         
