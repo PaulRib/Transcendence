@@ -1,15 +1,14 @@
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/auth.api";
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { currentUser, isLoading} = useAuth();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -20,7 +19,7 @@ function RegisterPage() {
         email,
         password,
       });
-
+      navigate('/login');
       setMessage(`Utilisateur ${user.username} créé`);
       setError(null);
     } catch {
@@ -28,14 +27,6 @@ function RegisterPage() {
       setMessage(null);
     }
   };
-
-  if(isLoading){
-    return null;
-  }
-
-  if(currentUser) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <section>

@@ -10,6 +10,8 @@ import RankedGamePage from './RankedGamePage';
 import Debug from '../components/debug';
 import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
+import { ProtectedRoute } from "../auth/ProtectedRoute";
+import { GuestRoute } from "../auth/GuestRoute";
 
 function App() {
   return (
@@ -17,10 +19,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="register" element={<RegisterPage/>} />
+          <Route element={<GuestRoute />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage/>} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
           <Route path="ranked" element={<RankedGamePage/>}/>
