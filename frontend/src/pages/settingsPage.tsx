@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMyProfile, updateMyPassword, updateMyProfile } from '../api/users.api';
+import { useAuth } from '../auth/AuthContext';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
@@ -8,6 +9,7 @@ function SettingsPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const token = localStorage.getItem('access_token');
+  const { updateCurrentUser } = useAuth();
 
   useEffect(() => {
     async function loadProfile() {
@@ -40,7 +42,8 @@ function SettingsPage() {
       const updatedUser = await updateMyProfile(token, {
         username: pseudo,
       });
-
+      
+      updateCurrentUser(updatedUser);
       setPseudo(updatedUser.username);
       setMessage('Profil mis a jour');
       setError(null);
