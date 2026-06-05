@@ -1,3 +1,5 @@
+DONT FORGET TO PUT HTTPS !!!!! @Amine @Mehdi @Paul @Murad
+
 After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
 
 If you wanna see a visual image of the database : `npx prisma studio`
