@@ -1,4 +1,5 @@
 /* @tailwind base; a été retiré pour ne pas casser les styles par défaut existants */
+/*@tailwind base*/
 @tailwind components;
 @tailwind utilities;
 
