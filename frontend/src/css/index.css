@@ -195,7 +195,11 @@ p {
   align-items: center;
 }
 
-
+.form-error {
+  margin-top: 1rem;
+  color: #fca5a5;
+  white-space: pre-line;
+}
 
 /* === HOME PAGE - RULES === */
 .rules-container {

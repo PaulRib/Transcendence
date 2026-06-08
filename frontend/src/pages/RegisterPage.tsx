@@ -22,8 +22,8 @@ function RegisterPage() {
       navigate('/login');
       setMessage(`Utilisateur ${user.username} créé`);
       setError(null);
-    } catch {
-      setError("Erreur d'inscription");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Erreur d'inscription");
       setMessage(null);
     }
   };
@@ -55,7 +55,7 @@ function RegisterPage() {
       </form>
 
       {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+      {error && <p className="form-error">{error}</p>}
     </section>
   );
 }
