@@ -54,13 +54,7 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
     });
 
     if (!response.ok){
-        const errorBody = await response.json();
-
-        const errorMessage = Array.isArray(errorBody.message)
-            ? errorBody.message.join('\n')
-            : errorBody.message || 'Login request failed';
-
-        throw new Error(errorMessage);
+        throw new Error('Login request failed');
     }
 
     return response.json();

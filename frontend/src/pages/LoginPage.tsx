@@ -22,12 +22,8 @@ function LoginPage() {
       login(loginResponse.user, loginResponse.access_token);
       navigate('/');
       setError(null);
-    } catch (error) {
-      if (error instanceof Error && error.message !== 'Invalid credentials') {
-        setError(error.message);
-      } else {
-        setError("Identifiant ou mot de passe incorrect(e)");
-      }
+    } catch {
+      setError("Identifiant ou mot de passe incorrect(e)");
       setMessage(null);
     }
   };
