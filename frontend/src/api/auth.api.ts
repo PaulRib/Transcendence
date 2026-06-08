@@ -32,7 +32,13 @@ export async function registerUser(payload: RegisterPayload): Promise<AuthUser>{
     });
 
     if (!response.ok){
-        throw new Error('Register request failed');
+        const errorBody = await response.json();
+
+        const errorMessage = Array.isArray(errorBody.message)
+            ? errorBody.message.join('\n')
+            : errorBody.message || 'Register request failed';
+
+        throw new Error(errorMessage);
     }
 
     return response.json();
@@ -47,7 +53,7 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
         body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
+    if (!response.ok){
         throw new Error('Login request failed');
     }
 

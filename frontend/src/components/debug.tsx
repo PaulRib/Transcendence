@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getBackendHealth } from '../api/health.api';
-import { getChampionNames, type ChampionName } from '../api/champions.api';
+import { getChampionNames} from '../api/champions.api';
+import type { ChampionName } from '../api/type.api';
 import { getDailyChamp } from '../api/dailygame.api';
 import './debug.css';
 

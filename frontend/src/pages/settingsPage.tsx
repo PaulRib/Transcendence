@@ -1,20 +1,81 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getMyProfile, updateMyPassword, updateMyProfile } from '../api/users.api';
+import { useAuth } from '../auth/AuthContext';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const token = localStorage.getItem('access_token');
+  const { updateCurrentUser } = useAuth();
+
+  useEffect(() => {
+    async function loadProfile() {
+      if (!token) {
+        setError('Utilisateur non connecte');
+        return;
+      }
+
+      try {
+        const user = await getMyProfile(token);
+        setPseudo(user.username);
+        setError(null);
+      } catch {
+        setError('Impossible de charger le profil');
+      }
+    }
+    loadProfile();
+  }, [token]);
   
-  const handleUpdateProfile = (e: React.FormEvent) => {
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Profil mis à jour !');
-    // Logique API ici
+    
+    if (!token) {
+      setError('Utilisateur non connecte');
+      setMessage(null);
+      return;
+    }
+    
+    try {
+      const updatedUser = await updateMyProfile(token, {
+        username: pseudo,
+      });
+      
+      updateCurrentUser(updatedUser);
+      setPseudo(updatedUser.username);
+      setMessage('Profil mis a jour');
+      setError(null);
+    } catch {
+      setError('Impossible de mettre a jour le profil');
+      setMessage(null);
+    }
   };
 
-  const handleUpdatePassword = (e: React.FormEvent) => {
+  const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Mot de passe mis à jour !');
-    // Logique API ici
+    
+    if (!token) {
+      setError('Utilisateur non connecte');
+      setMessage(null);
+      return;
+    }
+
+    try {
+      await updateMyPassword(token, {
+        currentPassword,
+        newPassword,
+      });
+
+      setCurrentPassword('');
+      setNewPassword('');
+      setMessage('Mot de passe mis a jour');
+      setError(null);
+    } catch {
+      setError('Impossible de mettre a jour le mot de passe');
+      setMessage(null);
+    }
   };
 
   const handleDeleteAccount = () => {
@@ -27,7 +88,9 @@ function SettingsPage() {
   return (
     <section className="settings-page">
       <h1>Paramètres</h1>
-      
+      {message && <p>{message}</p>}
+      {error && <p>{error}</p>}
+
       <div className="settings-block">
         <h2>Modifier le pseudo</h2>
         <form className="auth-form" onSubmit={handleUpdateProfile}>

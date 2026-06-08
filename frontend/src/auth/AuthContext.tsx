@@ -8,6 +8,7 @@ type AuthContextValue = {
     isLoading: boolean;
     login: (user: AuthUser, token: string) => void;
     logout: () => void;
+    updateCurrentUser: (user: AuthUser) => void;
 };
 
 type AuthProviderProps = {
@@ -28,6 +29,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const logout = () => {
         localStorage.removeItem('access_token');
         setCurrentUser(null);
+    };
+
+    const updateCurrentUser = (user: AuthUser) => {
+        setCurrentUser(user);
     };
 
     useEffect(() => {
@@ -59,6 +64,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 isLoading,
                 login,
                 logout,
+                updateCurrentUser,
             }}
         >
             {children}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import LoadingScreen from '../components/LoadingScreen';
@@ -11,11 +12,26 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
     if (isLoading) {
         return <LoadingScreen />;
+=======
+import { useAuth } from "./AuthContext";
+import { Outlet, Navigate } from "react-router-dom";
+
+export function ProtectedRoute() {
+    const { currentUser, isLoading } = useAuth();
+
+    if (isLoading) {
+        return null;
+>>>>>>> main
     }
 
     if (!currentUser) {
         return <Navigate to="/login" replace />;
     }
 
+<<<<<<< HEAD
     return <>{children}</>;
 }
+=======
+    return <Outlet />;
+}
+>>>>>>> main

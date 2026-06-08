@@ -2,7 +2,8 @@ import { UseGuards, Request , Controller, Get, Param, Patch, Body } from '@nestj
 import { UsersService } from './users.service';
 import type { PublicUser } from './types/public-user.type';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import type { UpdateProfileDto } from './dto/update-profile.dto';
+import type { UpdateProfileDto } from './dto/update-profile.dto'
+import type { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('users')
 export class UsersController {
@@ -12,6 +13,18 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     me(@Request() request) {
         return this.usersService.getUserById(request.user.sub);
+    }
+
+    @Patch('me/password')
+    @UseGuards(JwtAuthGuard)
+    updateMyPassword(
+        @Request() request,
+        @Body() updatePasswordDto: UpdatePasswordDto,
+    ) {
+        return this.usersService.updatePassword(
+            request.user.sub,
+            updatePasswordDto,
+        );
     }
 
     @Patch('me')

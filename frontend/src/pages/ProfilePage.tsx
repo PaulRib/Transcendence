@@ -1,12 +1,19 @@
 import '../css/ProfilePage.css';
+import { useAuth } from '../auth/AuthContext';
 
 function ProfilePage() {
-  const User = {
-    username: "PlayerOne",
-    points: 42,
-    avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=PlayerOne" // Image "placeholder" générée
-  };
+  const { currentUser, isLoading } = useAuth();
 
+  if (isLoading) {
+    return <p>Chargement...</p>;
+  }
+
+  if (!currentUser) {
+    return <p>Utilisateur non connecte</p>;
+  }
+
+  const avatarUrl = currentUser.avatar_url ??
+    'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
   const handleChangeIcon = () => {
     alert("Ouverture de la sélection d'avatar (Base de données et Upload local)");
   };
@@ -17,8 +24,8 @@ function ProfilePage() {
       
       <div className="profile-avatar-container">
         <img 
-          src={User.avatarUrl} 
-          alt={`Icône de ${User.username}`} 
+          src={avatarUrl} 
+          alt={`Icône de ${currentUser.username}`} 
           className="profile-avatar-image"
         />
         <button 
@@ -30,9 +37,9 @@ function ProfilePage() {
       </div>
 
       <div className="profile-info">
-        <h2>{User.username}</h2>
+        <h2>{currentUser.username}</h2>
         <p className="profile-points">
-          <strong>Points récoltés :</strong> {User.points}
+          <strong>Points récoltés :</strong> 0
         </p>
       </div>
     </section>

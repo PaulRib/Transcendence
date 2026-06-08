@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 
 function LoginPage() {
-  const { login, currentUser, isLoading } = useAuth();
-  const navigate = useNavigate()
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
@@ -28,13 +28,6 @@ function LoginPage() {
     }
   };
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (currentUser) {
-    return <Navigate to="/" replace />;
-  }
   return (
     <section>
       <h1>Connexion</h1>
@@ -63,7 +56,7 @@ function LoginPage() {
       </div>
 
       {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+      {error && <p className="form-error">{error}</p>}
     </section>
   );
 }
