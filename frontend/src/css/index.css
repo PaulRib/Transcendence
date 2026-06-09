@@ -4,10 +4,10 @@
 
 /* @tailwind base; a été retiré pour ne pas casser les styles par défaut existants */
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:is(.dark *));
 /*@tailwind base*/
-@tailwind components;
-@tailwind utilities;
+/* @tailwind components;
+@tailwind utilities; */ */
 
 :root {
   font-family: Inter, system-ui, Arial, sans-serif;
