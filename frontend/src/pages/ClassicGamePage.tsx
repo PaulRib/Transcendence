@@ -45,9 +45,7 @@ function ClassicGamePage() {
 
     const alreadyGuessedNames = guesses.map(g => g.name.toLowerCase());
     const filtered = championNames.filter((champion) => {
-      const searchNormalized = text.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const nameNormalized = champion.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const matchesText = champion.name.toLowerCase().includes(text.toLowerCase()) || nameNormalized.includes(searchNormalized);
+      const matchesText = champion.name.toLowerCase().startsWith(text.toLowerCase());
       const isNotAlreadyGuessed = !alreadyGuessedNames.includes(champion.name.toLowerCase());
       return matchesText && isNotAlreadyGuessed;
     });
