@@ -31,15 +31,7 @@ function App() {
           <Route path="infinite" element={<InfiniteGamePage/>}/>
           <Route path="ranked" element={<RankedGamePage/>}/>
           <Route path="debug" element={<Debug/>}/>
-          <Route path="leaderboard" element={<LeaderboardPage/>}/>
-
-          {/* Protected Routes */}
-          <Route path="profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-
-          <Route path="ranked" element={<ProtectedRoute><RankedGamePage/></ProtectedRoute>} />
-         
-          <Route path="friends" element={<ProtectedRoute><FriendsList/></ProtectedRoute>} />
+          <Route path="selectGame" element={<SelectGame/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
