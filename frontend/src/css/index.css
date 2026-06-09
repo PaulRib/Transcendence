@@ -166,32 +166,10 @@ input::placeholder {
   color: #94a3b8;
 }
 
-button {
-  padding: 0.8rem 1rem;
-  border: none;
-  border-radius: 10px;
-  background: #2563eb;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+
 
 button:hover {
   background: hsla(283, 4%, 64%, 0.372);
-}
-
-
-
-h2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-p {
-  margin: 0;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
 }
 
 .form-error {
@@ -200,36 +178,6 @@ p {
   white-space: pre-line;
 }
 
-/* === HOME PAGE - RULES === */
-.rules-container {
-  text-align: center;
-  margin: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 500px;
-}
-
-.rules-container h2 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-}
-
-.rules-list {
-  list-style-position: inside;
-  padding-left: 0;
-  margin-top: 0.5rem;
-}
-
-.color-legend {
-  list-style-type: none;
-  padding-left: 0;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-}
 
 .register-prompt {
   margin-top: 1rem;
