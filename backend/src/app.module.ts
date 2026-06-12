@@ -5,9 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { ChampionsModule } from './champions/champions.module';
 import { DailymatchesModule } from './dailymatches/dailymatches.module';
-import { InfinitematchesModule } from './infinitematches/infinitematches.module'
+import { InfinitematchesModule } from './infinitematches/infinitematches.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, FriendsModule],
 })
 export class AppModule {}
