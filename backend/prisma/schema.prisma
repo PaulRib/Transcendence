@@ -75,6 +75,7 @@ model Guess {
 	id 						String 				@id @default(uuid())
 	attempt_number			Int
 	comparison_result		Json
+	is_correct				Boolean				@default(false)
 
 	match_id				String
 	match 					Match 				@relation(fields: [match_id], references: [id])
