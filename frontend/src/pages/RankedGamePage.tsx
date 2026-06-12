@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getChampionNames} from '../api/champions.api';
-import { sendGuess} from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
+import { Socket } from 'socket.io-client';
 import '../css/Game.css';
 
-function RankedGamePage() {
+  interface RankedGamePageProps {
+  socket: Socket;
+}
+
+function RankedGamePage({ socket }: RankedGamePageProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
@@ -12,7 +16,9 @@ function RankedGamePage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
+  const [hasLoose, setHasLoose] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
+  const [turn, setTurn] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadGameData() {
@@ -64,16 +70,8 @@ function RankedGamePage() {
     if (isAlreadyGuessed) return;
     
     try {
-      const result = await sendGuess(validChamp.name);
-      setGuesses([result, ...guesses]);
       setInputValue('');
       setSuggestions([]);
-      if (result.isWin) {
-        setHasWon(true);
-		setTimeout(() => {
-			setShowVictory(true);
-		}, 3750);
-      }
     } catch (err) {
       console.error(err);
       alert("Error during the try");
@@ -99,6 +97,13 @@ function RankedGamePage() {
         </div>
       )}
 
+	  {hasLoose && (
+        <div className="loose-card">
+          <h2 className="loose-title">🎉 Défaite ! 🎉</h2>
+          <p>Dommage, tu as perdu aprés n'avoir pas trouvé le champion en {guesses.length} essais !</p>
+        </div>
+      )}
+
       {/* Submit guess */}
       <form onSubmit={handleSubmitGuess} className="search-form">
         <div className="input-container">
@@ -106,7 +111,7 @@ function RankedGamePage() {
             type="text"
             placeholder="Enter a champ name..."
             value={inputValue}
-            disabled={hasWon}
+            disabled={hasWon || hasLoose || turn}
             onChange={(e) => handleInputChange(e.target.value)}
             className="search-input"
           />

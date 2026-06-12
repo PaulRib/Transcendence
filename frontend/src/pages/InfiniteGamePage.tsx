@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getChampionNames} from '../api/champions.api';
-import { sendInfiniteGuess} from '../api/infinitegame.api';
+import { sendInfiniteGuess, getInfiniteChamp} from '../api/infinitegame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
-import '../css/Game.css'
-import { getInfiniteChamp } from '../api/infinitegame.api';
+import '../css/Game.css';
 
 function InfiniteGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
