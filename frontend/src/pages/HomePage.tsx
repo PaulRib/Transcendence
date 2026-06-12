@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-// 1. Import du composant Bouton de shadcn/ui
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Button } from "../components/ui/button";
 
 function HomePage() {
@@ -17,28 +16,27 @@ function HomePage() {
       </h1>
       
       <div className="w-full space-y-6 text-left mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight">
+        <h2 className="text-2xl font-semibold tracking-tight text-center">
           Comment jouer ?
         </h2>
-        <p className="text-muted-foreground">
+        <p className="text-base text-center">
           Le but est de deviner le champion.
         </p>
         
-        <ul className="list-disc list-inside space-y-2 text-sm leading-7">
+        <ul className=" text-base space-y-2  leading-7 text-center  ">
           <li>Chaque proposition doit être un champion valide.</li>
           <li>Appuyez sur "Entrée" pour valider votre mot.</li>
           <li>Après chaque essai, vous verrez les caractéristiques du personnage et leur correspondance.</li>
         </ul>
         
-        <ul className="space-y-3 bg-muted p-4 rounded-lg text-sm border">
+        <ul className="text-base space-y-3 bg-muted p-4 ">
           <li>🟩 <strong className="font-medium">Vert</strong> : Si c'est correct</li>
           <li>🟨 <strong className="font-medium">Jaune</strong> : Si c'est incomplet ou qu'il y a une caractéristique en trop.</li>
           <li>🟥 <strong className="font-medium">Rouge</strong> : Si la caractéristique ne correspond pas du tout au personnage.</li>
         </ul>
       </div>
       
-      {/* 7. Utilisation du composant shadcn/ui au lieu du bouton HTML standard */}
-      <Button onClick={handlePlayClick} variant="play">
+      <Button onClick={() => navigate('/selectGame')} variant="play">
         Jouer
       </Button>
       

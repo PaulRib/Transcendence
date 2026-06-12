@@ -1,8 +1,10 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
+import { Button } from "../components/ui/button";
+
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
@@ -57,7 +59,7 @@ function Layout() {
                             )}
                         </div>
                     ) : (
-                        <Link to="/login" className="login_button">Login</Link>
+                    <Button onClick={() => navigate('/login')} variant="default">login</Button>
                     )}
                 </div>
             </header>
