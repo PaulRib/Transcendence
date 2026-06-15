@@ -1,12 +1,8 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { Button } from "../components/ui/button";
 
 function HomePage() {
-  const navigate = useNavigate();
 
-  const handlePlayClick = () => {
-    navigate('/selectGame');
-  };
 
   return (
     <section className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
@@ -36,10 +32,9 @@ function HomePage() {
         </ul>
       </div>
       
-      <Button onClick={() => navigate('/selectGame')} variant="play">
-        Jouer
+        <Button asChild variant="play">
+        <Link to="/selectGame">Jouer</Link>
       </Button>
-      
     </section>
   );
 }
