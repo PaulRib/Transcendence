@@ -3,6 +3,9 @@ import { getBackendHealth } from '../api/health.api';
 import { getChampionNames} from '../api/champions.api';
 import type { ChampionName } from '../api/type.api';
 import { getDailyChamp } from '../api/dailygame.api';
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
+
 import './debug.css';
 
 export default function Debug() {
@@ -31,9 +34,9 @@ export default function Debug() {
 
   return(
     <div className="debug-page">
-      <h1>Debug Info</h1>
+      <Heading>Debug Info</Heading>
       
-      <section>
+      <PageContainer>
         <h2>Backend connection</h2>
         <div className="backend-status-container">
           <div 
@@ -45,17 +48,17 @@ export default function Debug() {
             <p>Backend status: {backendStatus}</p>
           )}
         </div>
-      </section>
+      </PageContainer>
 
-      <section>
+      <PageContainer>
         <h2>Champion of the day</h2>
         <p>{dailyChampionName || 'Loading...'}</p>
-      </section>
+      </PageContainer>
 
-      <section>
+      <PageContainer>
         <h2>Champions Loaded</h2>
         <p>{championNames.length > 0 ? `${championNames.length} champions retrieved` : 'Loading...'}</p>
-      </section>
+      </PageContainer>
     </div>
   );
 }

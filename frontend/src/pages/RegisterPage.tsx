@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/auth.api";
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -29,8 +31,8 @@ function RegisterPage() {
   };
 
   return (
-    <section>
-      <h1>Créer un compte</h1>
+    <PageContainer>
+      <Heading>Créer un compte</Heading>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -56,7 +58,7 @@ function RegisterPage() {
 
       {message && <p>{message}</p>}
       {error && <p className="form-error">{error}</p>}
-    </section>
+    </PageContainer>
   );
 }
 

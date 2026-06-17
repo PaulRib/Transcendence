@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import '../css/App.css'; 
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function SelectGame() {
   const navigate = useNavigate();
 
   return (
-    <section className="select-game-container">
-      <h1>Sélection du mode de jeu</h1>
+    <PageContainer className="select-game-container">
+      <Heading>Sélection du mode de jeu</Heading>
       
       <div className="game-modes">
         <div className="game-mode-card" onClick={() => navigate('/classic')}>
@@ -27,7 +28,7 @@ function SelectGame() {
           <button>Jouer en Classé</button>
         </div>
       </div>
-    </section>
+    </PageContainer>
   );
 }
 
