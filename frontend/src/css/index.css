@@ -28,13 +28,6 @@ body {
 
 }
 
-
-
-button,
-input {
-  font: inherit;
-}
-
 .app-shell {
   min-height: 100vh;
   display: flex;

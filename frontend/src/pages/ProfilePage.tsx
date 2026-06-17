@@ -1,5 +1,6 @@
 import '../css/ProfilePage.css';
 import { useAuth } from '../auth/AuthContext';
+import { PageContainer } from '../components/ui/page-content';
 
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
@@ -19,7 +20,7 @@ function ProfilePage() {
   };
 
   return (
-    <section className="profile-section">
+    <PageContainer className="profile-PageContainer">
       <h1>Profil Utilisateur</h1>
       
       <div className="profile-avatar-container">
@@ -42,7 +43,7 @@ function ProfilePage() {
           <strong>Points récoltés :</strong> 0
         </p>
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

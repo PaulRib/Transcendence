@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
-import { getChampionNames} from '../api/champions.api';
-import { sendGuess} from '../api/dailygame.api';
+import { getChampionNames } from '../api/champions.api';
+import { sendGuess } from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
+import { PageContainer } from '../components/ui/page-content';
 import '../css/Game.css';
+
+import { HistoryGrid } from '../components/Game/HistoryGrid';
+import { GameForm } from '../components/Game/GameForm';
+import { VictoryCard } from '../components/Game/VictoryCard';
 
 function RankedGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -62,8 +67,7 @@ function RankedGamePage() {
       alert("This champion does not exist !");
       return;
     }
-    const isAlreadyGuessed = guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase());
-    if (isAlreadyGuessed) return;
+    if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
     
     try {
       const result = await sendGuess(validChamp.name);
@@ -72,9 +76,7 @@ function RankedGamePage() {
       setSuggestions([]);
       if (result.isWin) {
         setHasWon(true);
-		setTimeout(() => {
-			setShowVictory(true);
-		}, 3750);
+        setTimeout(() => setShowVictory(true), 3750);
       }
     } catch (err) {
       console.error(err);
@@ -89,138 +91,25 @@ function RankedGamePage() {
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   return (
-    <section className="game-section">
+    <PageContainer className="game-PageContainer">
       <h2>Ranked mode</h2>
       
       {error && <div className="error-alert">{error}</div>}
 
-      {showVictory && (
-        <div className="victory-card">
-          <h2 className="victory-title">🎉 Victoire ! 🎉</h2>
-          <p>Félicitations, tu as trouvé le champion du jour en {guesses.length} essais !</p>
-        </div>
-      )}
+      {showVictory && <VictoryCard guessCount={guesses.length} />}
 
-      {/* Submit guess */}
-      <form onSubmit={handleSubmitGuess} className="search-form">
-        <div className="input-container">
-          <input
-            type="text"
-            placeholder="Enter a champ name..."
-            value={inputValue}
-            disabled={hasWon}
-            onChange={(e) => handleInputChange(e.target.value)}
-            className="search-input"
-          />
-          <button 
-            type="submit" 
-            disabled={!isInputValid}
-            className={`submit-btn ${isInputValid ? 'valid' : 'invalid'}`}
-          >
-            Valider
-          </button>
-        </div>
+      <GameForm 
+        inputValue={inputValue}
+        hasWon={hasWon}
+        isInputValid={isInputValid}
+        suggestions={suggestions}
+        onInputChange={handleInputChange}
+        onSelectChampion={handleSelectChampion}
+        onSubmit={handleSubmitGuess}
+      />
 
-		{/* Suggestion list */}
-		{suggestions.length > 0 && (
-		<ul className="suggestions-list">
-			{suggestions.map((champion) => {
-			const imageFilename = champion.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-			return (
-				<li
-				key={champion.name}
-				onClick={() => handleSelectChampion(champion.name)}
-				className="suggestion-item"
-				style={{ display: 'flex', alignItems: 'center', gap: '10px' }}
-				>
-				<img 
-					src={`/champions/${imageFilename}.png`} 
-					alt={champion.name}
-					style={{ 
-					width: '32px', 
-					height: '32px', 
-					borderRadius: '4px', 
-					objectFit: 'cover',
-					border: '1px solid #000' 
-					}}
-				/>
-				<span>{champion.name}</span>
-				</li>
-			);
-			})}
-		</ul>
-		)}
-      </form>
-
-      {/* Historique */}
-      <div className="history-container">
-        <div className="history-grid">
-          
-          {guesses.length > 0 && (
-            <div className="grid-header">
-              <div className="header-cell">Champion</div>
-              <div className="header-cell">Genre</div>
-              <div className="header-cell">Position</div>
-              <div className="header-cell">Espèce</div>
-              <div className="header-cell">Ressource</div>
-              <div className="header-cell">Portée</div>
-              <div className="header-cell">Région</div>
-              <div className="header-cell">Année</div>
-            </div>
-          )}
-
-          {guesses.map((guess, index) => {
-            const imageFilename = guess.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-            return (
-              <div key={index} className="guess-row">
-                
-                {/* All guess boxes */}
-                <div className="champion-avatar-cell" style={{ animationDelay: '0s' }}>
-                  <img 
-                    src={`/champions/${imageFilename}.png`} 
-                    className="champion-avatar-img"
-                    alt={guess.name}
-                  />
-                </div>
-
-                <div className={`guess-box ${guess.gender?.status || ''}`} style={{ animationDelay: '0.45s' }}>
-                  {guess.gender?.value}
-                </div>
-
-                <div className={`guess-box ${guess.positions?.status || ''}`} style={{ animationDelay: '0.90s' }}>
-                  {Array.isArray(guess.positions?.value) ? guess.positions.value.join(', ') : guess.positions?.value}
-                </div>
-
-                <div className={`guess-box ${guess.species?.status || ''}`} style={{ animationDelay: '1.35s' }}>
-                  {Array.isArray(guess.species?.value) ? guess.species.value.join(', ') : guess.species?.value}
-                </div>
-
-                <div className={`guess-box ${guess.resource_type?.status || ''}`} style={{ animationDelay: '1.80s' }}>
-                  {guess.resource_type?.value}
-                </div>
-
-                <div className={`guess-box ${guess.range_type?.status || ''}`} style={{ animationDelay: '2.25s' }}>
-                  {Array.isArray(guess.range_type?.value) ? guess.range_type.value.join(', ') : guess.range_type?.value}
-                </div>
-
-                <div className={`guess-box ${guess.region?.status || ''}`} style={{ animationDelay: '2.70s' }}>
-                  {Array.isArray(guess.region?.value) ? guess.region.value.join(', ') : guess.region?.value}
-                </div>
-
-                <div className={`guess-box ${guess.release_year?.status || ''}`} style={{ animationDelay: '3.15s' }}>
-                  {guess.release_year?.value}
-                  {guess.release_year?.status === 'higher' && <span className="arrow-indicator">↑</span>}
-                  {guess.release_year?.status === 'lower' && <span className="arrow-indicator">↓</span>}
-                </div>
-
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+      <HistoryGrid guesses={guesses} />
+    </PageContainer>
   );
 }
 

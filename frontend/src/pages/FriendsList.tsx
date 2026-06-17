@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import '../css/FriendsList.css'; // We will create this file for styling
 
+
+
 interface Friend {
   id: number;
   username: string;

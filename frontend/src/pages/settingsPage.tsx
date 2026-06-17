@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getMyProfile, updateMyPassword, updateMyProfile } from '../api/users.api';
 import { useAuth } from '../auth/AuthContext';
+import { PageContainer } from '../components/ui/page-content';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
@@ -86,7 +87,7 @@ function SettingsPage() {
   };
 
   return (
-    <section className="settings-page">
+    <PageContainer className="settings-page">
       <h1>Paramètres</h1>
       {message && <p>{message}</p>}
       {error && <p>{error}</p>}
@@ -128,7 +129,7 @@ function SettingsPage() {
         <p>La suppression du compte supprime toutes vos données de façon permanente.</p>
         <button className="delete-btn" onClick={handleDeleteAccount}>Supprimer mon compte</button>
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

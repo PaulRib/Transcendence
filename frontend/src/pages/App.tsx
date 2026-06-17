@@ -12,6 +12,7 @@ import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { GuestRoute } from "../auth/GuestRoute";
+import FriendsList from "./FriendsList";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="profile" element={<ProfilePage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="friends" element={<FriendsList />} />
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>

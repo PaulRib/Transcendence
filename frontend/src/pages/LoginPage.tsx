@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
+import { PageContainer } from '../components/ui/page-content';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -29,7 +30,7 @@ function LoginPage() {
   };
 
   return (
-    <section>
+    <PageContainer>
       <h1>Connexion</h1>
 
       <form className="auth-form" onSubmit={handleSubmit}>
@@ -57,7 +58,7 @@ function LoginPage() {
 
       {message && <p>{message}</p>}
       {error && <p className="form-error">{error}</p>}
-    </section>
+    </PageContainer>
   );
 }
 

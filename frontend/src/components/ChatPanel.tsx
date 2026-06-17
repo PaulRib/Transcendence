@@ -3,7 +3,7 @@ import * as React from 'react';
 function ChatPanel() {
   return (
     React.createElement(
-      "section",
+      "PageContainer",
       { className: "chat-panel" },
       React.createElement("h2", null, "Chat"),
       React.createElement(

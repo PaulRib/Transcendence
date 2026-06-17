@@ -32,22 +32,10 @@
   font-size: 24px;
 }
 
-/* Formulaire et rectangle de saisie */
-.search-form {
-  position: relative;
-  margin-bottom: 20px;
-}
 
-.input-container {
-  display: flex;
-  gap: 10px;
-}
 
-.search-input {
-  padding: 10px;
-  flex: 1;
-  font-size: 16px;
-}
+
+
 
 .submit-btn {
   padding: 10px 20px;
@@ -66,20 +54,7 @@
 }
 
 /* Menu déroulant des suggestions */
-.suggestions-list {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: rgb(8, 18, 40);
-  border: 1px solid rgb(48, 48, 48);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-}
+
 
 .suggestion-item {
   padding: 8px 12px; /* Un peu moins de padding vertical pour compenser la hauteur de l'image */

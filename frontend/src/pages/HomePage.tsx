@@ -1,11 +1,12 @@
 import { Link} from 'react-router-dom';
 import { Button } from "../components/ui/button";
+import { PageContainer } from '../components/ui/page-content';
 
 function HomePage() {
 
 
   return (
-    <section className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
+    <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
       
       <h1 className="mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl">
         42dle
@@ -35,7 +36,7 @@ function HomePage() {
         <Button asChild variant="play">
         <Link to="/selectGame">Jouer</Link>
       </Button>
-    </section>
+    </PageContainer>
   );
 }
 
