@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -29,8 +31,8 @@ function LoginPage() {
   };
 
   return (
-    <section>
-      <h1>Connexion</h1>
+    <PageContainer>
+      <Heading>Connexion</Heading>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -56,8 +58,8 @@ function LoginPage() {
       </div>
 
       {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
-    </section>
+      {error && <p className="form-error">{error}</p>}
+    </PageContainer>
   );
 }
 

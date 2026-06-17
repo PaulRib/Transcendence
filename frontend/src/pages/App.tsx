@@ -13,6 +13,8 @@ import SettingsPage from './settingsPage';
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { GuestRoute } from "../auth/GuestRoute";
 import RankedManager from "../components/RankedManager";
+import FriendsList from "./FriendsList";
+import LeaderboardPage from "./LeaderboardPage";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="profile" element={<ProfilePage />} />
             <Route path="settings" element={<SettingsPage />} />
+            <Route path="friends" element={<FriendsList />} />
+            <Route path="leaderboard" element={<LeaderboardPage/>} />
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>

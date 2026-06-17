@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/auth.api";
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -22,15 +24,15 @@ function RegisterPage() {
       navigate('/login');
       setMessage(`Utilisateur ${user.username} créé`);
       setError(null);
-    } catch {
-      setError("Erreur d'inscription");
+    } catch (error) {
+      setError(error instanceof Error ? error.message : "Erreur d'inscription");
       setMessage(null);
     }
   };
 
   return (
-    <section>
-      <h1>Créer un compte</h1>
+    <PageContainer>
+      <Heading>Créer un compte</Heading>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <input
@@ -55,8 +57,8 @@ function RegisterPage() {
       </form>
 
       {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
-    </section>
+      {error && <p className="form-error">{error}</p>}
+    </PageContainer>
   );
 }
 
