@@ -1,3 +1,7 @@
+
+import { Heading } from '../components/ui/heading';
+
+
 interface PlayerScore {
   rank: number;
   username: string;
@@ -37,7 +41,7 @@ const mockLeaderboard: PlayerScore[] = [
 function LeaderboardPage() {
   return (
     <div className="max-w-[800px] mx-auto my-8 p-8 bg-[#14141e]/85 rounded-xl text-white shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
-      <h1 className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">Classement</h1>
+      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">Classement</Heading>
       <p className="text-center text-[#bdc3c7] mb-8 text-base">Les meilleurs joueurs du mode classé</p>
 
       <div className="overflow-x-auto">

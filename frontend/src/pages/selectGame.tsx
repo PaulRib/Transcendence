@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-
 import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function SelectGame() {
   const navigate = useNavigate();
 
   return (
     <PageContainer className="select-game-container">
-      <h1>Sélection du mode de jeu</h1>
+      <Heading>Sélection du mode de jeu</Heading>
       
       <div className="game-modes">
         <div className="game-mode-card" onClick={() => navigate('/classic')}>

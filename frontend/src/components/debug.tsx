@@ -3,6 +3,9 @@ import { getBackendHealth } from '../api/health.api';
 import { getChampionNames} from '../api/champions.api';
 import type { ChampionName } from '../api/type.api';
 import { getDailyChamp } from '../api/dailygame.api';
+import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
+
 import './debug.css';
 
 export default function Debug() {
@@ -31,7 +34,7 @@ export default function Debug() {
 
   return(
     <div className="debug-page">
-      <h1>Debug Info</h1>
+      <Heading>Debug Info</Heading>
       
       <PageContainer>
         <h2>Backend connection</h2>

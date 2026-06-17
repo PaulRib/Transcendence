@@ -1,6 +1,7 @@
 import { Link} from 'react-router-dom';
 import { Button } from "../components/ui/button";
 import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function HomePage() {
 
@@ -8,9 +9,9 @@ function HomePage() {
   return (
     <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
       
-      <h1 className="mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl">
+      <Heading className="mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl">
         42dle
-      </h1>
+      </Heading>
       
       <div className="w-full space-y-6 text-left mb-8">
         <h2 className="text-2xl font-semibold tracking-tight text-center">

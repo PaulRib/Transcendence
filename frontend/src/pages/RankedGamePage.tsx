@@ -3,8 +3,6 @@ import { getChampionNames } from '../api/champions.api';
 import { sendGuess } from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { PageContainer } from '../components/ui/page-content';
-import '../css/Game.css';
-
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';

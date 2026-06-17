@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
+import { Heading } from '../components/ui/heading';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -31,7 +32,7 @@ function LoginPage() {
 
   return (
     <PageContainer>
-      <h1>Connexion</h1>
+      <Heading>Connexion</Heading>
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <input

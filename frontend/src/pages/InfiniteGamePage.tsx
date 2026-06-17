@@ -4,7 +4,6 @@ import { sendInfiniteGuess, getInfiniteChamp } from '../api/infinitegame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { Heading } from '../components/ui/heading';
 import { PageContainer } from '../components/ui/page-content';
-
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
