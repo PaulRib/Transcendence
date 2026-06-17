@@ -208,51 +208,18 @@ button:hover {
   }
 }
 
-
-/* === SELECT GAME === */
-.game-modes {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  width: 100%;
+@keyframes flipIn {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
 }
 
-.game-mode-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.champion-avatar-cell, .guess-box {
+  opacity: 0;
+  animation: flipIn 1s ease forwards;
 }
-
-.game-mode-card:hover {
-  transform: translateY(-5px);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.game-mode-card h2 {
-  margin: 0 0 0.5rem;
-}
-
-.game-mode-card p {
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.game-mode-card button {
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  background: rgba(37, 99, 235, 0.8);
-  font-weight: bold;
-}
-
-.game-mode-card:hover button {
-  background: rgb(37, 99, 235);
-}
-
