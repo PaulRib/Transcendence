@@ -4,7 +4,6 @@ import { sendGuess } from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { Heading } from '../components/ui/heading';
 import { PageContainer } from '../components/ui/page-content';
-
 // Import des nouveaux composants mutualisés
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
