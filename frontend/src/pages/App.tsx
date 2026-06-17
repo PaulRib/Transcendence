@@ -12,6 +12,7 @@ import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 import { GuestRoute } from "../auth/GuestRoute";
+import RankedManager from "../components/RankedManager";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
-          <Route path="ranked" element={<RankedGamePage/>}/>
+          <Route path="ranked" element={<RankedManager/>}/>
           <Route path="debug" element={<Debug/>}/>
           <Route path="selectGame" element={<SelectGame/>}/>
         </Route>

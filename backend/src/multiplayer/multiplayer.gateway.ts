@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
 import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		 OnGatewayDisconnect, SubscribeMessage, ConnectedSocket, MessageBody
  } from '@nestjs/websockets';
- import { Server, Socket} from 'socket.io';
+ import { Socket, Namespace} from 'socket.io';
  import { JwtService } from '@nestjs/jwt';
  import { UsersService } from '../users/users.service';
  import { MultiplayerService } from './multiplayer.service'
@@ -11,7 +10,7 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
  export class MultiplayerGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	@WebSocketServer()
-	server!: Server;
+	server!: Namespace;
 
 	constructor(
 		private readonly jwtService: JwtService,
@@ -92,6 +91,7 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 				console.error(`Erreur inattendue :`, error);
 		}
 	}
+
 	@SubscribeMessage('join_game_room')
 	async handleJoinRoom(
 		@ConnectedSocket() client: Socket,
@@ -100,5 +100,11 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		client.join(`room_${data.matchId}`);
 		client.data.currentMatchId = data.matchId;
 		console.log(`Le joueur ${client.data.user.username} a rejoint la room ${data.matchId}`);
+
+		const room = this.server.adapter.rooms.get(`room_${data.matchId}`)
+		if (room && room.size === 2) {
+			this.server.to(`room_${data.matchId}`).emit('game_ready');
+			console.log(`La partie ${data.matchId} commence !`);
+		}
 	}
 }

@@ -4,31 +4,34 @@ import { io, Socket } from 'socket.io-client';
 import RankedLobbyPage from '../pages/RankedLobbyPage';
 import RankedGamePage from '../pages/RankedGamePage';
 
-function RankedManager() {
+function RankedManager({ currentMatchId }: { currentMatchId?: string}) {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [matchState, setMatchState] = useState<'lobby' | 'playing'>('lobby');
+  const [matchState, setMatchState] = useState<'lobby' | 'waiting' | 'playing'>('lobby');
 
   useEffect(() => {
-    // 1. On ouvre le socket UNIQUEMENT quand on arrive dans la section Ranked
-    const token = localStorage.getItem('jwt_token'); // ou ta méthode de stockage
-    const newSocket = io("http://localhost:3000/game", {
-      auth: { token }
-    });
+		if (!currentMatchId) {
+			setMatchState('lobby');
+			return ;
+		}
 
-    setSocket(newSocket);
+	const token = localStorage.getItem('jwt_token');
+	const newSocket = io("http://localhost:game/game", { auth: { token } });
+	setSocket(newSocket);
 
-    // 2. On écoute le signal du serveur qui dit "La partie commence !"
-    newSocket.on('match_started', () => {
-      setMatchState('playing'); // Cela va déclencher le changement d'affichage
-    });
+    newSocket.on('connect', () => {
+		newSocket.emit('join_game_room', { matchId: currentMatchId});
+	});
 
-    // 3. Cleanup : On ferme le socket UNIQUEMENT quand le joueur quitte totalement le mode Ranked
-    return () => {
+	newSocket.on('game_ready', () => {
+		setMatchState('playing');
+	});
+
+	return () => {
       newSocket.disconnect();
-    };
-  }, []);
+ 		};
+	}, [currentMatchId]);
 
-  if (!socket) return <div>Connexion au serveur en cours...</div>;
+  if (matchState == 'waiting') return <div>En attente de l'adversaire...</div>;
 
   return (
     <div className="ranked-container">
