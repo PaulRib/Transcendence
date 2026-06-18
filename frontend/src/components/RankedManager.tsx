@@ -1,45 +1,71 @@
-// RankedManager.tsx (Le chef d'orchestre)
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import RankedLobbyPage from '../pages/RankedLobbyPage';
 import RankedGamePage from '../pages/RankedGamePage';
 
-function RankedManager({ currentMatchId }: { currentMatchId?: string}) {
+function RankedManager() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [matchState, setMatchState] = useState<'lobby' | 'waiting' | 'playing'>('lobby');
+  const [matchId, setMatchId] = useState<string | null>(null);
 
   useEffect(() => {
-		if (!currentMatchId) {
-			setMatchState('lobby');
-			return ;
-		}
+    // 1. On ouvre le tuyau vers le namespace /game dès qu'on arrive sur le menu Classé
+    const token = localStorage.getItem('access_token');
+    const newSocket = io("http://localhost:3000/game", { auth: { token } });
+    
+    setSocket(newSocket);
 
-	const token = localStorage.getItem('jwt_token');
-	const newSocket = io("http://localhost:game/game", { auth: { token } });
-	setSocket(newSocket);
+    // 2. ÉCOUTE DE LA CRÉATION DU MATCH (Matchmaking)
+    newSocket.on('match_found', (data: { matchId: string }) => {
+      console.log("Match trouvé !", data.matchId);
+      setMatchId(data.matchId);
+      setMatchState('waiting'); // On affiche un écran de chargement
+      
+      // On toque immédiatement à la porte de la Room !
+      newSocket.emit('join_game_room', { matchId: data.matchId });
+    });
 
-    newSocket.on('connect', () => {
-		newSocket.emit('join_game_room', { matchId: currentMatchId});
-	});
+    // 3. ÉCOUTE DU FEU VERT TECHNIQUE (Les 2 joueurs sont dans la Room)
+    newSocket.on('game_ready', () => {
+      console.log("Les deux joueurs sont connectés, c'est parti !");
+      setMatchState('playing'); // On affiche le plateau de jeu !
+    });
 
-	newSocket.on('game_ready', () => {
-		setMatchState('playing');
-	});
+    // 4. (Optionnel mais recommandé) Retour au lobby si l'adversaire fuit
+    newSocket.on('game_over', (data) => {
+        if (data.reason === 'opponent_disconnected') {
+            alert("Victoire par forfait ! Ton adversaire a quitté la partie.");
+            setMatchState('lobby');
+            setMatchId(null);
+        }
+    });
 
-	return () => {
+    return () => {
       newSocket.disconnect();
- 		};
-	}, [currentMatchId]);
-
-  if (matchState == 'waiting') return <div>En attente de l'adversaire...</div>;
+    };
+  }, []); // Le tableau vide garantit qu'on ne crée qu'un seul Socket
 
   return (
     <div className="ranked-container">
-      {matchState === 'lobby' ? (
-        <RankedLobbyPage socket={socket} /> 
-      ) : (
-        <RankedGamePage socket={socket} />
+      
+      {/* ÉTAPE 1 : Le joueur est dans le menu ou cherche une partie */}
+      {matchState === 'lobby' && (
+        <RankedLobbyPage socket={socket} />
       )}
+      
+      {/* ÉTAPE 2 : Transition invisible (le temps que join_game_room se fasse) */}
+      {matchState === 'waiting' && (
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <h2>Préparation de l'arène...</h2>
+          <div className="loader">Attente de la connexion de l'adversaire...</div>
+        </div>
+      )}
+      
+      {/* ÉTAPE 3 : Le jeu commence ! */}
+      {matchState === 'playing' && matchId && socket && (
+        <RankedGamePage socket={socket} matchId={matchId} />
+      )}
+      
     </div>
   );
 }

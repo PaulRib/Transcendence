@@ -12,6 +12,7 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 	@WebSocketServer()
 	server!: Namespace;
 
+	private matchmakingQueue: Array<{userId: string, socketId: string }> = [];
 	constructor(
 		private readonly jwtService: JwtService,
 		private readonly usersService: UsersService,
@@ -41,6 +42,7 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		const user = client.data.user;
 		const matchId = client.data.currentMatchId;
 
+		this.matchmakingQueue = this.matchmakingQueue.filter(player => player.socketId !== client.id);
 		 if (user && matchId) {
 			try {
 				const winnerId = await this.multiplayerService.forfeitMatch(matchId, user.id);
@@ -106,5 +108,36 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 			this.server.to(`room_${data.matchId}`).emit('game_ready');
 			console.log(`La partie ${data.matchId} commence !`);
 		}
+	}
+	
+	@SubscribeMessage('join_matchmaking')
+	async handleJoinMatchmaking(@ConnectedSocket() client: Socket) {
+		const userId = client.data.user.id;
+
+		if (this.matchmakingQueue.find(player => player.userId === userId)) {
+			console.log(`[REFUSÉ] Le joueur ${client.data.user.username} est déjà dans la file !`);
+			return;
+		}
+		this.matchmakingQueue.push({userId, socketId: client.id});
+		client.emit('matchmaking_started');
+		console.log(`[MATCHMAKING] ${client.data.user.username} a rejoint la file. Joueurs en attente : ${this.matchmakingQueue.length}`);
+		if (this.matchmakingQueue.length >= 2) {
+			console.log(`[MATCHMAKING] 2 joueurs trouvés ! Création du match...`);
+			const player1 = this.matchmakingQueue.shift();
+			const player2 = this.matchmakingQueue.shift();
+
+			if (!player1 || !player2)
+				return;
+			const match = await this.multiplayerService.createMatch(player1.userId, player2.userId);
+			this.server.to(player1.socketId).emit('match_found', { matchId: match.id });
+        	this.server.to(player2.socketId).emit('match_found', { matchId: match.id });
+		}
+	}
+
+	@SubscribeMessage('leave_matchmaking')
+	async handleLeaveMatchmaking(@ConnectedSocket() client: Socket) {
+		const userId = client.data.user.id;
+		this.matchmakingQueue = this.matchmakingQueue.filter(player => player.userId !== userId);
+		client.emit('matchmaking_cancelled');
 	}
 }

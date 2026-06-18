@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
 
 interface RankedLobbyPageProps {
@@ -5,8 +6,41 @@ interface RankedLobbyPageProps {
 }
 
 function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
-  
-  // Placeholders pour les futures fonctions d'invitation
+  // État pour savoir si le joueur est dans la file d'attente
+  const [isSearching, setIsSearching] = useState(false);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on('matchmaking_started', () => {
+      setIsSearching(true);
+    });
+
+    socket.on('matchmaking_cancelled', () => {
+      setIsSearching(false);
+    });
+
+    return () => {
+      socket.off('matchmaking_started');
+      socket.off('matchmaking_cancelled');
+    };
+  }, [socket]);
+
+  const handleJoinMatchmaking = () => {
+    if (socket) {
+      socket.emit('join_matchmaking');
+      setIsSearching(true);
+    }
+  };
+
+  const handleLeaveMatchmaking = () => {
+    if (socket) {
+      socket.emit('leave_matchmaking');
+      setIsSearching(false);
+    }
+  };
+
+  // Placeholder pour l'invitation d'un ami (Géré par StatusGateway)
   const handleInviteFriend = () => {
     console.log("Ouvrir la modale d'invitation d'un ami");
   };
@@ -14,11 +48,57 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
   return (
     <div className="lobby-container" style={{ textAlign: 'center', padding: '50px' }}>
       <h2>Mode Classé (1v1) - Lobby</h2>
-      <p>Défiez vos amis dans un duel classé !</p>
+      <p>Prouvez votre connaissance des champions !</p>
       
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
         
-        {/* Section Envoyer une invitation */}
+        {/* SECTION MATCHMAKING (Nouveau) */}
+        <div 
+          className="lobby-card" 
+          style={{ 
+            padding: '30px', 
+            border: `2px dashed ${isSearching ? '#FF9800' : '#9C27B0'}`, 
+            borderRadius: '12px', 
+            backgroundColor: isSearching ? 'rgba(255, 152, 0, 0.1)' : 'rgba(156, 39, 176, 0.1)',
+            flex: '1',
+            minWidth: '300px',
+            maxWidth: '400px',
+            transition: 'all 0.3s ease'
+          }}
+        >
+          <h3>Matchmaking Aléatoire</h3>
+          <p>{isSearching ? "Recherche d'un adversaire à votre niveau..." : "Affrontez un joueur du monde entier."}</p>
+          
+          {!isSearching ? (
+            <button 
+              onClick={handleJoinMatchmaking}
+              disabled={!socket}
+              style={{ 
+                marginTop: '20px', padding: '12px 24px', cursor: socket ? 'pointer' : 'not-allowed',
+                backgroundColor: '#9C27B0', color: 'white', border: 'none', borderRadius: '8px',
+                fontWeight: 'bold', fontSize: '16px'
+              }}
+            >
+              Chercher une partie
+            </button>
+          ) : (
+            <div style={{ marginTop: '20px' }}>
+              <div className="loader" style={{ marginBottom: '15px' }}>⏳ Recherche en cours...</div>
+              <button 
+                onClick={handleLeaveMatchmaking}
+                style={{ 
+                  padding: '8px 16px', cursor: 'pointer',
+                  backgroundColor: 'transparent', color: '#FF9800', border: '1px solid #FF9800', 
+                  borderRadius: '8px', fontWeight: 'bold'
+                }}
+              >
+                Annuler
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* SECTION INVITATION AMI (Placeholder) */}
         <div 
           className="lobby-card" 
           style={{ 
@@ -27,56 +107,29 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
             borderRadius: '12px', 
             backgroundColor: 'rgba(76, 175, 80, 0.1)',
             flex: '1',
+            minWidth: '300px',
             maxWidth: '400px'
           }}
         >
           <h3>Lancer un défi</h3>
-          <p>Invitez un joueur connecté pour démarrer un match.</p>
+          <p>Invitez un joueur de votre liste d'amis.</p>
           <button 
             onClick={handleInviteFriend}
-            className="submit-btn valid" 
-            style={{ marginTop: '20px', padding: '10px 20px', cursor: 'pointer' }}
+            style={{ 
+                marginTop: '20px', padding: '12px 24px', cursor: 'pointer',
+                backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '8px',
+                fontWeight: 'bold', fontSize: '16px'
+            }}
           >
-            Inviter un joueur
+            Inviter un ami
           </button>
-        </div>
-
-        {/* Section Recevoir une invitation */}
-        <div 
-          className="lobby-card" 
-          style={{ 
-            padding: '30px', 
-            border: '2px dashed #2196F3', 
-            borderRadius: '12px', 
-            backgroundColor: 'rgba(33, 150, 243, 0.1)',
-            flex: '1',
-            maxWidth: '400px'
-          }}
-        >
-          <h3>Invitations reçues</h3>
-          <div style={{ marginTop: '20px', padding: '15px', backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
-            <p style={{ margin: '0 0 10px 0', fontSize: '14px' }}><strong>xX_Slayer_Xx</strong> vous a défié !</p>
-            <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-              <button 
-                onClick={() => handleAcceptInvite('mock_id')}
-                style={{ padding: '8px 15px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Accepter
-              </button>
-              <button 
-                style={{ padding: '8px 15px', backgroundColor: '#f44336', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                Refuser
-              </button>
-            </div>
-          </div>
         </div>
 
       </div>
 
       <div style={{ marginTop: '50px', color: '#888', fontStyle: 'italic', fontSize: '14px' }}>
-        <p>⚠️ Page de placeholder pour les invitations 1v1.</p>
-        <p>Le socket Ranked ne se connectera qu'une fois qu'une invitation sera acceptée et le <code>matchId</code> généré.</p>
+        <p>💡 L'invitation directe d'un ami est gérée par le système global de notification.</p>
+        {!socket && <p style={{ color: '#F44336' }}>⚠️ Connexion au serveur de jeu en cours...</p>}
       </div>
     </div>
   );
