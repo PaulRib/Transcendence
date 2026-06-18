@@ -4,6 +4,7 @@ import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { Button } from '../components/ui/button';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -32,7 +33,6 @@ function LoginPage() {
 
   return (
     <PageContainer>
-      <Heading>Connexion</Heading>
 
       <form className="auth-form " onSubmit={handleSubmit}>
         <input
@@ -47,7 +47,7 @@ function LoginPage() {
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button type="submit">Connexion</button>
+        <Button type="submit">Se connecter</Button>
       </form>
 
       <div className="register-prompt">
