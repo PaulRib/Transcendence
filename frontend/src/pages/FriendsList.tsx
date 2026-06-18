@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Heading } from '../components/ui/heading';
+import { PageContainer } from '../components/ui/page-content';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 interface Friend {
   id: number;
@@ -24,22 +27,21 @@ function FriendsList() {
   );
 
   return (
-    <div className="max-w-[800px] mx-auto my-8 p-8 bg-[rgba(20,20,30,0.85)] rounded-xl text-white shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
+    <PageContainer>
       <div className="text-center mb-8  uppercase tracking-[2px]">
         <Heading>Liste d'Amis</Heading>
       </div>
       
       <div className="flex gap-4 mb-8">
-        <input 
+        <Input 
           type="text" 
           placeholder="Rechercher un ami..." 
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1 px-4 py-3 rounded-lg border border-[#444] bg-[#2a2a35] text-white text-base focus:outline-none focus:border-[#f1c40f]"
         />
-        <button className="px-6 py-3 rounded-lg bg-[#f1c40f] text-[#111] font-bold transition-colors duration-200 hover:bg-[#d4ac0d]">
+        <Button className="px-6 py-6  bg-[#f1c40f] text-[#111] transition-colors duration-200 bg-[#d4ac0d]">
           Ajouter
-        </button>
+        </Button>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -63,9 +65,9 @@ function FriendsList() {
                 </p>
               </div>
               <div className="flex gap-3">
-                <button className="bg-transparent text-[1.2rem] p-2 rounded-lg transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Message">💬</button>
-                <button className="bg-transparent text-[1.2rem] p-2 rounded-lg transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Inviter à jouer" disabled={friend.status === 'offline'}>🎮</button>
-                <button className="bg-transparent text-[1.2rem] p-2 rounded-lg transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Retirer">❌</button>
+                <Button className="text-[1.2rem] p-2 transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Message">💬</Button>
+                <Button className="text-[1.2rem] p-2 rounded-lg transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Inviter à joue" disabled={friend.status === 'offline'}>🎮</Button>
+                <Button className="text-[1.2rem] p-2 rounded-lg transition-colors duration-200 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed" title="Retirer">❌</Button>
               </div>
             </div>
           ))
@@ -73,7 +75,7 @@ function FriendsList() {
           <p className="text-center text-[#7f8c8d] italic p-8">Aucun ami trouvé.</p>
         )}
       </div>
-    </div>
+    </PageContainer>
   );
 }
 

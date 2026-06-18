@@ -10,7 +10,7 @@ export function Heading({ className, children, ...props }: HeadingProps) {
     <h1 
       // Les classes par défaut sont définies ici
       className={cn(
-        "scroll-m-20 text-4xl tracking-tight lg:text-5xl", 
+        "scroll-m-20 text-4xl tracking-tight lg:text-5xl mb-8", 
         className
       )} 
       {...props}

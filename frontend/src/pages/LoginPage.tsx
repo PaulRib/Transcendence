@@ -34,7 +34,7 @@ function LoginPage() {
     <PageContainer>
       <Heading>Connexion</Heading>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
+      <form className="auth-form " onSubmit={handleSubmit}>
         <input
           type="text"
           placeholder="Nom d'utilisateur / email"

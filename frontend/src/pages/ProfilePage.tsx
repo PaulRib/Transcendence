@@ -1,6 +1,7 @@
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { Button } from '../components/ui/button';
 
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
@@ -30,12 +31,12 @@ function ProfilePage() {
           alt={`Icône de ${currentUser.username}`} 
           className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
         />
-        <button 
+        <Button 
           onClick={handleChangeIcon}
-          className="px-4 py-2 cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white transition-colors duration-200"
+          className="px-4 py-2  bg-white/10 hover:bg-white/20 transition-colors duration-200"
         >
           Changer l'icône
-        </button>
+        </Button>
       </div>
 
       <div className="text-center">
