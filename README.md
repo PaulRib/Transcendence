@@ -21,23 +21,23 @@ BDD -> PostgreSQL
 
 Confirmed modules : 
 - Major : Framework backend & frontend -> Done
-- Major : Real-time features (WebSockets)
-- Major : Users interaction (basic chat, profile, friends) -> In progress
+- Major : Real-time features (WebSockets) -> In progress, almost done
+- Major : Users interaction (basic chat, profile, friends) -> In progress, almost done
 - Major : Remote players
-- Major : User management and authentication -> in progress
-- Major : Advanced permissions system -> in progress
+- Major : User management and authentication -> Done
+- Major : Advanced permissions system -> to do
 - Minor : ORM for database -> Done
-- Minor : Game stats and match history
-- Minor : gamification system (daily reward?)
-- Minor : Compability with at least 2 additional browsers
+- Minor : Game stats and match history -> to do
+- Minor : gamification system (daily reward?) -> Done
+- Minor : Compability with at least 2 additional browsers -> to do
+- Minor : Multiple languages (at least 3) -> Done
+- Major : Multiplayer (realtime?) -> in progress
 
 To validate :
-- Major : Multiplayer (realtime?) -> in progress
 - Major : IA Opponent
 - Minor : Content moderation AI
 - Minor : Advanced chat feature
 - Minor : Custom-made design system
-- Minor : Multiple languages (at least 3)
 - Minor : Remote authentication
 - Minor : 2FA 
 
