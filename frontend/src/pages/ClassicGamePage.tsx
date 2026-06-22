@@ -8,6 +8,7 @@ import { PageContainer } from '../components/ui/page-content';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
+import { rewardWin } from '../api/gamification.api';
 
 function ClassicGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -18,6 +19,7 @@ function ClassicGamePage() {
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
+  const [rewardMessage, setRewardMessage] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadGameData() {
@@ -71,6 +73,22 @@ function ClassicGamePage() {
       setSuggestions([]);
       if (result.isWin) {
         setHasWon(true);
+
+        const token = localStorage.getItem('access_token');
+
+        if (token) {
+          const attempts = guesses.length + 1;
+          const rewardResponse = await rewardWin(token, attempts);
+
+          if (rewardResponse.rewardGiven) {
+            setRewardMessage(`Récompense gagnée : +${rewardResponse.xpEarned} XP, +${rewardResponse.pointsEarned} points`);
+          } else {
+            setRewardMessage('Récompense déjà récupérée aujourd’hui.');
+          }
+        } else {
+          setRewardMessage('Connectez-vous pour gagner de l’XP et des points.');
+        }
+
         setTimeout(() => setShowVictory(true), 3750);
       }
     } catch (err) {
@@ -93,6 +111,12 @@ function ClassicGamePage() {
       {error && <div className="error-alert">{error}</div>}
 
       {showVictory && <VictoryCard guessCount={guesses.length} />}
+
+      {showVictory && rewardMessage && (
+        <p className="text-sm text-white/80 mt-2">
+          {rewardMessage}
+        </p>
+      )}
 
       <GameForm 
         inputValue={inputValue}

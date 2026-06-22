@@ -111,7 +111,7 @@ model Daily_Reward  {
 	elo_rating				Int 		@default(1000)
 	reward_date				DateTime 	@default(now())
 
-	user_id					String
+	user_id					String		@unique
 	user 					User 		@relation(fields: [user_id], references: [id])
 }
 
