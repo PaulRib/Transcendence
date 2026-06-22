@@ -3,11 +3,14 @@ import { createRoot } from 'react-dom/client'
 import '../css/index.css'
 import App from './App.tsx'
 import { AuthProvider } from '../auth/AuthContext.tsx'
+import { LanguageProvider } from '../i18n/LanguageContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <App />
+      <LanguageProvider>
+        <App />
+      </LanguageProvider>
     </AuthProvider>
   </StrictMode>,
 )

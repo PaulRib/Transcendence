@@ -2,9 +2,10 @@ import { Link} from 'react-router-dom';
 import { Button } from "../components/ui/button";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function HomePage() {
-
+  const { t } = useLanguage();
 
   return (
     <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
@@ -15,27 +16,27 @@ function HomePage() {
       
       <div className="w-full space-y-6 text-left mb-8">
         <h2 className="text-2xl font-semibold tracking-tight text-center">
-          Comment jouer ?
+          {t("home.howToPlay")}
         </h2>
         <p className="text-base text-center">
-          Le but est de deviner le champion.
+          {t("home.goal")}
         </p>
         
         <ul className=" text-base space-y-2  leading-7 text-center  ">
-          <li>Chaque proposition doit être un champion valide.</li>
-          <li>Appuyez sur "Entrée" pour valider votre mot.</li>
-          <li>Après chaque essai, vous verrez les caractéristiques du personnage et leur correspondance.</li>
+          <li>{t("home.validChampion")}</li>
+          <li>{t("home.pressEnter")}</li>
+          <li>{t("home.afterTry")}</li>
         </ul>
         
         <ul className="text-base space-y-3 bg-muted p-4 ">
-          <li>🟩 <strong className="font-medium">Vert</strong> : Si c'est correct</li>
-          <li>🟨 <strong className="font-medium">Jaune</strong> : Si c'est incomplet ou qu'il y a une caractéristique en trop.</li>
-          <li>🟥 <strong className="font-medium">Rouge</strong> : Si la caractéristique ne correspond pas du tout au personnage.</li>
+          <li>🟩 <strong className="font-medium">{t("home.green")}</strong> : {t("home.greenMeaning")}</li>
+          <li>🟨 <strong className="font-medium">{t("home.yellow")}</strong> : {t("home.yellowMeaning")}</li>
+          <li>🟥 <strong className="font-medium">{t("home.red")}</strong> : {t("home.redMeaning")}</li>
         </ul>
       </div>
       
         <Button asChild variant="play">
-        <Link to="/selectGame">Jouer</Link>
+        <Link to="/selectGame">{t("home.play")}</Link>
       </Button>
     </PageContainer>
   );

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Heading } from '../components/ui/heading';
 import { getLeaderboard } from '../api/gamification.api';
 import type { LeaderboardEntry } from '../api/gamification.api';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const getRankRowClass = (rank: number) => {
   const base = "transition-colors duration-200 hover:bg-white/5";
@@ -22,7 +23,7 @@ const getRankCellClass = (rank: number) => {
 function LeaderboardPage() {
   const [players, setPlayers] = useState<LeaderboardEntry[]>([]);
   const [error, setError] = useState<string | null>(null);
-
+  const { t } = useLanguage();
 
   useEffect(() => {
     async function loadLeaderboard() {
@@ -31,17 +32,17 @@ function LeaderboardPage() {
         setPlayers(leaderboard);
         setError(null);
       } catch {
-        setError('Impossible de charger le classement');
+        setError(t("leaderboard.loadError"));
       }
     }
 
     loadLeaderboard();
-  }, []);
+  }, [t]);
 
   return (
     <div className="max-w-[800px] mx-auto my-8 p-8 bg-[#14141e]/85 rounded-xl text-white shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
-      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">Classement</Heading>
-      <p className="text-center text-[#bdc3c7] mb-8 text-base">Les meilleurs joueurs du mode classé</p>
+      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">{t("leaderboard.title")}</Heading>
+      <p className="text-center text-[#bdc3c7] mb-8 text-base">{t("leaderboard.subtitle")}</p>
 
       {error && <p className="text-center text-red-400">{error}</p>}
 
@@ -49,9 +50,9 @@ function LeaderboardPage() {
         <table className="w-full border-collapse text-left">
           <thead>
             <tr>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] first:rounded-tl-lg">Rang</th>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24]">Joueur</th>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] last:rounded-tr-lg">Score (Elo)</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] first:rounded-tl-lg">{t("leaderboard.rank")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24]">{t("leaderboard.player")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] last:rounded-tr-lg">{t("leaderboard.score")}</th>
             </tr>
           </thead>
           <tbody>
@@ -92,7 +93,7 @@ function LeaderboardPage() {
             {!error && players.length === 0 && (
               <tr>
                 <td colSpan={3} className="p-8 text-center text-[#bdc3c7]">
-                  Aucun joueur classé pour le moment.
+                  {t("leaderboard.empty")}
                 </td>
               </tr>
             )}

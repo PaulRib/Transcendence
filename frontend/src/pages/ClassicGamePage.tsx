@@ -9,6 +9,7 @@ import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
 import { rewardWin } from '../api/gamification.api';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function ClassicGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -20,6 +21,7 @@ function ClassicGamePage() {
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
   const [rewardMessage, setRewardMessage] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     async function loadGameData() {
@@ -29,13 +31,13 @@ function ClassicGamePage() {
         setChampionNames(names);
         setError(null);
       } catch {
-        setError("Impossible de charger les données. Réessayez plus tard !");
+        setError(t("game.loadError"));
       } finally {
         setIsLoading(false);
       }
     }
     loadGameData();
-  }, []);
+  }, [t]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -61,7 +63,7 @@ function ClassicGamePage() {
     event.preventDefault();
     const validChamp = championNames.find(c => c.name.toLowerCase() === inputValue.toLowerCase());
     if (!validChamp) {
-      alert("Ce champion n'existe pas !");
+      alert(t("game.invalidChampion"));
       return;
     }
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
@@ -81,32 +83,34 @@ function ClassicGamePage() {
           const rewardResponse = await rewardWin(token, attempts);
 
           if (rewardResponse.rewardGiven) {
-            setRewardMessage(`Récompense gagnée : +${rewardResponse.xpEarned} XP, +${rewardResponse.pointsEarned} points`);
+            setRewardMessage(t("game.rewardEarned")
+              .replace("{xp}", String(rewardResponse.xpEarned))
+              .replace("{points}", String(rewardResponse.pointsEarned)));
           } else {
-            setRewardMessage('Récompense déjà récupérée aujourd’hui.');
+            setRewardMessage(t("game.rewardAlreadyClaimed"));
           }
         } else {
-          setRewardMessage('Connectez-vous pour gagner de l’XP et des points.');
+          setRewardMessage(t("game.loginForReward"));
         }
 
         setTimeout(() => setShowVictory(true), 3750);
       }
     } catch (err) {
       console.error(err);
-      alert("Erreur pendant l'essai");
+      alert(t("game.tryError"));
     }
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '50px' }}>Chargement du jeu...</div>;
+    return <div style={{ textAlign: 'center', padding: '50px' }}>{t("game.loading")}</div>;
   }
 
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   return (
     <PageContainer>
-      <Heading> Classic Mode </Heading>
-      <h2> Devinez le champion du jour, saisissez un nom pour commencer. </h2>
+      <Heading>{t("game.classicTitle")}</Heading>
+      <h2>{t("game.classicSubtitle")}</h2>
       
       {error && <div className="error-alert">{error}</div>}
 

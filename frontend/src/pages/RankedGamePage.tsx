@@ -6,6 +6,8 @@ import { PageContainer } from '../components/ui/page-content';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
+import { Heading } from '../components/ui/heading';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function RankedGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -16,6 +18,7 @@ function RankedGamePage() {
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     async function loadGameData() {
@@ -25,13 +28,13 @@ function RankedGamePage() {
         setChampionNames(names);
         setError(null);
       } catch {
-        setError("Can't load game data. Please retry later !");
+        setError(t("game.loadError"));
       } finally {
         setIsLoading(false);
       }
     }
     loadGameData();
-  }, []);
+  }, [t]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -62,7 +65,7 @@ function RankedGamePage() {
     event.preventDefault();
     const validChamp = championNames.find(c => c.name.toLowerCase() === inputValue.toLowerCase());
     if (!validChamp) {
-      alert("This champion does not exist !");
+      alert(t("game.invalidChampion"));
       return;
     }
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
@@ -78,19 +81,19 @@ function RankedGamePage() {
       }
     } catch (err) {
       console.error(err);
-      alert("Error during the try");
+      alert(t("game.tryError"));
     }
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '50px' }}>Chargement du jeu...</div>;
+    return <div style={{ textAlign: 'center', padding: '50px' }}>{t("game.loading")}</div>;
   }
 
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   return (
     <PageContainer className="game-PageContainer">
-      <h2>Ranked mode</h2>
+      <Heading>{t("game.rankedTitle")}</Heading>
       
       {error && <div className="error-alert">{error}</div>}
 

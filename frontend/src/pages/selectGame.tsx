@@ -1,35 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function SelectGame() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const gameModes = [
     {
-      title: "Classique",
-      description: "Le mode de jeu normal. Devinez le champion avec des indices.",
+      title: t("selectGame.classicTitle"),
+      description: t("selectGame.classicDescription"),
       path: "/classic",
-      cta: "Jouer en Classique"
     },
     {
-      title: "Mode Infini",
-      description: "Enchaînez les devinettes sans limite de temps.",
+      title: t("selectGame.infiniteTitle"),
+      description: t("selectGame.infiniteDescription"),
       path: "/infinite",
-      cta: "Jouer en Infini"
     },
     {
-      title: "Mode Classé",
-      description: "Affrontez d'autres joueurs et montez dans le classement !",
+      title: t("selectGame.rankedTitle"),
+      description: t("selectGame.rankedDescription"),
       path: "/ranked",
-      cta: "Jouer en Classé"
-    }
+    },
   ];
 
   return (
     <PageContainer>
       <div className="flex flex-col gap-8 w-full max-w-5xl">
-        <Heading>Sélection du mode de jeu</Heading>
+        <Heading>{t("selectGame.title")}</Heading>
         
         {/* Grille responsive : 1 colonne sur mobile, 3 sur écran moyen/large */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mt-4">

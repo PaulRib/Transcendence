@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import type { ChampionName } from '../../api/type.api';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface GameFormProps {
   inputValue: string;
@@ -23,13 +24,14 @@ export function GameForm({
   onSubmit
 }: GameFormProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <form onSubmit={onSubmit} className="flex w-full max-w-md items-center gap-2">
       <div className="relative flex-1">
         <Input
           type="text"
-          placeholder="Entrez un nom de champion..." 
+          placeholder={t("game.inputPlaceholder")}
           value={inputValue}
           disabled={hasWon}
           onChange={(e) => onInputChange(e.target.value)}
@@ -60,7 +62,7 @@ export function GameForm({
         )}
       </div>
       <Button type="submit" disabled={!isInputValid} className="rounded-lg">
-        Valider
+        {t("game.submit")}
       </Button>
     </form>
   );

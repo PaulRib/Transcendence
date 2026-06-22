@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getChampionNames } from '../api/champions.api';
 import { sendInfiniteGuess, getInfiniteChamp } from '../api/infinitegame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
@@ -7,6 +7,7 @@ import { PageContainer } from '../components/ui/page-content';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function InfiniteGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -18,8 +19,11 @@ function InfiniteGamePage() {
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
   const [secretChampion, setSecretChampion] = useState<string>('');
+  const { t } = useLanguage();
 
-  const startNewGame = async () => {
+  // useCallback évite de recréer startNewGame à chaque rendu.
+  // On la recrée seulement quand t change, pour garder les messages dans la bonne langue.
+  const startNewGame = useCallback(async () => {
     try {
       setInputValue('');
       setGuesses([]);
@@ -30,10 +34,10 @@ function InfiniteGamePage() {
       const randomChamp = await getInfiniteChamp();
       setSecretChampion(randomChamp.id);
     } catch {
-      setError("Can't load a new champion. Please retry later !");
+      setError(t("game.newChampionError"));
     }
-  };
-
+  }, [t]);
+  
   useEffect(() => {
     async function loadGameData() {
       try {
@@ -43,13 +47,13 @@ function InfiniteGamePage() {
         startNewGame();
         setError(null);
       } catch {
-        setError("Can't load game data. Please retry later !");
+        setError(t("game.loadError"));
       } finally {
         setIsLoading(false);
       }
     }
     loadGameData();
-  }, []);
+  }, [startNewGame, t]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -78,7 +82,7 @@ function InfiniteGamePage() {
     event.preventDefault();
     const validChamp = championNames.find(c => c.name.toLowerCase() === inputValue.toLowerCase());
     if (!validChamp) {
-      alert("This champion does not exist !");
+      alert(t("game.invalidChampion"));
       return;
     }
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
@@ -94,20 +98,20 @@ function InfiniteGamePage() {
       }
     } catch (err) {
       console.error(err);
-      alert("Error during the try");
+      alert(t("game.tryError"));
     }
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '50px' }}>Chargement du jeu...</div>;
+    return <div style={{ textAlign: 'center', padding: '50px' }}>{t("game.loading")}</div>;
   }
 
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   return (
     <PageContainer className="game-PageContainer">
-      <Heading>Infinite mode</Heading>
-      <h2> Vous pouvez jouer autant que vous le souhaitez ! </h2>
+      <Heading>{t("game.infiniteTitle")}</Heading>
+      <h2>{t("game.infiniteSubtitle")}</h2>
       
       {error && <div className="error-alert">{error}</div>}
 

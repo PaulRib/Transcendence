@@ -4,12 +4,15 @@ import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
 import { Button } from "../components/ui/button";
+import { useLanguage } from '../i18n/LanguageContext';
+import type { Language } from '../i18n/translations';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const { language, setLanguage, t } = useLanguage();
 
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
@@ -41,7 +44,15 @@ function Layout() {
                         />
                     </Link>
                 </nav>
-                
+                <select
+                    value={language}
+                    onChange={(event) => setLanguage(event.target.value as Language)}
+                    className="bg-[#1d1d20] border border-white/20 rounded-md px-2 py-1 text-white"
+                >
+                    <option value="fr">FR</option>
+                    <option value="en">EN</option>
+                    <option value="ru">RU</option>
+                </select>
                 <div className="auth-nav">
                     {isLoading ? null : currentUser ? (
                         <div className="relative flex items-center" ref={dropdownRef}>
@@ -54,17 +65,17 @@ function Layout() {
                             
                             {isDropdownOpen && (
                                 <div className="absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100]">
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/profile" onClick={() => setIsDropdownOpen(false)}>Mon Profil</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/friends" onClick={() => setIsDropdownOpen(false)}>Liste d'amis</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>Classement</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/settings" onClick={() => setIsDropdownOpen(false)}>Paramètres</Link>
+                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/profile" onClick={() => setIsDropdownOpen(false)}>{t("nav.profile")}</Link>
+                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/friends" onClick={() => setIsDropdownOpen(false)}>{t("nav.friends")}</Link>
+                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>{t("nav.leaderboard")}</Link>
+                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/settings" onClick={() => setIsDropdownOpen(false)}>{t("nav.settings")}</Link>
                                     <div className="h-[1px] bg-white/10 my-2"></div>
-                                    <button className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10 bg-transparent border-none" onClick={handleLogout}>Se déconnecter</button>
+                                    <button className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10 bg-transparent border-none" onClick={handleLogout}>{t("nav.logout")}</button>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <Button onClick={() => navigate('/login')} variant="default">login</Button>
+                        <Button onClick={() => navigate('/login')} variant="default">{t("nav.login")}</Button>
                     )}
                 </div>
             </header>

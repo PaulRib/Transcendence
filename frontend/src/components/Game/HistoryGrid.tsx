@@ -1,24 +1,26 @@
 import type { GuessResponse } from '../../api/type.api';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface HistoryGridProps {
   guesses: GuessResponse[];
 }
 
 export function HistoryGrid({ guesses }: HistoryGridProps) {
+  const { t } = useLanguage();
   return (
     <div className="mt-8 overflow-x-auto w-full flex flex-col items-center">
       <div className="flex flex-col gap-2 min-w-[600px]">
         
         {/* En-tête de la grille */}
         <div className="flex gap-1.5 font-bold text-xs text-center justify-center mb-1">
-          <div className="w-[72px]">Champion</div>
-          <div className="w-[72px]">Genre</div>
-          <div className="w-[72px]">Position</div>
-          <div className="w-[72px]">Espèce</div>
-          <div className="w-[72px]">Ressource</div>
-          <div className="w-[72px]">Portée</div>
-          <div className="w-[72px]">Région</div>
-          <div className="w-[72px]">Année</div>
+          <div className="w-[72px]">{t("game.champion")}</div>
+          <div className="w-[72px]">{t("game.gender")}</div>
+          <div className="w-[72px]">{t("game.position")}</div>
+          <div className="w-[72px]">{t("game.species")}</div>
+          <div className="w-[72px]">{t("game.resource")}</div>
+          <div className="w-[72px]">{t("game.range")}</div>
+          <div className="w-[72px]">{t("game.region")}</div>
+          <div className="w-[72px]">{t("game.year")}</div>
         </div>
 
         {/* Lignes de l'historique */}

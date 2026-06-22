@@ -4,11 +4,13 @@ import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { getMyGamificationStats } from '../api/gamification.api';
 import type { GamificationStats } from '../api/gamification.api';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
   const [stats, setStats] = useState<GamificationStats | null>(null);
   const [showBadges, setShowBadges] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     async function loadStats() {
@@ -29,52 +31,52 @@ function ProfilePage() {
   }, []);
 
   if (isLoading) {
-    return <p>Chargement...</p>;
+    return <p>{t("profile.loading")}</p>;
   }
 
   if (!currentUser) {
-    return <p>Utilisateur non connecté</p>;
+    return <p>{t("profile.notConnected")}</p>;
   }
 
   const avatarUrl = currentUser.avatar_url ??
     'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
   
   const handleChangeIcon = () => {
-    alert("Ouverture de la sélection d'avatar (Base de données et Upload local)");
+    alert(t("profile.avatarPickerAlert"));
   };
 
   const badges = [
     {
-      name: 'Apprenti',
-      description: 'Atteindre le niveau 2',
+      name: t("profile.apprenticeName"),
+      description: t("profile.apprenticeDescription"),
       unlocked: (stats?.level ?? 1) >= 2,
     },
     {
-      name: 'Régulier',
-      description: 'Atteindre un streak de 2 jours',
+      name: t("profile.regularName"),
+      description: t("profile.regularDescription"),
       unlocked: (stats?.streak_count ?? 0) >= 2,
     },
     {
-      name: 'Collectionneur',
-      description: 'Récolter 100 points',
+      name: t("profile.collectorName"),
+      description: t("profile.collectorDescription"),
       unlocked: (stats?.points_earned ?? 0) >= 100,
     },
     {
-      name: 'Expert',
-      description: 'Atteindre le niveau 5',
+      name: t("profile.expertName"),
+      description: t("profile.expertDescription"),
       unlocked: (stats?.level ?? 1) >= 5,
     },
   ];
 
   return (
     <PageContainer>
-      <Heading>Profil Utilisateur</Heading>
+      <Heading>{t("profile.title")}</Heading>
       
       <div className="my-8 flex flex-col items-center gap-4">
         <div className="relative">
           <img 
             src={avatarUrl} 
-            alt={`Icône de ${currentUser.username}`} 
+            alt={t("profile.avatarAlt").replace("{username}", currentUser.username)} 
             className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
           />
 
@@ -88,25 +90,25 @@ function ProfilePage() {
           onClick={handleChangeIcon}
           className="px-4 py-2 cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white transition-colors duration-200"
         >
-          Changer l'icône
+          {t("profile.changeIcon")}
         </button>
       </div>
 
       <div className="text-center">
         <h2 className="text-2xl font-bold m-0">{currentUser.username}</h2>
         <p className="text-[1.2rem] mt-2">
-          <strong>Points récoltés :</strong> {stats?.points_earned ?? 0}
+          <strong>{t("profile.points")}</strong> {stats?.points_earned ?? 0}
         </p>
         <p className="text-[1.2rem] mt-2">
-          <strong>XP :</strong> {stats?.xp_points ?? 0}
+          <strong>{t("profile.xp")}</strong> {stats?.xp_points ?? 0}
         </p>
         <p className="text-[1.2rem] mt-2">
-          <strong>Streak :</strong> {stats?.streak_count ?? 0} jour(s)
+          <strong>{t("profile.streak")}</strong> {stats?.streak_count ?? 0} {t("profile.days")}
         </p>
         <button
           onClick={() => setShowBadges(!showBadges)}
           className="mt-4 px-4 py-2 cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white transition-colors duration-200">
-          {showBadges ? 'Masquer les badges' : 'Voir les badges'}
+          {showBadges ? t("profile.hideBadges") : t("profile.showBadges")}
         </button>
         {showBadges && (
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -121,7 +123,7 @@ function ProfilePage() {
                 <p className="m-0 font-bold">{badge.name}</p>
                 <p className="m-0 mt-1 text-sm">{badge.description}</p>
                 <p className="m-0 mt-2 text-xs">
-                  {badge.unlocked ? 'Débloqué' : 'Bloqué'}
+                  {badge.unlocked ? t("profile.unlocked") : t("profile.locked")}
                 </p>
               </div>
             ))}
