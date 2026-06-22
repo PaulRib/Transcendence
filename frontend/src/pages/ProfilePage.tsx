@@ -23,9 +23,9 @@ function ProfilePage() {
 
   return (
     <PageContainer>
-      <Heading>Profil Utilisateur</Heading>
+      <Heading>{currentUser.username}</Heading>
       
-      <div className="my-8 flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center gap-4">
         <img 
           src={avatarUrl} 
           alt={`Icône de ${currentUser.username}`} 
@@ -33,14 +33,12 @@ function ProfilePage() {
         />
         <Button 
           onClick={handleChangeIcon}
-          className="px-4 py-2  bg-white/10 hover:bg-white/20 transition-colors duration-200"
         >
           Changer l'icône
         </Button>
       </div>
 
       <div className="text-center">
-        <h2 className="text-2xl font-bold m-0">{currentUser.username}</h2>
         <p className="text-[1.2rem] mt-2">
           <strong>Points récoltés :</strong> 0
         </p>

@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "@fontsource-variable/geist";
 
 :root {
-  font-family: Inter, system-ui, Arial, sans-serif;
+  font-family: 'Geist Variable', system-ui, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #ffffff;
@@ -28,186 +29,6 @@ body {
 
 }
 
-.app-shell {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: transparent; /* Le filtre est maintenant géré directement sur le body */
-}
-
-.topbar {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.233);
-  background: rgba(29, 29, 32, 0.331);
-  backdrop-filter: blur(6px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  z-index: 999;
-}
-.login_button {
-  padding: 0.45rem 0.8rem;
-  border-radius: 10px;
-  color: #ffffff;
-  transition: background-color 0.5s ease, color 0.2s ease;
-}
-.login_button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-.nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.nav a {
-  padding: 0.45rem 0.8rem;
-  border-radius: 10px;
-  color: #ffffff;
-  transition: background-color 0.5s ease, color 0.2s ease;
-}
-
-.nav a:hover {
-  background: rgba(255, 255, 255, 0.071);
-  color: #ffffff;
-}
-
-.content-shell {
-  flex: 1;
-  display: flex; /* Utilisé `flex` à la place de `grid` le temps que la sidebar est cachée */
-  justify-content: center; 
-  min-height: 0;
-}
-
-.page-content {
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.page-content > section,
-.page-content > main,
-.page-content > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 720px;
-  text-align: center;
-  
-  /* Cadre semi-transparent pour faire ressortir le texte */
-  background: rgba(0, 0, 0, 0.425);
-  backdrop-filter: blur(8px);
-  padding: 2rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-.chat-sidebar {
-  border-left: 1px solid rgba(173, 24, 24, 0.08);
-  background: rgba(11, 18, 32, 0.85);
-  padding: 1rem;
-}
-
-.chat-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.chat-panel h2 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.chat-messages {
-  min-height: 300px;
-  padding: 1rem;
-  border-radius: 14px;
-  border: 1px solid rgba(158, 69, 69, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  overflow-y: auto;
-}
-
-.chat-form,
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #0f172a;
-  color: #e5e7eb;
-}
-
-input::placeholder {
-  color: #94a3b8;
-}
-
-
-
-button:hover {
-  background: hsla(283, 4%, 64%, 0.372);
-}
-
-.form-error {
-  margin-top: 1rem;
-  color: #fca5a5;
-  white-space: pre-line;
-}
-
-
-.register-prompt {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  color: #cbd5e1;
-  font-size: 0.95rem;
-}
-
-.auth-secondary-link {
-  color: #93c5fd;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.auth-secondary-link:hover {
-  color: #bfdbfe;
-  text-decoration: underline;
-}
-
-@media (max-width: 960px) {
-  .content-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .chat-sidebar {
-    border-left: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .page-content {
-    padding: 1.5rem;
-  }
-
-  .nav {
-    flex-wrap: wrap;
-  }
-}
-
 @keyframes flipIn {
   0% {
     transform: rotateX(-90deg);
@@ -222,4 +43,23 @@ button:hover {
 .champion-avatar-cell, .guess-box {
   opacity: 0;
   animation: flipIn 1s ease forwards;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5) translateY(30px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05) translateY(-5px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-pop-in {
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
