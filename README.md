@@ -42,4 +42,5 @@ To validate :
 - Minor : 2FA 
 
 Done/almost points : 15 points (to validate with the team)
+
 Total points : 16(26)/19 points
