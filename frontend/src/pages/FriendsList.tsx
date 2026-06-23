@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Gamepad2, MessageCircle, User, UserPlus, UserX } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
-import { acceptFriendRequest, deleteFriendship, getFriends, getReceivedFriendRequests, sendFriendRequest, type FriendRequest, type Friendship, type FriendUser } from '../api/friends.api';
+import { acceptFriendRequest, deleteFriendship, getFriends, getReceivedFriendRequests, type Friendship, type FriendRequest, type FriendUser, sendFriendRequest } from '../api/friends.api';
 import { getUserByUsername } from '../api/users.api';
 import { Button } from '../components/ui/button';
 import { Heading } from '../components/ui/heading';
