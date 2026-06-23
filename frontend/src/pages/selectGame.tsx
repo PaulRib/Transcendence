@@ -1,14 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { useGameUniverse } from '../context/GameUniverseContext';
 
 function SelectGame() {
   const navigate = useNavigate();
+  const { universe } = useGameUniverse();
 
   const gameModes = [
     {
       title: "Classique",
-      description: "Le mode de jeu normal. Devinez le champion avec des indices.",
+      description: universe === 'country' 
+        ? "Le mode de jeu normal. Devinez le pays avec des indices." 
+        : "Le mode de jeu normal. Devinez le champion avec des indices.",
       path: "/classic",
       cta: "Jouer en Classique"
     },

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
-import { Heading } from '../components/ui/heading';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 

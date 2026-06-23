@@ -5,9 +5,12 @@ import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
 import { Button } from "../components/ui/button";
 import { GlobalChat } from './GlobalChat';
+import { useGameUniverse } from '../context/GameUniverseContext';
+import { Globe, Swords } from 'lucide-react';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
+    const { universe, toggleUniverse } = useGameUniverse();
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -25,6 +28,11 @@ function Layout() {
     const handleLogout = () => {
         logout();
         setIsDropdownOpen(false);
+        navigate('/');
+    };
+
+    const handleToggleUniverse = () => {
+        toggleUniverse();
         navigate('/');
     };
 
@@ -75,6 +83,21 @@ function Layout() {
                 </main>
             </div>
             <GlobalChat />
+
+            {/* Bouton pour changer d'univers */}
+            <div className="fixed bottom-6 left-6 z-[1000]">
+                <Button 
+                    variant="outline" 
+                    className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md h-12 px-6 border-white/20 hover:bg-white/10"
+                    onClick={handleToggleUniverse}
+                >
+                    {universe === 'league' ? (
+                        <><Globe size={18} className="mr-2 text-blue-400" /> Mode Country</>
+                    ) : (
+                        <><Swords size={18} className="mr-2 text-yellow-400" /> Mode League</>
+                    )}
+                </Button>
+            </div>
         </div>
     );
 }

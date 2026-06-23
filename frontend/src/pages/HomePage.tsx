@@ -1,28 +1,29 @@
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from "../components/ui/button";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { useGameUniverse } from '../context/GameUniverseContext';
 
 function HomePage() {
+  const { universe } = useGameUniverse();
 
 
   return (
     <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
       
-      <Heading>42dle</Heading>
+      <Heading>42dle {universe === 'country' ? '- Country' : '- League'}</Heading>
       
       <div className="w-full space-y-6 text-left mb-8">
         <h2 className="text-2xl font-semibold tracking-tight text-center text-white">
           Comment jouer ?
         </h2>
         <p className="text-lg text-center text-slate-300">
-          Le but est de deviner le champion mystère.
+          Le but est de deviner le {universe === 'country' ? 'pays' : 'champion'} mystère.
         </p>
         
         <ul className="text-base space-y-3 leading-relaxed text-center text-slate-400">
-          <li>Chaque proposition doit être un champion valide.</li>
-          <li>Appuyez sur "Entrée" pour valider votre mot.</li>
-          <li>Après chaque essai, vous verrez les caractéristiques du personnage et leur correspondance.</li>
+          <li>Chaque proposition doit être un {universe === 'country' ? 'pays' : 'champion'} valide.</li>
+          <li>Après chaque essai, vous verrez les caractéristiques du {universe === 'country' ? 'pays' : 'personnage'} et leur correspondance.</li>
         </ul>
         
         <ul className="text-sm space-y-3 bg-white/5 border border-white/10 rounded-xl p-6 text-slate-300">
