@@ -18,6 +18,7 @@ Frontend -> React(JavaScript/Typescript)
 Backend -> NestJS(Typescript)
 BDD -> PostgreSQL
 
+Done/almost points -> 15 points (to validate with the team)
 
 Confirmed modules : 
 - Major : Framework backend & frontend -> Done
@@ -40,7 +41,5 @@ To validate :
 - Minor : Custom-made design system
 - Minor : Remote authentication
 - Minor : 2FA 
-
-Done/almost points : 15 points (to validate with the team)
 
 Total points : 16(26)/19 points
