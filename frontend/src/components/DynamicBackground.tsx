@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react';
+import { useGameUniverse } from '../context/GameUniverseContext';
 import './DynamicBackground.css';
 
-const images = import.meta.glob('../assets/backgrounds/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
-const imageUrls = Object.values(images) as string[];
+const leagueImages = import.meta.glob('../assets/backgrounds/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
+const countryImages = import.meta.glob('../assets/backgrounds_country/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
 
 export default function DynamicBackground() {
+  const { universe } = useGameUniverse();
+  const images = universe === 'league' ? leagueImages : countryImages;
+  const imageUrls = Object.values(images) as string[];
+
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Reset index when changing universe
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [universe]);
 
   useEffect(() => {
     if (imageUrls.length <= 1) return; // Pas besoin de tourner s'il y a 0 ou 1 image
@@ -19,7 +29,7 @@ export default function DynamicBackground() {
   }, []);
 
   if (imageUrls.length === 0) {
-    return <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 9999, color: 'red', background: 'white', padding: '10px' }}>No background images found! Path might be wrong. images object: {JSON.stringify(images)}</div>;
+    return <div className="dynamic-bg-container bg-[#14141e]"></div>;
   }
 
   return (
