@@ -18,26 +18,27 @@ Frontend -> React(JavaScript/Typescript)
 Backend -> NestJS(Typescript)
 BDD -> PostgreSQL
 
+Done/almost points -> 15 points (to validate with the team)
 
 Confirmed modules : 
 - Major : Framework backend & frontend -> Done
-- Major : Real-time features (WebSockets)
-- Major : Users interaction (basic chat, profile, friends) -> In progress
-- Major : Remote players
-- Major : User management and authentication -> in progress
-- Major : Advanced permissions system -> in progress
+- Major : Real-time features (WebSockets) -> In progress, almost done
+- Major : Users interaction (basic chat, profile, friends) -> In progress, almost done
+- Major : Remote players -> most likely connected with multiplayer / realtime features ???
+- Major : User management and authentication -> Done
+- Major : Advanced permissions system -> to do
 - Minor : ORM for database -> Done
-- Minor : Game stats and match history
-- Minor : gamification system (daily reward?)
-- Minor : Compability with at least 2 additional browsers
+- Minor : Game stats and match history -> to do
+- Minor : gamification system (daily reward?) -> Done
+- Minor : Compability with at least 2 additional browsers -> to do
+- Minor : Multiple languages (at least 3) -> Done
+- Major : Multiplayer (realtime?) -> in progress, almost done ??
 
 To validate :
-- Major : Multiplayer (realtime?) -> in progress
 - Major : IA Opponent
 - Minor : Content moderation AI
 - Minor : Advanced chat feature
 - Minor : Custom-made design system
-- Minor : Multiple languages (at least 3)
 - Minor : Remote authentication
 - Minor : 2FA 
 

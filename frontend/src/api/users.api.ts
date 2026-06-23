@@ -29,6 +29,18 @@ export async function getMyProfile(token: string): Promise<AuthUser> {
     return response.json();
 }
 
+export async function getUserByUsername(username: string): Promise<AuthUser> {
+    const response = await fetch(`${API_BASE_URL}/users/by-username/${username}`, {
+        method: 'GET',
+    });
+
+    if (!response.ok) {
+        throw new Error('User not found');
+    }
+
+    return response.json();
+}
+
 export async function updateMyProfile(token: string, payload: UpdateProfilePayload): Promise<AuthUser> {
     const response = await fetch(`${API_BASE_URL}/users/me`, {
         method: 'PATCH',
