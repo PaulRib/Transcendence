@@ -6,7 +6,7 @@ import { useAuth } from '../auth/AuthContext';
 import { Button } from "../components/ui/button";
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords } from 'lucide-react';
+import { Globe, Swords, User } from 'lucide-react';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
@@ -56,10 +56,14 @@ function Layout() {
                         <div className="relative flex items-center" ref={dropdownRef}>
                             <Button 
                                 variant="outline"
-                                className="rounded-full w-10 h-10 p-0 text-lg" 
+                                className="rounded-full w-15 h-15 p-0 overflow-hidden border-2 border-white/20 hover:border-white/50 transition-colors" 
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             >
-                                👤
+                                <img 
+                                    src="https://cdn.intra.42.fr/users/3bf69c389f36c86e822b07a0167b858c/lsaiti.jpg" 
+                                    alt="Profile" 
+                                    className="w-full h-full object-cover"
+                                />
                             </Button>
                             
                             <div className={`absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100] transition-all duration-200 origin-top-right ${isDropdownOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
@@ -72,7 +76,13 @@ function Layout() {
                             </div>
                         </div>
                     ) : (
-                        <Button onClick={() => navigate('/login')} variant="default">login</Button>
+                        <Button 
+                            onClick={() => navigate('/login')} 
+                            variant="default"
+                            className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)]"
+                        >
+                            <User size={18} />
+                        </Button>
                     )}
                 </div>
             </header>
