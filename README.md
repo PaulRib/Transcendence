@@ -20,26 +20,32 @@ BDD -> PostgreSQL
 
 Done/almost points -> 15 points (to validate with the team)
 
+Modules done :
+- Major : Framework backend & frontend -> Done (Mehdi)
+- Major : User management and authentication -> Done (Mehdi)
+- Minor : ORM for database -> Done (Paul)
+- Minor : gamification system (daily reward?) -> Done (Murad)
+- Minor : Multiple languages (at least 3) -> Done (Murad)
+- Minor : Custom-made design system -> Done (Amine)
+
+In progress :
+- Major : Real-time features (WebSockets) -> In progress, almost done (Paul)
+- Major : Multiplayer (realtime?) -> in progress, almost done ?? (Paul)
+- Major : Users interaction (basic chat, profile, friends) -> In progress, almost done (Mehdi)
+
+Total points done/in progress : 14 pts
+
 Confirmed modules : 
-- Major : Framework backend & frontend -> Done
-- Major : Real-time features (WebSockets) -> In progress, almost done
-- Major : Users interaction (basic chat, profile, friends) -> In progress, almost done
-- Major : Remote players -> most likely connected with multiplayer / realtime features ???
-- Major : User management and authentication -> Done
-- Major : Advanced permissions system -> to do
-- Minor : ORM for database -> Done
-- Minor : Game stats and match history -> to do
-- Minor : gamification system (daily reward?) -> Done
-- Minor : Compability with at least 2 additional browsers -> to do
-- Minor : Multiple languages (at least 3) -> Done
-- Major : Multiplayer (realtime?) -> in progress, almost done ??
+- Major : Remote players -> most likely connected with multiplayer / realtime features ??? (Paul)
+- Major : Advanced permissions system -> to do (Mehdi ?)
+- Minor : Game stats and match history -> to do (?)
+- Minor : Compability with at least 2 additional browsers -> to do (?)
+- Minor : Remote authentication (Amine ?)
+- Minor : Advanced chat feature (Mehdi)
 
 To validate :
 - Major : IA Opponent
 - Minor : Content moderation AI
-- Minor : Advanced chat feature
-- Minor : Custom-made design system
-- Minor : Remote authentication
 - Minor : 2FA 
 
 Total points : 16(26)/19 points
