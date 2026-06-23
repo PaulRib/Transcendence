@@ -23,7 +23,7 @@ Confirmed modules :
 - Major : Framework backend & frontend -> Done
 - Major : Real-time features (WebSockets) -> In progress, almost done
 - Major : Users interaction (basic chat, profile, friends) -> In progress, almost done
-- Major : Remote players
+- Major : Remote players -> most likely connected with multiplayer / realtime features ???
 - Major : User management and authentication -> Done
 - Major : Advanced permissions system -> to do
 - Minor : ORM for database -> Done
@@ -31,7 +31,7 @@ Confirmed modules :
 - Minor : gamification system (daily reward?) -> Done
 - Minor : Compability with at least 2 additional browsers -> to do
 - Minor : Multiple languages (at least 3) -> Done
-- Major : Multiplayer (realtime?) -> in progress
+- Major : Multiplayer (realtime?) -> in progress, almost done ??
 
 To validate :
 - Major : IA Opponent
@@ -41,4 +41,5 @@ To validate :
 - Minor : Remote authentication
 - Minor : 2FA 
 
+Done/almost points : 15 points (to validate with the team)
 Total points : 16(26)/19 points
