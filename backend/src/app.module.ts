@@ -7,8 +7,9 @@ import { ChampionsModule } from './champions/champions.module';
 import { DailymatchesModule } from './dailymatches/dailymatches.module';
 import { InfinitematchesModule } from './infinitematches/infinitematches.module';
 import { FriendsModule } from './friends/friends.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, FriendsModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, FriendsModule, ChatModule],
 })
 export class AppModule {}
