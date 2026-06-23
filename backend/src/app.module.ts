@@ -9,8 +9,10 @@ import { InfinitematchesModule } from './infinitematches/infinitematches.module'
 import { GamificationModule } from './gamification/gamification.module';
 import { CountriesModule } from './countrydle/countries/countries.module';
 import { DailycountrymatchesModule } from './countrydle/dailymatches/dailycountrymatches.module';
+import { FriendsModule } from './friends/friends.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, GamificationModule, CountriesModule, DailycountrymatchesModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, FriendsModule, ChatModule, GamificationModule, CountriesModule, DailycountrymatchesModule]
 })
 export class AppModule {}

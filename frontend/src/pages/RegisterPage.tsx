@@ -4,6 +4,8 @@ import { registerUser } from "../api/auth.api";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from "../i18n/LanguageContext";
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -36,30 +38,30 @@ function RegisterPage() {
     <PageContainer>
       <Heading>{t("register.title")}</Heading>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <input
+      <form className="flex flex-col gap-6 w-full max-w-sm mx-auto" onSubmit={handleSubmit}>
+        <Input
           type="text"
           placeholder={t("register.usernamePlaceholder")}
           value={username}
           onChange={(event) => setUsername(event.target.value)}
         />
-        <input
+        <Input
           type="email"
           placeholder={t("register.emailPlaceholder")}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-        <input
+        <Input
           type="password"
           placeholder={t("register.passwordPlaceholder")}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button type="submit">{t("register.submit")}</button>
+        <Button type="submit">{t("register.submit")}</Button>
       </form>
 
       {message && <p>{message}</p>}
-      {error && <p className="form-error">{error}</p>}
+      {error && <p className="mt-4 text-red-400 whitespace-pre-line text-sm">{error}</p>}
     </PageContainer>
   );
 }

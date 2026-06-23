@@ -1,52 +1,42 @@
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from "../components/ui/button";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useGameUniverse } from '../context/GameUniverseContext';
 
 function HomePage() {
+  const { universe } = useGameUniverse();
   const { t } = useLanguage();
 
   return (
     <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
-      
-      <Heading className="mb-8 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        42dle
-      </Heading>
-      
-      <div className="w-full space-y-6 text-left mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-center">
+      <Heading>{t("home.dle")} {universe === 'country' ? '- Country' : '- League'}</Heading>
+      <div className="flex flex-col gap-3 w-full">
+        <h2 className="text-2xl font-semibold tracking-tight text-center text-white">
           {t("home.howToPlay")}
         </h2>
-        <p className="text-base text-center">
+        <p className="text-lg text-center text-slate-300">
           {t("home.goal")}
         </p>
-        
-        <ul className=" text-base space-y-2  leading-7 text-center  ">
+
+        <ul className="text-base space-y-3 leading-relaxed text-center text-slate-400">
           <li>{t("home.validChampion")}</li>
-          <li>{t("home.pressEnter")}</li>
           <li>{t("home.afterTry")}</li>
         </ul>
-        
-        <ul className="text-base space-y-3 bg-muted p-4 ">
-          <li>🟩 <strong className="font-medium">{t("home.green")}</strong> : {t("home.greenMeaning")}</li>
-          <li>🟨 <strong className="font-medium">{t("home.yellow")}</strong> : {t("home.yellowMeaning")}</li>
-          <li>🟥 <strong className="font-medium">{t("home.red")}</strong> : {t("home.redMeaning")}</li>
+
+        <ul className="text-sm space-y-3 bg-white/5 border border-white/10 rounded-xl p-6 text-slate-300">
+          <li className="flex items-center gap-3">🟩 <span className="font-medium text-white">{t("home.green")}</span> : {t("home.greenMeaning")}</li>
+          <li className="flex items-center gap-3">🟨 <span className="font-medium text-white">{t("home.yellow")}</span> : {t("home.yellowMeaning")}</li>
+          <li className="flex items-center gap-3">🟥 <span className="font-medium text-white">{t("home.red")}</span> : {t("home.redMeaning")}</li>
         </ul>
       </div>
 
-      <div className="flex flex-col gap-3 w-full">
-        <Button asChild variant="play">
-          <Link to="/selectGame">{t("home.play")}</Link>
-        </Button>
-
-        <Button asChild variant="default">
-          <Link to="/countrydle">{t("home.countrydle")}</Link>
-        </Button>
-      </div>
+      <Button asChild className="text-xl px-12 py-6 rounded-xl w-full max-w-sm mt-4 font-bold shadow-[0_4px_20px_rgba(37,99,235,0.4)]">
+        <Link to="/selectGame">{t("home.play")}</Link>
+      </Button>
     </PageContainer>
   );
 }
 
 export default HomePage;
-
