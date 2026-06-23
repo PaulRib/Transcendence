@@ -4,6 +4,7 @@ import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
 import { Button } from "../components/ui/button";
+import { GlobalChat } from './GlobalChat';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
@@ -45,23 +46,22 @@ function Layout() {
                 <div className="auth-nav">
                     {isLoading ? null : currentUser ? (
                         <div className="relative flex items-center" ref={dropdownRef}>
-                            <button 
-                                className="bg-transparent border border-white/20 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer p-0 text-white text-lg transition-colors duration-200 hover:bg-white/10" 
+                            <Button 
+                                variant="outline"
+                                className="rounded-full w-10 h-10 p-0 text-lg" 
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             >
                                 👤
-                            </button>
+                            </Button>
                             
-                            {isDropdownOpen && (
-                                <div className="absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100]">
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/profile" onClick={() => setIsDropdownOpen(false)}>Mon Profil</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/friends" onClick={() => setIsDropdownOpen(false)}>Liste d'amis</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>Classement</Link>
-                                    <Link className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/settings" onClick={() => setIsDropdownOpen(false)}>Paramètres</Link>
-                                    <div className="h-[1px] bg-white/10 my-2"></div>
-                                    <button className="px-4 py-3 color-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10 bg-transparent border-none" onClick={handleLogout}>Se déconnecter</button>
-                                </div>
-                            )}
+                            <div className={`absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100] transition-all duration-200 origin-top-right ${isDropdownOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
+                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/profile" onClick={() => setIsDropdownOpen(false)}>Mon Profil</Link>
+                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/friends" onClick={() => setIsDropdownOpen(false)}>Liste d'amis</Link>
+                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>Classement</Link>
+                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/settings" onClick={() => setIsDropdownOpen(false)}>Paramètres</Link>
+                                <div className="h-[1px] bg-white/10 my-2"></div>
+                                <Button variant="ghost" className="w-full justify-start rounded-none text-sm font-normal px-4 py-3 h-auto hover:bg-white/10" onClick={handleLogout}>Se déconnecter</Button>
+                            </div>
                         </div>
                     ) : (
                         <Button onClick={() => navigate('/login')} variant="default">login</Button>
@@ -74,6 +74,7 @@ function Layout() {
                     <Outlet />
                 </main>
             </div>
+            <GlobalChat />
         </div>
     );
 }

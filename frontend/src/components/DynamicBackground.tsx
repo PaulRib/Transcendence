@@ -13,7 +13,7 @@ export default function DynamicBackground() {
     // Changer toutes les 5 minutes (300 000 ms)
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-    }, 300000);
+    }, 3000000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -24,13 +24,19 @@ export default function DynamicBackground() {
 
   return (
     <>
-      {/* Container principal pour l'image de fond */}
-      <div 
-        className="dynamic-bg-container"
-        style={{
-          backgroundImage: `url("${imageUrls[currentIndex]}")`,
-        }}
-      />
+      {/* Rendu de toutes les images superposées pour un cross-fade parfait */}
+      {imageUrls.map((url, index) => (
+        <div 
+          key={url}
+          className="dynamic-bg-container"
+          style={{
+            backgroundImage: `url("${url}")`,
+            opacity: index === currentIndex ? 1 : 0,
+            transition: 'opacity 1.5s ease-in-out'
+          }}
+        />
+      ))}
+      
       {/* Filtre sombre (overlay) pour faire ressortir le texte */}
       <div className="dynamic-bg-overlay" />
     </>

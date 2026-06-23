@@ -6,6 +6,7 @@ import { PageContainer } from '../components/ui/page-content';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
+import { Heading } from '../components/ui/heading';
 
 function RankedGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -90,7 +91,7 @@ function RankedGamePage() {
 
   return (
     <PageContainer className="game-PageContainer">
-      <h2>Ranked mode</h2>
+      <Heading>Ranked mode</Heading>
       
       {error && <div className="error-alert">{error}</div>}
 

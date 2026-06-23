@@ -4,6 +4,8 @@ import { loginUser } from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -32,33 +34,32 @@ function LoginPage() {
 
   return (
     <PageContainer>
-      <Heading>Connexion</Heading>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <input
+      <form className="flex flex-col gap-6 w-full max-w-sm mx-auto" onSubmit={handleSubmit}>
+        <Input
           type="text"
           placeholder="Nom d'utilisateur / email"
           value={identifier}
           onChange={(event) => setIdentifier(event.target.value)}
         />
-        <input
+        <Input
           type="password"
           placeholder="Mot de passe"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
-        <button type="submit">Connexion</button>
+        <Button type="submit">Se connecter</Button>
       </form>
 
-      <div className="register-prompt">
+      <div className="flex flex-row items-center justify-center gap-1.5 mt-4 text-slate-300 text-[0.95rem]">
         <span>Vous n'avez pas de compte ?</span>
-        <Link to="/register" className="auth-secondary-link">
+        <Link to="/register" className="text-blue-300 font-semibold no-underline hover:text-blue-200 hover:underline">
           Inscrivez-vous
         </Link>
       </div>
 
       {message && <p>{message}</p>}
-      {error && <p className="form-error">{error}</p>}
+      {error && <p className="mt-4 text-red-400 whitespace-pre-line text-sm">{error}</p>}
     </PageContainer>
   );
 }

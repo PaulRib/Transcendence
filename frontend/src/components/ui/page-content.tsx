@@ -15,7 +15,7 @@ export function PageContainer({
     <Component
       className={cn(
         // Flexbox & Alignement
-        "flex flex-col items-center w-full max-w-[720px] text-center",
+        "flex flex-col items-center w-full max-w-[720px] text-center ",
         // Effet Glassmorphism (Fond noir transparent + flou)
         "bg-black/40 backdrop-blur-md",
         // Espacement et bordures
