@@ -22,6 +22,7 @@ export const translations = {
 			red: "Rouge",
 			redMeaning: "Si la caractéristique ne correspond pas du tout au personnage.",
 			play: "Jouer",
+			countrydle: "Jouer à Countrydle",
 		},
 		selectGame: {
 			title: "Sélection du mode de jeu",
@@ -144,6 +145,10 @@ export const translations = {
 			region: "Région",
 			year: "Année",
 		},
+		countrydle: {
+			title: "Countrydle",
+			subtitle: "Devinez le pays du jour.",
+		},
 	},
 	en: {
 		nav: {
@@ -167,6 +172,7 @@ export const translations = {
 			red: "Red",
 			redMeaning: "The trait does not match the character at all.",
 			play: "Play",
+			countrydle: "Play Countrydle",
 		},
 		selectGame: {
 			title: "Game mode selection",
@@ -289,6 +295,10 @@ export const translations = {
 			region: "Region",
 			year: "Year",			
 		},
+		countrydle: {
+			title: "Countrydle",
+			subtitle: "Guess today's country.",
+		},
 	},
 	ru: {
 		nav: {
@@ -308,10 +318,11 @@ export const translations = {
 			green: "Зелёный",
 			greenMeaning: "Если это правильно",
 			yellow: "Жёлтый",
-			yellowMeaning: "Если это неполно или есть лишняя характеристика.",
+			yellowMeaning: "Одно или несколько свойств верны, но не все.",
 			red: "Красный",
 			redMeaning: "Если характеристика совсем не совпадает с персонажем.",
 			play: "Играть",
+			countrydle: "Играть в Countrydle",
 		},
 		selectGame: {
 			title: "Выбор режима игры",
@@ -427,12 +438,16 @@ export const translations = {
 			loginForReward: "Войдите, чтобы получать XP и очки.",
 			champion: "Чемпион",
 			gender: "Пол",
-			position: "Позиция",
-			species: "Вид",
+			position: "Позиция(и)",
+			species: "Виды",
 			resource: "Ресурс",
-			range: "Дальность",
-			region: "Регион",
-			year: "Год",			
+			range: "Тип диапазона",
+			region: "Регион(ы)",
+			year: "Год выпуска",			
+		},
+		countrydle: {
+			title: "Countrydle",
+			subtitle: "Угадайте страну дня.",
 		},
 	},
 } as const;

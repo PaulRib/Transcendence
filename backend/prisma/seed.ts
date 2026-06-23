@@ -35,7 +35,27 @@ async function main() {
 			},
 		});
 	}
+	const countriesFilePath = path.join(__dirname, 'data', 'countries.json');
+	if (!fs.existsSync(countriesFilePath)) {
+		throw new Error(`Fichier introuvable : ${countriesFilePath}`);
+	}
+	const rawCountriesData = fs.readFileSync(countriesFilePath, 'utf-8');
+	const countries = JSON.parse(rawCountriesData);
 
+	for (const country of countries) {
+		await prisma.country.upsert({
+			where: { name: country.country },
+			update: {},
+			create: {
+				name: country.country,
+				continent: country.Continent,
+				flagUrl: country.Flag.trim(),
+				countryId: country.ID,
+				language: country.Language,
+				region: country.Region,
+			},
+		});
+	}
 }
 
 main()

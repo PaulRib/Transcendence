@@ -7,8 +7,10 @@ import { ChampionsModule } from './champions/champions.module';
 import { DailymatchesModule } from './dailymatches/dailymatches.module';
 import { InfinitematchesModule } from './infinitematches/infinitematches.module';
 import { GamificationModule } from './gamification/gamification.module';
+import { CountriesModule } from './countrydle/countries/countries.module';
+import { DailycountrymatchesModule } from './countrydle/dailymatches/dailycountrymatches.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, GamificationModule],
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, GamificationModule, CountriesModule, DailycountrymatchesModule],
 })
 export class AppModule {}

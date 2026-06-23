@@ -34,12 +34,19 @@ function HomePage() {
           <li>🟥 <strong className="font-medium">{t("home.red")}</strong> : {t("home.redMeaning")}</li>
         </ul>
       </div>
-      
+
+      <div className="flex flex-col gap-3 w-full">
         <Button asChild variant="play">
-        <Link to="/selectGame">{t("home.play")}</Link>
-      </Button>
+          <Link to="/selectGame">{t("home.play")}</Link>
+        </Button>
+
+        <Button asChild variant="default">
+          <Link to="/countrydle">{t("home.countrydle")}</Link>
+        </Button>
+      </div>
     </PageContainer>
   );
 }
 
 export default HomePage;
+
