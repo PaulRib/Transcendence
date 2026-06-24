@@ -2,9 +2,12 @@ import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { Button } from '../components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { useNavigate } from 'react-router-dom';
 
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <p>Chargement...</p>;
@@ -14,11 +17,10 @@ function ProfilePage() {
     return <p>Utilisateur non connecté</p>;
   }
 
-  const avatarUrl = currentUser.avatar_url ??
-    'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
+  const avatarUrl = currentUser.avatar_url;
   
   const handleChangeIcon = () => {
-    alert("Ouverture de la sélection d'avatar (Base de données et Upload local)");
+    navigate('/settings');
   };
 
   return (
@@ -26,11 +28,10 @@ function ProfilePage() {
       <Heading>{currentUser.username}</Heading>
       
       <div className="flex flex-col items-center gap-4">
-        <img 
-          src={avatarUrl} 
-          alt={`Icône de ${currentUser.username}`} 
-          className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
-        />
+        <Avatar className="w-[150px] h-[150px] border-[3px] border-[#ccc] shadow-xl">
+          <AvatarImage src={avatarUrl} alt={`Icône de ${currentUser.username}`} />
+          <AvatarFallback className="text-4xl text-white">{currentUser.username.charAt(0).toUpperCase()}</AvatarFallback>
+        </Avatar>
         <Button 
           onClick={handleChangeIcon}
         >
@@ -46,5 +47,5 @@ function ProfilePage() {
     </PageContainer>
   );
 }
-
+//Gestion backend, connecter l'avatar ici aussi
 export default ProfilePage;

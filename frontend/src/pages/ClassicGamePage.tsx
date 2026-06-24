@@ -74,7 +74,7 @@ function ClassicGamePage() {
       setSuggestions([]);
       if (result.isWin) {
         setHasWon(true);
-        setTimeout(() => setShowVictory(true), 3750);
+        setTimeout(() => setShowVictory(true), 3500);
       }
     } catch (err) {
       console.error(err);

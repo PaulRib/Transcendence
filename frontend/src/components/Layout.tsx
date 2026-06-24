@@ -4,6 +4,7 @@ import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
 import { Button } from "../components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
 import { Globe, Swords, User } from 'lucide-react';
@@ -56,14 +57,13 @@ function Layout() {
                         <div className="relative flex items-center" ref={dropdownRef}>
                             <Button 
                                 variant="outline"
-                                className="rounded-full w-15 h-15 p-0 overflow-hidden border-2 border-white/20 hover:border-white/50 transition-colors" 
+                                className="rounded-full w-12 h-12 p-0 overflow-hidden border-2 border-white/20 hover:border-white/50 transition-colors" 
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             >
-                                <img 
-                                    src="https://cdn.intra.42.fr/users/3bf69c389f36c86e822b07a0167b858c/lsaiti.jpg" 
-                                    alt="Profile" 
-                                    className="w-full h-full object-cover"
-                                />
+                                <Avatar className="w-full h-full">
+                                    <AvatarImage src={currentUser.avatar_url || undefined} />
+                                    <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                                </Avatar>
                             </Button>
                             
                             <div className={`absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100] transition-all duration-200 origin-top-right ${isDropdownOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>

@@ -23,7 +23,7 @@ export default function DynamicBackground() {
     // Changer toutes les 5 minutes (300 000 ms)
     const intervalId = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-    }, 3000000);
+    }, 60000);
 
     return () => clearInterval(intervalId);
   }, []);
