@@ -54,6 +54,7 @@ CREATE TABLE "Guess" (
     "id" TEXT NOT NULL,
     "attempt_number" INTEGER NOT NULL,
     "comparison_result" JSONB NOT NULL,
+    "is_correct" BOOLEAN NOT NULL DEFAULT false,
     "match_id" TEXT NOT NULL,
     "champion_id" TEXT NOT NULL,
     "participant_id" TEXT NOT NULL,

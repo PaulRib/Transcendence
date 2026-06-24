@@ -31,7 +31,7 @@ export class InfinitematchesService {
 		if (!selectedChampion) {
       		throw new Error('Failed to get random champion');
    	 	}
-		return {id: selectedChampion.id};
+		return selectedChampion.id;
 	}
 
 	async verifyInfiniteGuess(guessName: string, targetId: string) {

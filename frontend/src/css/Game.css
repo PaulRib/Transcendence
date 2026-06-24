@@ -1,0 +1,233 @@
+/* ==========================================
+   STYLING GLOBAL DE LA PAGE DE JEU
+   ========================================== */
+
+.game-section {
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.error-alert {
+  color: #721c24;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+/* Écran de victoire */
+.victory-card {
+  background-color: rgba(40, 167, 69, 0.2);
+  border: 3px solid #28a745;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.victory-title {
+  color: #28a745;
+  margin: 0;
+  font-size: 24px;
+}
+
+.loose-card {
+  background-color: rgba(40, 167, 69, 0.2);
+  border: 3px solid #a73b28;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.loose-title {
+  color: #a73b28;
+  margin: 0;
+  font-size: 24px;
+}
+
+
+/* Formulaire et rectangle de saisie */
+.search-form {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 10px;
+  flex: 1;
+  font-size: 16px;
+}
+
+.submit-btn {
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+}
+
+.submit-btn.valid {
+  background-color: #28a745;
+  cursor: pointer;
+}
+
+.submit-btn.invalid {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Menu déroulant des suggestions */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: rgb(8, 18, 40);
+  border: 1px solid rgb(48, 48, 48);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestion-item {
+  padding: 8px 12px; /* Un peu moins de padding vertical pour compenser la hauteur de l'image */
+  cursor: pointer;
+  border-bottom: 1px solid rgb(48, 48, 48);
+  color: #fff;
+  display: flex;
+  transition: background-color 0.15s ease-in-out;
+}
+
+/* ==========================================
+   GRILLE ET CELLULES DE L'HISTORIQUE
+   ========================================== */
+
+.history-container {
+  margin-top: 30px;
+  overflow-x: auto;
+}
+
+.history-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 600px;
+}
+
+.grid-header {
+  display: flex;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+}
+
+.header-cell {
+  width: 80px;
+}
+
+.guess-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Cellule de l'image du champion */
+.champion-avatar-cell {
+  width: 80px;
+  text-align: center;
+}
+
+.champion-avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  display: block;
+  margin: 0 auto;
+}
+
+.champion-name-span {
+  font-size: 11px;
+  font-weight: bold;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Indicateurs de direction pour les années */
+.arrow-indicator {
+  font-size: 18px;
+}
+
+/* Vos boîtes d'attributs existantes */
+.guess-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #000000;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: center;
+  text-transform: capitalize;
+  border-radius: 4px;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   STYLE DU BOUTON REJOUER
+   ========================================== */
+
+.replay-btn {
+  background-color: #28a745; /* Vert pour correspondre à la victoire */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.guess-box.correct { background-color: #28a745; }
+.guess-box.partial { background-color: #da8b1b; }
+.guess-box.incorrect { background-color: #dc3545; }
+.guess-box.higher, .guess-box.lower { background-color: #dc3545; }
+
+/* ==========================================
+   ANIMATION D'APPARITION SÉQUENTIELLE
+   ========================================== */
+@keyframes flipIn {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.champion-avatar-cell, .guess-box {
+  opacity: 0;
+  animation: flipIn 0.5s ease forwards;
+}

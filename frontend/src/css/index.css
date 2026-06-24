@@ -42,7 +42,7 @@ body {
 
 .champion-avatar-cell, .guess-box {
   opacity: 0;
-  animation: flipIn 1s ease forwards;
+  animation: flipIn 0.4s ease forwards;
 }
 
 @keyframes popIn {

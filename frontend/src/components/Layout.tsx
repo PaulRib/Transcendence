@@ -8,8 +8,8 @@ import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords } from 'lucide-react';
-
+import { Globe, Swords, User } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
     const { universe, toggleUniverse } = useGameUniverse();
@@ -70,7 +70,10 @@ function Layout() {
                                 className="rounded-full w-10 h-10 p-0 text-lg"
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                             >
-                                👤
+                                <Avatar className="w-full h-full">
+                                    <AvatarImage src={currentUser.avatar_url || undefined} />
+                                    <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                                </Avatar>
                             </Button>
 
                             <div className={`absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100] transition-all duration-200 origin-top-right ${isDropdownOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
@@ -83,7 +86,13 @@ function Layout() {
                             </div>
                         </div>
                     ) : (
-                        <Button onClick={() => navigate('/login')} variant="default">{t("nav.login")}</Button>
+                        <Button 
+                            onClick={() => navigate('/login')} 
+                            variant="default"
+                            className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)]"
+                        >
+                            <User size={18} />
+                        </Button>
                     )}
                 </div>
             </header>

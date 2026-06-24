@@ -7,6 +7,7 @@ import type { GamificationStats } from '../api/gamification.api';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from '../components/ui/button';
 
+
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
   const [stats, setStats] = useState<GamificationStats | null>(null);
