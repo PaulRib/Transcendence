@@ -103,9 +103,9 @@ function Layout() {
                     onClick={handleToggleUniverse}
                 >
                     {universe === 'league' ? (
-                        <><Globe size={18} className="mr-2 text-blue-400" /> Mode Country</>
+                        <><Globe size={18} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
                     ) : (
-                        <><Swords size={18} className="mr-2 text-yellow-400" /> Mode League</>
+                        <><Swords size={18} className="mr-2 text-yellow-400" />{t("nav.leagueMode")}</>
                     )}
                 </Button>
             </div>

@@ -11,18 +11,18 @@ function HomePage() {
 
   return (
     <PageContainer className="flex flex-col items-center justify-center p-8 max-w-2xl mx-auto">
-      <Heading>{t("home.dle")} {universe === 'country' ? '- Country' : '- League'}</Heading>
+      <Heading>{t("home.dle")} {universe === 'country' ? t("home.countryMode") : t("home.leagueMode")}</Heading>
       <div className="flex flex-col gap-3 w-full">
         <h2 className="text-2xl font-semibold tracking-tight text-center text-white">
           {t("home.howToPlay")}
         </h2>
         <p className="text-lg text-center text-slate-300">
-          {t("home.goal")}
+          {t(universe === 'country' ? "home.countryGoal" : "home.goal")}
         </p>
 
         <ul className="text-base space-y-3 leading-relaxed text-center text-slate-400">
-          <li>{t("home.validChampion")}</li>
-          <li>{t("home.afterTry")}</li>
+          <li>{t(universe === 'country' ? "home.validCountry" : "home.validChampion")}</li>
+          <li>{t(universe === 'country' ? "home.afterCountryTry" : "home.afterTry")}</li>
         </ul>
 
         <ul className="text-sm space-y-3 bg-white/5 border border-white/10 rounded-xl p-6 text-slate-300">
@@ -33,7 +33,7 @@ function HomePage() {
       </div>
 
       <Button asChild className="text-xl px-12 py-6 rounded-xl w-full max-w-sm mt-4 font-bold shadow-[0_4px_20px_rgba(37,99,235,0.4)]">
-        <Link to="/selectGame">{t("home.play")}</Link>
+        <Link to={universe === 'country' ? '/countrydle' : '/selectGame'}>{t("home.play")}</Link>
       </Button>
     </PageContainer>
   );

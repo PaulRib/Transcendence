@@ -5,7 +5,7 @@ import type { ChampionName, GuessResponse } from '../api/type.api';
 import { Heading } from '../components/ui/heading';
 import { PageContainer } from '../components/ui/page-content';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
@@ -112,18 +112,7 @@ function InfiniteGamePage() {
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   if (universe === 'country') {
-    return (
-      <PageContainer>
-        <Heading>Mode Country</Heading>
-        <div className="flex flex-col items-center justify-center p-12 text-center bg-white/5 border border-white/10 rounded-xl mt-8">
-          <Globe size={64} className="text-blue-400 mb-6 opacity-80" />
-          <h2 className="text-2xl font-bold text-white mb-2">Bientôt disponible !</h2>
-          <p className="text-slate-400 text-lg max-w-md">
-            L'interface générique est prête. Il ne reste plus qu'à connecter la base de données des pays pour pouvoir jouer.
-          </p>
-        </div>
-      </PageContainer>
-    );
+    return <Navigate to="/countrydle" replace />;
   }
 
   return (

@@ -24,14 +24,30 @@ function CountrydlePage() {
 				setCountryNames(names);
 				setError(null);
 			} catch {
-				setError("Impossible de charger les pays.");
+				setError(t("countrydle.loadError"));
 			} finally {
 				setIsLoading(false);
 			}
 		}
 
 		loadCountries();
-	}, []);
+	}, [t]);
+
+	const formatStatus = (status: string) => {
+		if (status === 'correct') {
+			return t("countrydle.correct");
+		}
+
+		return t("countrydle.incorrect");
+	};
+
+	const getStatusClassName = (status: string) => {
+		if (status === 'correct') {
+			return "bg-green-500/20 border-green-500/50 text-green-100";
+		}
+
+		return "bg-red-500/20 border-red-500/50 text-red-100";
+	};
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
@@ -41,7 +57,7 @@ function CountrydlePage() {
 		);
 
 		if (!validCountry) {
-			alert("Ce pays n'existe pas !");
+			alert(t("countrydle.invalidCountry"));
 			return;
 		}
 
@@ -54,12 +70,12 @@ function CountrydlePage() {
 			setGuesses([result, ...guesses]);
 			setInputValue('');
 		} catch {
-			alert("Erreur pendant l'essai");
+			alert(t("countrydle.tryError"));
 		}
 	};
 
 	if (isLoading) {
-		return <div style={{ textAlign: 'center', padding: '50px' }}>Chargement...</div>;
+		return <div style={{ textAlign: 'center', padding: '50px' }}>{t("countrydle.loading")}</div>;
 	}
 
 	return (
@@ -72,12 +88,12 @@ function CountrydlePage() {
 			<form onSubmit={handleSubmit} className="flex w-full max-w-md items-center gap-2">
 				<Input
 					type="text"
-					placeholder="Entrez un nom de pays..."
+					placeholder={t("countrydle.placeholder")}
 					value={inputValue}
 					onChange={(event) => setInputValue(event.target.value)}
 				/>
 				<Button type="submit">
-					Valider
+					{t("countrydle.submit")}
 				</Button>
 			</form>
 
@@ -89,9 +105,19 @@ function CountrydlePage() {
 							<strong>{guess.name}</strong>
 						</div>
 
-						<p>Continent: {guess.continent.value} ({guess.continent.status})</p>
-						<p>Region: {guess.region.value} ({guess.region.status})</p>
-						<p>Language: {guess.language.value} ({guess.language.status})</p>
+						<div className="grid gap-2">
+							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.continent.status)}`}>
+								<strong>{t("countrydle.continent")}</strong>: {guess.continent.value} ({formatStatus(guess.continent.status)})
+							</div>
+
+							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.region.status)}`}>
+								<strong>{t("countrydle.region")}</strong>: {guess.region.value} ({formatStatus(guess.region.status)})
+							</div>
+
+							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.language.status)}`}>
+								<strong>{t("countrydle.language")}</strong>: {guess.language.value} ({formatStatus(guess.language.status)})
+							</div>
+						</div>
 					</div>
 				))}
 			</div>
