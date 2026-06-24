@@ -16,3 +16,5 @@ Thumbs.db
 *.pem
 *.key
 *.crt
+
+list.txt

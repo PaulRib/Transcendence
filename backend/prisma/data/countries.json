@@ -1,0 +1,1954 @@
+[
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_as-flag.gif ",
+    "ID": 1,
+    "Language": "English",
+    "Region": "Oceania",
+    "country": "Australia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_au-flag.gif ",
+    "ID": 2,
+    "Language": "German",
+    "Region": "Central Europe",
+    "country": "Austria"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_aj-flag.gif ",
+    "ID": 3,
+    "Language": "Azeri",
+    "Region": "Caucasus",
+    "country": "Azerbaijan"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_al-flag.gif ",
+    "ID": 4,
+    "Language": "Albanian",
+    "Region": "Balkans",
+    "country": "Albania"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ag-flag.gif ",
+    "ID": 5,
+    "Language": "Arabic",
+    "Region": "Maghreb",
+    "country": "Algeria"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_aq-flag.gif",
+    "ID": 6,
+    "Language": "English",
+    "Region": "Oceania",
+    "country": "American Samoa"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_av-flag.gif",
+    "ID": 7,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Anguilla"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ao-flag.gif ",
+    "ID": 8,
+    "Language": "Portuguese",
+    "Region": "Sub-Saharan Africa",
+    "country": "Angola"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_an-flag.gif ",
+    "ID": 9,
+    "Language": "Catalan, French, Portuguese, Spanish",
+    "Region": "Microstates",
+    "country": "Andorra"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_ac-flag.gif",
+    "ID": 10,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Antigua And Barbuda (UK)"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ar-flag.gif ",
+    "ID": 11,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Argentina"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_am-flag.gif ",
+    "ID": 12,
+    "Language": "Armenian",
+    "Region": "Caucasus",
+    "country": "Armenia"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_aa-flag.gif",
+    "ID": 13,
+    "Language": "Dutch",
+    "Region": "Caribbean",
+    "country": "Aruba (Netherlands)"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_af-flag.gif ",
+    "ID": 14,
+    "Language": "Pashto",
+    "Region": "Asia",
+    "country": "Afghanistan"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_bf-flag.gif",
+    "ID": 15,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Bahamas"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bg-flag.gif ",
+    "ID": 16,
+    "Language": "Bangal",
+    "Region": "Asia",
+    "country": "Bangladesh"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bb-flag.gif ",
+    "ID": 17,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Barbados"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ba-flag.gif ",
+    "ID": 18,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Bahrain"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bo-flag.gif ",
+    "ID": 19,
+    "Language": "Russian",
+    "Region": "Eastern Europe",
+    "country": "Belarus"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bh-flag.gif",
+    "ID": 20,
+    "Language": "English",
+    "Region": "Central America",
+    "country": "Belize (UK)"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_be-flag.gif ",
+    "ID": 21,
+    "Language": "Dutch, French, German",
+    "Region": "Benelux",
+    "country": "Belgium"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bn-flag.gif ",
+    "ID": 22,
+    "Language": "Adja, Aizo, Bariba, Fon, Ful, Joruba, Somba",
+    "Region": "Sub-Saharan Africa",
+    "country": "Benin"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_bd-flag.gif",
+    "ID": 23,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Bermuda"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bu-flag.gif ",
+    "ID": 24,
+    "Language": "Bulgariana, Macedonian, Romani, Turkish",
+    "Region": "Balkans",
+    "country": "Bulgaria"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bl-flag.gif",
+    "ID": 25,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Bolivia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bk-flag.gif",
+    "ID": 26,
+    "Language": "Bosnian",
+    "Region": "Balkans",
+    "country": "Bosnia And Herzegovina"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bc-flag.gif ",
+    "ID": 27,
+    "Language": "Khoekhoe, Ndebele, San, Shona, Tswana",
+    "Region": "Sub-Saharan Africa",
+    "country": "Botswana"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_br-flag.gif ",
+    "ID": 28,
+    "Language": "Portuguese",
+    "Region": "Latin Americans",
+    "country": "Brazil"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bx-flag.gif ",
+    "ID": 29,
+    "Language": "Malay",
+    "Region": "Asia",
+    "country": "Brunei Darussalam"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_uv-flag.gif ",
+    "ID": 30,
+    "Language": "Busansi, Dagara, Dyula, Ful, Gurma, Mossi",
+    "Region": "Sub-Saharan Africa",
+    "country": "Burkina Faso"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_by-flag.gif ",
+    "ID": 31,
+    "Language": "French, Kirundi, Swahili",
+    "Region": "Sub-Saharan Africa",
+    "country": "Burundi"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bt-flag.gif ",
+    "ID": 32,
+    "Language": "Asami, Dzongkha, Nepali",
+    "Region": "Asia",
+    "country": "Bhutan"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_nh-flag.gif ",
+    "ID": 33,
+    "Language": "Bislama, English, French",
+    "Region": "Oceania",
+    "country": "Vanuatu"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_hu-flag.gif ",
+    "ID": 34,
+    "Language": "Hungarian",
+    "Region": "Central Europe",
+    "country": "Hungary"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ve-flag.gif",
+    "ID": 35,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Venezuela"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_vi-flag.gif",
+    "ID": 36,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "British Virgin Islands"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_vq-flag.gif",
+    "ID": 37,
+    "Language": "English",
+    "Region": "Caribbean or Other Territories",
+    "country": "U.S. Virgin Islands"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_tt-flag.gif",
+    "ID": 38,
+    "Language": "Portuguese, Sunda",
+    "Region": "Southeast Asia",
+    "country": "East Timor"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_vm-flag.gif",
+    "ID": 39,
+    "Language": "Vietnamese",
+    "Region": "Asia",
+    "country": "Vietnam"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gb-flag.gif ",
+    "ID": 40,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Gabon"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ha-flag.gif ",
+    "ID": 41,
+    "Language": "French",
+    "Region": "Latin Americans",
+    "country": "Haiti"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gy-flag.gif ",
+    "ID": 42,
+    "Language": "Arawakan, Caribbean, Creole English",
+    "Region": "South America",
+    "country": "Guyana"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ga-flag.gif",
+    "ID": 43,
+    "Language": "Diola, Ful, Malinke, Soninke, Wolof",
+    "Region": "Sub-Saharan Africa",
+    "country": "Gambia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gh-flag.gif ",
+    "ID": 44,
+    "Language": "Akan, Ewe, Ga-adangme, Gurma, Joruba, Mossi",
+    "Region": "Sub-Saharan Africa",
+    "country": "Ghana"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gt-flag.gif ",
+    "ID": 46,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Guatemala"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gv-flag.gif ",
+    "ID": 47,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Guinea"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pu-flag.gif ",
+    "ID": 48,
+    "Language": "Balante, Crioulo, Ful, Malinke, Mandyako, Portuguese",
+    "Region": "Sub-Saharan Africa",
+    "country": "Guinea-Bissau"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gm-flag.gif ",
+    "ID": 49,
+    "Language": "German",
+    "Region": "Central Europe",
+    "country": "Germany"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_gi-flag.gif",
+    "ID": 50,
+    "Language": "Arabic, English",
+    "Region": "Southern Europe",
+    "country": "Gibraltar"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ho-flag.gif ",
+    "ID": 51,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Honduras"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_hk-flag.gif",
+    "ID": 52,
+    "Language": "Mandarin Chinese",
+    "Region": "Asia",
+    "country": "Hong Kong"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gj-flag.gif ",
+    "ID": 53,
+    "Language": "Creole English",
+    "Region": "Caribbean",
+    "country": "Grenada"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_gl-flag.gif",
+    "ID": 54,
+    "Language": "Danish, Greenlandic",
+    "Region": "Other Islands",
+    "country": "Greenland"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gr-flag.gif ",
+    "ID": 55,
+    "Language": "Greek",
+    "Region": "Central Europe",
+    "country": "Greece"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_gg-flag.gif ",
+    "ID": 56,
+    "Language": "Abhyasi, Armenian, Azerbaijani, Georgiana, Osseetti, Russian",
+    "Region": "Caucasus",
+    "country": "Georgia"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_gq-flag.gif",
+    "ID": 57,
+    "Language": "Chamorro, English, Japanese, Korean, Philippene Languages",
+    "Region": "Caribbean or Other Territories",
+    "country": "Guam"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_da-flag.gif ",
+    "ID": 58,
+    "Language": "Danish",
+    "Region": "Scandinavia",
+    "country": "Denmark"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_dj-flag.gif ",
+    "ID": 59,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Djibouti"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_do-flag.gif ",
+    "ID": 60,
+    "Language": "Creole English, Creole French",
+    "Region": "Caribbean",
+    "country": "Dominica"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_dr-flag.gif",
+    "ID": 61,
+    "Language": "Spanish",
+    "Region": "Caribbean",
+    "country": "Dominican Republic"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_eg-flag.gif ",
+    "ID": 62,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Egypt"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_za-flag.gif ",
+    "ID": 63,
+    "Language": "Bemba, Chewa, Lozi, Nsenga, Nyanja, Tongan",
+    "Region": "Sub-Saharan Africa",
+    "country": "Zambia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg/510px-Flag_of_the_Sahrawi_Arab_Democratic_Republic.svg.png",
+    "ID": 64,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Western Sahara"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_zi-flag.gif ",
+    "ID": 65,
+    "Language": "English, Ndebele, Nyanja, Shona",
+    "Region": "Sub-Saharan Africa",
+    "country": "Zimbabwe"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_is-flag.gif ",
+    "ID": 66,
+    "Language": "Hebrew",
+    "Region": "Middle East",
+    "country": "Israel"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_in-flag.gif ",
+    "ID": 67,
+    "Language": "Hindi",
+    "Region": "Asia",
+    "country": "India"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_id-flag.gif ",
+    "ID": 68,
+    "Language": "Bahasa, Bali, Banja, Batakki, Bugi, Javanese, Madura, Malay, Minangkabau, Sunda",
+    "Region": "Asia",
+    "country": "Indonesia"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_jo-flag.gif ",
+    "ID": 69,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Jordan"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_iz-flag.gif ",
+    "ID": 70,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Iraq"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ir-flag.gif",
+    "ID": 71,
+    "Language": "Persian",
+    "Region": "Middle East",
+    "country": "Iran"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ei-flag.gif ",
+    "ID": 72,
+    "Language": "English",
+    "Region": "Western Europe",
+    "country": "Ireland"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ic-flag.gif ",
+    "ID": 73,
+    "Language": "Icelandic",
+    "Region": "Scandinavia",
+    "country": "Iceland"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sp-flag.gif ",
+    "ID": 74,
+    "Language": "Spanish",
+    "Region": "Iberian Peninsula",
+    "country": "Spain"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_it-flag.gif ",
+    "ID": 75,
+    "Language": "Italian",
+    "Region": "Western Europe",
+    "country": "Italy"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ym-flag.gif ",
+    "ID": 76,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Yemen"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://commons.wikimedia.org/wiki/File:Flag_of_Cape_Verde_(3-2).svg",
+    "ID": 77,
+    "Language": "Portuguese",
+    "Region": "Sub-Saharan Africa",
+    "country": "Cape Verde"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_kz-flag.gif ",
+    "ID": 78,
+    "Language": "Russian",
+    "Region": "Asia",
+    "country": "Kazakhstan"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cb-flag.gif ",
+    "ID": 79,
+    "Language": "Vietnamese",
+    "Region": "Indochina",
+    "country": "Cambodia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cm-flag.gif ",
+    "ID": 80,
+    "Language": "English, French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Cameroon"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ca-flag.gif ",
+    "ID": 81,
+    "Language": "English",
+    "Region": "North America",
+    "country": "Canada"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_qa-flag.gif ",
+    "ID": 82,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Qatar"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ke-flag.gif ",
+    "ID": 83,
+    "Language": "Gusii, Kalenjin, Kamba, Kikuyu, Luhya, Luo, Masai, Meru, Nyika, Turkana",
+    "Region": "Africa",
+    "country": "Kenya"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cy-flag.gif ",
+    "ID": 84,
+    "Language": "Greek, Turkish",
+    "Region": "Middle East",
+    "country": "Cyprus"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_kg-flag.gif ",
+    "ID": 85,
+    "Language": "Kazakh, Kirgiz, Russian, Tadzhik, Tatar, Ukrainian, Uzbek",
+    "Region": "Asia",
+    "country": "Kyrgyzstan"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_kr-flag.gif ",
+    "ID": 86,
+    "Language": "Kiribati, Tuvalu",
+    "Region": "Oceania",
+    "country": "Kiribati"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ch-flag.gif ",
+    "ID": 87,
+    "Language": "Mandarin Chinese",
+    "Region": "Asia",
+    "country": "China"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Flag_of_the_Cocos_%28Keeling%29_Islands.svg/1200px-Flag_of_the_Cocos_%28Keeling%29_Islands.svg.png?20140510192012",
+    "ID": 88,
+    "Language": "English, Malay",
+    "Region": "Oceania",
+    "country": "Cocos Islands"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_co-flag.gif ",
+    "ID": 89,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Colombia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cn-flag.gif",
+    "ID": 90,
+    "Language": "Comorian, Comorian-Arabic, Comorian-French, Comorian-madagassi, Comorian-Swahili",
+    "Region": "Sub-Saharan Africa",
+    "country": "Comoros"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_congo-flag.gif",
+    "ID": 91,
+    "Language": "Kongo, Mbete, Mboshi, Punu, Sango, Teke",
+    "Region": "Sub-Saharan Africa",
+    "country": "Congo"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_kn-flag.gif",
+    "ID": 93,
+    "Language": "Korean",
+    "Region": "Asia",
+    "country": "Korea, Democratic People's Republic of"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ks-flag.gif",
+    "ID": 94,
+    "Language": "Korean",
+    "Region": "Asia",
+    "country": "Korea, Republic of"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cs-flag.gif ",
+    "ID": 95,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Costa Rica"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_iv-flag.gif",
+    "ID": 96,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Cote d'Ivoire"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cu-flag.gif ",
+    "ID": 97,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Cuba"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ku-flag.gif ",
+    "ID": 98,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Kuwait"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_lg-flag.gif ",
+    "ID": 100,
+    "Language": "Latvian",
+    "Region": "Baltic",
+    "country": "Latvia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_lt-flag.gif ",
+    "ID": 101,
+    "Language": "English, Sotho, Zulu",
+    "Region": "Sub-Saharan Africa",
+    "country": "Lesotho"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_li-flag.gif ",
+    "ID": 102,
+    "Language": "Bassa, Gio, Grebo, Kpelle, Kru, Loma, Malinke, Mano",
+    "Region": "Sub-Saharan Africa",
+    "country": "Liberia"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_le-flag.gif ",
+    "ID": 103,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Lebanon"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Flag_of_Libya.svg/510px-Flag_of_Libya.svg.png",
+    "ID": 104,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Libyan Arab Jamahiriya"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_lh-flag.gif ",
+    "ID": 105,
+    "Language": "Lithuanian",
+    "Region": "Baltic",
+    "country": "Lithuania"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ls-flag.gif ",
+    "ID": 106,
+    "Language": "German",
+    "Region": "Central Europe",
+    "country": "Liechtenstein"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_lu-flag.gif ",
+    "ID": 107,
+    "Language": "German",
+    "Region": "Benelux",
+    "country": "Luxembourg"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mp-flag.gif ",
+    "ID": 108,
+    "Language": "Bhojpuri, Creole French, French, Hindi, Marathi, Tamil",
+    "Region": "Sub-Saharan Africa",
+    "country": "Mauritius"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mr-flag.gif ",
+    "ID": 109,
+    "Language": "Ful, Hassaniya, Soninke, Tukulor, Wolof, Zenaga",
+    "Region": "Sub-Saharan Africa",
+    "country": "Mauritania"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ma-flag.gif ",
+    "ID": 110,
+    "Language": "French, Malagasy",
+    "Region": "Sub-Saharan Africa",
+    "country": "Madagascar"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_mc-flag.gif",
+    "ID": 111,
+    "Language": "Mandarin Chinese",
+    "Region": "Asia",
+    "country": "Macao"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_mk-flag.gif",
+    "ID": 112,
+    "Language": "Macedonian, Albanian",
+    "Region": "Southern Europe",
+    "country": "North Macedonia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mi-flag.gif ",
+    "ID": 113,
+    "Language": "Chichewa, Lomwe, Ngoni, Yao",
+    "Region": "Sub-Saharan Africa",
+    "country": "Malawi"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_my-flag.gif ",
+    "ID": 114,
+    "Language": "Chinese, Dusun, English, Iban, Malay, Tamil",
+    "Region": "Asia",
+    "country": "Malaysia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ml-flag.gif ",
+    "ID": 115,
+    "Language": "Bambara, Ful, Senufo and Minianka, Songhai, Soninke, Tamashek",
+    "Region": "Sub-Saharan Africa",
+    "country": "Mali"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mv-flag.gif ",
+    "ID": 116,
+    "Language": "Dhivehi, English",
+    "Region": "Asia",
+    "country": "Maldives"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mt-flag.gif ",
+    "ID": 117,
+    "Language": "English, Maltese",
+    "Region": "Southern Europe",
+    "country": "Malta"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mo-flag.gif ",
+    "ID": 118,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Morocco"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Flag-of-Martinique.svg/440px-Flag-of-Martinique.svg.png",
+    "ID": 119,
+    "Language": "French",
+    "Region": "Caribbean",
+    "country": "Martinique"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_rm-flag.gif",
+    "ID": 120,
+    "Language": "English, Marshallese",
+    "Region": "Oceania",
+    "country": "Marshall Islands"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mx-flag.gif ",
+    "ID": 121,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Mexico"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Flag_of_the_Federated_States_of_Micronesia.svg/500px-Flag_of_the_Federated_States_of_Micronesia.svg.png",
+    "ID": 122,
+    "Language": "English",
+    "Region": "Oceania",
+    "country": "Micronesia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mz-flag.gif ",
+    "ID": 123,
+    "Language": "Portuguese",
+    "Region": "Sub-Saharan Africa",
+    "country": "Mozambique"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_md-flag.gif",
+    "ID": 124,
+    "Language": "Romanian",
+    "Region": "Western Europe",
+    "country": "Moldova, Republic of"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mn-flag.gif ",
+    "ID": 125,
+    "Language": "French",
+    "Region": "Central Europe",
+    "country": "Monaco"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mg-flag.gif ",
+    "ID": 126,
+    "Language": "Bajad, Buryat, Dariganga, Dorbet, Kazakh, Mongolian",
+    "Region": "Asia",
+    "country": "Mongolia"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_mh-flag.gif",
+    "ID": 127,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Montserrat"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_bm-flag.gif ",
+    "ID": 128,
+    "Language": "Burmese, Chin, Kachin, Karen, Kayah, Mon, Rakhine, Shan",
+    "Region": "Indochina",
+    "country": "Myanmar"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_wa-flag.gif ",
+    "ID": 129,
+    "Language": "Afrikaans, Caprivi, German, Herero, Kavango, Nama, Ovambo, San",
+    "Region": "Sub-Saharan Africa",
+    "country": "Namibia"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_nr-flag.gif ",
+    "ID": 130,
+    "Language": "Chinese, English, Kiribati, Nauru, Tuvalu",
+    "Region": "Oceania",
+    "country": "Nauru"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_np-flag.gif ",
+    "ID": 131,
+    "Language": "Bhojpuri, Hindi, Maithili, Nepali, Newari, Tamang, Tharu",
+    "Region": "Asia",
+    "country": "Nepal"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ng-flag.gif",
+    "ID": 132,
+    "Language": "Ful, Hausa, Kanuri, Songhai-zerma, Tamashek",
+    "Region": "Sub-Saharan Africa",
+    "country": "Niger"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ni-flag.gif ",
+    "ID": 133,
+    "Language": "English",
+    "Region": "Sub-Saharan Africa",
+    "country": "Nigeria"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_nl-flag.gif",
+    "ID": 135,
+    "Language": "Dutch",
+    "Region": "Benelux",
+    "country": "Netherlands"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_nu-flag.gif ",
+    "ID": 136,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Nicaragua"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_ne-flag.gif",
+    "ID": 137,
+    "Language": "English, Niue",
+    "Region": "Oceania",
+    "country": "Niue"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_nz-flag.gif ",
+    "ID": 138,
+    "Language": "English",
+    "Region": "Polynesia",
+    "country": "New Zealand"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_nc-flag.gif",
+    "ID": 139,
+    "Language": "French, Malenasian Languages, Polynesian Languages",
+    "Region": "Oceania",
+    "country": "New Caledonia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_no-flag.gif ",
+    "ID": 140,
+    "Language": "Norwegian",
+    "Region": "Scandinavia",
+    "country": "Norway"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ae-flag.gif",
+    "ID": 141,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "United Arab Emirates"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mu-flag.gif ",
+    "ID": 142,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Oman"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Bouvet_Island_flagmap.png",
+    "ID": 143,
+    "Language": "Norwegian",
+    "Region": "Other Islands",
+    "country": "Bouvet Island"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_im-flag.gif",
+    "ID": 144,
+    "Language": "English, Manx",
+    "Region": "Other Islands",
+    "country": "Isle of Man"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Flag_of_Norfolk_Island.svg/192px-Flag_of_Norfolk_Island.svg.png",
+    "ID": 145,
+    "Language": "English",
+    "Region": "Oceania",
+    "country": "Norfolk Island"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/3/39/Flag_Map_of_the_Heard_Island_and_McDonald_Islands.png",
+    "ID": 146,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "Heard And McDonald Islands"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_cj-flag.gif",
+    "ID": 147,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Cayman Islands"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_cw-flag.gif",
+    "ID": 148,
+    "Language": "English, Maori",
+    "Region": "Oceania",
+    "country": "Cook Islands"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_tk-flag.gif",
+    "ID": 149,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Turks And Caicos"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_wf-flag.gif",
+    "ID": 150,
+    "Language": "Futuna, Wallis",
+    "Region": "Oceania",
+    "country": "Wallis and Futuna"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pk-flag.gif ",
+    "ID": 151,
+    "Language": "Balochi, Brahui, Hindko, Pashto, Punjabi, Saraiki, Sindhi, Urdu",
+    "Region": "Asia",
+    "country": "Pakistan"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ps-flag.gif ",
+    "ID": 152,
+    "Language": "Chinese, English, Palau, Philippene Languages",
+    "Region": "Oceania",
+    "country": "Palau"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_palestine-flag.gif",
+    "ID": 153,
+    "Language": "Arabic, Hebrew",
+    "Region": "Middle East",
+    "country": "Palestine"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pm-flag.gif ",
+    "ID": 154,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Panama"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Flag_of_the_Vatican_City_%282023%E2%80%93present%29.svg/340px-Flag_of_the_Vatican_City_%282023%E2%80%93present%29.svg.png",
+    "ID": 155,
+    "Language": "Italian, Latin",
+    "Region": "Microstates",
+    "country": "Vatican City"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pp-flag.gif ",
+    "ID": 156,
+    "Language": "Malenasian Languages, Papuan Languages",
+    "Region": "Oceania",
+    "country": "Papua New Guinea"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pa-flag.gif ",
+    "ID": 157,
+    "Language": "German, Guaran√≠, Portuguese, Spanish",
+    "Region": "Latin Americans",
+    "country": "Paraguay"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pe-flag.gif ",
+    "ID": 158,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Peru"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_the_Pitcairn_Islands.svg/1600px-Flag_of_the_Pitcairn_Islands.svg.png",
+    "ID": 159,
+    "Language": "Pitcairnese",
+    "Region": "Oceania",
+    "country": "Pitcairn"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_pl-flag.gif ",
+    "ID": 160,
+    "Language": "Belorussian, German, Polish, Ukrainian",
+    "Region": "Central Europe",
+    "country": "Poland"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_po-flag.gif ",
+    "ID": 161,
+    "Language": "Portuguese",
+    "Region": "Iberian Peninsula",
+    "country": "Portugal"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_rq-flag.gif",
+    "ID": 162,
+    "Language": "Spanish",
+    "Region": "Caribbean or Other Territories",
+    "country": "Puerto Rico"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_fr-flag.gif",
+    "ID": 163,
+    "Language": "French",
+    "Region": "Caribbean or Other Territories",
+    "country": "Réunion"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_rs-flag.gif",
+    "ID": 164,
+    "Language": "Russian",
+    "Region": "Eastern Europe",
+    "country": "Russia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_rw-flag.gif ",
+    "ID": 165,
+    "Language": "French, Rwanda",
+    "Region": "Sub-Saharan Africa",
+    "country": "Rwanda"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ro-flag.gif ",
+    "ID": 166,
+    "Language": "German, Hungarian, Romani, Romanian, Serbo-Croatian, Ukrainian",
+    "Region": "Western Europe",
+    "country": "Romania"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_es-flag.gif ",
+    "ID": 167,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "El Salvador"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ws-flag.gif ",
+    "ID": 168,
+    "Language": "English, Samoan, Samoan-English",
+    "Region": "Polynesia",
+    "country": "Samoa"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sm-flag.gif ",
+    "ID": 169,
+    "Language": "Italian",
+    "Region": "Microstates",
+    "country": "San Marino"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Flag_of_S%C3%A3o_Tom%C3%A9_and_Pr%C3%ADncipe.svg",
+    "ID": 170,
+    "Language": "Crioulo, French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Sao Tome And Principe"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sa-flag.gif ",
+    "ID": 171,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Saudi Arabia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sz-flag.gif",
+    "ID": 172,
+    "Language": "Swazi, English",
+    "Region": "Sub-Saharan Africa",
+    "country": "Swaziland"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/0/00/Flag_of_Saint_Helena.svg",
+    "ID": 173,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "St Helena (UK)"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_cq-flag.gif",
+    "ID": 174,
+    "Language": "Carolinian, Chamorro, Chinese, English, Korean, Philippene Languages",
+    "Region": "Caribbean or Other Territories",
+    "country": "Northern Mariana Islands"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ri-flag.gif ",
+    "ID": 175,
+    "Language": "Serbian, Hungarian, Slovak, Romanian, Croatian, Rusyn, Albanian, Bulgarian, English",
+    "Region": "Balkans",
+    "country": "Serbia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_se-flag.gif ",
+    "ID": 176,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Seychelles"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sg-flag.gif ",
+    "ID": 177,
+    "Language": "French",
+    "Region": "Sub-Saharan Africa",
+    "country": "Senegal"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_vc-flag.gif",
+    "ID": 178,
+    "Language": "Creole English, English",
+    "Region": "Caribbean",
+    "country": "Saint Vincent And The Grenadines"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_sc-flag.gif",
+    "ID": 179,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Saint Kitts—Nevis"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_st-flag.gif",
+    "ID": 180,
+    "Language": "Creole French, English",
+    "Region": "Caribbean",
+    "country": "Saint Lucia"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_sb-flag.gif",
+    "ID": 181,
+    "Language": "French",
+    "Region": "Caribbean or Other Territories",
+    "country": "St Pierre And Miquelon"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sn-flag.gif ",
+    "ID": 182,
+    "Language": "Chinese, Malay, Tamil",
+    "Region": "Asia",
+    "country": "Singapore"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sy-flag.gif ",
+    "ID": 183,
+    "Language": "Arabic",
+    "Region": "Middle East",
+    "country": "Syria"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_lo-flag.gif ",
+    "ID": 184,
+    "Language": "Czech and Moravian, Hungarian, Romani, Slovak, Ukrainian and Russian",
+    "Region": "Central Europe",
+    "country": "Slovakia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_si-flag.gif ",
+    "ID": 185,
+    "Language": "Hungarian, Serbo-Croatian, Slovene",
+    "Region": "Central Europe",
+    "country": "Slovenia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_uk-flag.gif",
+    "ID": 186,
+    "Language": "English",
+    "Region": "Western Europe",
+    "country": "United Kingdom"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_us-flag.gif",
+    "ID": 187,
+    "Language": "English",
+    "Region": "North America",
+    "country": "United States"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_bp-flag.gif",
+    "ID": 188,
+    "Language": "Malenasian Languages, Papuan Languages, Polynesian Languages",
+    "Region": "Oceania",
+    "country": "Solomon Islands"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_so-flag.gif ",
+    "ID": 189,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Somalia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_su-flag.gif",
+    "ID": 190,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Sudan"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ns-flag.gif ",
+    "ID": 191,
+    "Language": "Dutch",
+    "Region": "South America",
+    "country": "Suriname"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sl-flag.gif ",
+    "ID": 192,
+    "Language": "Bullom-sherbro, Ful, Kono-vai, Kuranko, Limba, Mende, Temne, Yalunka",
+    "Region": "Sub-Saharan Africa",
+    "country": "Sierra Leone"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ti-flag.gif ",
+    "ID": 193,
+    "Language": "Russian, Tadzhik, Uzbek",
+    "Region": "Asia",
+    "country": "Tajikistan"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_th-flag.gif ",
+    "ID": 194,
+    "Language": "Chinese, Khmer, Kuy, Lao, Malay, Thai",
+    "Region": "Asia",
+    "country": "Thailand"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_tw-flag.gif",
+    "ID": 195,
+    "Language": "Mandarin Chinese",
+    "Region": "Asia",
+    "country": "Taiwan"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_tz-flag.gif ",
+    "ID": 196,
+    "Language": "Swahili, English",
+    "Region": "Sub-Saharan Africa",
+    "country": "Tanzania, United Republic of"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_to-flag.gif ",
+    "ID": 197,
+    "Language": "Ane, Ewe, Gurma, Kaby√©, Kotokoli, Moba, Naudemba, Watyi",
+    "Region": "Sub-Saharan Africa",
+    "country": "Togo"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_tl-flag.gif",
+    "ID": 198,
+    "Language": "English, Tokelau",
+    "Region": "Oceania",
+    "country": "Tokelau"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_tn-flag.gif ",
+    "ID": 199,
+    "Language": "English, Tongan",
+    "Region": "Oceania",
+    "country": "Tonga"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_td-flag.gif",
+    "ID": 200,
+    "Language": "Creole English, English, Hindi",
+    "Region": "Caribbean",
+    "country": "Trinidad And Tobago"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_tv-flag.gif",
+    "ID": 201,
+    "Language": "English, Kiribati, Tuvalu",
+    "Region": "Oceania",
+    "country": "Tuvalu"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ts-flag.gif ",
+    "ID": 202,
+    "Language": "Arabic",
+    "Region": "Africa",
+    "country": "Tunisia"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_tx-flag.gif ",
+    "ID": 203,
+    "Language": "Kazakh, Russian, Turkmenian, Uzbek",
+    "Region": "Asia",
+    "country": "Turkmenistan"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_tu-flag.gif ",
+    "ID": 204,
+    "Language": "Turkish",
+    "Region": "Middle East",
+    "country": "Turkey"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ug-flag.gif ",
+    "ID": 205,
+    "Language": "Acholi, Ganda, Gisu, Kiga, Lango, Lugbara, Nkole, Rwanda, Soga, Teso",
+    "Region": "Sub-Saharan Africa",
+    "country": "Uganda"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_uz-flag.gif ",
+    "ID": 206,
+    "Language": "Karakalpak, Kazakh, Russian, Tadzhik, Tatar, Uzbek",
+    "Region": "Asia",
+    "country": "Uzbekistan"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_up-flag.gif ",
+    "ID": 207,
+    "Language": "Belorussian, Bulgariana, Hungarian, Polish, Romanian, Russian, Ukrainian",
+    "Region": "Eastern Europe",
+    "country": "Ukraine"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_uy-flag.gif ",
+    "ID": 208,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Uruguay"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Flag_of_the_Faroe_Islands.svg/192px-Flag_of_the_Faroe_Islands.svg.png",
+    "ID": 209,
+    "Language": "Danish, Faroese",
+    "Region": "Other Islands",
+    "country": "Faroe Islands"
+  },
+  {
+    "Continent": "Oceania",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_fj-flag.gif ",
+    "ID": 210,
+    "Language": "English, Fijian, Fiji Hindi",
+    "Region": "Oceania",
+    "country": "Fiji"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_rp-flag.gif",
+    "ID": 211,
+    "Language": "Bicol, Cebuano, Hiligaynon, Ilocano, Maguindanao, Maranao, Pampango, Pangasinan, Pilipino, Waray-waray",
+    "Region": "Asia",
+    "country": "Philippines"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_fi-flag.gif ",
+    "ID": 212,
+    "Language": "Finnish",
+    "Region": "Scandinavia",
+    "country": "Finland"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_Falkland_Islands.svg/120px-Flag_of_the_Falkland_Islands.svg.png",
+    "ID": 213,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "Falkland Islands"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_fr-flag.gif ",
+    "ID": 214,
+    "Language": "French",
+    "Region": "Western Europe",
+    "country": "France"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Flag_of_French_Guiana.svg/120px-Flag_of_French_Guiana.svg.png",
+    "ID": 215,
+    "Language": "French",
+    "Region": "Caribbean or Other Territories",
+    "country": "French Guiana"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_fp-flag.gif",
+    "ID": 216,
+    "Language": "French",
+    "Region": "Other Islands",
+    "country": "French Polynesia"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_hr-flag.gif ",
+    "ID": 217,
+    "Language": "Serbo-Croatian, Slovene",
+    "Region": "Balkans",
+    "country": "Croatia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_ct-flag.gif",
+    "ID": 218,
+    "Language": "Banda, Gbaya, Mandjia, Mbum, Ngbaka, Sara",
+    "Region": "Sub-Saharan Africa",
+    "country": "Central African Republic"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_cd-flag.gif ",
+    "ID": 219,
+    "Language": "Arabic, Gorane, Hadjarai, Kanem-bornu, Mayo-kebbi, Ouaddai, Sara, Tandjile",
+    "Region": "Sub-Saharan Africa",
+    "country": "Chad"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ez-flag.gif",
+    "ID": 220,
+    "Language": "Czech, German, Hungarian, Moravian, Polish, Romani, Silesiana, Slovak",
+    "Region": "Central Europe",
+    "country": "Czech Republic"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ci-flag.gif ",
+    "ID": 221,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Chile"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sz-flag.gif ",
+    "ID": 222,
+    "Language": "German, French, Italian, Romansh",
+    "Region": "Central Europe",
+    "country": "Switzerland"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sw-flag.gif ",
+    "ID": 223,
+    "Language": "Swedish",
+    "Region": "Scandinavia",
+    "country": "Sweden"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://www.worldometers.info/img/flags/small/tn_no-flag.gif",
+    "ID": 224,
+    "Language": "Norwegian",
+    "Region": "Other Islands",
+    "country": "Svalbard And Jan Mayen Islands (Norway)"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ce-flag.gif ",
+    "ID": 225,
+    "Language": "Mixed Languages, Singali, Tamil",
+    "Region": "Asia",
+    "country": "Sri Lanka"
+  },
+  {
+    "Continent": "South America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ec-flag.gif ",
+    "ID": 226,
+    "Language": "Spanish",
+    "Region": "Latin Americans",
+    "country": "Ecuador"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ek-flag.gif ",
+    "ID": 227,
+    "Language": "Bubi, Fang",
+    "Region": "Sub-Saharan Africa",
+    "country": "Equatorial Guinea"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_er-flag.gif ",
+    "ID": 228,
+    "Language": "Tigrinya",
+    "Region": "Horn of Africa",
+    "country": "Eritrea"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_en-flag.gif ",
+    "ID": 229,
+    "Language": "Eesti",
+    "Region": "Baltic",
+    "country": "Estonia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_et-flag.gif ",
+    "ID": 230,
+    "Language": "Amharic",
+    "Region": "Horn of Africa",
+    "country": "Ethiopia"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_sf-flag.gif ",
+    "ID": 231,
+    "Language": "Zulu",
+    "Region": "Africa",
+    "country": "South Africa"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_jm-flag.gif ",
+    "ID": 232,
+    "Language": "English",
+    "Region": "Caribbean",
+    "country": "Jamaica"
+  },
+  {
+    "Continent": "Asia",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_ja-flag.gif ",
+    "ID": 233,
+    "Language": "Japanese",
+    "Region": "Asia",
+    "country": "Japan"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Flag_of_the_Antarctic_Treaty.svg/440px-Flag_of_the_Antarctic_Treaty.svg.png",
+    "ID": 234,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "Antarctica"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Flag_of_the_British_Indian_Ocean_Territory_1990.svg/192px-Flag_of_the_British_Indian_Ocean_Territory_1990.svg.png",
+    "ID": 235,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "British Indian Ocean Territory (UK)"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_Guernsey.svg/192px-Flag_of_Guernsey.svg.png",
+    "ID": 236,
+    "Language": "English, French",
+    "Region": "Other Islands",
+    "country": "Bailiwick of Guernsey"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Flag_of_Jersey.svg/192px-Flag_of_Jersey.svg.png",
+    "ID": 237,
+    "Language": "English, French",
+    "Region": "Other Islands",
+    "country": "Jersey (UK)"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Flag_of_Mayotte_%28local%29.svg/400px-Flag_of_Mayotte_%28local%29.svg.png",
+    "ID": 238,
+    "Language": "French, Mahor√©, Malagasy",
+    "Region": "Other Islands",
+    "country": "Mayotte (France)"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Flag_of_Mayotte_%28Local%29.svg",
+    "ID": 239,
+    "Language": "French, Mahor√©, Malagasy",
+    "Region": "Sub-Saharan Africa",
+    "country": "Mayotte"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Flag_of_Ascension_Island.svg/510px-Flag_of_Ascension_Island.svg.png",
+    "ID": 240,
+    "Language": "English",
+    "Region": "Other Islands",
+    "country": "Ascension Island"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/6/67/Flag_of_Christmas_Island.svg",
+    "ID": 241,
+    "Language": "Chinese, English",
+    "Region": "Other Islands",
+    "country": "Christmas Island"
+  },
+  {
+    "Continent": "Europe",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_mj-flag.gif ",
+    "ID": 243,
+    "Language": "Montenegrin",
+    "Region": "Balkans",
+    "country": "Montenegro"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Flag_of_Sint_Maarten.svg/1350px-Flag_of_Sint_Maarten.svg.png",
+    "ID": 244,
+    "Language": "Dutch, English",
+    "Region": "Caribbean",
+    "country": "Sint Maarten"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Flag_of_Cura%C3%A7ao.svg",
+    "ID": 247,
+    "Language": "Dutch, Papiamento, English",
+    "Region": "Caribbean",
+    "country": "Curacao"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Unofficial_flag_Clipperton_island.png",
+    "ID": 250,
+    "Language": "French",
+    "Region": "Other Islands",
+    "country": "Clipperton island"
+  },
+  {
+    "Continent": "Varies",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Flag_of_Bonaire.svg",
+    "ID": 253,
+    "Language": "Dutch, Papiamento, English",
+    "Region": "Other Islands",
+    "country": "Bonaire, Saint Eustatius and Saba"
+  },
+  {
+    "Continent": "North America",
+    "Flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Saint_Barth%C3%A9lemy_%28local%29.svg/900px-Flag_of_Saint_Barth%C3%A9lemy_%28local%29.svg.png",
+    "ID": 256,
+    "Language": "French",
+    "Region": "Caribbean",
+    "country": "Saint Barthélemy"
+  },
+  {
+    "Continent": "Africa",
+    "Flag": "https://www.worldometers.info//img/flags/small/tn_od-flag.gif ",
+    "ID": 260,
+    "Language": "English",
+    "Region": "Sub-Saharan Africa",
+    "country": "South Sudan"
+  }
+]

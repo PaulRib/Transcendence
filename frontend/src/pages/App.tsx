@@ -15,6 +15,7 @@ import { GuestRoute } from "../auth/GuestRoute";
 import RankedManager from "../components/RankedManager";
 import FriendsList from "./FriendsList";
 import LeaderboardPage from "./LeaderboardPage";
+import CountrydlePage from './countrydle/CountrydlePage';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="ranked" element={<RankedManager/>}/>
           <Route path="debug" element={<Debug/>}/>
           <Route path="selectGame" element={<SelectGame/>}/>
+          <Route path="countrydle" element={<CountrydlePage/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

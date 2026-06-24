@@ -1,0 +1,122 @@
+import { useState, useRef } from "react";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+
+const DEFAULT_AVATARS = [
+  "https://cdn.intra.42.fr/users/3bf69c389f36c86e822b07a0167b858c/lsaiti.jpg",
+  "https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false",
+  "https://i.pravatar.cc/150?img=33",
+  "https://i.pravatar.cc/150?img=47",
+  "https://i.pravatar.cc/150?img=12",
+  "https://i.pravatar.cc/150?img=68",
+];
+
+type AvatarPickerProps = {
+  currentAvatar: string | null;
+  onAvatarChange: (newAvatar: string | null) => void;
+};
+
+export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProps) {
+  const [activeTab, setActiveTab] = useState<'default' | 'link' | 'upload'>('default');
+  const [linkInput, setLinkInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const displayAvatar = currentAvatar || DEFAULT_AVATARS[0];
+
+  const handleDefaultClick = (url: string) => {
+    onAvatarChange(url);
+  };
+
+  const handleLinkSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (linkInput.trim() !== '') {
+      onAvatarChange(linkInput.trim());
+      setLinkInput('');
+    }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // @TODO(Backend): Côté frontend, nous lisons le fichier en Base64 pour l'afficher instantanément.
+    // Si votre collègue a choisi l'Option B (Base64), 'currentAvatar' contiendra cette longue chaîne, et il faudra utiliser @IsString() dans le backend.
+    // S'il choisit l'Option A (Vrai fichier), il faudra modifier ce composant pour faire remonter le fichier 'file' au parent et l'envoyer via FormData.
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64String = event.target?.result as string;
+      onAvatarChange(base64String); 
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className="flex flex-col gap-6 md:flex-row items-start">
+      {/* Aperçu en direct */}
+      <div className="flex flex-col items-center gap-3">
+        <Avatar className="w-32 h-32 border-4 border-white/10 shadow-xl">
+          <AvatarImage src={displayAvatar} alt="Avatar Preview" />
+          <AvatarFallback className="text-2xl text-white">AV</AvatarFallback>
+        </Avatar>
+        <span className="text-sm text-white/50 font-medium">Aperçu</span>
+      </div>
+
+      {/* Contrôles de sélection */}
+      <div className="flex-1 flex flex-col gap-4 w-full">
+        <div className="flex gap-2 border-b border-white/10 pb-2">
+          <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>Par défaut</Button>
+          <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>Lien Web</Button>
+          <Button type="button" variant={activeTab === 'upload' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('upload')}>Importer fichier</Button>
+        </div>
+
+        {activeTab === 'default' && (
+          <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
+            {DEFAULT_AVATARS.map((url, i) => (
+              <button 
+                key={i} 
+                type="button"
+                onClick={() => handleDefaultClick(url)}
+                className={`rounded-full overflow-hidden border-2 transition-all hover:scale-105 ${currentAvatar === url ? 'border-blue-500 scale-105 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'border-transparent hover:border-white/20'}`}
+              >
+                <img src={url} alt={`Default ${i}`} className="w-full h-auto aspect-square object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {activeTab === 'link' && (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-white/70">Collez un lien vers une image (ex: Discord, Imgur...)</p>
+            <div className="flex gap-2">
+              <Input 
+                placeholder="https://..." 
+                value={linkInput} 
+                onChange={e => setLinkInput(e.target.value)} 
+                className="flex-1"
+                onKeyDown={(e) => { if(e.key === 'Enter') handleLinkSubmit(e); }}
+              />
+              <Button type="button" onClick={handleLinkSubmit}>Appliquer</Button>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'upload' && (
+          <div className="flex flex-col gap-3">
+            <p className="text-sm text-white/70">Sélectionnez une image sur votre ordinateur.</p>
+            <input 
+              type="file" 
+              accept="image/*" 
+              className="hidden" 
+              ref={fileInputRef} 
+              onChange={handleFileUpload} 
+            />
+            <Button type="button" variant="outline" className="w-fit" onClick={() => fileInputRef.current?.click()}>
+              Parcourir...
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

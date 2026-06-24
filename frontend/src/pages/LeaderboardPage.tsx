@@ -1,13 +1,8 @@
-
+import { useEffect, useState } from 'react';
 import { Heading } from '../components/ui/heading';
-
-
-interface PlayerScore {
-  rank: number;
-  username: string;
-  score: number;
-  avatar?: string;
-}
+import { getLeaderboard } from '../api/gamification.api';
+import type { LeaderboardEntry } from '../api/gamification.api';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const getRankRowClass = (rank: number) => {
   const base = "transition-colors duration-200 hover:bg-white/5";
@@ -25,57 +20,89 @@ const getRankCellClass = (rank: number) => {
   return base;
 };
 
-const mockLeaderboard: PlayerScore[] = [
-  { rank: 1, username: 'Faker', score: 2540 },
-  { rank: 2, username: 'Chovy', score: 2310 },
-  { rank: 3, username: 'ShowMaker', score: 2200 },
-  { rank: 4, username: 'Rookie', score: 2150 },
-  { rank: 5, username: 'Scout', score: 2050 },
-  { rank: 6, username: 'Doinb', score: 1980 },
-  { rank: 7, username: 'Knight', score: 1920 },
-  { rank: 8, username: 'Xiaohu', score: 1850 },
-  { rank: 9, username: 'Caps', score: 1800 },
-  { rank: 10, username: 'Perkz', score: 1750 },
-];
-
 function LeaderboardPage() {
+  const [players, setPlayers] = useState<LeaderboardEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
+
+  useEffect(() => {
+    async function loadLeaderboard() {
+      try {
+        const leaderboard = await getLeaderboard();
+        setPlayers(leaderboard);
+        setError(null);
+      } catch {
+        setError(t("leaderboard.loadError"));
+      }
+    }
+
+    loadLeaderboard();
+  }, [t]);
+
   return (
     <div className="max-w-[800px] mx-auto my-8 p-8 bg-[#14141e]/85 rounded-xl text-white shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
-      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">Classement</Heading>
-      <p className="text-center text-[#bdc3c7] mb-8 text-base">Les meilleurs joueurs du mode classé</p>
+      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">{t("leaderboard.title")}</Heading>
+      <p className="text-center text-[#bdc3c7] mb-8 text-base">{t("leaderboard.subtitle")}</p>
+
+      {error && <p className="text-center text-red-400">{error}</p>}
 
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] first:rounded-tl-lg">Rang</th>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24]">Joueur</th>
-              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] last:rounded-tr-lg">Score (Elo)</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] first:rounded-tl-lg">{t("leaderboard.rank")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24]">{t("leaderboard.player")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] last:rounded-tr-lg">{t("leaderboard.score")}</th>
             </tr>
           </thead>
           <tbody>
-            {mockLeaderboard.map((player) => (
-              <tr key={player.rank} className={getRankRowClass(player.rank)}>
-                <td className={getRankCellClass(player.rank)}>
-                  {player.rank === 1 && '🥇'}
-                  {player.rank === 2 && '🥈'}
-                  {player.rank === 3 && '🥉'}
-                  {player.rank > 3 && `#${player.rank}`}
+            {players.map((player, index) => {
+              const rank = index + 1;
+
+              return (
+                <tr key={player.id} className={getRankRowClass(rank)}>
+                  <td className={getRankCellClass(rank)}>
+                    {rank === 1 && '🥇'}
+                    {rank === 2 && '🥈'}
+                    {rank === 3 && '🥉'}
+                    {rank > 3 && `#${rank}`}
+                  </td>
+                  <td className="w-full p-4 border-b border-[#2a2a35]">
+                    <div className="flex items-center gap-4">
+                      <span className="w-9 h-9 bg-[#3b3b4f] rounded-full flex items-center justify-center text-base">
+                        {player.user.avatar_url ? (
+                          <img
+                            src={player.user.avatar_url}
+                            alt={player.user.username}
+                            className="w-9 h-9 rounded-full object-cover"
+                          />
+                        ) : (
+                          player.user.username.charAt(0).toUpperCase()
+                        )}
+                      </span>
+                      <span className="font-bold text-lg">{player.user.username}</span>
+                    </div>
+                  </td>
+                  <td className="w-[120px] p-4 border-b border-[#2a2a35] font-bold text-[#f1c40f] text-lg">
+                    {player.elo_rating}
+                  </td>
+                </tr>
+              );
+            })}
+
+            {!error && players.length === 0 && (
+              <tr>
+                <td colSpan={3} className="p-8 text-center text-[#bdc3c7]">
+                  {t("leaderboard.empty")}
                 </td>
-                <td className="w-full p-4 border-b border-[#2a2a35]">
-                  <div className="flex items-center gap-4">
-                    <span className="w-9 h-9 bg-[#3b3b4f] rounded-full flex items-center justify-center text-base">👤</span>
-                    <span className="font-bold text-lg">{player.username}</span>
-                  </div>
-                </td>
-                <td className="w-[120px] p-4 border-b border-[#2a2a35] font-bold text-[#f1c40f] text-lg">{player.score}</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
     </div>
   );
 }
+
 
 export default LeaderboardPage;
