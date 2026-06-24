@@ -93,6 +93,20 @@ export class DailycountrymatchesService {
 			value: guessedCountry.language,
 			status: guessedCountry.language === todayCountry.language ? 'correct' : 'incorrect'
 		},
+		population: {
+			value: guessedCountry.population,
+			status: guessedCountry.population === todayCountry.population
+				? 'correct'
+				: guessedCountry.population < todayCountry.population ? 'higher' : 'lower'
+		},
+		currency: {
+			value: guessedCountry.currency,
+			status: guessedCountry.currency === todayCountry.currency ? 'correct' : 'incorrect'
+		},
+		currencyName: {
+			value: guessedCountry.currencyName,
+			status: guessedCountry.currencyName === todayCountry.currencyName ? 'correct' : 'incorrect'
+		},
 		isWin: guessedCountry.name === todayCountry.name
 	}
   }

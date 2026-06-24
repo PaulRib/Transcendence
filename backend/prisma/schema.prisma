@@ -145,6 +145,9 @@ model Country {
 	countryId 				Int    @unique
 	language 				String
 	region 					String
+	population 				Int
+	currency 				String
+	currencyName 			String
 
 	dailyCountryMatches DailyCountryMatch[]
 }
