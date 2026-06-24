@@ -60,7 +60,7 @@ export function VictoryCard({ guessCount, onReplay }: VictoryCardProps) {
             variant="outline"
             className="flex-1 border-[#28a745]/50 hover:bg-[#28a745]/20 text-[#4ade80] h-12"
           >
-            {copied ? 'Copié !' : <><Copy size={18} className="mr-2" /> Partager</>}
+            {copied ? t("multiplayer.copied") : <><Copy size={18} className="mr-2" /> {t("multiplayer.share")}</>}
           </Button>
 
           {onReplay && (
@@ -80,7 +80,7 @@ export function VictoryCard({ guessCount, onReplay }: VictoryCardProps) {
             variant="secondary"
             className="flex-1 h-12"
           >
-            <Home size={18} className="mr-2" /> Menu
+            <Home size={18} className="mr-2" /> {t("multiplayer.menu")}
           </Button>
 
           <Button
@@ -88,7 +88,7 @@ export function VictoryCard({ guessCount, onReplay }: VictoryCardProps) {
             variant="secondary"
             className="flex-1 h-12"
           >
-            <Gamepad2 size={18} className="mr-2" /> Autres modes
+            <Gamepad2 size={18} className="mr-2" /> {t("multiplayer.otherModes")}
           </Button>
         </div>
       </div>
