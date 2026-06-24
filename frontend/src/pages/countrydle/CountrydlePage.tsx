@@ -124,11 +124,10 @@ function CountrydlePage() {
 
 			<HistoryGrid
 				columns={[
+					t("countrydle.flag"),
 					t("countrydle.continent"),
-					t("countrydle.region"),
 					t("countrydle.language"),
 					t("countrydle.population"),
-					t("countrydle.currency"),
 					t("countrydle.currencyName"),
 				]}
 				guesses={guesses.map((guess) => ({
@@ -139,10 +138,8 @@ function CountrydlePage() {
 					isWin: guess.isWin,
 					attributes: [
 						guess.continent,
-						guess.region,
 						guess.language,
 						guess.population,
-						guess.currency,
 						guess.currencyName,
 					],
 				}))}

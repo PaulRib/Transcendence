@@ -6,7 +6,6 @@ import ProfilePage from './ProfilePage';
 import RegisterPage from './RegisterPage';
 import ClassicGamePage from './ClassicGamePage';
 import InfiniteGamePage from './InfiniteGamePage';
-import RankedGamePage from './RankedGamePage';
 import Debug from '../components/debug';
 import SelectGame from './selectGame';
 import SettingsPage from './settingsPage';
