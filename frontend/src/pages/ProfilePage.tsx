@@ -80,11 +80,6 @@ function ProfilePage() {
           alt={t("profile.avatarAlt").replace("{username}", currentUser.username)}
           className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
         />
-        <Button
-          onClick={handleChangeIcon}
-        >
-          {t("profile.changeIcon")}
-        </Button>
       </div>
 
       <div className="text-center">

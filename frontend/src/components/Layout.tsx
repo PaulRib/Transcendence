@@ -1,4 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
@@ -8,8 +8,21 @@ import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords, User } from 'lucide-react';
+import { Globe, Swords, User, Languages, Settings } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { 
+    DropdownMenu, 
+    DropdownMenuTrigger, 
+    DropdownMenuContent, 
+    DropdownMenuItem, 
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem
+} from '../components/ui/dropdown-menu';
+
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
     const { universe, toggleUniverse } = useGameUniverse();
@@ -53,15 +66,6 @@ function Layout() {
                         />
                     </Link>
                 </nav>
-                <select
-                    value={language}
-                    onChange={(event) => setLanguage(event.target.value as Language)}
-                    className="bg-[#1d1d20] border border-white/20 rounded-md px-2 py-1 text-white"
-                >
-                    <option value="fr">FR</option>
-                    <option value="en">EN</option>
-                    <option value="ru">RU</option>
-                </select>
                 <div className="auth-nav">
                     {isLoading ? null : currentUser ? (
                         <div className="relative flex items-center" ref={dropdownRef}>
@@ -104,19 +108,43 @@ function Layout() {
             </div>
             <GlobalChat />
 
-            {/* Bouton pour changer d'univers */}
+            {/* Bouton Paramètres Rapides (Langue & Univers) */}
             <div className="fixed bottom-6 left-6 z-[1000]">
-                <Button
-                    variant="outline"
-                    className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md h-12 px-6 border-white/20 hover:bg-white/10"
-                    onClick={handleToggleUniverse}
-                >
-                    {universe === 'league' ? (
-                        <><Globe size={18} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
-                    ) : (
-                        <><Swords size={18} className="mr-2 text-yellow-400" />{t("nav.leagueMode")}</>
-                    )}
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="outline"
+                            className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md w-12 h-12 p-0 border-white/20 hover:bg-white/10 flex items-center justify-center text-white outline-none focus-visible:ring-0"
+                        >
+                            <Settings size={22} className="text-slate-300" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onClick={handleToggleUniverse}>
+                            {universe === 'league' ? (
+                                <><Globe size={16} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
+                            ) : (
+                                <><Swords size={16} className="mr-2 text-yellow-400" />{t("nav.leagueMode")}</>
+                            )}
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuSeparator className="bg-white/10" />
+
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className="hover:bg-white/10 cursor-pointer py-2">
+                                <Languages size={16} className="mr-2" />
+                                Langue
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent className="bg-[#1d1d20]  text-white ml-2" sideOffset={8}>
+                                <DropdownMenuRadioGroup value={language} onValueChange={(val) => setLanguage(val as Language)}>
+                                    <DropdownMenuRadioItem value="fr" className="cursor-pointer hover:bg-white/10">Français (FR)</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="en" className="cursor-pointer hover:bg-white/10">English (EN)</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="ru" className="cursor-pointer hover:bg-white/10">Русский (RU)</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );
