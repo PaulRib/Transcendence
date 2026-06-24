@@ -8,6 +8,7 @@ import { Button } from '../components/ui/button';
 import { AvatarPicker } from '../components/AvatarPicker';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
@@ -19,11 +20,12 @@ function SettingsPage() {
   const [error, setError] = useState<string | null>(null);
   const token = localStorage.getItem('access_token');
   const { updateCurrentUser } = useAuth();
+  const { t } = useLanguage();
 
   useEffect(() => {
     async function loadProfile() {
       if (!token) {
-        setError('Utilisateur non connecté');
+        setError(t("settings.notConnected"));
         return;
       }
 
@@ -33,7 +35,7 @@ function SettingsPage() {
         setAvatarUrl(user.avatar_url);
         setError(null);
       } catch {
-        setError('Impossible de charger le profil');
+        setError(t("settings.loadProfileError"));
       }
     }
     loadProfile();
@@ -43,7 +45,7 @@ function SettingsPage() {
     e.preventDefault();
     
     if (!token) {
-      setError('Utilisateur non connecté');
+      setError(t("settings.notConnected"));
       setMessage(null);
       return;
     }
@@ -60,11 +62,10 @@ function SettingsPage() {
       
       updateCurrentUser(updatedUser);
       setPseudo(updatedUser.username);
-      setAvatarUrl(updatedUser.avatar_url);
-      setMessage('Profil et Avatar mis à jour');
+      setMessage(t("settings.profileUpdated"));
       setError(null);
     } catch {
-      setError('Impossible de mettre à jour le profil');
+      setError(t("settings.updateProfileError"));
       setMessage(null);
     }
   };
@@ -73,7 +74,7 @@ function SettingsPage() {
     e.preventDefault();
     
     if (!token) {
-      setError('Utilisateur non connecté');
+      setError(t("settings.notConnected"));
       setMessage(null);
       return;
     }
@@ -86,24 +87,24 @@ function SettingsPage() {
 
       setCurrentPassword('');
       setNewPassword('');
-      setMessage('Mot de passe mis à jour');
+      setMessage(t("settings.passwordUpdated"));
       setError(null);
     } catch {
-      setError('Impossible de mettre à jour le mot de passe');
+      setError(t("settings.updatePasswordError"));
       setMessage(null);
     }
   };
 
   const handleDeleteAccount = () => {
-    if (window.confirm('Voulez-vous vraiment supprimer votre compte ? Cette action est irréversible.')) {
-      alert('Compte supprimé.');
+    if (window.confirm(t("settings.deleteConfirm"))) {
+      alert(t("settings.accountDeleted"));
     }
   };
 
   return (
     <PageContainer>
       <div className="flex flex-col gap-8 w-full">
-        <Heading>Paramètres</Heading>
+        <Heading>{t("settings.title")}</Heading>
         
         {message && <p className="text-emerald-400 font-medium m-0">{message}</p>}
         {error && <p className="text-red-400 font-medium m-0">{error}</p>}
@@ -160,28 +161,28 @@ function SettingsPage() {
           <form className="flex flex-col items-center gap-3 w-full" onSubmit={handleUpdatePassword}>
             <Input 
               type="password" 
-              placeholder="Mot de passe actuel" 
+              placeholder={t("settings.currentPasswordPlaceholder")}
               value={currentPassword} 
               onChange={(e) => setCurrentPassword(e.target.value)} 
               className="max-w-md text-center"
             />
             <Input 
               type="password" 
-              placeholder="Nouveau mot de passe" 
+              placeholder={t("settings.newPasswordPlaceholder")}
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               className="max-w-md text-center"
             />
-            <Button type="submit" className="w-fit">Mettre à jour le mot de passe</Button>
+            <Button type="submit">{t("settings.updatePassword")}</Button>
           </form>
         </div>
 
         {/* Zone de danger */}
-        <div className="bg-white/5 border border-red-500/50 rounded-xl p-6 flex flex-col items-center gap-4 text-center">
-          <h2 className="text-xl font-semibold m-0 text-red-500 border-b border-red-500/20 pb-2 w-full">Zone de danger</h2>
-          <p className="text-red-400/90 text-sm m-0">La suppression du compte supprime toutes vos données de façon permanente.</p>
-          <Button variant="destructive" className="w-fit" onClick={handleDeleteAccount}>
-            Supprimer mon compte
+        <div className="bg-white/5 border border-red-500/50 rounded-xl p-6 flex flex-col gap-4 text-left">
+          <h2 className="text-xl font-semibold m-0 text-red-500 border-b border-red-500/20 pb-2">{t("settings.dangerZone")}</h2>
+          <p className="text-red-400/90 text-sm m-0">{t("settings.dangerDescription")}</p>
+          <Button variant="destructive"  onClick={handleDeleteAccount}>
+            {t("settings.deleteAccount")}
           </Button>
         </div>
       </div>

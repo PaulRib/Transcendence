@@ -1,5 +1,7 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useLanguage } from '../../i18n/LanguageContext';
+
 export interface GameEntity {
   name: string;
   imagePath: string;
@@ -21,18 +23,19 @@ export function GameForm({
   hasWon,
   isInputValid,
   suggestions,
-  placeholder = "Entrez un nom...",
+  placeholder,
   onInputChange,
   onSelectEntity,
   onSubmit
 }: GameFormProps) {
+  const { t } = useLanguage();
 
   return (
     <form onSubmit={onSubmit} className="flex w-full max-w-md items-center gap-2">
       <div className="relative flex-1">
         <Input
           type="text"
-          placeholder={placeholder} 
+          placeholder={placeholder ?? t("game.inputPlaceholder")}
           value={inputValue}
           disabled={hasWon}
           onChange={(e) => onInputChange(e.target.value)}
@@ -45,8 +48,8 @@ export function GameForm({
               onClick={() => onSelectEntity(entity.name)}
               className="flex cursor-pointer items-center gap-2.5 rounded-sm px-3 py-2 hover:bg-white/10 text-white transition-colors duration-150"
             >
-              <img 
-                src={entity.imagePath} 
+              <img
+                src={entity.imagePath}
                 alt={entity.name}
                 className="h-8 w-8 object-cover rounded-sm"
               />
@@ -55,8 +58,8 @@ export function GameForm({
           ))}
         </ul>
       </div>
-      <Button disabled={!isInputValid}>
-        Valider
+      <Button type="submit" disabled={!isInputValid} className="rounded-lg">
+        {t("game.submit")}
       </Button>
     </form>
   );

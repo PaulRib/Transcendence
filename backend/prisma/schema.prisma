@@ -126,7 +126,7 @@ model Daily_Reward  {
 	elo_rating				Int 		@default(1000)
 	reward_date				DateTime 	@default(now())
 
-	user_id					String
+	user_id					String		@unique
 	user 					User 		@relation(fields: [user_id], references: [id])
 }
 
@@ -135,4 +135,23 @@ model DailyMatch {
 	date 					DateTime	@unique @default(now())
 	championId 				String
 	champion 				Champion 	@relation(fields: [championId], references: [id])
+}
+
+model Country {
+	id 						String @id @default(uuid())
+	name 					String @unique
+	continent				String
+	flagUrl 				String
+	countryId 				Int    @unique
+	language 				String
+	region 					String
+
+	dailyCountryMatches DailyCountryMatch[]
+}
+
+model DailyCountryMatch {
+	id        				String   	@id @default(uuid())
+	date      				DateTime 	@unique @default(now())
+	countryId 				String
+	country   				Country  	@relation(fields: [countryId], references: [id])
 }

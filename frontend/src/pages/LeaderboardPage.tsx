@@ -1,87 +1,108 @@
+import { useEffect, useState } from 'react';
 import { Heading } from '../components/ui/heading';
-import { PageContainer } from '../components/ui/page-content';
-import { Trophy, Medal, User } from 'lucide-react';
-
-interface PlayerScore {
-  rank: number;
-  username: string;
-  score: number;
-  avatar?: string;
-}
+import { getLeaderboard } from '../api/gamification.api';
+import type { LeaderboardEntry } from '../api/gamification.api';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const getRankRowClass = (rank: number) => {
   const base = "transition-colors duration-200 hover:bg-white/5";
-  if (rank === 1) return `${base} bg-gradient-to-r from-yellow-500/10 to-transparent border-l-4 border-yellow-500`;
-  if (rank === 2) return `${base} bg-gradient-to-r from-slate-400/10 to-transparent border-l-4 border-slate-400`;
-  if (rank === 3) return `${base} bg-gradient-to-r from-amber-600/10 to-transparent border-l-4 border-amber-600`;
-  return `${base} border-l-4 border-transparent`;
+  if (rank === 1) return `${base} bg-gradient-to-r from-[#ffd700]/10 to-transparent border-l-4 border-[#ffd700]`;
+  if (rank === 2) return `${base} bg-gradient-to-r from-[#c0c0c0]/10 to-transparent border-l-4 border-[#c0c0c0]`;
+  if (rank === 3) return `${base} bg-gradient-to-r from-[#cd7f32]/10 to-transparent border-l-4 border-[#cd7f32]`;
+  return base;
 };
 
-const getRankIcon = (rank: number) => {
-  if (rank === 1) return <Trophy className="text-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" size={24} />;
-  if (rank === 2) return <Medal className="text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,0.5)]" size={24} />;
-  if (rank === 3) return <Medal className="text-amber-600 drop-shadow-[0_0_8px_rgba(217,119,6,0.5)]" size={24} />;
-  return <span className="text-slate-500 font-bold ml-1">#{rank}</span>;
+const getRankCellClass = (rank: number) => {
+  const base = "text-xl font-bold w-[80px] p-4 border-b border-[#2a2a35]";
+  if (rank === 1) return `${base} text-[#ffd700] drop-shadow-[0_0_5px_rgba(255,215,0,0.5)]`;
+  if (rank === 2) return `${base} text-[#c0c0c0] drop-shadow-[0_0_5px_rgba(192,192,192,0.5)]`;
+  if (rank === 3) return `${base} text-[#cd7f32] drop-shadow-[0_0_5px_rgba(205,127,50,0.5)]`;
+  return base;
 };
-
-const mockLeaderboard: PlayerScore[] = [
-  { rank: 1, username: 'Faker', score: 2540 },
-  { rank: 2, username: 'Chovy', score: 2310 },
-  { rank: 3, username: 'ShowMaker', score: 2200 },
-  { rank: 4, username: 'Rookie', score: 2150 },
-  { rank: 5, username: 'Scout', score: 2050 },
-  { rank: 6, username: 'Doinb', score: 1980 },
-  { rank: 7, username: 'Knight', score: 1920 },
-  { rank: 8, username: 'Xiaohu', score: 1850 },
-  { rank: 9, username: 'Caps', score: 1800 },
-  { rank: 10, username: 'Perkz', score: 1750 },
-];
 
 function LeaderboardPage() {
-  return (
-    <PageContainer>
-      <div className="text-center mb-8 uppercase tracking-widest">
-        <Heading className="mb-2">Classement</Heading>
-        <p className="text-slate-400 text-base normal-case tracking-normal">Les meilleurs joueurs du mode classé</p>
-      </div>
+  const [players, setPlayers] = useState<LeaderboardEntry[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
-      <div className="bg-white/5 border border-white/10 rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-left">
-            <thead>
-              <tr className="bg-white/5 border-b border-white/10">
-                <th className="p-4 text-slate-400 uppercase text-xs font-bold tracking-wider">Rang</th>
-                <th className="p-4 text-slate-400 uppercase text-xs font-bold tracking-wider">Joueur</th>
-                <th className="p-4 text-slate-400 uppercase text-xs font-bold tracking-wider text-right">Score (Elo)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {mockLeaderboard.map((player) => (
-                <tr key={player.rank} className={getRankRowClass(player.rank)}>
-                  <td className="w-[80px] p-4 border-b border-white/5">
-                    <div className="flex justify-center items-center h-full">
-                      {getRankIcon(player.rank)}
-                    </div>
+  useEffect(() => {
+    async function loadLeaderboard() {
+      try {
+        const leaderboard = await getLeaderboard();
+        setPlayers(leaderboard);
+        setError(null);
+      } catch {
+        setError(t("leaderboard.loadError"));
+      }
+    }
+
+    loadLeaderboard();
+  }, [t]);
+
+  return (
+    <div className="max-w-[800px] mx-auto my-8 p-8 bg-[#14141e]/85 rounded-xl text-white shadow-[0_4px_15px_rgba(0,0,0,0.4)]">
+      <Heading className="text-center font-bold text-2xl mb-2 text-[#f1c40f] uppercase tracking-widest">{t("leaderboard.title")}</Heading>
+      <p className="text-center text-[#bdc3c7] mb-8 text-base">{t("leaderboard.subtitle")}</p>
+
+      {error && <p className="text-center text-red-400">{error}</p>}
+
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-left">
+          <thead>
+            <tr>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] first:rounded-tl-lg">{t("leaderboard.rank")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24]">{t("leaderboard.player")}</th>
+              <th className="bg-[#2a2a35] p-4 text-[#95a5a6] uppercase text-sm font-bold border-b-2 border-[#1a1a24] last:rounded-tr-lg">{t("leaderboard.score")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {players.map((player, index) => {
+              const rank = index + 1;
+
+              return (
+                <tr key={player.id} className={getRankRowClass(rank)}>
+                  <td className={getRankCellClass(rank)}>
+                    {rank === 1 && '🥇'}
+                    {rank === 2 && '🥈'}
+                    {rank === 3 && '🥉'}
+                    {rank > 3 && `#${rank}`}
                   </td>
-                  <td className="w-full p-4 border-b border-white/5">
+                  <td className="w-full p-4 border-b border-[#2a2a35]">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center border border-white/10">
-                        <User className="text-slate-400" size={20} />
-                      </div>
-                      <span className="font-bold text-lg text-slate-100">{player.username}</span>
+                      <span className="w-9 h-9 bg-[#3b3b4f] rounded-full flex items-center justify-center text-base">
+                        {player.user.avatar_url ? (
+                          <img
+                            src={player.user.avatar_url}
+                            alt={player.user.username}
+                            className="w-9 h-9 rounded-full object-cover"
+                          />
+                        ) : (
+                          player.user.username.charAt(0).toUpperCase()
+                        )}
+                      </span>
+                      <span className="font-bold text-lg">{player.user.username}</span>
                     </div>
                   </td>
-                  <td className="w-[120px] p-4 border-b border-white/5 font-bold text-right text-lg text-blue-400">
-                    {player.score}
+                  <td className="w-[120px] p-4 border-b border-[#2a2a35] font-bold text-[#f1c40f] text-lg">
+                    {player.elo_rating}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              );
+            })}
+
+            {!error && players.length === 0 && (
+              <tr>
+                <td colSpan={3} className="p-8 text-center text-[#bdc3c7]">
+                  {t("leaderboard.empty")}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
-    </PageContainer>
+    </div>
   );
 }
+
 
 export default LeaderboardPage;

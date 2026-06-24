@@ -26,3 +26,27 @@ export type GuessResponse = {
 export type ChampionRandom =  {
 	id: string;
 };
+
+
+export type CountryName = {
+	name: string;
+};
+
+export type CountryDay = {
+	id: string;
+	name: string;
+	continent: string;
+	flagUrl: string;
+	countryId: number;
+	language: string;
+	region: string;
+};
+
+export type CountryGuessResponse = {
+	name: string;
+	flagUrl: string;
+	continent: GuessAttribute<string>;
+	region: GuessAttribute<string>;
+	language: GuessAttribute<string>;
+	isWin: boolean;
+};

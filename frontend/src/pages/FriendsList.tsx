@@ -7,6 +7,7 @@ import { Button } from '../components/ui/button';
 import { Heading } from '../components/ui/heading';
 import { Input } from '../components/ui/input';
 import { PageContainer } from '../components/ui/page-content';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function FriendsList() {
   const [usernameToAdd, setUsernameToAdd] = useState('');
@@ -15,6 +16,7 @@ function FriendsList() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
+  const { t } = useLanguage();
 
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
@@ -30,7 +32,7 @@ function FriendsList() {
     const token = localStorage.getItem('access_token');
 
     if (!token) {
-      setError('Session expirée');
+      setError(t("friends.expired"));
       return null;
     }
 
@@ -55,7 +57,7 @@ function FriendsList() {
       setFriendRequests(requestsData);
       setError(null);
     } catch {
-      setError('Impossible de charger les amis');
+      setError(t("friends.cantcharge"));
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +82,7 @@ function FriendsList() {
       setUsernameToAdd('');
       setError(null);
     } catch {
-      setError("Impossible d'envoyer la demande d'ami");
+      setError(t("friends.cantsend"));
     }
   }
 
@@ -95,7 +97,7 @@ function FriendsList() {
       await acceptFriendRequest(token, requestId);
       await loadFriendsData();
     } catch {
-      setError("Impossible d'accepter la demande");
+      setError(t("friends.cantaccept"));
     }
   }
 
@@ -110,22 +112,22 @@ function FriendsList() {
       await deleteFriendship(token, friendshipId);
       await loadFriendsData();
     } catch {
-      setError('Impossible de supprimer cet ami');
+      setError(t("friends.cantdelete"));
     }
   }
 
   return (
     <PageContainer>
       <div className="mb-8 text-center uppercase tracking-widest">
-        <Heading>Liste d'Amis</Heading>
+        <Heading>{t("friends.title")}</Heading>
       </div>
 
-      {isLoading && <p className="mb-4 text-center text-slate-300">Chargement...</p>}
+      {isLoading && <p className="mb-4 text-center text-slate-300">{t("friends.loading")}</p>}
       {error && <p className="mb-4 text-center text-red-300">{error}</p>}
 
       {friendRequests.length > 0 && (
         <section className="mb-8 flex flex-col gap-3">
-          <h2 className="text-left text-lg font-bold text-[#f1c40f]">Demandes reçues</h2>
+          <h2 className="text-left text-lg font-bold text-[#f1c40f]">{t("friends.inviteTitle")}</h2>
           {friendRequests.map((request) => (
             <div key={request.id} className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-800">
@@ -133,13 +135,13 @@ function FriendsList() {
               </div>
               <div className="flex-1 text-left">
                 <h3 className="m-0 text-base font-bold text-slate-100">{request.requester.username}</h3>
-                <p className="m-0 text-sm text-slate-400">Demande d'ami</p>
+                <p className="m-0 text-sm text-slate-400">{t("friends.request")}</p>
               </div>
               <Button
                 className="bg-blue-600 font-medium hover:bg-blue-500"
                 onClick={() => handleAcceptRequest(request.id)}
               >
-                Accepter
+                {t("friends.accept")}
               </Button>
             </div>
           ))}
@@ -147,13 +149,13 @@ function FriendsList() {
       )}
 
       <section className="mb-8 flex flex-col gap-2 text-left">
-        <span className="text-xs font-bold uppercase tracking-[1px] text-[#f1c40f]">Ajouter un ami</span>
+        <span className="text-xs font-bold uppercase tracking-[1px] text-[#f1c40f]">{t("friends.add")}</span>
         <div className="flex gap-3">
           <div className="relative flex-1">
             <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
             <Input
               type="text"
-              placeholder="Nom d'utilisateur"
+              placeholder={t("friends.username")}
               value={usernameToAdd}
               onChange={(event) => setUsernameToAdd(event.target.value)}
               className="h-12 pl-10"
@@ -163,7 +165,7 @@ function FriendsList() {
             className="h-12 bg-blue-600 px-6 font-medium hover:bg-blue-500"
             onClick={handleSendFriendRequest}
           >
-            Ajouter
+            {t("friends.add")}
           </Button>
         </div>
       </section>
@@ -182,20 +184,20 @@ function FriendsList() {
 
                 <div className="flex-1 text-left">
                   <h3 className="m-0 text-lg font-bold text-slate-100">{friendUser.username}</h3>
-                  <p className="m-0 mt-0.5 text-sm font-medium text-slate-500">Ami</p>
+                  <p className="m-0 mt-0.5 text-sm font-medium text-slate-500">{t("friends.friend")}</p>
                 </div>
 
                 <div className="flex gap-2">
-                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title="Message">
+                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title={t("friends.messageTitle")}>
                     <MessageCircle size={18} />
                   </Button>
-                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title="Inviter à jouer">
+                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title={t("friends.inviteTitle")}>
                     <Gamepad2 size={18} />
                   </Button>
                   <Button
                     variant="ghost"
                     className="h-10 w-10 p-0 text-slate-400 hover:bg-red-500/10 hover:text-red-400"
-                    title="Retirer l'ami"
+                    title={t("friends.removeTitle")}
                     onClick={() => handleDeleteFriendship(friendship.id)}
                   >
                     <UserX size={18} />
@@ -207,7 +209,7 @@ function FriendsList() {
         ) : (
           <div className="rounded-xl border border-white/10 bg-white/5 p-12 text-center">
             <UserX className="mx-auto mb-4 text-slate-500" size={48} />
-            <p className="text-lg font-medium text-slate-400">Aucun ami trouvé.</p>
+            <p className="text-lg font-medium text-slate-400">{t("friends.empty")}</p>
           </div>
         )}
       </section>

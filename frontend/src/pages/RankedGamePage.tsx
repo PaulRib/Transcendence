@@ -4,11 +4,12 @@ import { sendGuess } from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { PageContainer } from '../components/ui/page-content';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe } from 'lucide-react';
+import { Navigate } from 'react-router-dom';
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';
 import { Heading } from '../components/ui/heading';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function RankedGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -19,6 +20,7 @@ function RankedGamePage() {
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
+  const { t } = useLanguage();
   const { universe } = useGameUniverse();
 
   useEffect(() => {
@@ -29,13 +31,13 @@ function RankedGamePage() {
         setChampionNames(names);
         setError(null);
       } catch {
-        setError("Can't load game data. Please retry later !");
+        setError(t("game.loadError"));
       } finally {
         setIsLoading(false);
       }
     }
     loadGameData();
-  }, []);
+  }, [t]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -66,11 +68,11 @@ function RankedGamePage() {
     event.preventDefault();
     const validChamp = championNames.find(c => c.name.toLowerCase() === inputValue.toLowerCase());
     if (!validChamp) {
-      alert("This champion does not exist !");
+      alert(t("game.invalidChampion"));
       return;
     }
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
-    
+
     try {
       const result = await sendGuess(validChamp.name);
       setGuesses([result, ...guesses]);
@@ -82,40 +84,29 @@ function RankedGamePage() {
       }
     } catch (err) {
       console.error(err);
-      alert("Error during the try");
+      alert(t("game.tryError"));
     }
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '50px' }}>Chargement du jeu...</div>;
+    return <div style={{ textAlign: 'center', padding: '50px' }}>{t("game.loading")}</div>;
   }
 
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   if (universe === 'country') {
-    return (
-      <PageContainer>
-        <Heading>Mode Country</Heading>
-        <div className="flex flex-col items-center justify-center p-12 text-center bg-white/5 border border-white/10 rounded-xl mt-8">
-          <Globe size={64} className="text-blue-400 mb-6 opacity-80" />
-          <h2 className="text-2xl font-bold text-white mb-2">Bientôt disponible !</h2>
-          <p className="text-slate-400 text-lg max-w-md">
-            L'interface générique est prête. Il ne reste plus qu'à connecter la base de données des pays pour pouvoir jouer.
-          </p>
-        </div>
-      </PageContainer>
-    );
+    return <Navigate to="/countrydle" replace />;
   }
 
   return (
     <PageContainer className="game-PageContainer">
-      <Heading>Ranked mode</Heading>
-      
+      <Heading>{t("game.rankedTitle")}</Heading>
+
       {error && <div className="error-alert">{error}</div>}
 
       {showVictory && <VictoryCard guessCount={guesses.length} />}
 
-      <GameForm 
+      <GameForm
         inputValue={inputValue}
         hasWon={hasWon}
         isInputValid={isInputValid}
@@ -129,8 +120,8 @@ function RankedGamePage() {
         onSubmit={handleSubmitGuess}
       />
 
-      <HistoryGrid 
-        columns={["Champion", "Genre", "Position", "Espèce", "Ressource", "Portée", "Région", "Année"]}
+      <HistoryGrid
+        columns={[t("game.champion"), t("game.gender"), t("game.position"), t("game.species"), t("game.resource"), t("game.range"), t("game.region"), t("game.year")]}
         guesses={guesses.map(g => ({
           entity: {
             name: g.name,
@@ -146,7 +137,7 @@ function RankedGamePage() {
             g.region,
             g.release_year
           ]
-        }))} 
+        }))}
       />
     </PageContainer>
   );

@@ -17,6 +17,7 @@ interface HistoryGridProps {
 }
 
 export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
+
   return (
     <div className="mt-8 overflow-x-auto w-full grid justify-items-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       <div className="grid gap-2 min-w-[600px]">
@@ -57,7 +58,7 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
 
               {/* Attributs Génériques */}
               {guess.attributes.map((attr, attrIdx) => (
-                <div 
+                <div
                   key={attrIdx}
                   className={`guess-box grid place-items-center content-center w-[72px] h-[72px] border-2 text-white font-bold text-[11px] text-center capitalize rounded-lg p-1 transition-all duration-300 ${getBgColor(attr.status)}`}
                   style={{ animationDelay: `${(attrIdx + 1) * 0.4}s` }}
