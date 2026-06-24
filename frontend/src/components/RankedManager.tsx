@@ -7,6 +7,7 @@ function RankedManager() {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [matchState, setMatchState] = useState<'lobby' | 'waiting' | 'playing'>('lobby');
   const [matchId, setMatchId] = useState<string | null>(null);
+  const [starterSocketId, setStarterSocketId] = useState<string | null>(null);
 
   useEffect(() => {
     // 1. On ouvre le tuyau vers le namespace /game dès qu'on arrive sur le menu Classé
@@ -26,8 +27,11 @@ function RankedManager() {
     });
 
     // 3. ÉCOUTE DU FEU VERT TECHNIQUE (Les 2 joueurs sont dans la Room)
-    newSocket.on('game_ready', () => {
-      console.log("Les deux joueurs sont connectés, c'est parti !");
+    newSocket.on('game_ready', (data?: { starterSocketId?: string }) => {
+      console.log("Les deux joueurs sont connectés, c'est parti !", data);
+      if (data?.starterSocketId) {
+        setStarterSocketId(data.starterSocketId);
+      }
       setMatchState('playing'); // On affiche le plateau de jeu !
     });
 
@@ -63,7 +67,7 @@ function RankedManager() {
       
       {/* ÉTAPE 3 : Le jeu commence ! */}
       {matchState === 'playing' && matchId && socket && (
-        <RankedGamePage socket={socket} matchId={matchId} />
+        <RankedGamePage socket={socket} matchId={matchId} starterSocketId={starterSocketId} />
       )}
       
     </div>
