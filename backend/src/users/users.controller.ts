@@ -2,8 +2,8 @@ import { UseGuards, Request , Controller, Get, Param, Patch, Body } from '@nestj
 import { UsersService } from './users.service';
 import type { PublicUser } from './types/public-user.type';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import type { UpdateProfileDto } from './dto/update-profile.dto'
-import type { UpdatePasswordDto } from './dto/update-password.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto'
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Controller('users')
 export class UsersController {
