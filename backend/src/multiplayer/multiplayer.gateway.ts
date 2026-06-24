@@ -103,10 +103,12 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		client.data.currentMatchId = data.matchId;
 		console.log(`Le joueur ${client.data.user.username} a rejoint la room ${data.matchId}`);
 
-		const room = this.server.adapter.rooms.get(`room_${data.matchId}`)
+		const room = this.server.adapter.rooms.get(`room_${data.matchId}`);
 		if (room && room.size === 2) {
-			this.server.to(`room_${data.matchId}`).emit('game_ready');
-			console.log(`La partie ${data.matchId} commence !`);
+			const roomSockets = Array.from(room);
+			const starterSocketId = roomSockets[Math.floor(Math.random() * roomSockets.length)];
+			this.server.to(`room_${data.matchId}`).emit('game_ready', { starterSocketId });
+			console.log(`La partie ${data.matchId} commence ! Starter: ${starterSocketId}`);
 		}
 	}
 	
