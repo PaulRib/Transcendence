@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from 'react';
 import { getCurrentUser } from "../api/auth.api";
 import type { AuthUser } from "../api/auth.api";
@@ -21,19 +21,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const login = (user: AuthUser, token: string) => {
+    const login = useCallback((user: AuthUser, token: string) => {
         localStorage.setItem('access_token', token);
         setCurrentUser(user);
-    };
+        setIsLoading(false);
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         localStorage.removeItem('access_token');
         setCurrentUser(null);
-    };
+        setIsLoading(false);
+    }, []);
 
-    const updateCurrentUser = (user: AuthUser) => {
+    // A VOIR 
+    const updateCurrentUser = useCallback((user: AuthUser) => {
         setCurrentUser(user);
-    };
+    }, []);
 
     useEffect(() => {
         async function loadCurrentUser() {

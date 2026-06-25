@@ -74,3 +74,7 @@ export async function getCurrentUser(token: string): Promise<AuthUser> {
 
     return response.json();
 }
+
+export function redirectToFortyTwoLogin() {
+    window.location.href = `${API_BASE_URL}/auth/42`;
+}

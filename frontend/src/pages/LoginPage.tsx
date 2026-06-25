@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/auth.api';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { loginUser, redirectToFortyTwoLogin} from '../api/auth.api';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { API_BASE_URL } from '../config/api';
-
 import { FormError } from '../components/ui/form-error';
 
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
+  const oauthError = searchParams.get('oauthError');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -38,9 +38,8 @@ function LoginPage() {
   };
 
   const handle42Login = () => {
-    // Redirection directe vers le backend qui initiera le flux OAuth2 avec 42
-    window.location.href = `${API_BASE_URL}/auth/42/login`;
-  };
+    redirectToFortyTwoLogin();
+  }
 
   return (
     <PageContainer>
@@ -88,6 +87,7 @@ function LoginPage() {
       </div>
 
       {message && <p>{message}</p>}
+      {oauthError === 'email_exists' && <FormError>{t("login.oauthEmailExists")}</FormError>}
       <FormError>{error}</FormError>
     </PageContainer>
   );

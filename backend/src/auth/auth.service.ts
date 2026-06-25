@@ -5,6 +5,16 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from "./dto/login.dto";
 import { UsersService } from "../users/users.service";
 
+type FortyTwoUser = {
+    id: number;
+    login: string;
+    email: string;
+    image?: {
+        link?: string;
+    };
+};
+
+
 @Injectable()
 export class AuthService {
     constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
@@ -59,5 +69,67 @@ export class AuthService {
 
     async getMe(userId: string){
         return this.usersService.getUserById(userId);
+    }
+
+    async loginWith42(code:string) {
+        const tokenResponse = await fetch('https://api.intra.42.fr/oauth/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                grant_type: 'authorization_code',
+                client_id: process.env.FORTYTWO_CLIENT_ID,
+                client_secret: process.env.FORTYTWO_CLIENT_SECRET,
+                code,
+                redirect_uri: process.env.FORTYTWO_CALLBACK_URL,
+            }),
+        });
+
+        if (!tokenResponse.ok) {
+            throw new UnauthorizedException('Invalid 42 authorization code');
+        }
+
+        const tokenData = await tokenResponse.json() as { access_token: string };
+
+        const userResponse = await fetch('https://api.intra.42.fr/v2/me', {
+            headers: {
+                Authorization: `Bearer ${tokenData.access_token}`,
+            },
+        });
+
+        if (!userResponse.ok) {
+            throw new UnauthorizedException('Unable to fetch 42 user');
+        }
+
+        const fortyTwoUser = await userResponse.json() as FortyTwoUser;
+        const oauthId = String(fortyTwoUser.id);
+
+        let user = await this.usersService.findUserByOauth('42', oauthId);
+
+        if (!user) {
+            const existingUser = await this.usersService.findByEmail(fortyTwoUser.email);
+
+            if (existingUser) {
+                throw new UnauthorizedException(
+                    'An account with this email already exists'
+                );
+            }
+
+            user = await this.usersService.createOauthUser (
+                fortyTwoUser.login,
+                fortyTwoUser.email,
+                fortyTwoUser.image?.link ?? null,
+                '42',
+                oauthId,
+            );
+        }
+
+        const payload = { sub: user.id, username: user.username};
+        
+        return {
+            user,
+            access_token: await this.jwtService.signAsync(payload),
+        };
     }
 }
