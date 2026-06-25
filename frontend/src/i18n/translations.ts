@@ -182,7 +182,7 @@ export const translations = {
 			flag: "Drapeau",
 			population: "Population",
 			currency: "Devise",
-			currencyName: "Nom de la devise",
+			currencyName: "Devise",
 		},
 		multiplayer: {
 			matchId: "Match ID :",
@@ -400,7 +400,7 @@ export const translations = {
 			flag: "Flag",
 			population: "Population",
 			currency: "Currency",
-			currencyName: "Currency name",
+			currencyName: "Currency",
 		},
 		multiplayer: {
 			matchId: "Match ID:",
@@ -618,7 +618,7 @@ export const translations = {
 			flag: "Флаг",
 			population: "Население",
 			currency: "Валюта",
-			currencyName: "Название валюты",
+			currencyName: "валюта",
 		},
 		multiplayer: {
 			matchId: "ID матча:",
