@@ -172,4 +172,35 @@ export class UsersService {
         
         return { message: 'Password updated successfully' };
     }
+
+    async findUserByOauth(provider: string, oauthId: string) {
+        return this.prisma.user.findFirst({
+            where: {
+                oauth_provider: provider,
+                oauth_id: oauthId,
+            },
+            select: {
+                id: true,
+                username: true,
+                avatar_url: true,
+            },
+        });
+    }
+
+    async createOauthUser(username: string, email: string, avatarUrl: string | null, provider: string, oauthId: string): Promise<PublicUser> {
+        return this.prisma.user.create({
+            data: {
+                username,
+                email,
+                avatar_url: avatarUrl,
+                oauth_provider: provider,
+                oauth_id: oauthId,
+            },
+            select: {
+                id: true,
+                username: true,
+                avatar_url: true,
+            },
+        });
+    }
 }

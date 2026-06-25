@@ -7,6 +7,7 @@ import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { API_BASE_URL } from '../config/api';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -52,6 +53,9 @@ function LoginPage() {
           onChange={(event) => setPassword(event.target.value)}
         />
         <Button type="submit">{t("login.submit")}</Button>
+        <Button type="button" variant="outline" onClick={() => window.location.href = `${API_BASE_URL}/auth/42`}>
+          Login 42
+        </Button>
       </form>
 
       <div className="flex flex-row items-center justify-center gap-1.5 mt-4 text-slate-300 text-[0.95rem]">
