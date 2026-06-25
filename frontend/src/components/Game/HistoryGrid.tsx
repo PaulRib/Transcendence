@@ -19,16 +19,18 @@ interface HistoryGridProps {
 export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
 
   return (
-    <div className="mt-8 overflow-x-auto w-full grid justify-items-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-      <div className="grid gap-2 min-w-[600px]">
+    <div className="mt-8 overflow-x-auto w-full flex justify-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div className="grid gap-2 w-fit px-2">
         
         {/* En-tête de la grille */}
         <div 
-          className="grid gap-1.5 font-bold text-xs text-center justify-center mb-1"
-          style={{ gridTemplateColumns: `repeat(${columns.length}, 72px)` }}
+          className="grid gap-2 font-bold text-xs text-center items-end justify-center mb-2"
+          style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(72px, 92px))` }}
         >
           {columns.map((col, idx) => (
-            <div key={idx} className="text-slate-300 uppercase tracking-wider">{col}</div>
+            <div key={idx} className="text-slate-300 uppercase tracking-wider text-[11px] font-extrabold leading-tight break-words flex items-center justify-center px-1 text-center min-h-[32px]">
+              {col}
+            </div>
           ))}
         </div>
 
@@ -44,15 +46,15 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
           return (
             <div 
               key={guess.entity.name} 
-              className="grid gap-1.5 items-center justify-center"
-              style={{ gridTemplateColumns: `repeat(${columns.length}, 72px)` }}
+              className="grid gap-2 items-center justify-center"
+              style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(72px, 92px))` }}
             >
               
               {/* Image Entité */}
-              <div className="champion-avatar-cell grid place-items-center" style={{ animationDelay: '0s' }}>
+              <div className="champion-avatar-cell flex items-center justify-center w-full aspect-square" style={{ animationDelay: '0s' }}>
                 <img 
                   src={guess.entity.imagePath} 
-                  className="w-[72px] h-[72px] rounded-lg object-cover block mx-auto border-2 border-white/10 shadow-lg" 
+                  className="w-full h-full rounded-lg object-cover block mx-auto border-2 border-white/10 shadow-lg" 
                   alt={guess.entity.name} 
                 />
               </div>
@@ -61,12 +63,14 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
               {guess.attributes.map((attr, attrIdx) => (
                 <div
                   key={attrIdx}
-                  className={`guess-box grid place-items-center content-center w-[72px] h-[72px] border-2 text-white font-bold text-[11px] text-center capitalize rounded-lg p-1 transition-all duration-300 ${getBgColor(attr.status)}`}
+                  className={`guess-box flex flex-row flex-wrap items-center justify-center gap-1 w-full aspect-square border-2 text-white font-bold text-[11px] leading-tight text-center break-words rounded-lg p-1 transition-all duration-300 ${getBgColor(attr.status)}`}
                   style={{ animationDelay: `${(attrIdx + 1) * 0.4}s` }}
                 >
-                  {Array.isArray(attr.value) ? attr.value.join(', ') : attr.value}
-                  {attr.status === 'higher' && <span className="text-base leading-none mt-1 font-black">↑</span>}
-                  {attr.status === 'lower' && <span className="text-base leading-none mt-1 font-black">↓</span>}
+                  <span className="line-clamp-3">
+                    {Array.isArray(attr.value) ? attr.value.join(', ') : attr.value}
+                  </span>
+                  {attr.status === 'higher' && <span className="text-sm font-black">↑</span>}
+                  {attr.status === 'lower' && <span className="text-sm font-black">↓</span>}
                 </div>
               ))}
             </div>

@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -21,8 +20,6 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
   const [activeTab, setActiveTab] = useState<'default' | 'link' | 'upload'>('default');
   const [linkInput, setLinkInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const displayAvatar = currentAvatar || DEFAULT_AVATARS[0];
 
   const handleDefaultClick = (url: string) => {
     onAvatarChange(url);
@@ -52,71 +49,60 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
   };
 
   return (
-    <div className="flex flex-col gap-6 md:flex-row items-start">
-      {/* Aperçu en direct */}
-      <div className="flex flex-col items-center gap-3">
-        <Avatar className="w-32 h-32 border-4 border-white/10 shadow-xl">
-          <AvatarImage src={displayAvatar} alt="Avatar Preview" />
-          <AvatarFallback className="text-2xl text-white">AV</AvatarFallback>
-        </Avatar>
-        <span className="text-sm text-white/50 font-medium">Aperçu</span>
-      </div>
-
+    <div className="flex flex-col gap-4 w-full">
       {/* Contrôles de sélection */}
-      <div className="flex-1 flex flex-col gap-4 w-full">
-        <div className="flex gap-2 border-b border-white/10 pb-2">
-          <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>Par défaut</Button>
-          <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>Lien Web</Button>
-          <Button type="button" variant={activeTab === 'upload' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('upload')}>Importer fichier</Button>
-        </div>
-
-        {activeTab === 'default' && (
-          <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
-            {DEFAULT_AVATARS.map((url, i) => (
-              <button 
-                key={i} 
-                type="button"
-                onClick={() => handleDefaultClick(url)}
-                className={`rounded-full overflow-hidden border-2 transition-all hover:scale-105 ${currentAvatar === url ? 'border-blue-500 scale-105 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'border-transparent hover:border-white/20'}`}
-              >
-                <img src={url} alt={`Default ${i}`} className="w-full h-auto aspect-square object-cover" />
-              </button>
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'link' && (
-          <div className="flex flex-col gap-3">
-            <p className="text-sm text-white/70">Collez un lien vers une image (ex: Discord, Imgur...)</p>
-            <div className="flex gap-2">
-              <Input 
-                placeholder="https://..." 
-                value={linkInput} 
-                onChange={e => setLinkInput(e.target.value)} 
-                className="flex-1"
-                onKeyDown={(e) => { if(e.key === 'Enter') handleLinkSubmit(e); }}
-              />
-              <Button type="button" onClick={handleLinkSubmit}>Appliquer</Button>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'upload' && (
-          <div className="flex flex-col gap-3">
-            <p className="text-sm text-white/70">Sélectionnez une image sur votre ordinateur.</p>
-            <input 
-              type="file" 
-              accept="image/*" 
-              className="hidden" 
-              ref={fileInputRef} 
-              onChange={handleFileUpload} 
-            />
-            <Button type="button" variant="outline" className="w-fit" onClick={() => fileInputRef.current?.click()}>
-              Parcourir...
-            </Button>
-          </div>
-        )}
+      <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3">
+        <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>Par défaut</Button>
+        <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>Lien Web</Button>
+        <Button type="button" variant={activeTab === 'upload' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('upload')}>Importer fichier</Button>
       </div>
+
+      {activeTab === 'default' && (
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 p-2">
+          {DEFAULT_AVATARS.map((url, i) => (
+            <button 
+              key={i} 
+              type="button"
+              onClick={() => handleDefaultClick(url)}
+              className={`rounded-full overflow-hidden border-2 transition-all hover:scale-110 ${currentAvatar === url ? 'border-blue-500 scale-110 shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'border-transparent hover:border-white/30'}`}
+            >
+              <img src={url} alt={`Default ${i}`} className="w-full h-auto aspect-square object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      {activeTab === 'link' && (
+        <div className="flex flex-col gap-3 py-2">
+          <p className="text-sm text-white/70">Collez un lien vers une image (ex: Discord, Imgur...)</p>
+          <div className="flex gap-2">
+            <Input 
+              placeholder="https://..." 
+              value={linkInput} 
+              onChange={e => setLinkInput(e.target.value)} 
+              className="flex-1"
+              onKeyDown={(e) => { if(e.key === 'Enter') handleLinkSubmit(e); }}
+            />
+            <Button type="button" onClick={handleLinkSubmit}>Appliquer</Button>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'upload' && (
+        <div className="flex flex-col gap-3 py-2">
+          <p className="text-sm text-white/70">Sélectionnez une image sur votre ordinateur.</p>
+          <input 
+            type="file" 
+            accept="image/*" 
+            className="hidden" 
+            ref={fileInputRef} 
+            onChange={handleFileUpload} 
+          />
+          <Button type="button" variant="outline" className="w-fit" onClick={() => fileInputRef.current?.click()}>
+            Parcourir...
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

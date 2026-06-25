@@ -1,13 +1,4 @@
-integrer bibliotheque d'icone, avec une url (pas obligatoire), ou recuperer depuis l'intra de 42. OK
 connexion avec l'intra de 42
-compatibilite avec 2 navigateur
-Integrer ce que Murad a fait, reward, leaderboard, traduction
-Reutiliser au moins 10 composant
 notification demande d'amis recu, et demande de duel ( sonner composant)
 ajouter un ecran de chargement ( facultatif)
 integre les avatar( composant) alert dialog,  et alert
-ajouter composant: 
-sidebar
-select
-scrollarea
-badge ( pour admin, ou utilisateur connecter, )

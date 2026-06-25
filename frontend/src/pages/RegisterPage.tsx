@@ -6,6 +6,7 @@ import { Heading } from '../components/ui/heading';
 import { useLanguage } from "../i18n/LanguageContext";
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { FormError } from '../components/ui/form-error';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function RegisterPage() {
       </form>
 
       {message && <p>{message}</p>}
-      {error && <p className="mt-4 text-red-400 whitespace-pre-line text-sm">{error}</p>}
+      <FormError>{error}</FormError>
     </PageContainer>
   );
 }
