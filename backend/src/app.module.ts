@@ -11,8 +11,9 @@ import { CountriesModule } from './countrydle/countries/countries.module';
 import { DailycountrymatchesModule } from './countrydle/dailymatches/dailycountrymatches.module';
 import { FriendsModule } from './friends/friends.module';
 import { ChatModule } from './chat/chat.module';
+import { MultiplayerModule } from './multiplayer/multiplayer.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, FriendsModule, ChatModule, GamificationModule, CountriesModule, DailycountrymatchesModule]
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, MultiplayerModule, FriendsModule, ChatModule, GamificationModule, CountriesModule, DailycountrymatchesModule]
 })
 export class AppModule {}

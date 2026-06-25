@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ChampionsService } from './champions.service';
 
 @Controller('champions') // Toutes les URLs commenceront par /champions
@@ -13,16 +13,16 @@ export class ChampionsController {
   }
 
   @Get('name')
-  async getChampByName(name: string) {
+  async getChampByName(@Query('name') name: string) {
 	return this.championsService.getChampByName(name);
   }
 
   @Get('exactChampName')
-  async getExactChampByName(name: string) {
+  async getExactChampByName(@Query('name') name: string) {
 	return this.championsService.getExactChampByName(name);
   }
-@Get('exactChampId')
-  async getExactChampById(id: string) {
+  @Get('exactChampId')
+  async getExactChampById(@Query('id') id: string) {
 	return this.championsService.getExactChampById(id);
   }
 }

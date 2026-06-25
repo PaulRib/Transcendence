@@ -5,16 +5,20 @@ import { useLanguage } from "../../i18n/LanguageContext";
 import { getCountryNames } from "../../api/countrydle/countries.api";
 import { sendCountryGuess } from "../../api/countrydle/dailycountrygame.api";
 import type { CountryGuessResponse, CountryName } from "../../api/type.api";
-import { Input } from "../../components/ui/input";
-import { Button } from "../../components/ui/button";
+import { GameForm } from "../../components/Game/GameForm";
+import { HistoryGrid } from "../../components/Game/HistoryGrid";
+import { VictoryCard } from "../../components/Game/VictoryCard";
 
 function CountrydlePage() {
 	const { t } = useLanguage();
 	const [inputValue, setInputValue] = useState('');
 	const [countryNames, setCountryNames] = useState<CountryName[]>([]);
+	const [suggestions, setSuggestions] = useState<CountryName[]>([]);
 	const [guesses, setGuesses] = useState<CountryGuessResponse[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [hasWon, setHasWon] = useState(false);
+	const [showVictory, setShowVictory] = useState(false);
 
 	useEffect(() => {
 		async function loadCountries() {
@@ -33,23 +37,30 @@ function CountrydlePage() {
 		loadCountries();
 	}, [t]);
 
-	const formatStatus = (status: string) => {
-		if (status === 'correct') {
-			return t("countrydle.correct");
-		}
-
-		return t("countrydle.incorrect");
+	const handleSelectCountry = (countryName: string) => {
+		setInputValue(countryName);
+		setSuggestions([]);
 	};
 
-	const getStatusClassName = (status: string) => {
-		if (status === 'correct') {
-			return "bg-green-500/20 border-green-500/50 text-green-100";
+	const handleInputChange = (text: string) => {
+		setInputValue(text);
+
+		if (text.trim() === '') {
+			setSuggestions([]);
+			return;
 		}
 
-		return "bg-red-500/20 border-red-500/50 text-red-100";
+		const alreadyGuessedNames = guesses.map((guess) => guess.name.toLowerCase());
+		const filtered = countryNames.filter((country) => {
+			const matchesText = country.name.toLowerCase().startsWith(text.toLowerCase());
+			const isNotAlreadyGuessed = !alreadyGuessedNames.includes(country.name.toLowerCase());
+			return matchesText && isNotAlreadyGuessed;
+		});
+
+		setSuggestions(filtered);
 	};
 
-	const handleSubmit = async (event: React.FormEvent) => {
+	const handleSubmitGuess = async (event: React.FormEvent) => {
 		event.preventDefault();
 
 		const validCountry = countryNames.find(
@@ -69,6 +80,12 @@ function CountrydlePage() {
 			const result = await sendCountryGuess(validCountry.name);
 			setGuesses([result, ...guesses]);
 			setInputValue('');
+			setSuggestions([]);
+
+			if (result.isWin) {
+				setHasWon(true);
+				setTimeout(() => setShowVictory(true), 3750);
+			}
 		} catch {
 			alert(t("countrydle.tryError"));
 		}
@@ -78,47 +95,55 @@ function CountrydlePage() {
 		return <div style={{ textAlign: 'center', padding: '50px' }}>{t("countrydle.loading")}</div>;
 	}
 
+	const isInputValid = countryNames.some(
+		(country) => country.name.toLowerCase() === inputValue.trim().toLowerCase()
+	);
+
 	return (
-		<PageContainer>
+		<PageContainer className="game-PageContainer">
 			<Heading>{t("countrydle.title")}</Heading>
-			<p>{t("countrydle.subtitle")}</p>
+			<h2>{t("countrydle.subtitle")}</h2>
 
 			{error && <div className="error-alert">{error}</div>}
 
-			<form onSubmit={handleSubmit} className="flex w-full max-w-md items-center gap-2">
-				<Input
-					type="text"
-					placeholder={t("countrydle.placeholder")}
-					value={inputValue}
-					onChange={(event) => setInputValue(event.target.value)}
-				/>
-				<Button type="submit">
-					{t("countrydle.submit")}
-				</Button>
-			</form>
+			{showVictory && <VictoryCard guessCount={guesses.length} />}
 
-			<div className="mt-8 flex flex-col gap-3 w-full max-w-md">
-				{guesses.map((guess, index) => (
-					<div key={`${guess.name}-${index}`} className="bg-white/5 border border-white/10 rounded-lg p-4">
-						<div className="flex items-center gap-3 mb-3">
-							<img src={guess.flagUrl} alt={guess.name} className="w-10 h-7 object-cover" />
-							<strong>{guess.name}</strong>
-						</div>
+			<GameForm
+				inputValue={inputValue}
+				hasWon={hasWon}
+				isInputValid={isInputValid}
+				placeholder={t("countrydle.placeholder")}
+				suggestions={suggestions.map((country) => ({
+					name: country.name,
+					imagePath: country.flagUrl,
+				}))}
+				onInputChange={handleInputChange}
+				onSelectEntity={handleSelectCountry}
+				onSubmit={handleSubmitGuess}
+			/>
 
-						<div className="grid gap-2">
-							{[
-								{ label: t("countrydle.continent"), data: guess.continent },
-								{ label: t("countrydle.region"), data: guess.region },
-								{ label: t("countrydle.language"), data: guess.language },
-							].map((stat, sIdx) => (
-								<div key={sIdx} className={`rounded-md border px-3 py-2 ${getStatusClassName(stat.data.status)}`}>
-									<strong>{stat.label}</strong>: {stat.data.value} ({formatStatus(stat.data.status)})
-								</div>
-							))}
-						</div>
-					</div>
-				))}
-			</div>
+			<HistoryGrid
+				columns={[
+					t("countrydle.flag"),
+					t("countrydle.continent"),
+					t("countrydle.language"),
+					t("countrydle.population"),
+					t("countrydle.currencyName"),
+				]}
+				guesses={guesses.map((guess) => ({
+					entity: {
+						name: guess.name,
+						imagePath: guess.flagUrl,
+					},
+					isWin: guess.isWin,
+					attributes: [
+						guess.continent,
+						guess.language,
+						guess.population,
+						guess.currencyName,
+					],
+				}))}
+			/>
 		</PageContainer>
 	);
 }

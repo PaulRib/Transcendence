@@ -42,18 +42,24 @@ async function main() {
 	const rawCountriesData = fs.readFileSync(countriesFilePath, 'utf-8');
 	const countries = JSON.parse(rawCountriesData);
 
-	for (const country of countries) {
+	for (const [index, country] of countries.entries()) {
+		const continent = country.continent.en ?? 'Africa';
+		const countryData = {
+			name: country.country.en,
+			continent: continent,
+			flagUrl: country.flag.png.trim(),
+			countryId: index + 1,
+			language: country.language.en,
+			region: continent,
+			population: country.population,
+			currency: country.currency.code,
+			currencyName: country.currency.name.en,
+		};
+
 		await prisma.country.upsert({
-			where: { name: country.country },
-			update: {},
-			create: {
-				name: country.country,
-				continent: country.Continent,
-				flagUrl: country.Flag.trim(),
-				countryId: country.ID,
-				language: country.Language,
-				region: country.Region,
-			},
+			where: { name: countryData.name },
+			update: countryData,
+			create: countryData,
 		});
 	}
 }

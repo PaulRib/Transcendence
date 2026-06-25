@@ -7,7 +7,8 @@ export class CountriesService {
 
 	async getAllNames() {
 		return this.prisma.country.findMany({
-			select: { name: true },
+			select: { name: true, flagUrl: true },
+			orderBy: { name: 'asc' },
 		});
 	}
 
@@ -18,7 +19,7 @@ export class CountriesService {
 					startsWith: name,
 				},
 			},
-			select: { name: true },
+			select: { name: true, flagUrl: true },
 		});
 	}
 

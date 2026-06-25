@@ -30,6 +30,7 @@ export type ChampionRandom =  {
 
 export type CountryName = {
 	name: string;
+	flagUrl: string;
 };
 
 export type CountryDay = {
@@ -40,6 +41,9 @@ export type CountryDay = {
 	countryId: number;
 	language: string;
 	region: string;
+	population: number;
+	currency: string;
+	currencyName: string;
 };
 
 export type CountryGuessResponse = {
@@ -48,5 +52,8 @@ export type CountryGuessResponse = {
 	continent: GuessAttribute<string>;
 	region: GuessAttribute<string>;
 	language: GuessAttribute<string>;
+	population: GuessAttribute<number>;
+	currency: GuessAttribute<string>;
+	currencyName: GuessAttribute<string>;
 	isWin: boolean;
 };

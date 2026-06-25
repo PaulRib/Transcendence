@@ -37,6 +37,7 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
           const getBgColor = (status?: string) => {
             if (status === 'correct') return 'bg-emerald-500 border-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.3)]';
             if (status === 'partial') return 'bg-amber-500 border-amber-600 shadow-[0_0_10px_rgba(245,158,11,0.3)]';
+            if (status === 'higher' || status === 'lower') return 'bg-amber-500 border-amber-600 shadow-[0_0_10px_rgba(245,158,11,0.3)]';
             return 'bg-red-500 border-red-600 shadow-[0_0_10px_rgba(239,68,68,0.3)]';
           };
 
