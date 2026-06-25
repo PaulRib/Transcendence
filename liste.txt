@@ -1,4 +1,3 @@
-connexion avec l'intra de 42
+connexion avec l'intra de 42 (mourrad)
 notification demande d'amis recu, et demande de duel ( sonner composant)
-ajouter un ecran de chargement ( facultatif)
 integre les avatar( composant) alert dialog,  et alert
