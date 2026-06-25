@@ -49,6 +49,7 @@ export const translations = {
 			noAccount: "Vous n'avez pas de compte ?",
 			register: "Inscrivez-vous",
 			invalidCredentials: "Identifiant ou mot de passe incorrect(e)",
+			fortyTwoLoading: "Connexion avec 42...",
 		},
 		register: {
 			title: "Créer un compte",
@@ -267,6 +268,7 @@ export const translations = {
 			noAccount: "Don't have an account?",
 			register: "Sign up",
 			invalidCredentials: "Incorrect username or password",
+			fortyTwoLoading: "Signing in with 42...",
 		},
 		register: {
 			title: "Create an account",
@@ -485,6 +487,7 @@ export const translations = {
 			noAccount: "Нет аккаунта?",
 			register: "Зарегистрируйтесь",
 			invalidCredentials: "Неверное имя пользователя или пароль",
+			fortyTwoLoading: "Вход через 42...",
 		},
 		register: {
 			title: "Создать аккаунт",
