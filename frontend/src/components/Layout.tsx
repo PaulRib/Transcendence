@@ -1,5 +1,4 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 import DynamicBackground from './DynamicBackground';
 import logoUrl from '../assets/logo/logo.png';
 import { useAuth } from '../auth/AuthContext';
@@ -8,29 +7,29 @@ import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords, User } from 'lucide-react';
+import { Globe, Swords, User, Languages, Settings } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
+import { 
+    DropdownMenu, 
+    DropdownMenuTrigger, 
+    DropdownMenuContent, 
+    DropdownMenuItem, 
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubTrigger,
+    DropdownMenuSubContent,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem
+} from '../components/ui/dropdown-menu';
+
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
     const { universe, toggleUniverse } = useGameUniverse();
     const navigate = useNavigate();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
     const { language, setLanguage, t } = useLanguage();
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
 
     const handleLogout = () => {
         logout();
-        setIsDropdownOpen(false);
         navigate('/');
     };
 
@@ -53,43 +52,44 @@ function Layout() {
                         />
                     </Link>
                 </nav>
-                <select
-                    value={language}
-                    onChange={(event) => setLanguage(event.target.value as Language)}
-                    className="bg-[#1d1d20] border border-white/20 rounded-md px-2 py-1 text-white"
-                >
-                    <option value="fr">FR</option>
-                    <option value="en">EN</option>
-                    <option value="ru">RU</option>
-                </select>
                 <div className="auth-nav">
                     {isLoading ? null : currentUser ? (
-                        <div className="relative flex items-center" ref={dropdownRef}>
-                            <Button
-                                variant="outline"
-                                className="rounded-full w-10 h-10 p-0 text-lg"
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            >
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={currentUser.avatar_url || undefined} />
-                                    <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
-                                </Avatar>
-                            </Button>
-
-                            <div className={`absolute top-[50px] right-0 bg-[#1d1d20] border border-white/10 rounded-lg py-2 min-w-[150px] shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex flex-col z-[100] transition-all duration-200 origin-top-right ${isDropdownOpen ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
-                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/profile" onClick={() => setIsDropdownOpen(false)}>{t("nav.profile")}</Link>
-                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/friends" onClick={() => setIsDropdownOpen(false)}>{t("nav.friends")}</Link>
-                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/leaderboard" onClick={() => setIsDropdownOpen(false)}>{t("nav.leaderboard")}</Link>
-                                <Link className="px-4 py-3 text-white text-left w-full cursor-pointer text-sm transition-colors duration-200 hover:bg-white/10" to="/settings" onClick={() => setIsDropdownOpen(false)}>{t("nav.settings")}</Link>
-                                <div className="h-[1px] bg-white/10 my-2"></div>
-                                <Button variant="ghost" className="w-full justify-start rounded-none text-sm font-normal px-4 py-3 h-auto hover:bg-white/10" onClick={handleLogout}>{t("nav.logout")}</Button>
-                            </div>
-                        </div>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    className="rounded-full w-10 h-10 p-0 text-lg border-white/20 transition-all duration-300 hover:scale-110 outline-none focus-visible:ring-0"
+                                >
+                                    <Avatar className="w-full h-full">
+                                        <AvatarImage src={currentUser.avatar_url || undefined} />
+                                        <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                                    </Avatar>
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="bg-[#1d1d20] border-white/10 text-white min-w-[160px] mt-2 shadow-[0_4px_20px_rgba(0,0,0,0.5)]" align="end">
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/profile">{t("nav.profile")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/friends">{t("nav.friends")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/leaderboard">{t("nav.leaderboard")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/settings">{t("nav.settings")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator className="bg-white/10" />
+                                <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2.5 text-red-400 focus:text-red-300" onClick={handleLogout}>
+                                    {t("nav.logout")}
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     ) : (
                         <Button 
                             onClick={() => navigate('/login')} 
                             variant="default"
-                            className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)]"
+                            className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_15px_rgba(37,99,235,0.4)] transition-all duration-300 hover:scale-110"
                         >
                             <User size={18} />
                         </Button>
@@ -104,19 +104,43 @@ function Layout() {
             </div>
             <GlobalChat />
 
-            {/* Bouton pour changer d'univers */}
+            {/* Bouton Paramètres Rapides (Langue & Univers) */}
             <div className="fixed bottom-6 left-6 z-[1000]">
-                <Button
-                    variant="outline"
-                    className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md h-12 px-6 border-white/20 hover:bg-white/10"
-                    onClick={handleToggleUniverse}
-                >
-                    {universe === 'league' ? (
-                        <><Globe size={18} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
-                    ) : (
-                        <><Swords size={18} className="mr-2 text-yellow-400" />{t("nav.leagueMode")}</>
-                    )}
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="outline"
+                            className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md w-12 h-12 p-0 border-white/20 hover:bg-white/10 flex items-center justify-center text-white outline-none focus-visible:ring-0 transition-all duration-300 hover:scale-110"
+                        >
+                            <Settings size={22} className="text-slate-300" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onClick={handleToggleUniverse}>
+                            {universe === 'league' ? (
+                                <><Globe size={16} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
+                            ) : (
+                                <><Swords size={16} className="mr-2 text-yellow-400" />{t("nav.leagueMode")}</>
+                            )}
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuSeparator className="bg-white/10" />
+
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger className="hover:bg-white/10 cursor-pointer py-2">
+                                <Languages size={16} className="mr-2" />
+                                Langue
+                            </DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent className="bg-[#1d1d20]  text-white ml-2" sideOffset={8}>
+                                <DropdownMenuRadioGroup value={language} onValueChange={(val) => setLanguage(val as Language)}>
+                                    <DropdownMenuRadioItem value="fr" className="cursor-pointer hover:bg-white/10">Français (FR)</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="en" className="cursor-pointer hover:bg-white/10">English (EN)</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="ru" className="cursor-pointer hover:bg-white/10">Русский (RU)</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );
