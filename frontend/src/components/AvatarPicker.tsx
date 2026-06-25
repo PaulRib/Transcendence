@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -21,8 +20,6 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
   const [activeTab, setActiveTab] = useState<'default' | 'link' | 'upload'>('default');
   const [linkInput, setLinkInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const displayAvatar = currentAvatar || DEFAULT_AVATARS[0];
 
   const handleDefaultClick = (url: string) => {
     onAvatarChange(url);

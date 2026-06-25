@@ -106,17 +106,15 @@ function CountrydlePage() {
 						</div>
 
 						<div className="grid gap-2">
-							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.continent.status)}`}>
-								<strong>{t("countrydle.continent")}</strong>: {guess.continent.value} ({formatStatus(guess.continent.status)})
-							</div>
-
-							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.region.status)}`}>
-								<strong>{t("countrydle.region")}</strong>: {guess.region.value} ({formatStatus(guess.region.status)})
-							</div>
-
-							<div className={`rounded-md border px-3 py-2 ${getStatusClassName(guess.language.status)}`}>
-								<strong>{t("countrydle.language")}</strong>: {guess.language.value} ({formatStatus(guess.language.status)})
-							</div>
+							{[
+								{ label: t("countrydle.continent"), data: guess.continent },
+								{ label: t("countrydle.region"), data: guess.region },
+								{ label: t("countrydle.language"), data: guess.language },
+							].map((stat, sIdx) => (
+								<div key={sIdx} className={`rounded-md border px-3 py-2 ${getStatusClassName(stat.data.status)}`}>
+									<strong>{stat.label}</strong>: {stat.data.value} ({formatStatus(stat.data.status)})
+								</div>
+							))}
 						</div>
 					</div>
 				))}

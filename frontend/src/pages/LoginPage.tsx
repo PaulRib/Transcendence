@@ -9,6 +9,8 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { API_BASE_URL } from '../config/api';
 
+import { FormError } from '../components/ui/form-error';
+
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -86,7 +88,7 @@ function LoginPage() {
       </div>
 
       {message && <p>{message}</p>}
-      {error && <p className="mt-4 text-red-400 whitespace-pre-line text-sm">{error}</p>}
+      <FormError>{error}</FormError>
     </PageContainer>
   );
 }

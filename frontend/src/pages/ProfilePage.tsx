@@ -5,7 +5,6 @@ import { Heading } from '../components/ui/heading';
 import { getMyGamificationStats } from '../api/gamification.api';
 import type { GamificationStats } from '../api/gamification.api';
 import { useLanguage } from '../i18n/LanguageContext';
-import { Button } from '../components/ui/button';
 
 
 function ProfilePage() {
@@ -42,10 +41,6 @@ function ProfilePage() {
 
   const avatarUrl = currentUser.avatar_url ??
     'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
-
-  const handleChangeIcon = () => {
-    alert(t("profile.avatarPickerAlert"));
-  };
 
   const badges = [
     {
