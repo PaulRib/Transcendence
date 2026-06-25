@@ -33,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setIsLoading(false);
     }, []);
 
+    // A VOIR 
     const updateCurrentUser = useCallback((user: AuthUser) => {
         setCurrentUser(user);
     }, []);

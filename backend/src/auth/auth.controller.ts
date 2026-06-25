@@ -40,15 +40,19 @@ export class AuthController {
 
     @Get('42/callback')
     async callback42(@Query('code') code: string, @Res() response: Response) {
-        const loginResponse = await this.authService.loginWith42(code);
+        try {
+            const loginResponse = await this.authService.loginWith42(code);
 
-        const params = new URLSearchParams({
-            token: loginResponse.access_token,
-            userId: loginResponse.user.id,
-            username: loginResponse.user.username,
-            avatarUrl: loginResponse.user.avatar_url ?? '',
-        });
+            const params = new URLSearchParams({
+                token: loginResponse.access_token,
+                userId: loginResponse.user.id,
+                username: loginResponse.user.username,
+                avatarUrl: loginResponse.user.avatar_url ?? '',
+            });
 
-        return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?${params.toString()}`);
+            return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?${params.toString()}`);
+        } catch {
+            return response.redirect(`${process.env.FRONTEND_URL}/login?oauthError=email_exists`);
+        }
     }
 }

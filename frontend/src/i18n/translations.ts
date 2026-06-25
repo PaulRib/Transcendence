@@ -50,6 +50,7 @@ export const translations = {
 			register: "Inscrivez-vous",
 			invalidCredentials: "Identifiant ou mot de passe incorrect(e)",
 			fortyTwoLoading: "Connexion avec 42...",
+			oauthEmailExists: "Un compte existe déjà avec cet email. Connectez-vous avec votre mot de passe.",
 		},
 		register: {
 			title: "Créer un compte",
@@ -269,6 +270,7 @@ export const translations = {
 			register: "Sign up",
 			invalidCredentials: "Incorrect username or password",
 			fortyTwoLoading: "Signing in with 42...",
+			oauthEmailExists: "An account already exists with this email. Please log in with your password.",
 		},
 		register: {
 			title: "Create an account",
@@ -488,6 +490,7 @@ export const translations = {
 			register: "Зарегистрируйтесь",
 			invalidCredentials: "Неверное имя пользователя или пароль",
 			fortyTwoLoading: "Вход через 42...",
+			oauthEmailExists: "Аккаунт с этим email уже существует. Войдите с паролем.",
 		},
 		register: {
 			title: "Создать аккаунт",

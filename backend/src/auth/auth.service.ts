@@ -108,6 +108,14 @@ export class AuthService {
         let user = await this.usersService.findUserByOauth('42', oauthId);
 
         if (!user) {
+            const existingUser = await this.usersService.findByEmail(fortyTwoUser.email);
+
+            if (existingUser) {
+                throw new UnauthorizedException(
+                    'An account with this email already exists'
+                );
+            }
+
             user = await this.usersService.createOauthUser (
                 fortyTwoUser.login,
                 fortyTwoUser.email,

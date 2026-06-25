@@ -173,6 +173,14 @@ export class UsersService {
         return { message: 'Password updated successfully' };
     }
 
+    async findByEmail(email: string) {
+        return this.prisma.user.findUnique({
+            where: {
+                email,
+            },
+        });
+    }
+
     async findUserByOauth(provider: string, oauthId: string) {
         return this.prisma.user.findFirst({
             where: {
@@ -199,6 +207,7 @@ export class UsersService {
             select: {
                 id: true,
                 username: true,
+                email: false,
                 avatar_url: true,
             },
         });
