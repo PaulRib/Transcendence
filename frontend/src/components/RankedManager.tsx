@@ -12,7 +12,10 @@ function RankedManager() {
   useEffect(() => {
     // 1. On ouvre le tuyau vers le namespace /game dès qu'on arrive sur le menu Classé
     const token = localStorage.getItem('access_token');
-    const newSocket = io("http://localhost:3000/game", { auth: { token } });
+    const newSocket = io(`${window.location.origin}/game`, { 
+		path: "/ws",
+		auth: { token } 
+	});
     
     setSocket(newSocket);
 
