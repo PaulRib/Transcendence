@@ -51,16 +51,12 @@ services:
     depends_on:
       - frontend
       - backend
-  localtunnel:
-    image: efrecon/localtunnel
-    container_name: localtunnel
-    command:
-      - "--port"
-      - "8080"
-      - "--local-host"
-      - "gateway"
-      - "--subdomain"
-      - "42dle"
+  tunnel:
+    image: ngrok/ngrok:latest
+    container_name: ngrok_tunnel
+    env_file:
+      - ./backend/.env
+    command: http https://gateway:443 --url=undiluted-unscented-fiction.ngrok-free.dev
     depends_on:
       - gateway
 
