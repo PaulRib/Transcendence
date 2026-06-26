@@ -51,6 +51,18 @@ services:
     depends_on:
       - frontend
       - backend
+  localtunnel:
+    image: efrecon/localtunnel
+    container_name: localtunnel
+    command:
+      - "--port"
+      - "8080"
+      - "--local-host"
+      - "gateway"
+      - "--subdomain"
+      - "42dle"
+    depends_on:
+      - gateway
 
 volumes:
   pgdata:
