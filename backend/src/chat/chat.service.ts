@@ -6,12 +6,114 @@ export class ChatService {
     constructor(private readonly prisma: PrismaService) {}
 
     async sendMessage(senderId: string, receiverId: string, content: string) {
-        if (senderId == receiverId) {
+        if (senderId === receiverId) {
             throw new BadRequestException("You cannot send a message to yourself");
         }
 
         const receiver = await this.prisma.user.findUnique({
-            where: {id: receiverId},
-        })
+            where: { id: receiverId },
+            select: { id: true },
+        });
+
+        if (!receiver) {
+            throw new NotFoundException("User not found");
+        }
+
+        const friendship = await this.prisma.friendship.findFirst({
+            where: {
+                status: "accepted",
+                OR: [
+                    { requester_id: senderId, addressee_id: receiverId },
+                    { requester_id: receiverId, addressee_id: senderId },
+                ],
+            },
+            select: { id: true },
+        });
+
+        if (!friendship) {
+            throw new ForbiddenException("You can only message your friends");
+        }
+
+        return this.prisma.message.create({
+            data: {
+                sender_id: senderId,
+                receiver_id: receiverId,
+                content,
+            },
+            include: {
+                sender: {
+                    select: {
+                        id: true,
+                        username: true,
+                        avatar_url: true,
+                    },
+                },
+                receiver: {
+                    select: {
+                        id: true,
+                        username: true,
+                        avatar_url: true,
+                    },
+                },
+            },
+        });
+    }
+
+    async getConversation(currentUserId: string, otherUserId: string) {
+        if (currentUserId === otherUserId) {
+            throw new BadRequestException("You cannot get a conversation with yourself");
+        }
+
+        const otherUser = await this.prisma.user.findUnique({
+            where: { id: otherUserId },
+            select: { id: true },
+        });
+
+        if (!otherUser) {
+            throw new NotFoundException("User not found");
+        }
+
+        const friendship = await this.prisma.friendship.findFirst({
+            where: {
+                status: "accepted",
+                OR: [
+                    { requester_id: currentUserId, addressee_id: otherUserId },
+                    { requester_id: otherUserId, addressee_id: currentUserId },
+                ],
+            },
+            select: { id: true },
+        });
+
+        if (!friendship) {
+            throw new ForbiddenException("You can only read conversations with your friends");
+        }
+
+        return this.prisma.message.findMany({
+            where: {
+                OR: [
+                    { sender_id: currentUserId, receiver_id: otherUserId },
+                    { sender_id: otherUserId, receiver_id: currentUserId },
+                ],
+            },
+            orderBy: {
+                created_at: 'asc',
+            },
+            include: {
+                sender: {
+                    select: {
+                        id: true,
+                        username: true,
+                        avatar_url: true,
+                    },
+                },
+                receiver: {
+                    select: {
+                        id: true,
+                        username: true,
+                        avatar_url: true,
+                    },
+                },
+            },
+        });
     }
 }
