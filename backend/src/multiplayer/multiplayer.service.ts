@@ -187,4 +187,46 @@ export class MultiplayerService {
 
 		return winnerId;
 	}
+
+	//a voir
+	async getMatchHistory(userId: string) {
+		return this.prisma.match_Participant.findMany({
+			where: {
+				user_id: userId,
+				match: {
+					status: "finished",
+				},
+			},
+			select: {
+				id: true,
+				result: true,
+				score: true,
+				match: {
+					select: {
+						id: true,
+						game_mode: true,
+						played_at: true,
+						participants: {
+							select: {
+								result: true,
+								score: true,
+								user: {
+									select: {
+										id: true,
+										username: true,
+										avatar_url: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			orderBy: {
+				match: {
+					played_at: "desc",
+				},
+			},
+		});
+	}
 }

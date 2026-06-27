@@ -6,6 +6,7 @@ import { UsersModule } from '../users/users.module';
 import { PrismaModule } from '../../prisma/prisma.module';
 import { ChampionsModule } from '../champions/champions.module';
 import { InfinitematchesModule } from '../infinitematches/infinitematches.module';
+import { MultiplayerController } from './multiplayer.controller';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { InfinitematchesModule } from '../infinitematches/infinitematches.module
             secret: process.env.JWT_SECRET,
         }),
     ],
+    controllers: [MultiplayerController],
     providers: [MultiplayerGateway, MultiplayerService],
 })
 export class MultiplayerModule {}

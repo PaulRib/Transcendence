@@ -74,6 +74,9 @@ function Layout() {
                                     <Link to="/friends">{t("nav.friends")}</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/match-history">{t("nav.matchHistory")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
                                     <Link to="/leaderboard">{t("nav.leaderboard")}</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">

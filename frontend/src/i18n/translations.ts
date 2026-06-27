@@ -1,4 +1,3 @@
-
 export const translations = {
 	fr: {
 		nav: {
@@ -10,6 +9,7 @@ export const translations = {
 			logout: "Se déconnecter",
 			countryMode: "Mode Pays",
 			leagueMode: "Mode League of Legends",
+			matchHistory: "Historique des matchs",
 		},
 		home: {
 			howToPlay: "Comment jouer ?",
@@ -219,6 +219,18 @@ export const translations = {
 			youInitials: "VOUS",
 			opponentInitials: "ADV",
 		},
+		matchHistory: {
+			title: "Historique des matchs",
+			loading: "Chargement de l'historique...",
+			loadError: "Impossible de charger l'historique des matchs.",
+			empty: "Aucun match terminé.",
+			victory: "Victoire",
+			defeat: "Défaite",
+			draw: "Égalité",
+			versus: "contre",
+			points: "Points",
+			unknownOpponent: "Adversaire inconnu",
+		},
 	},
 	en: {
 		nav: {
@@ -230,6 +242,7 @@ export const translations = {
 			logout: "Log out",
 			countryMode: "Country Mode",
 			leagueMode: "League of Legends Mode",
+			matchHistory: "Match History",
 		},
 		home: {
 			howToPlay: "How to play?",
@@ -439,6 +452,18 @@ export const translations = {
 			youInitials: "YOU",
 			opponentInitials: "OPP",
 		},
+		matchHistory: {
+			title: "Match History",
+			loading: "Loading match history...",
+			loadError: "Unable to load match history.",
+			empty: "No completed matches.",
+			victory: "Victory",
+			defeat: "Defeat",
+			draw: "Draw",
+			versus: "against",
+			points: "Points",
+			unknownOpponent: "Unknown opponent",
+		},
 	},
 	ru: {
 		nav: {
@@ -450,6 +475,7 @@ export const translations = {
 			logout: "Выйти",
 			countryMode: "Режим стран",
 			leagueMode: "Режим League of Legends",
+			matchHistory: "История матчей",
 		},
 		home: {
 			howToPlay: "Как играть?",
@@ -658,6 +684,18 @@ export const translations = {
 			waitTurn: "Ожидайте свой ход...",
 			youInitials: "ВЫ",
 			opponentInitials: "СОП",
+		},
+		matchHistory: {
+			title: "История матчей",
+			loading: "Загрузка истории матчей...",
+			loadError: "Не удалось загрузить историю матчей.",
+			empty: "Завершённых матчей пока нет.",
+			victory: "Победа",
+			defeat: "Поражение",
+			draw: "Ничья",
+			versus: "против",
+			points: "Очки",
+			unknownOpponent: "Неизвестный соперник",
 		},
 	},
 } as const;

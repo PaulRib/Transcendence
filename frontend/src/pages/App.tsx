@@ -16,6 +16,7 @@ import FriendsList from "./FriendsList";
 import LeaderboardPage from "./LeaderboardPage";
 import CountrydlePage from './countrydle/CountrydlePage';
 import FortyTwoCallbackPage from './FortyTwoCallbackPage';
+import MatchHistoryPage from "./MatchHistoryPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="settings" element={<SettingsPage />} />
             <Route path="friends" element={<FriendsList />} />
             <Route path="leaderboard" element={<LeaderboardPage/>} />
+            <Route path="match-history" element={<MatchHistoryPage/>} />
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
