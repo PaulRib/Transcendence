@@ -16,10 +16,11 @@ import { GameOverCard } from '../components/Game/GameOverCard';
 interface RankedGamePageProps {
   socket: Socket;
   matchId: string;
-  starterSocketId: string | null;
+  starterUserId: string | null;
+  initialMatchData?: any | null;
 }
 
-function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProps) {
+function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: RankedGamePageProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
@@ -29,9 +30,11 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
-  const [isMyTurn, setIsMyTurn] = useState<boolean>(starterSocketId ? socket.id === starterSocketId : true);
+  const [isMyTurn, setIsMyTurn] = useState<boolean>(true);
   const [gameOverInfo, setGameOverInfo] = useState<{ isDraw: boolean; winnerId: string; reason?: string } | null>(null);
   const [lastChance, setLastChance] = useState<boolean>(false);
+  const [opponentDisconnected, setOpponentDisconnected] = useState<boolean>(false);
+  const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
 
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
@@ -52,6 +55,72 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
     }
     loadGameData();
   }, [t]);
+
+  // Restaurer l'historique de la partie si initialMatchData est présent au montage
+  useEffect(() => {
+    if (initialMatchData) {
+      const myParticipant = initialMatchData.participants.find(
+        (p: any) => p.user_id === currentUser?.id
+      );
+      if (myParticipant) {
+        const myGuessesRaw = initialMatchData.guesses.filter(
+          (g: any) => g.participant_id === myParticipant.id
+        );
+        const opponentGuessesRaw = initialMatchData.guesses.filter(
+          (g: any) => g.participant_id !== myParticipant.id
+        );
+
+        const restoredGuesses: GuessResponse[] = myGuessesRaw.map((g: any) => ({
+          id: g.champion.id,
+          name: g.champion.name,
+          isWin: g.is_correct,
+          ...g.comparison_result
+        })).reverse();
+
+        const restoredOpponentGuesses = opponentGuessesRaw.map((g: any) => {
+          const name = g.champion.name;
+          const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+          return { id: g.champion.id, name, imagePath };
+        }).reverse();
+
+        setGuesses(restoredGuesses);
+        setOpponentGuesses(restoredOpponentGuesses);
+
+        // Déterminer à qui est le tour en comparant les essais
+        const myCount = restoredGuesses.length;
+        const oppCount = restoredOpponentGuesses.length;
+
+        if (myCount < oppCount) {
+          setIsMyTurn(true);
+        } else if (myCount > oppCount) {
+          setIsMyTurn(false);
+        } else {
+          // Égalité : le tour dépend du starter de la partie
+          if (starterUserId) {
+            setIsMyTurn(currentUser?.id === starterUserId);
+          } else {
+            setIsMyTurn(true);
+          }
+        }
+      }
+    } else {
+      // Cas classique : le starter commence
+      setIsMyTurn(starterUserId ? currentUser?.id === starterUserId : true);
+    }
+  }, [initialMatchData, currentUser, starterUserId]);
+
+  // Timer de déconnexion de l'adversaire
+  useEffect(() => {
+    let interval: any;
+    if (opponentDisconnected && disconnectCountdown > 0) {
+      interval = setInterval(() => {
+        setDisconnectCountdown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [opponentDisconnected, disconnectCountdown]);
 
   useEffect(() => {
     if (!socket) return;
@@ -114,14 +183,33 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
       setIsMyTurn(true);
     });
 
+    // ÉCOUTES DES ÉVÉNEMENTS DE DÉCONNEXION TEMPORAIRE ET DE RETOUR
+    socket.on('player_disconnected_grace', (data: { userId: string; username: string; reconnectWindowMs: number }) => {
+      console.log("player_disconnected_grace reçu :", data);
+      if (data.userId !== currentUser?.id) {
+        setOpponentDisconnected(true);
+        setDisconnectCountdown(Math.round(data.reconnectWindowMs / 1000));
+      }
+    });
+
+    socket.on('player_reconnected', (data: { userId: string; username: string }) => {
+      console.log("player_reconnected reçu :", data);
+      if (data.userId !== currentUser?.id) {
+        setOpponentDisconnected(false);
+        setDisconnectCountdown(60);
+      }
+    });
+
     return () => {
       socket.off('guess_result_full');
       socket.off('guess_result_spectator');
       socket.off('last_chance_triggered');
       socket.off('game_over');
       socket.off('game_error');
+      socket.off('player_disconnected_grace');
+      socket.off('player_reconnected');
     };
-  }, [socket, matchId, currentUser, t]);
+  }, [socket, matchId, currentUser, t, starterUserId]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -197,6 +285,13 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
             guessCount={guesses.length}
             onReplay={handleReplay} 
           />
+        </div>
+      )}
+
+      {opponentDisconnected && (
+        <div className="w-full mb-6 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 text-center text-sm font-bold uppercase rounded-xl animate-pulse flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          {t("multiplayer.opponentDisconnectedGrace").replace("{count}", String(disconnectCountdown))}
         </div>
       )}
 

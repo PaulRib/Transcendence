@@ -218,6 +218,7 @@ export const translations = {
 			waitTurn: "Attendez votre tour...",
 			youInitials: "VOUS",
 			opponentInitials: "ADV",
+			opponentDisconnectedGrace: "Adversaire déconnecté. Victoire par abandon dans {count}s...",
 		},
 	},
 	en: {
@@ -438,6 +439,7 @@ export const translations = {
 			waitTurn: "Wait for your turn...",
 			youInitials: "YOU",
 			opponentInitials: "OPP",
+			opponentDisconnectedGrace: "Opponent disconnected. Forfeit victory in {count}s...",
 		},
 	},
 	ru: {
@@ -658,6 +660,7 @@ export const translations = {
 			waitTurn: "Ожидайте свой ход...",
 			youInitials: "ВЫ",
 			opponentInitials: "СОП",
+			opponentDisconnectedGrace: "Соперник отключился. Техническая победа через {count}сек...",
 		},
 	},
 } as const;
