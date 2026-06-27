@@ -187,4 +187,48 @@ export class MultiplayerService {
 
 		return winnerId;
 	}
+
+	async getActiveMatchForUser(userId: string) {
+        return this.prisma.match.findFirst({
+            where: {
+                status: 'ongoing',
+                participants: {
+                    some: { user_id: userId }
+                }
+            },
+            include: {
+                guesses: {
+                    orderBy: { attempt_number: 'asc' },
+                    include: {
+                        champion: true,
+                        participant: true
+                    }
+                },
+                participants: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        });
+    }
+	async getMatchState(matchId: string) {
+        return this.prisma.match.findUnique({
+            where: { id: matchId },
+            include: {
+                guesses: {
+                    orderBy: { attempt_number: 'asc' },
+                    include: {
+                        champion: true,
+                        participant: true
+                    }
+                },
+                participants: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        });
+    }
 }

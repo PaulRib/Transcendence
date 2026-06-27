@@ -19,6 +19,14 @@ function RankedManager() {
     
     setSocket(newSocket);
 
+    newSocket.on('active_match_found', (data: { matchId: string; matchData: any }) => {
+        console.log("Reconnexion à une partie en cours détectée ! Match ID :", data.matchId);
+        setMatchId(data.matchId);
+        setMatchState('playing');
+
+        newSocket.emit('join_game_room', { matchId: data.matchId });
+    });
+
     // 2. ÉCOUTE DE LA CRÉATION DU MATCH (Matchmaking)
     newSocket.on('match_found', (data: { matchId: string }) => {
       console.log("Match trouvé !", data.matchId);

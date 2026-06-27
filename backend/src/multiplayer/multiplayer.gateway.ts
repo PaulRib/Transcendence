@@ -10,9 +10,11 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
  export class MultiplayerGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	@WebSocketServer()
-	server!: Namespace;
+	server!: Namespace;node
 
 	private matchmakingQueue: Array<{userId: string, socketId: string }> = [];
+	private reconnectTimeouts = new Map<string, { timeout: NodeJS.Timeout; matchId: string }>();
+
 	constructor(
 		private readonly jwtService: JwtService,
 		private readonly usersService: UsersService,
@@ -29,8 +31,22 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 
 			client.data.user = user;
 			console.log(`Connexion reussie : ${user.username}, ${client.id}`);
-		}
-		catch (error) {
+			const pendingReconnect = this.reconnectTimeouts.get(user.id);
+            if (pendingReconnect) {
+                clearTimeout(pendingReconnect.timeout);
+                this.reconnectTimeouts.delete(user.id);
+                console.log(`Timer de reconnexion annulé pour ${user.username}`);
+            }
+ 
+            const activeMatch = await this.multiplayerService.getActiveMatchForUser(user.id);
+            if (activeMatch) {
+                console.log(`Partie en cours trouvée pour $u{ser.username}. Envoi du signal de reconnexion.`);
+			client.emit('active_match_found', { 
+                matchId: activeMatch.id,
+                matchData: activeMatch 
+            });
+        }
+		} catch (error) {
 			console.log(`Connexion echouee : ${error}`);
 			client.disconnect();
 		}
@@ -44,6 +60,8 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 
 		this.matchmakingQueue = this.matchmakingQueue.filter(player => player.socketId !== client.id);
 		 if (user && matchId) {
+			const timeout = setTimeout(async() => {
+				this.reconnectTimeouts.delete(user.id);
 			try {
 				const winnerId = await this.multiplayerService.forfeitMatch(matchId, user.id);
 				if (winnerId) {
@@ -58,7 +76,14 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 			catch (error) {
 				console.error(`Erreur lors du forfait de ${user.username}:`, error)
 			}
-		 }
+		}, 60000);
+		this.reconnectTimeouts.set(user.id, { timeout, matchId});
+		this.server.to(`room_${matchId}`).emit('player_disconnected_grace', {
+			userId: user.id,
+			username: user.username,
+			reconnectWindowMs: 60000
+			});
+		}
 	}
 
 	@SubscribeMessage('submit_guess')
@@ -99,6 +124,26 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		@ConnectedSocket() client: Socket,
 		@MessageBody() data: { matchId: string }
 	) {
+		const userId = client.data.user.id;
+		const pendingReconnect = this.reconnectTimeouts.get(userId);
+
+		if (pendingReconnect && pendingReconnect.matchId === data.matchId) {
+			clearTimeout(pendingReconnect.timeout);
+			this.reconnectTimeouts.delete(userId);
+
+			client.join(`room_${data.matchId}`);
+			client.data.currentMatchId = data.matchId;
+
+			console.log(`Le joueur ${client.data.user.username} s'est reconnecté à la room ${data.matchId}`);
+			this.server.to(`room_${data.matchId}`).emit('player_reconnected', {
+				userId: userId,
+				username: client.data.user.username
+			});
+			const matchState = await this.multiplayerService.getMatchState(data.matchId);
+            client.emit('match_state_restored', matchState);
+			return;
+		}
+
 		client.join(`room_${data.matchId}`);
 		client.data.currentMatchId = data.matchId;
 		console.log(`Le joueur ${client.data.user.username} a rejoint la room ${data.matchId}`);
