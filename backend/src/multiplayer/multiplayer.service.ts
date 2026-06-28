@@ -84,7 +84,7 @@ export class MultiplayerService {
 		return newguess;
     }
 
-	async processPlayerTurn(matchId: string, userId: string, guessedChampion: string) {
+	async processPlayerTurn(matchId: string, userId: string, guessedChampion: string, starterUserId: string) {
 		const match = await this.prisma.match.findUnique({
 			where: {
 				id: matchId,
@@ -117,8 +117,14 @@ export class MultiplayerService {
 				participant: {user_id: { not: userId } }
 			}
 		});
-		if (attempt_number > opponentAttempts + 1) 
-    		throw new Error("Triche détectée : Ce n'est pas ton tour !");
+
+		let isPlayerTurn = false;
+		if (existingGuesses < opponentAttempts) 
+    		isPlayerTurn = true;
+		else if (existingGuesses === opponentAttempts) 
+			isPlayerTurn = (userId === starterUserId);
+		if (!isPlayerTurn)
+			throw new Error("Triche détectée : Ce n'est pas ton tour !")
 		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
 		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number);
 

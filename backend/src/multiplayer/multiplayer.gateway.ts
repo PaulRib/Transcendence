@@ -95,9 +95,9 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 	) {
 		try {
 			const user = client.data.user;
-
+			const starterUserId = this.matchStarters.get(data.matchId) || '';
 			const result = await this.multiplayerService.processPlayerTurn(
-				data.matchId, user.id, data.GuessedChamp
+				data.matchId, user.id, data.GuessedChamp, starterUserId
 			)
 			client.emit('guess_result_full', result.fullData);
 			client.to(`room_${data.matchId}`).emit('guess_result_spectator', result.censoredData);
