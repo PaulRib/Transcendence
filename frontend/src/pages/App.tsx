@@ -32,10 +32,10 @@ function App() {
             <Route path="settings" element={<SettingsPage />} />
             <Route path="friends" element={<FriendsList />} />
             <Route path="leaderboard" element={<LeaderboardPage/>} />
+			<Route path="ranked" element={<RankedManager/>}/>
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
-          <Route path="ranked" element={<RankedManager/>}/>
           <Route path="debug" element={<Debug/>}/>
           <Route path="selectGame" element={<SelectGame/>}/>
           <Route path="countrydle" element={<CountrydlePage/>}/>
