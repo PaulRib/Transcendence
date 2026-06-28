@@ -8,6 +8,12 @@ import { Heading } from '../components/ui/heading';
 import { Input } from '../components/ui/input';
 import { PageContainer } from '../components/ui/page-content';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useSocialSocket } from '@/context/SocialSocketContext';
+
+type FriendStatusChangedPayload = {
+  userId: string;
+  isOnline: boolean;
+};
 
 function FriendsList() {
   const [usernameToAdd, setUsernameToAdd] = useState('');
@@ -16,6 +22,7 @@ function FriendsList() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { currentUser } = useAuth();
+  const { socket } = useSocialSocket();
   const { t } = useLanguage();
 
   function getOtherUser(friendship: Friendship): FriendUser {
@@ -66,6 +73,41 @@ function FriendsList() {
   useEffect(() => {
     loadFriendsData();
   }, []);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
+    function updateFriendOnlineStatus(friend: FriendUser, data: FriendStatusChangedPayload): FriendUser {
+      if (friend.id !== data.userId) {
+        return friend;
+      }
+
+      return {
+        ...friend,
+        is_online: data.isOnline,
+      };
+    }
+
+    function handleFriendStatusChanged(data: FriendStatusChangedPayload) {
+      setFriends((currentFriends) => {
+        return currentFriends.map((friendship) => {
+          return {
+            ...friendship,
+            requester: updateFriendOnlineStatus(friendship.requester, data),
+            addressee: updateFriendOnlineStatus(friendship.addressee, data),
+          };
+        });
+      });
+    }
+
+    socket.on('friend_status_changed', handleFriendStatusChanged);
+
+    return () => {
+      socket.off('friend_status_changed', handleFriendStatusChanged);
+    };
+  }, [socket]);
 
   async function handleSendFriendRequest() {
     const token = getToken();
@@ -179,7 +221,11 @@ function FriendsList() {
               <div key={friendship.id} className="flex items-center gap-5 rounded-xl border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:border-white/20 hover:bg-white/10">
                 <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-slate-800">
                   <User className="text-slate-400" size={24} />
-                  <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#15151a] bg-slate-500"></span>
+                  <span
+                    className={`absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#15151a] ${
+                      friendUser.is_online ? 'bg-green-500' : 'bg-slate-500'
+                    }`}
+                  ></span>
                 </div>
 
                 <div className="flex-1 text-left">

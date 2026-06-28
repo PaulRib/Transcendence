@@ -212,4 +212,13 @@ export class UsersService {
             },
         });
     }
+
+    async updateOnlineStatus(userId: string, isOnline: boolean): Promise<void> {
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: {
+                is_online: isOnline,
+            },
+        });
+    }
 }

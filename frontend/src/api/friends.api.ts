@@ -4,6 +4,7 @@ export type FriendUser = {
     id: string;
     username: string;
     avatar_url: string | null;
+    is_online: boolean;
 };
 
 export type Friendship = {
