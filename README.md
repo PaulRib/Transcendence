@@ -23,24 +23,24 @@ Done/almost points -> 15 points (to validate with the team)
 Modules done :
 - Major : Framework backend & frontend -> Done (Mehdi)
 - Major : User management and authentication -> Done (Mehdi)
+- Major : Real-time features (WebSockets) -> Done (Paul)
+- Major : Multiplayer (realtime?) -> Done (Paul)
 - Minor : ORM for database -> Done (Paul)
 - Minor : gamification system (daily reward?) -> Done (Murad)
 - Minor : Multiple languages (at least 3) -> Done (Murad)
+- Minor : Remote authentication -> (Murad)
 - Minor : Custom-made design system -> Done (Amine)
+- Minor : Compability with at least 2 additional browsers -> Done
 
 In progress :
-- Major : Real-time features (WebSockets) -> In progress, almost done (Paul)
-- Major : Multiplayer (realtime?) -> in progress, almost done ?? (Paul)
+- Major : Remote players -> in progress (Paul)
 - Major : Users interaction (basic chat, profile, friends) -> In progress, almost done (Mehdi)
+- Minor : Game stats and match history -> almost done (Murad)
 
-Total points done/in progress : 14 pts
+Total points done/in progress : 18 pts
 
 Confirmed modules : 
-- Major : Remote players -> most likely connected with multiplayer / realtime features ??? (Paul)
 - Major : Advanced permissions system -> to do (Mehdi ?)
-- Minor : Game stats and match history -> to do (?)
-- Minor : Compability with at least 2 additional browsers -> to do (?)
-- Minor : Remote authentication (Amine ?)
 - Minor : Advanced chat feature (Mehdi)
 
 To validate :
@@ -48,4 +48,6 @@ To validate :
 - Minor : Content moderation AI
 - Minor : 2FA 
 
-Total points : 16(26)/19 points
+Total Point
+- Already done : 14 points
+- In progress : 5 points (19)
