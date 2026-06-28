@@ -9,7 +9,6 @@ import { GameForm } from '../components/Game/GameForm';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../auth/AuthContext';
-import { API_BASE_URL } from '../config/api';
 import type { Socket } from 'socket.io-client';
 import { GameOverCard } from '../components/Game/GameOverCard';
 
@@ -25,7 +24,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
   const [guesses, setGuesses] = useState<GuessResponse[]>([]);
-  const [opponentGuesses, setOpponentGuesses] = useState<Array<{ id: string, name: string, imagePath: string }>>([]);
+  const [opponentGuesses, setOpponentGuesses] = useState<Array<{name: string, imagePath: string }>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
@@ -132,28 +131,27 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       }
     });
 
-    socket.on('guess_result_spectator', async (data: { championId: string }) => {
+    socket.on('guess_result_spectator', async (data: { name: string }) => {
       try {
-        const response = await fetch(`${API_BASE_URL}/champions/exactChampId?id=${data.championId}`);
-        if (response.ok) {
-          const champData = await response.json();
-          if (champData && champData.name) {
-            const name = champData.name;
-            const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-            setOpponentGuesses((prev) => [{ id: data.championId, name, imagePath }, ...prev]);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching opponent champion info:", err);
-        setOpponentGuesses((prev) => [
-          {
-            id: data.championId,
-            name: "Champion",
-            imagePath: "/champions/unknown.png",
-          },
-          ...prev,
-        ]);
-      }
+		if (data && data.name != null) {
+				const name = data.name;
+				const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+				setOpponentGuesses((prev) => [{ name, imagePath }, ...prev]);
+			}
+		else {
+			setOpponentGuesses((prev) => [{id: 'hidden', name: 'Champion', imagePath: '/champions/unknown.png'}, ...prev]);
+		}
+		}
+    	catch (err) {
+			console.error("Error fetching opponent champion info:", err);
+			setOpponentGuesses((prev) => [
+			{
+				name: "Champion",
+				imagePath: "/champions/unknown.png",
+			},
+			...prev,
+			]);
+		}
       setIsMyTurn(true);
     });
 
@@ -406,7 +404,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
                   const isHidden = lastChance && !gameOverInfo && idx === 0;
 
                   return (
-                    <div key={g.id} className="flex flex-col items-center gap-1 animate-pop-in">
+                    <div key={g.name} className="flex flex-col items-center gap-1 animate-pop-in">
                       <span className="text-[10px] text-slate-400 font-semibold">{t("multiplayer.attemptCount").replace("{count}", String(opponentGuesses.length - idx))}</span>
                       <div className="w-[72px] h-[72px] rounded-lg overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center shadow-lg relative group">
                         {isHidden ? (

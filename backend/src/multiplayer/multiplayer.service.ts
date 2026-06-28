@@ -101,7 +101,6 @@ export class MultiplayerService {
 		if (!guessedChamp) 
 			throw new Error("Impossible de trouver le champion guess");
 
-		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
 
 		const existingGuesses = await this.prisma.guess.count({
 			where: {
@@ -112,7 +111,6 @@ export class MultiplayerService {
 			}
 		});
 		const attempt_number = existingGuesses + 1;
-		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number)
 		const opponentAttempts = await this.prisma.guess.count({
 			where: {
 				match_id: matchId,
@@ -121,6 +119,8 @@ export class MultiplayerService {
 		});
 		if (attempt_number > opponentAttempts + 1) 
     		throw new Error("Triche détectée : Ce n'est pas ton tour !");
+		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
+		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number);
 
 		const opponentLastGuess = await this.prisma.guess.findFirst({
 			where: {
@@ -156,9 +156,10 @@ export class MultiplayerService {
 			finalWinnerId = opponentLastGuess.participant.user_id;
 			}
 		}
+		const isLastChance = matchStatus === 'last_chance';
 		return {
 			fullData: comparisonResult,
-			censoredData: { championId: guessedChamp.id },
+			censoredData: { name: isLastChance? null : guessedChamp.name },
 			matchState: {
 				status: matchStatus,
 				isDraw: isDraw,
