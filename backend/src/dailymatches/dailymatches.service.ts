@@ -138,4 +138,22 @@ export class DailymatchesService {
 			isWin: guessedChamp.name === todayChamp.name
 		}
 	}
+
+	async getDailyData() {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		let existingMatch = await this.prisma.dailyMatch.findUnique({
+			where: { date: today},
+		});
+		if (!existingMatch) {
+			await this.selectDayChamp();
+			existingMatch = await this.prisma.dailyMatch.findUnique({
+				where: { date: today},
+			});
+		}
+		return {
+			id: existingMatch?.id,
+			date: existingMatch?.date,
+		};
+	}
 }

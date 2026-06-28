@@ -51,6 +51,7 @@ services:
     depends_on:
       - frontend
       - backend
+
   tunnel:
     image: ngrok/ngrok:latest
     container_name: ngrok_tunnel

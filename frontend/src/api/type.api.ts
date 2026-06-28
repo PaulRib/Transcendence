@@ -11,6 +11,11 @@ export type GuessAttribute<T> = {
 	status: 'correct' | 'partial' | 'incorrect' | 'higher' | 'lower';
 };
 
+export type DailyData = {
+	id: string;
+	date: string;
+};
+
 export type GuessResponse = {
 	name: string;
 	gender: GuessAttribute<string>;

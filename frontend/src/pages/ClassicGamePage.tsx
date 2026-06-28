@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getChampionNames } from '../api/champions.api';
-import { sendGuess } from '../api/dailygame.api';
+import { getDailyData, sendGuess } from '../api/dailygame.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { Heading } from '../components/ui/heading';
 import { PageContainer } from '../components/ui/page-content';
@@ -23,6 +23,7 @@ function ClassicGamePage() {
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
   const [rewardMessage, setRewardMessage] = useState<string | null>(null);
+  const [matchId, setMatchId] = useState<string | null>(null);
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
 
@@ -30,10 +31,36 @@ function ClassicGamePage() {
     async function loadGameData() {
       try {
         setIsLoading(true);
-        const names = await getChampionNames();
+        
+        // On récupère en parallèle les noms des champions et les infos du match du jour
+        const [names, dailyData] = await Promise.all([
+          getChampionNames(),
+          getDailyData()
+        ]);
+        
         setChampionNames(names);
+        setMatchId(dailyData.id);
+
+        const savedState = localStorage.getItem('daily_classic_game');
+        if (savedState) {
+          try {
+            const parsed = JSON.parse(savedState);
+            if (parsed && parsed.matchId === dailyData.id) {
+              setGuesses(parsed.guesses || []);
+              setHasWon(!!parsed.hasWon);
+              if (parsed.hasWon) {
+                setShowVictory(true);
+              }
+            } else {
+              localStorage.removeItem('daily_classic_game');
+            }
+          } catch {
+            localStorage.removeItem('daily_classic_game');
+          }
+        }
         setError(null);
-      } catch {
+      } catch (err) {
+        console.error("Erreur de chargement du jeu quotidien:", err);
         setError(t("game.loadError"));
       } finally {
         setIsLoading(false);
@@ -73,10 +100,15 @@ function ClassicGamePage() {
 
     try {
       const result = await sendGuess(validChamp.name);
-      setGuesses([result, ...guesses]);
+      const newGuesses = [result, ...guesses];
+      const isWin = result.isWin;
+      const newHasWon = isWin || hasWon;
+
+      setGuesses(newGuesses);
       setInputValue('');
       setSuggestions([]);
-      if (result.isWin) {
+
+      if (isWin) {
         setHasWon(true);
 
         const token = localStorage.getItem('access_token');
@@ -87,8 +119,7 @@ function ClassicGamePage() {
 
           if (rewardResponse.rewardGiven) {
             setRewardMessage(t("game.rewardEarned")
-              .replace("{xp}", String(rewardResponse.xpEarned))
-              .replace("{points}", String(rewardResponse.pointsEarned)));
+              .replace("{xp}", String(rewardResponse.xpEarned)));
           } else {
             setRewardMessage(t("game.rewardAlreadyClaimed"));
           }
@@ -97,6 +128,14 @@ function ClassicGamePage() {
         }
 
         setTimeout(() => setShowVictory(true), 3750);
+      }
+
+      if (matchId) {
+        localStorage.setItem('daily_classic_game', JSON.stringify({
+          matchId: matchId,
+          guesses: newGuesses,
+          hasWon: newHasWon
+        }));
       }
     } catch (err) {
       console.error(err);
