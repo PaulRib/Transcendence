@@ -5,6 +5,14 @@ import { Heading } from '../components/ui/heading';
 import { getMyGamificationStats } from '../api/gamification.api';
 import type { GamificationStats } from '../api/gamification.api';
 import { useLanguage } from '../i18n/LanguageContext';
+import apprenticeBadge from '../assets/badges/lvl-badge.png';
+import streakBadge from '../assets/badges/streak-badge.png';
+import expertStreakBadge from '../assets/badges/expertStreak-badge.png';
+import expertBadge from '../assets/badges/expert-badge.png';
+import firstBloodBadge from '../assets/badges/firstBlood-badge.png';
+import riftConquerorBadge from '../assets/badges/riftConqueror-badge.png';
+
+import { Award, CheckCircle2, ChevronDown, LockKeyhole } from 'lucide-react';
 
 
 function ProfilePage() {
@@ -47,23 +55,40 @@ function ProfilePage() {
       name: t("profile.apprenticeName"),
       description: t("profile.apprenticeDescription"),
       unlocked: (stats?.level ?? 1) >= 2,
+      image: apprenticeBadge,
     },
     {
       name: t("profile.regularName"),
       description: t("profile.regularDescription"),
       unlocked: (stats?.streak_count ?? 0) >= 2,
+      image: streakBadge,
     },
     {
-      name: t("profile.collectorName"),
-      description: t("profile.collectorDescription"),
-      unlocked: (stats?.points_earned ?? 0) >= 100,
+		name: t("profile.expertStreakName"),
+		description: t("profile.expertStreakDescription"),
+		unlocked: (stats?.streak_count ?? 0) >= 5,
+		image: expertStreakBadge,
     },
     {
       name: t("profile.expertName"),
       description: t("profile.expertDescription"),
       unlocked: (stats?.level ?? 1) >= 5,
+      image: expertBadge,
     },
+    {
+      name: t("profile.firstBlood"),
+      description: t("profile.firstBloodDescription"),
+      unlocked: currentUser.elo_rating >= 20,
+      image: firstBloodBadge,
+    },
+    {
+      name:t("profile.riftConqueror"),
+      description: t("profile.riftConquerorDescription"),
+      unlocked: currentUser.elo_rating >= 100,
+      image: riftConquerorBadge,
+    }
   ];
+  const unlockedBadgeCount = badges.filter((badge) => badge.unlocked).length;
 
   return (
     <PageContainer>
@@ -79,7 +104,7 @@ function ProfilePage() {
 
       <div className="text-center">
         <p className="text-[1.2rem] mt-2">
-          <strong>{t("profile.points")}</strong> {stats?.points_earned ?? 0}
+          <strong>Elo: </strong> {currentUser.elo_rating}
         </p>
         <p className="text-[1.2rem] mt-2">
           <strong>{t("profile.xp")}</strong> {stats?.xp_points ?? 0}
@@ -89,26 +114,48 @@ function ProfilePage() {
         </p>
         <button
           onClick={() => setShowBadges(!showBadges)}
-          className="mt-4 px-4 py-2 cursor-pointer bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white transition-colors duration-200"
+          aria-expanded={showBadges}
+          className="mt-5 inline-flex items-center gap-2 px-4 py-2.5 cursor-pointer bg-white/10 hover:bg-white/15 border border-white/20 rounded-lg text-white font-medium transition-colors duration-200"
         >
-          {showBadges ? t("profile.hideBadges") : t("profile.showBadges")}
+          <Award size={18} className="text-amber-400" />
+          <span>{showBadges ? t("profile.hideBadges") : t("profile.showBadges")}</span>
+          <span className="text-xs text-white/60">{unlockedBadgeCount}/{badges.length}</span>
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-200 ${showBadges ? 'rotate-180' : ''}`}
+          />
         </button>
         {showBadges && (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="mt-6 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {badges.map((badge) => (
               <div
                 key={badge.name}
-                className={`rounded-lg border p-4 text-left transition-colors ${
+                className={`relative overflow-hidden rounded-lg border p-4 text-center transition-all duration-200 ${
                   badge.unlocked
-                    ? 'border-[#f1c40f] bg-[#f1c40f]/10 text-white'
-                    : 'border-white/10 bg-white/5 text-white/40'
+                    ? 'border-amber-400/70 bg-amber-400/10 text-white shadow-[0_8px_24px_rgba(245,158,11,0.12)]'
+                    : 'border-white/10 bg-white/[0.03] text-white/45'
                 }`}
               >
-                <p className="m-0 font-bold">{badge.name}</p>
-                <p className="m-0 mt-1 text-sm">{badge.description}</p>
-                <p className="m-0 mt-2 text-xs">
-                  {badge.unlocked ? t("profile.unlocked") : t("profile.locked")}
-                </p>
+                <div className="mb-3 flex h-28 items-center justify-center">
+                  {badge.image ? (
+                    <img
+                      src={badge.image}
+                      alt={badge.name}
+                      className={`h-28 w-28 object-contain transition-all duration-200 ${
+                        badge.unlocked ? '' : 'grayscale opacity-25'
+                      }`}
+                    />
+                  ) : (
+                    <Award size={64} strokeWidth={1.25} className={badge.unlocked ? 'text-amber-400' : 'text-white/20'} />
+                  )}
+                </div>
+
+                <p className="m-0 text-base font-bold">{badge.name}</p>
+                <p className="m-0 mt-1 min-h-10 text-sm text-current/75">{badge.description}</p>
+                <div className={`mt-3 inline-flex items-center gap-1.5 text-xs font-semibold ${badge.unlocked ? 'text-amber-300' : 'text-white/35'}`}>
+                  {badge.unlocked ? <CheckCircle2 size={14} /> : <LockKeyhole size={14} />}
+                  <span>{badge.unlocked ? t("profile.unlocked") : t("profile.locked")}</span>
+                </div>
               </div>
             ))}
           </div>
