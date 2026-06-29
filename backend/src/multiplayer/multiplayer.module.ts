@@ -7,6 +7,7 @@ import { PrismaModule } from '../../prisma/prisma.module';
 import { ChampionsModule } from '../champions/champions.module';
 import { InfinitematchesModule } from '../infinitematches/infinitematches.module';
 import { MultiplayerController } from './multiplayer.controller';
+import { GamificationModule } from '../gamification/gamification.module';
 
 @Module({
     imports: [
@@ -14,6 +15,7 @@ import { MultiplayerController } from './multiplayer.controller';
         UsersModule,
 		ChampionsModule,
 		InfinitematchesModule,
+		GamificationModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET,
         }),

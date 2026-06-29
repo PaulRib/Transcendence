@@ -10,6 +10,7 @@ type UserForLogin = {
     username: string;
     avatar_url: string | null;
     password_hash: string | null;
+    elo_rating: number;
 };
 
 @Injectable()
@@ -23,6 +24,7 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
         
@@ -39,6 +41,7 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
         
@@ -63,6 +66,7 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
         return createdUser;
@@ -107,6 +111,7 @@ export class UsersService {
                 username: true,
                 avatar_url: true,
                 password_hash: true,
+                elo_rating: true,
             },
         });
     }
@@ -135,6 +140,7 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
         return updatedUser;
@@ -191,6 +197,7 @@ export class UsersService {
                 id: true,
                 username: true,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
     }
@@ -209,6 +216,7 @@ export class UsersService {
                 username: true,
                 email: false,
                 avatar_url: true,
+                elo_rating: true,
             },
         });
     }

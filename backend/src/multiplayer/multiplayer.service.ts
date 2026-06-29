@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { InfinitematchesService } from '../infinitematches/infinitematches.service';
+import { GamificationService } from '../gamification/gamification.service';
 
 @Injectable()
 export class MultiplayerService {
-    constructor(private readonly prisma: PrismaService, private championsService: ChampionsService, private inifinitematchesservice: InfinitematchesService) {}
+    constructor(
+		private readonly prisma: PrismaService,
+		private championsService: ChampionsService,
+		private inifinitematchesservice: InfinitematchesService,
+		private readonly gamificationService: GamificationService,
+	) {}
 
     async createMatch(player1Id: string, player2Id: string) {
 		const targetChampionId = await this.inifinitematchesservice.getRandomChamp();
@@ -29,16 +35,25 @@ export class MultiplayerService {
 
 	async endMatch(matchId: string, winnerId: string, userId: string) {
 		const isDraw = winnerId === 'none';
-		await this.prisma.match.update({
-			where: { id: matchId },
+		const finalizedMatch = await this.prisma.match.updateMany({
+			where: { id: matchId, status: 'ongoing' },
 			data: { status: "finished" }
 		});
+
+		if (finalizedMatch.count === 0)
+			return;
+
 		if (isDraw) {
 			await this.prisma.match_Participant.updateMany({
 				where: { match_id: matchId },
 				data: { result: "draw", score: 1 }
 			});
 		} else {
+			const loser = await this.prisma.match_Participant.findFirst({
+				where: { match_id: matchId, user_id: { not: winnerId } },
+				select: { user_id: true },
+			});
+
 			await this.prisma.match_Participant.updateMany({
 				where: { match_id: matchId, user_id: winnerId },
 				data: { result: "win", score: 3 }
@@ -47,6 +62,9 @@ export class MultiplayerService {
 				where: { match_id: matchId, user_id: { not: winnerId } },
 				data: { result: "loose", score: 0 }
 			});
+
+			if (loser)
+				await this.gamificationService.updateRankedElo(winnerId, loser.user_id);
 		}
 	}
 
