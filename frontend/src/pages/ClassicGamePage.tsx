@@ -87,8 +87,7 @@ function ClassicGamePage() {
 
           if (rewardResponse.rewardGiven) {
             setRewardMessage(t("game.rewardEarned")
-              .replace("{xp}", String(rewardResponse.xpEarned))
-              .replace("{points}", String(rewardResponse.pointsEarned)));
+              .replace("{xp}", String(rewardResponse.xpEarned)));
           } else {
             setRewardMessage(t("game.rewardAlreadyClaimed"));
           }

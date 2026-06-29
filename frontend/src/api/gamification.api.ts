@@ -3,10 +3,8 @@ import { API_BASE_URL } from "../config/api";
 export type GamificationStats = {
 	id: string;
 	streak_count: number;
-	points_earned: number;
 	xp_points: number;
 	level: number;
-	elo_rating: number;
 	reward_date: string;
 	user_id: string;
 };
@@ -14,24 +12,14 @@ export type GamificationStats = {
 export type GamificationRewardResponse = {
 	rewardGiven: boolean;
 	xpEarned: number;
-	pointsEarned: number;
 	stats: GamificationStats;
 };
 
 export type LeaderboardEntry = {
 	id: string;
-	streak_count: number;
-	points_earned: number;
-	xp_points: number;
-	level: number;
+	username: string;
+	avatar_url: string | null;
 	elo_rating: number;
-	reward_date: string;
-	user_id: string;
-	user: {
-		id: string;
-		username: string;
-		avatar_url: string | null;
-	};
 };
 
 export async function getMyGamificationStats(token: string): Promise<GamificationStats> {
