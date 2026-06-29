@@ -45,9 +45,6 @@ export class AuthController {
 
             const params = new URLSearchParams({
                 token: loginResponse.access_token,
-                userId: loginResponse.user.id,
-                username: loginResponse.user.username,
-                avatarUrl: loginResponse.user.avatar_url ?? '',
             });
 
             return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?${params.toString()}`);
