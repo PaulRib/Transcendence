@@ -133,7 +133,7 @@ function Layout() {
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger className="hover:bg-white/10 cursor-pointer py-2">
                                 <Languages size={16} className="mr-2" />
-                                Langue
+                                {t("nav.language")}
                             </DropdownMenuSubTrigger>
                             <DropdownMenuSubContent className="bg-[#1d1d20]  text-white ml-2" sideOffset={8}>
                                 <DropdownMenuRadioGroup value={language} onValueChange={(val) => setLanguage(val as Language)}>

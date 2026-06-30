@@ -10,6 +10,7 @@ export const translations = {
 			countryMode: "Mode Pays",
 			leagueMode: "Mode League of Legends",
 			matchHistory: "Historique des matchs",
+			language: 'Langue',
 		},
 		home: {
 			howToPlay: "Comment jouer ?",
@@ -249,6 +250,7 @@ export const translations = {
 			countryMode: "Country Mode",
 			leagueMode: "League of Legends Mode",
 			matchHistory: "Match History",
+			language: "Language",
 		},
 		home: {
 			howToPlay: "How to play?",
@@ -488,6 +490,7 @@ export const translations = {
 			countryMode: "Режим стран",
 			leagueMode: "Режим League of Legends",
 			matchHistory: "История матчей",
+			language: "язык",
 		},
 		home: {
 			howToPlay: "Как играть?",
