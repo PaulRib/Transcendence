@@ -7,10 +7,11 @@ export class InfinitematchesController {
 	private readonly infiniteMatchesService: InfinitematchesService,
   ) {}
  
- @Get('random')
+  @Get('random')
   async getRandomChampion() {
-	return this.infiniteMatchesService.getRandomChamp();
-}
+    const id = await this.infiniteMatchesService.getRandomChamp();
+    return { id };
+  }
   @Post('guess')
   async verifyInfiniteGuess(
     @Body('guessName') guessName: string,
