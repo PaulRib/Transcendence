@@ -115,10 +115,10 @@ function SettingsPage() {
             
             {/* Section Pseudo */}
             <div className="flex flex-col items-center gap-4 w-full">
-              <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">Pseudo</h2>
+              <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.username")}</h2>
               <Input 
                 type="text" 
-                placeholder="Nouveau pseudo" 
+                placeholder={t("settings.newUsernamePlaceholder")}
                 value={pseudo} 
                 onChange={(e) => setPseudo(e.target.value)} 
                 className="max-w-md text-center"
@@ -127,7 +127,7 @@ function SettingsPage() {
 
             {/* Section Avatar */}
             <div className="flex flex-col items-center gap-4 w-full">
-              <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">Avatar</h2>
+              <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.avatar")}</h2>
               
               <div className="flex flex-col items-center gap-4">
                 <Avatar className="w-24 h-24 border-2 border-white/20 shadow-lg">
@@ -137,11 +137,11 @@ function SettingsPage() {
 
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" type="button">Changer l'avatar</Button>
+                    <Button variant="outline" type="button">{t("settings.changeAvatar")}</Button>
                   </DialogTrigger>
                   <DialogContent className="max-w-3xl bg-[#1d1d20] border-white/10 text-white">
                     <DialogHeader>
-                      <DialogTitle>Sélectionner un nouvel avatar</DialogTitle>
+                      <DialogTitle>{t("settings.newAvatar")}</DialogTitle>
                     </DialogHeader>
                     <div className="py-4">
                       <AvatarPicker currentAvatar={avatarUrl} onAvatarChange={setAvatarUrl} />
@@ -151,13 +151,13 @@ function SettingsPage() {
               </div>
             </div>
 
-            <Button type="submit" className="w-fit px-8 mt-4">Sauvegarder le profil</Button>
+            <Button type="submit" className="w-fit px-8 mt-4">{t("settings.save")}</Button>
           </form>
         </div>
 
         {/* Bloc Mot de passe */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center gap-4 text-center">
-          <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">Changer le mot de passe</h2>
+          <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.changePassword")}</h2>
           <form className="flex flex-col items-center gap-3 w-full" onSubmit={handleUpdatePassword}>
             <Input 
               type="password" 

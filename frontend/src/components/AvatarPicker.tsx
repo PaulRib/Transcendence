@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { useLanguage } from "../i18n/LanguageContext";
 
 const DEFAULT_AVATARS = [
   "https://cdn.intra.42.fr/users/3bf69c389f36c86e822b07a0167b858c/lsaiti.jpg",
@@ -20,6 +21,7 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
   const [activeTab, setActiveTab] = useState<'default' | 'link' | 'upload'>('default');
   const [linkInput, setLinkInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useLanguage();
 
   const handleDefaultClick = (url: string) => {
     onAvatarChange(url);
@@ -52,9 +54,9 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
     <div className="flex flex-col gap-4 w-full">
       {/* Contrôles de sélection */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3">
-        <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>Par défaut</Button>
-        <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>Lien Web</Button>
-        <Button type="button" variant={activeTab === 'upload' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('upload')}>Importer fichier</Button>
+        <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>{t("settings.default")}</Button>
+        <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>{t("settings.webLink")}</Button>
+        <Button type="button" variant={activeTab === 'upload' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('upload')}>{t("settings.importFile")}</Button>
       </div>
 
       {activeTab === 'default' && (
@@ -74,7 +76,7 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
 
       {activeTab === 'link' && (
         <div className="flex flex-col gap-3 py-2">
-          <p className="text-sm text-white/70">Collez un lien vers une image (ex: Discord, Imgur...)</p>
+          <p className="text-sm text-white/70">{t("settings.pasteImageLink")}</p>
           <div className="flex gap-2">
             <Input 
               placeholder="https://..." 
@@ -83,14 +85,14 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
               className="flex-1"
               onKeyDown={(e) => { if(e.key === 'Enter') handleLinkSubmit(e); }}
             />
-            <Button type="button" onClick={handleLinkSubmit}>Appliquer</Button>
+            <Button type="button" onClick={handleLinkSubmit}>{t("settings.apply")}</Button>
           </div>
         </div>
       )}
 
       {activeTab === 'upload' && (
         <div className="flex flex-col gap-3 py-2">
-          <p className="text-sm text-white/70">Sélectionnez une image sur votre ordinateur.</p>
+          <p className="text-sm text-white/70">{t("settings.selectImage")}</p>
           <input 
             type="file" 
             accept="image/*" 
@@ -99,7 +101,7 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
             onChange={handleFileUpload} 
           />
           <Button type="button" variant="outline" className="w-fit" onClick={() => fileInputRef.current?.click()}>
-            Parcourir...
+            {t("settings.browse")}
           </Button>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 interface RankedLobbyPageProps {
   socket: Socket | null;
@@ -8,6 +9,7 @@ interface RankedLobbyPageProps {
 function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
   // État pour savoir si le joueur est dans la file d'attente
   const [isSearching, setIsSearching] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!socket) return;
@@ -47,8 +49,8 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
 
   return (
     <div className="lobby-container" style={{ textAlign: 'center', padding: '50px' }}>
-      <h2>Mode Classé (1v1) - Lobby</h2>
-      <p>Prouvez votre connaissance des champions !</p>
+      <h2>{t("selectGame.rankedTitle")} (1v1) - {t("multiplayer.lobby")}</h2>
+      <p>{t("multiplayer.prouve")}</p>
       
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
         
@@ -66,8 +68,8 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
             transition: 'all 0.3s ease'
           }}
         >
-          <h3>Matchmaking Aléatoire</h3>
-          <p>{isSearching ? "Recherche d'un adversaire à votre niveau..." : "Affrontez un joueur du monde entier."}</p>
+          <h3>{t("multiplayer.randomMatchmaking")}</h3>
+          <p>{isSearching ? t("multiplayer.findingOpponent") : t("multiplayer.facePlayer")}</p>
           
           {!isSearching ? (
             <button 
@@ -79,11 +81,11 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
                 fontWeight: 'bold', fontSize: '16px'
               }}
             >
-              Chercher une partie
+              {t("multiplayer.findMatch")}
             </button>
           ) : (
             <div style={{ marginTop: '20px' }}>
-              <div className="loader" style={{ marginBottom: '15px' }}>⏳ Recherche en cours...</div>
+              <div className="loader" style={{ marginBottom: '15px' }}>⏳ {t("multiplayer.searchInProgress")}</div>
               <button 
                 onClick={handleLeaveMatchmaking}
                 style={{ 
@@ -92,7 +94,7 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
                   borderRadius: '8px', fontWeight: 'bold'
                 }}
               >
-                Annuler
+                {t("multiplayer.cancel")}
               </button>
             </div>
           )}
@@ -111,8 +113,8 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
             maxWidth: '400px'
           }}
         >
-          <h3>Lancer un défi</h3>
-          <p>Invitez un joueur de votre liste d'amis.</p>
+          <h3>{t("multiplayer.startChallenge")}</h3>
+          <p>{t("multiplayer.inviteToPlay")}</p>
           <button 
             onClick={handleInviteFriend}
             style={{ 
@@ -121,15 +123,15 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
                 fontWeight: 'bold', fontSize: '16px'
             }}
           >
-            Inviter un ami
+            {t("multiplayer.inviteFriend")}
           </button>
         </div>
 
       </div>
 
       <div style={{ marginTop: '50px', color: '#888', fontStyle: 'italic', fontSize: '14px' }}>
-        <p>💡 L'invitation directe d'un ami est gérée par le système global de notification.</p>
-        {!socket && <p style={{ color: '#F44336' }}>⚠️ Connexion au serveur de jeu en cours...</p>}
+        <p>💡 {t("multiplayer.friendInvInfo")} </p>
+        {!socket && <p style={{ color: '#F44336' }}>⚠️ {t("multiplayer.connectingToGameServer")} </p>}
       </div>
     </div>
   );
