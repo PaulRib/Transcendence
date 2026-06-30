@@ -3,4 +3,5 @@ export type PublicUser = {
     username: string;
     avatar_url: string | null;
     elo_rating: number;
+    ranked_wins: number;
 }

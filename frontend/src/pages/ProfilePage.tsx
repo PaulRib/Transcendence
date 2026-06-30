@@ -78,13 +78,13 @@ function ProfilePage() {
     {
       name: t("profile.firstBlood"),
       description: t("profile.firstBloodDescription"),
-      unlocked: currentUser.elo_rating >= 20,
+      unlocked: currentUser.ranked_wins >= 1,
       image: firstBloodBadge,
     },
     {
       name:t("profile.riftConqueror"),
       description: t("profile.riftConquerorDescription"),
-      unlocked: currentUser.elo_rating >= 100,
+      unlocked: currentUser.ranked_wins >= 5,
       image: riftConquerorBadge,
     }
   ];

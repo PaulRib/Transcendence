@@ -106,6 +106,9 @@ export class GamificationService {
 				where: { id: winnerId },
 				data: {
 					elo_rating: winner.elo_rating + eloChange,
+					ranked_wins: {
+						increment: 1,
+					}
 				},
 			}),
 			this.prisma.user.update({

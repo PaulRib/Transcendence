@@ -5,6 +5,7 @@ export type AuthUser = {
     username: string;
     avatar_url: string | null;
     elo_rating: number;
+    ranked_wins: number;
 };
 
 export type LoginResponse = {

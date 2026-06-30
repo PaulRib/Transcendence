@@ -63,6 +63,7 @@ export class AuthService {
                 username: user.username,
                 avatar_url: user.avatar_url,
                 elo_rating: user.elo_rating,
+                ranked_wins: user.ranked_wins,
             },
             access_token: await this.jwtService.signAsync(payload),
         };
