@@ -1,9 +1,14 @@
-import { OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "../users/users.service";
 import { FriendsService } from "../friends/friends.service";
 import { ChatService } from "../chat/chat.service";
 import { Namespace, Socket } from "socket.io";
+
+type SendMessagePayload = {
+    receiverId: string;
+    content: string;
+};
 
 @WebSocketGateway({ cors: true, namespace: '/social' })
 export class SocialGateway implements
@@ -66,6 +71,25 @@ OnGatewayConnection, OnGatewayDisconnect {
         }
 
         this.connectedUsers.set(userId, nextConnections);
+    }
+
+    @SubscribeMessage('send_message')
+    async handleSendMessage(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: SendMessagePayload,
+    ) {
+        const senderId = client.data.userId;
+
+        if (!senderId) {
+            client.disconnect();
+            return;
+        }
+
+        const createdMessage = await this.chatService.sendMessage(senderId, data.receiverId, data.content);
+
+        client.emit('message_received', createdMessage);
+
+        this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
     }
 
     private async notifyFriendsStatus(userId: string, isOnline: boolean) {
