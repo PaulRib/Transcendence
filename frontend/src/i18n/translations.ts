@@ -192,6 +192,7 @@ export const translations = {
 			population: "Population",
 			currency: "Devise",
 			currencyName: "Devise",
+			redCountryMeaning: "La caractéristique ne correspond pas du tout au pays"
 		},
 		multiplayer: {
 			matchId: "Match ID :",
@@ -432,6 +433,7 @@ export const translations = {
 			population: "Population",
 			currency: "Currency",
 			currencyName: "Currency",
+			redCountryMeaning: "The characteristic does not match the country at all.",
 		},
 		multiplayer: {
 			matchId: "Match ID:",
@@ -672,6 +674,7 @@ export const translations = {
 			population: "Население",
 			currency: "Валюта",
 			currencyName: "валюта",
+			redCountryMeaning: "Характеристика совершенно не соответствует стране.",
 		},
 		multiplayer: {
 			matchId: "ID матча:",
