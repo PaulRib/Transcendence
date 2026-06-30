@@ -117,7 +117,7 @@ function Layout() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
-                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onClick={handleToggleUniverse}>
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onSelect={handleToggleUniverse}>
                             {universe === 'league' ? (
                                 <><Globe size={16} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
                             ) : (

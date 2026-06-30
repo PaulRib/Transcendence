@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Send, User } from 'lucide-react';
@@ -14,22 +14,6 @@ export function GlobalChat() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
-  const chatRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent | TouchEvent) {
-      if (isOpen && chatRef.current && !chatRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, [isOpen]);
 
   function getToken() {
     return localStorage.getItem('access_token');
@@ -106,7 +90,7 @@ export function GlobalChat() {
   };
 
   return (
-    <div ref={chatRef} className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end pointer-events-none">
+    <div className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end">
       {/* Fenêtre de chat animée */}
       <div className={`mb-4 w-80 h-96 bg-[rgba(20,20,30,0.95)] backdrop-blur-md border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" : "scale-75 opacity-0 translate-y-8 pointer-events-none"}`}> 
         {selectedFriend && (
@@ -191,7 +175,7 @@ export function GlobalChat() {
       {/* Bouton flottant pour ouvrir/fermer le chat */}
       <Button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 rounded-full text-2xl shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:scale-110 pointer-events-auto"
+        className="w-14 h-14 rounded-full text-2xl shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:scale-110"
       >
         {isOpen ? '✕' : '💬'}
       </Button>
