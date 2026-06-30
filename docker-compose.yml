@@ -52,14 +52,5 @@ services:
       - frontend
       - backend
 
-  tunnel:
-    image: ngrok/ngrok:latest
-    container_name: ngrok_tunnel
-    env_file:
-      - ./backend/.env
-    command: http https://gateway:443 --url=undiluted-unscented-fiction.ngrok-free.dev
-    depends_on:
-      - gateway
-
 volumes:
   pgdata:
