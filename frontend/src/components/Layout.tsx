@@ -99,14 +99,14 @@ function Layout() {
             </header>
 
             <div className="flex-1 flex justify-center min-h-0">
-                <main className="p-8 md:p-6 flex justify-center items-start w-full">
+                <main className="p-8 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10">
                     <Outlet />
                 </main>
             </div>
             <GlobalChat />
 
             {/* Bouton Paramètres Rapides (Langue & Univers) */}
-            <div className="fixed bottom-6 left-6 z-[1000]">
+            <div className="fixed bottom-6 left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
