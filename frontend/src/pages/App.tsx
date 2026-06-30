@@ -16,6 +16,7 @@ import FriendsList from "./FriendsList";
 import LeaderboardPage from "./LeaderboardPage";
 import CountrydlePage from './countrydle/CountrydlePage';
 import FortyTwoCallbackPage from './FortyTwoCallbackPage';
+import NotFoundPage from './NotFoundPage';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path="selectGame" element={<SelectGame/>}/>
           <Route path="countrydle" element={<CountrydlePage/>}/>
           <Route path="auth/42/callback" element={<FortyTwoCallbackPage/>}/>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

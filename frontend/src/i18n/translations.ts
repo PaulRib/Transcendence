@@ -220,6 +220,11 @@ export const translations = {
 			opponentInitials: "ADV",
 			opponentDisconnectedGrace: "Adversaire déconnecté. Victoire par abandon dans {count}s...",
 		},
+		notFound: {
+			title: "Page non trouvée (404)",
+			desc: "Désolé, la page que vous recherchez n'existe pas ou a été déplacée.",
+			button: "Retour à l'accueil",
+		},
 	},
 	en: {
 		nav: {
@@ -441,6 +446,11 @@ export const translations = {
 			opponentInitials: "OPP",
 			opponentDisconnectedGrace: "Opponent disconnected. Forfeit victory in {count}s...",
 		},
+		notFound: {
+			title: "Page Not Found (404)",
+			desc: "Sorry, the page you are looking for does not exist or has been moved.",
+			button: "Back to Home",
+		},
 	},
 	ru: {
 		nav: {
@@ -661,6 +671,11 @@ export const translations = {
 			youInitials: "ВЫ",
 			opponentInitials: "СОП",
 			opponentDisconnectedGrace: "Соперник отключился. Техническая победа через {count}сек...",
+		},
+		notFound: {
+			title: "Страница не найдена (404)",
+			desc: "К сожалению, запрашиваемая вами страница не существует или была перемещена.",
+			button: "На главную",
 		},
 	},
 } as const;
