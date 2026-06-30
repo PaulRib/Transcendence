@@ -99,14 +99,14 @@ function Layout() {
             </header>
 
             <div className="flex-1 flex justify-center min-h-0">
-                <main className="p-8 md:p-6 flex justify-center items-start w-full">
+                <main className="p-8 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10">
                     <Outlet />
                 </main>
             </div>
             <GlobalChat />
 
             {/* Bouton Paramètres Rapides (Langue & Univers) */}
-            <div className="fixed bottom-6 left-6 z-[1000]">
+            <div className="fixed bottom-6 left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
@@ -117,7 +117,7 @@ function Layout() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
-                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onClick={handleToggleUniverse}>
+                        <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onSelect={handleToggleUniverse}>
                             {universe === 'league' ? (
                                 <><Globe size={16} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
                             ) : (
