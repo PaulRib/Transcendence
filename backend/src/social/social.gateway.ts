@@ -4,10 +4,19 @@ import { UsersService } from "../users/users.service";
 import { FriendsService } from "../friends/friends.service";
 import { ChatService } from "../chat/chat.service";
 import { Namespace, Socket } from "socket.io";
+import { MultiplayerService } from "../multiplayer/multiplayer.service";
 
 type SendMessagePayload = {
     receiverId: string;
     content: string;
+};
+
+type SendGameInvitePayload = {
+    receiverId: string;
+};
+
+type AcceptGameInvitePayload = {
+    inviterId: string;
 };
 
 @WebSocketGateway({ cors: true, namespace: '/social' })
@@ -22,6 +31,7 @@ OnGatewayConnection, OnGatewayDisconnect {
         private readonly usersService: UsersService,
         private readonly chatService: ChatService,
         private readonly friendsService: FriendsService,
+        private readonly multiplayerService: MultiplayerService,
     ) {}
 
     async handleConnection(client: Socket) {
@@ -90,6 +100,89 @@ OnGatewayConnection, OnGatewayDisconnect {
         client.emit('message_received', createdMessage);
 
         this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
+    }
+
+    @SubscribeMessage('send_game_invite')
+    async handleSendGameInvite(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: SendGameInvitePayload,
+    ) {
+        const inviterId = client.data.userId;
+
+        if (!inviterId) {
+            client.disconnect();
+            return;
+        }
+
+        if (inviterId === data.receiverId) {
+            client.emit('game_invite_error', {
+                message: "You cannot invite yourself",
+            });
+            return;
+        }
+
+        const areFriends = await this.friendsService.areFriends(inviterId, data.receiverId);
+
+        if (!areFriends) {
+            client.emit('game_invite_error', {
+                message: "You can only invite your friends",
+            });
+            return;
+        }
+
+        const inviter = await this.usersService.getUserById(inviterId);
+
+        this.server.to(`user:${data.receiverId}`).emit('game_invite_received', {
+            inviterId,
+            inviterUsername: inviter.username,
+            inviterAvatarUrl: inviter.avatar_url,
+        });
+
+        client.emit('game_invite_sent', {
+            receiverId: data.receiverId,
+        });
+    }
+
+    @SubscribeMessage('accept_game_invite')
+    async handleAcceptGameInvite(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: AcceptGameInvitePayload,
+    ) {
+        const invitedId = client.data.userId;
+
+        if (!invitedId) {
+            client.disconnect();
+            return;
+        }
+
+        if (invitedId === data.inviterId) {
+            client.emit('game_invite_error', {
+                message: "You cannot accept your own invite",
+            });
+            return;
+        }
+
+        const areFriends = await this.friendsService.areFriends(invitedId, data.inviterId);
+
+        if (!areFriends) {
+            client.emit('game_invite_error', {
+                message: "You can only accept invites from your friends",
+            });
+            return;
+        }
+
+        const match = await this.multiplayerService.createMatch(data.inviterId, invitedId);
+
+        this.server.to(`user:${data.inviterId}`).emit('game_invite_accepted', {
+            matchId: match.id,
+            opponentId: invitedId,
+        });
+
+        this.server.to(`user:${invitedId}`).emit('game_invite_accepted', {
+            matchId: match.id,
+            opponentId: data.inviterId,
+        });
+
     }
 
     private async notifyFriendsStatus(userId: string, isOnline: boolean) {

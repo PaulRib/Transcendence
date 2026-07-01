@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import RankedLobbyPage from '../pages/RankedLobbyPage';
 import RankedGamePage from '../pages/RankedGamePage';
+import { useSocialSocket } from '@/context/SocialSocketContext';
 
 function RankedManager() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -9,6 +10,7 @@ function RankedManager() {
   const [matchId, setMatchId] = useState<string | null>(null);
   const [starterUserId, setStarterUserId] = useState<string | null>(null);
   const [initialMatchData, setInitialMatchData] = useState<any | null>(null);
+  const { acceptedGameInvite, clearAcceptedGameInvite } = useSocialSocket();
 
   useEffect(() => {
     // 1. On ouvre le tuyau vers le namespace /game dès qu'on arrive sur le menu Classé
@@ -65,6 +67,21 @@ function RankedManager() {
       newSocket.disconnect();
     };
   }, []); // Le tableau vide garantit qu'on ne crée qu'un seul Socket
+
+  useEffect(() => {
+    if(!socket || !acceptedGameInvite) {
+      return ;
+    }
+
+    setMatchId(acceptedGameInvite.matchId);
+    setMatchState('waiting');
+
+    socket.emit('join_game_room', {
+      matchId: acceptedGameInvite.matchId,
+    });
+
+    clearAcceptedGameInvite();
+  }, [socket, acceptedGameInvite, clearAcceptedGameInvite]);
 
   return (
     <div className="ranked-container">

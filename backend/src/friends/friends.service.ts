@@ -152,4 +152,21 @@ export class FriendsService {
                 : friendships.requester_id,
         );
     }
+
+    async areFriends(userId: string, otherUserId: string): Promise<boolean> {
+        const friendship = await this.prisma.friendship.findFirst({
+            where: {
+                status: "accepted",
+                OR: [
+                    { requester_id: userId, addressee_id: otherUserId },
+                    { requester_id: otherUserId, addressee_id: userId },
+                ],
+            },
+            select: {
+                id: true,
+            },
+        });
+
+        return !!friendship;
+    }
 }

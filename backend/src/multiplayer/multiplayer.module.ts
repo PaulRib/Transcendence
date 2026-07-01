@@ -18,5 +18,6 @@ import { InfinitematchesModule } from '../infinitematches/infinitematches.module
         }),
     ],
     providers: [MultiplayerGateway, MultiplayerService],
+    exports: [MultiplayerService],
 })
 export class MultiplayerModule {}
