@@ -13,4 +13,8 @@ export class DailymatchesController {
    async verifyGuess(@Body('name') guessName: string) {
 	return this.dailymatchesService.verifyGuess(guessName);
    }
+   @Get('data')
+   	async getDailyData() {
+		return this.dailymatchesService.getDailyData();
+	}
 }

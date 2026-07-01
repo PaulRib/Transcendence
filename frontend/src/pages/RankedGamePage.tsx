@@ -9,29 +9,31 @@ import { GameForm } from '../components/Game/GameForm';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../auth/AuthContext';
-import { API_BASE_URL } from '../config/api';
 import type { Socket } from 'socket.io-client';
 import { GameOverCard } from '../components/Game/GameOverCard';
 
 interface RankedGamePageProps {
   socket: Socket;
   matchId: string;
-  starterSocketId: string | null;
+  starterUserId: string | null;
+  initialMatchData?: any | null;
 }
 
-function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProps) {
+function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: RankedGamePageProps) {
   const [inputValue, setInputValue] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
   const [guesses, setGuesses] = useState<GuessResponse[]>([]);
-  const [opponentGuesses, setOpponentGuesses] = useState<Array<{ id: string, name: string, imagePath: string }>>([]);
+  const [opponentGuesses, setOpponentGuesses] = useState<Array<{name: string, imagePath: string }>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
-  const [isMyTurn, setIsMyTurn] = useState<boolean>(starterSocketId ? socket.id === starterSocketId : true);
+  const [isMyTurn, setIsMyTurn] = useState<boolean>(true);
   const [gameOverInfo, setGameOverInfo] = useState<{ isDraw: boolean; winnerId: string; reason?: string } | null>(null);
   const [lastChance, setLastChance] = useState<boolean>(false);
+  const [opponentDisconnected, setOpponentDisconnected] = useState<boolean>(false);
+  const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
 
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
@@ -53,6 +55,72 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
     loadGameData();
   }, [t]);
 
+  // Restaurer l'historique de la partie si initialMatchData est présent au montage
+  useEffect(() => {
+    if (initialMatchData) {
+      const myParticipant = initialMatchData.participants.find(
+        (p: any) => p.user_id === currentUser?.id
+      );
+      if (myParticipant) {
+        const myGuessesRaw = initialMatchData.guesses.filter(
+          (g: any) => g.participant_id === myParticipant.id
+        );
+        const opponentGuessesRaw = initialMatchData.guesses.filter(
+          (g: any) => g.participant_id !== myParticipant.id
+        );
+
+        const restoredGuesses: GuessResponse[] = myGuessesRaw.map((g: any) => ({
+          id: g.champion.id,
+          name: g.champion.name,
+          isWin: g.is_correct,
+          ...g.comparison_result
+        })).reverse();
+
+        const restoredOpponentGuesses = opponentGuessesRaw.map((g: any) => {
+          const name = g.champion.name;
+          const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+          return { id: g.champion.id, name, imagePath };
+        }).reverse();
+
+        setGuesses(restoredGuesses);
+        setOpponentGuesses(restoredOpponentGuesses);
+
+        // Déterminer à qui est le tour en comparant les essais
+        const myCount = restoredGuesses.length;
+        const oppCount = restoredOpponentGuesses.length;
+
+        if (myCount < oppCount) {
+          setIsMyTurn(true);
+        } else if (myCount > oppCount) {
+          setIsMyTurn(false);
+        } else {
+          // Égalité : le tour dépend du starter de la partie
+          if (starterUserId) {
+            setIsMyTurn(currentUser?.id === starterUserId);
+          } else {
+            setIsMyTurn(true);
+          }
+        }
+      }
+    } else {
+      // Cas classique : le starter commence
+      setIsMyTurn(starterUserId ? currentUser?.id === starterUserId : true);
+    }
+  }, [initialMatchData, currentUser, starterUserId]);
+
+  // Timer de déconnexion de l'adversaire
+  useEffect(() => {
+    let interval: any;
+    if (opponentDisconnected && disconnectCountdown > 0) {
+      interval = setInterval(() => {
+        setDisconnectCountdown((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [opponentDisconnected, disconnectCountdown]);
+
   useEffect(() => {
     if (!socket) return;
 
@@ -63,28 +131,27 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
       }
     });
 
-    socket.on('guess_result_spectator', async (data: { championId: string }) => {
+    socket.on('guess_result_spectator', async (data: { name: string }) => {
       try {
-        const response = await fetch(`${API_BASE_URL}/champions/exactChampId?id=${data.championId}`);
-        if (response.ok) {
-          const champData = await response.json();
-          if (champData && champData.name) {
-            const name = champData.name;
-            const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-            setOpponentGuesses((prev) => [{ id: data.championId, name, imagePath }, ...prev]);
-          }
-        }
-      } catch (err) {
-        console.error("Error fetching opponent champion info:", err);
-        setOpponentGuesses((prev) => [
-          {
-            id: data.championId,
-            name: "Champion",
-            imagePath: "/champions/unknown.png",
-          },
-          ...prev,
-        ]);
-      }
+		if (data && data.name != null) {
+				const name = data.name;
+				const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+				setOpponentGuesses((prev) => [{ name, imagePath }, ...prev]);
+			}
+		else {
+			setOpponentGuesses((prev) => [{id: 'hidden', name: 'Champion', imagePath: '/champions/unknown.png'}, ...prev]);
+		}
+		}
+    	catch (err) {
+			console.error("Error fetching opponent champion info:", err);
+			setOpponentGuesses((prev) => [
+			{
+				name: "Champion",
+				imagePath: "/champions/unknown.png",
+			},
+			...prev,
+			]);
+		}
       setIsMyTurn(true);
     });
 
@@ -114,14 +181,33 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
       setIsMyTurn(true);
     });
 
+    // ÉCOUTES DES ÉVÉNEMENTS DE DÉCONNEXION TEMPORAIRE ET DE RETOUR
+    socket.on('player_disconnected_grace', (data: { userId: string; username: string; reconnectWindowMs: number }) => {
+      console.log("player_disconnected_grace reçu :", data);
+      if (data.userId !== currentUser?.id) {
+        setOpponentDisconnected(true);
+        setDisconnectCountdown(Math.round(data.reconnectWindowMs / 1000));
+      }
+    });
+
+    socket.on('player_reconnected', (data: { userId: string; username: string }) => {
+      console.log("player_reconnected reçu :", data);
+      if (data.userId !== currentUser?.id) {
+        setOpponentDisconnected(false);
+        setDisconnectCountdown(60);
+      }
+    });
+
     return () => {
       socket.off('guess_result_full');
       socket.off('guess_result_spectator');
       socket.off('last_chance_triggered');
       socket.off('game_over');
       socket.off('game_error');
+      socket.off('player_disconnected_grace');
+      socket.off('player_reconnected');
     };
-  }, [socket, matchId, currentUser, t]);
+  }, [socket, matchId, currentUser, t, starterUserId]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);
@@ -197,6 +283,13 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
             guessCount={guesses.length}
             onReplay={handleReplay} 
           />
+        </div>
+      )}
+
+      {opponentDisconnected && (
+        <div className="w-full mb-6 px-4 py-3 bg-red-500/10 border border-red-500/30 text-red-400 text-center text-sm font-bold uppercase rounded-xl animate-pulse flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.1)]">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+          {t("multiplayer.opponentDisconnectedGrace").replace("{count}", String(disconnectCountdown))}
         </div>
       )}
 
@@ -311,7 +404,7 @@ function RankedGamePage({ socket, matchId, starterSocketId }: RankedGamePageProp
                   const isHidden = lastChance && !gameOverInfo && idx === 0;
 
                   return (
-                    <div key={g.id} className="flex flex-col items-center gap-1 animate-pop-in">
+                    <div key={g.name} className="flex flex-col items-center gap-1 animate-pop-in">
                       <span className="text-[10px] text-slate-400 font-semibold">{t("multiplayer.attemptCount").replace("{count}", String(opponentGuesses.length - idx))}</span>
                       <div className="w-[72px] h-[72px] rounded-lg overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center shadow-lg relative group">
                         {isHidden ? (

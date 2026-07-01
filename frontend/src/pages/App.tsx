@@ -17,6 +17,7 @@ import LeaderboardPage from "./LeaderboardPage";
 import CountrydlePage from './countrydle/CountrydlePage';
 import FortyTwoCallbackPage from './FortyTwoCallbackPage';
 import MatchHistoryPage from "./MatchHistoryPage";
+import NotFoundPage from './NotFoundPage';
 
 function App() {
   return (
@@ -34,14 +35,15 @@ function App() {
             <Route path="friends" element={<FriendsList />} />
             <Route path="leaderboard" element={<LeaderboardPage/>} />
             <Route path="match-history" element={<MatchHistoryPage/>} />
+			      <Route path="ranked" element={<RankedManager/>}/>
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>
-          <Route path="ranked" element={<RankedManager/>}/>
           <Route path="debug" element={<Debug/>}/>
           <Route path="selectGame" element={<SelectGame/>}/>
           <Route path="countrydle" element={<CountrydlePage/>}/>
           <Route path="auth/42/callback" element={<FortyTwoCallbackPage/>}/>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
