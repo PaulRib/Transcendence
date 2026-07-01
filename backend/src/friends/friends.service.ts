@@ -117,6 +117,7 @@ export class FriendsService {
                         id: true,
                         username: true,
                         avatar_url: true,
+                        is_online: true,
                     },
                 },
                 addressee: {
@@ -124,9 +125,31 @@ export class FriendsService {
                         id: true,
                         username: true,
                         avatar_url: true,
+                        is_online: true,
                     },
                 },
             },
         });
+    }
+
+    async getFriendIdsForSocialEvents(userId: string): Promise<string[]> {
+        const friendship = await this.prisma.friendship.findMany({
+            where: {
+                status: "accepted",
+                OR: [
+                    { requester_id: userId },
+                    { addressee_id: userId },
+                ],
+            },
+            select: {
+                requester_id: true,
+                addressee_id: true,
+            },
+        });
+
+        return friendship.map((friendships) => friendships.requester_id === userId
+                ? friendships.addressee_id
+                : friendships.requester_id,
+        );
     }
 }
