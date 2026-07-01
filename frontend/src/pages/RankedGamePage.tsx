@@ -11,6 +11,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../auth/AuthContext';
 import type { Socket } from 'socket.io-client';
 import { GameOverCard } from '../components/Game/GameOverCard';
+import { getCurrentUser } from '../api/auth.api';
 
 interface RankedGamePageProps {
   socket: Socket;
@@ -37,7 +38,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
 
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
-  const { currentUser } = useAuth();
+  const { currentUser, updateCurrentUser } = useAuth();
 
   useEffect(() => {
     async function loadGameData() {
@@ -160,11 +161,24 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       setIsMyTurn(true);
     });
 
-    socket.on('game_over', (data: { isDraw: boolean; winnerId: string; reason?: string }) => {
+    socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string }) => {
       setGameOverInfo(data);
       if (data.winnerId === currentUser?.id) {
         setHasWon(true);
       }
+
+	  if (!data.isDraw) {
+		const token = localStorage.getItem('access_token');
+
+		if (token) {
+		  try {
+			const refreshedUser = await getCurrentUser(token);
+			updateCurrentUser(refreshedUser);
+		  } catch (error) {
+			console.error("Impossible de mettre à jour l'Elo :", error);
+		  }
+		}
+	  }
       
       // Delay showing the GameOverCard by 3.5 seconds so flip animations can finish, except if it is a forfeit
       if (data.reason === 'opponent_disconnected') {
@@ -207,7 +221,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       socket.off('player_disconnected_grace');
       socket.off('player_reconnected');
     };
-  }, [socket, matchId, currentUser, t, starterUserId]);
+  }, [socket, matchId, currentUser, t, starterUserId, updateCurrentUser]);
 
   const handleSelectChampion = (championName: string) => {
     setInputValue(championName);

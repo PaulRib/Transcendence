@@ -104,11 +104,11 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 			if (result.matchState.status === 'last_chance')
 					this.server.to(`room_${data.matchId}`).emit('last_chance_triggered');
 			else if (result.matchState.status === 'game_over') {
+				await this.multiplayerService.endMatch(data.matchId, result.matchState.winnerId, user.id);
 				this.server.to(`room_${data.matchId}`).emit('game_over', {
 					isDraw: result.matchState.isDraw,
 					winnerId: result.matchState.winnerId
 				});
-				await this.multiplayerService.endMatch(data.matchId, result.matchState.winnerId, user.id);
 				this.server.in(`room_${data.matchId}`).socketsLeave(`room_${data.matchId}`);
 			}
 		}

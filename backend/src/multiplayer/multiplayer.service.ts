@@ -63,8 +63,9 @@ export class MultiplayerService {
 				data: { result: "loose", score: 0 }
 			});
 
-			if (loser)
+			if (loser) {
 				await this.gamificationService.updateRankedElo(winnerId, loser.user_id);
+			}
 		}
 	}
 

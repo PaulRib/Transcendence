@@ -249,7 +249,8 @@ export const translations = {
 			inviteToPlay: "Invitez un joueur de votre liste d'amis.",
 			inviteFriend: "Inviter un ami",
 			friendInvInfo: "L'invitation directe d'un ami est gérée par le système global de notification.",
-			connectingToGameServer: "Connexion au serveur de jeu en cours..."
+			connectingToGameServer: "Connexion au serveur de jeu en cours...",
+			opponentDisconnectedGrace: "Adversaire déconnecté. Victoire par abandon dans {count}s...",
 		},
 		matchHistory: {
 			title: "Historique des matchs",
@@ -262,7 +263,6 @@ export const translations = {
 			versus: "contre",
 			points: "Points",
 			unknownOpponent: "Adversaire inconnu",
-			opponentDisconnectedGrace: "Adversaire déconnecté. Victoire par abandon dans {count}s...",
 		},
 		notFound: {
 			title: "Page non trouvée (404)",
@@ -792,6 +792,7 @@ export const translations = {
 			inviteFriend: "Пригласить друга",
 			friendInvInfo: "Прямые приглашения друзей обрабатываются глобальной системой уведомлений.",
 			connectingToGameServer: "Подключение к игровому серверу...",
+			opponentDisconnectedGrace: "Соперник отключился. Техническая победа через {count}сек...",
 		},
 		matchHistory: {
 			title: "История матчей",
@@ -804,7 +805,6 @@ export const translations = {
 			versus: "против",
 			points: "Очки",
 			unknownOpponent: "Неизвестный соперник",
-			opponentDisconnectedGrace: "Соперник отключился. Техническая победа через {count}сек...",
 		},
 		notFound: {
 			title: "Страница не найдена (404)",
