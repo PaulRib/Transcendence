@@ -22,5 +22,6 @@ import { GamificationModule } from '../gamification/gamification.module';
     ],
     controllers: [MultiplayerController],
     providers: [MultiplayerGateway, MultiplayerService],
+    exports: [MultiplayerService],
 })
 export class MultiplayerModule {}

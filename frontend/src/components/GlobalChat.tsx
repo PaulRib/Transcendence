@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, User } from 'lucide-react';
+import { Send, User , Swords } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
 import { getConversation, type ChatMessage } from '../api/chat.api';
@@ -15,7 +15,7 @@ export function GlobalChat() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
-  const { socket } = useSocialSocket();
+  const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
 
   function getToken() {
     return localStorage.getItem('access_token');
@@ -140,12 +140,21 @@ export function GlobalChat() {
               Retour
             </button>
             <span className="text-sm font-semibold text-slate-100">{selectedFriend.username}</span>
+
+            <Button
+              type="button"
+              onClick={() => sendGameInvite(selectedFriend.id)}
+              className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
+              title="Inviter en partie"
+              >
+                <Swords size={16} />
+              </Button>
           </div>
         )}
 
         <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
-          {error && (
-            <p className="text-sm text-red-400">{error}</p>
+          {(error || gameInviteError) && (
+            <p className="text-sm text-red-400">{error || gameInviteError}</p>
           )}
 
           {!currentUser ? (
