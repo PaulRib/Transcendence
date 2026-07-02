@@ -26,12 +26,10 @@ export type MatchHistoryEntry = {
 	};
 };
 
-export async function getMatchHistory (token: string): Promise<MatchHistoryEntry[]> {
+export async function getMatchHistory (): Promise<MatchHistoryEntry[]> {
 	const response = await fetch(`${API_BASE_URL}/multiplayer/history`, {
 		method: "GET",
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
+		credentials: "include",
 	});
 
 	if (!response.ok) {

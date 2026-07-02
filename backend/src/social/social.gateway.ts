@@ -19,7 +19,8 @@ type AcceptGameInvitePayload = {
     inviterId: string;
 };
 
-@WebSocketGateway({ cors: true, namespace: '/social' })
+@WebSocketGateway({ cors:  {origin: process.env.FRONTEND_URL ?? 'http://localhost:5173', credentials: true }, 
+                    namespace: '/social' })
 export class SocialGateway implements
 OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
@@ -35,8 +36,14 @@ OnGatewayConnection, OnGatewayDisconnect {
     ) {}
 
     async handleConnection(client: Socket) {
-        const token = client.handshake.auth?.token;
-
+        const cookieHeader = client.handshake.headers.cookie;
+        const token = cookieHeader
+            ?.split(';')
+            .find((c) => c.trim().startsWith('access_token='))
+            ?.split('=')
+            .slice(1)
+            .join('=');
+ 
         if(!token) {
             client.disconnect();
             return;

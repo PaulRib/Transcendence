@@ -44,15 +44,9 @@ export function SocialSocketProvider({ children }: SocialSocketProviderProps) {
             return;
         }
 
-        const token = localStorage.getItem('access_token');
-
-        if (!token) {
-            return;
-        }
-
         const socialSocket = io(`${window.location.origin}/social`, {
             path: '/ws',
-            auth: { token },
+            withCredentials: true,
         });
 
         setSocket(socialSocket);

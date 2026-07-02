@@ -1,12 +1,11 @@
 import { useEffect, useRef } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { useLanguage } from '../i18n/LanguageContext';
 import { getCurrentUser } from '../api/auth.api';
 
 function FortyTwoCallbackPage() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { login } = useAuth();
   const { t } = useLanguage();
@@ -19,26 +18,19 @@ function FortyTwoCallbackPage() {
 
     hasHandledCallback.current = true;
 
-    const token = searchParams.get('token');
-
-    if (!token) {
-      navigate('/login', { replace: true });
-      return;
-    }
-
-    async function completeFortyTwoLogin(validToken: string) {
+    async function completeFortyTwoLogin() {
       try {
-        const user = await getCurrentUser(validToken);
+        const user = await getCurrentUser();
 
-        login(user, validToken);
+        login(user);
         navigate('/', { replace: true });
       } catch {
         navigate('/login', { replace: true });
       }
     }
 
-    completeFortyTwoLogin(token);
-  }, [login, navigate, searchParams]);
+    completeFortyTwoLogin();
+  }, [login, navigate]);
 
   return (
     <PageContainer>

@@ -15,12 +15,10 @@ export type UpdatePasswordResponse = {
     message: string;
 };
 
-export async function getMyProfile(token: string): Promise<AuthUser> {
+export async function getMyProfile(): Promise<AuthUser> {
     const response = await fetch(`${API_BASE_URL}/users/me`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -41,13 +39,13 @@ export async function getUserByUsername(username: string): Promise<AuthUser> {
     return response.json();
 }
 
-export async function updateMyProfile(token: string, payload: UpdateProfilePayload): Promise<AuthUser> {
+export async function updateMyProfile(payload: UpdateProfilePayload): Promise<AuthUser> {
     const response = await fetch(`${API_BASE_URL}/users/me`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(payload),
     });
 
@@ -58,13 +56,13 @@ export async function updateMyProfile(token: string, payload: UpdateProfilePaylo
     return response.json();
 }
 
-export async function updateMyPassword(token: string, payload: UpdatePasswordPayload): Promise<UpdatePasswordResponse> {
+export async function updateMyPassword(payload: UpdatePasswordPayload): Promise<UpdatePasswordResponse> {
     const response = await fetch(`${API_BASE_URL}/users/me/password`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(payload),
     });
 
