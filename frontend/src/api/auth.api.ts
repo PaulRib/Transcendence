@@ -10,7 +10,6 @@ export type AuthUser = {
 
 export type LoginResponse = {
     user: AuthUser;
-    access_token: string;
 };
 
 export type RegisterPayload = {

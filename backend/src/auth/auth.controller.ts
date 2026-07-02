@@ -32,7 +32,11 @@ export class AuthController {
 
     @Post('logout')
     logout(@Res({ passthrough: true }) response: Response) {
-        response.clearCookie('access_token');
+        response.clearCookie('access_token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+        });
         return { message: 'Logged out sucessfully'};
     }
 
