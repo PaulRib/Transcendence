@@ -15,12 +15,10 @@ export type SendMessagePayload = {
     content: string;
 };
 
-export async function getConversation(token: string, userId: string): Promise<ChatMessage[]> {
+export async function getConversation(userId: string): Promise<ChatMessage[]> {
     const response = await fetch(`${API_BASE_URL}/chat/messages/${userId}`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -30,13 +28,13 @@ export async function getConversation(token: string, userId: string): Promise<Ch
     return response.json();
 }
 
-export async function sendMessage(token: string, receiverId: string, payload: SendMessagePayload): Promise<ChatMessage> {
+export async function sendMessage(receiverId: string, payload: SendMessagePayload): Promise<ChatMessage> {
     const response = await fetch(`${API_BASE_URL}/chat/messages/${receiverId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
         },
+        credentials: 'include',
         body: JSON.stringify(payload),
     });
 

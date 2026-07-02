@@ -52,6 +52,7 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(payload),
     });
 
@@ -62,12 +63,10 @@ export async function loginUser(payload: LoginPayload): Promise<LoginResponse> {
     return response.json();
 }
 
-export async function getCurrentUser(token: string): Promise<AuthUser> {
+export async function getCurrentUser(): Promise<AuthUser> {
     const response = await fetch(`${API_BASE_URL}/auth/me`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -75,6 +74,15 @@ export async function getCurrentUser(token: string): Promise<AuthUser> {
     }
 
     return response.json();
+}
+
+export async function logoutUser(): Promise<void> {
+    const response = await fetch(`${API_BASE_URL}/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+    });
+    if (!response.ok) 
+        throw new Error('Logout request failed');
 }
 
 export function redirectToFortyTwoLogin() {

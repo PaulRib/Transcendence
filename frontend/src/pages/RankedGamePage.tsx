@@ -168,11 +168,9 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       }
 
 	  if (!data.isDraw) {
-		const token = localStorage.getItem('access_token');
-
-		if (token) {
+		if (currentUser) {
 		  try {
-			const refreshedUser = await getCurrentUser(token);
+			const refreshedUser = await getCurrentUser();
 			updateCurrentUser(refreshedUser);
 		  } catch (error) {
 			console.error("Impossible de mettre à jour l'Elo :", error);

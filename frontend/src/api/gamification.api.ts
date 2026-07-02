@@ -22,12 +22,10 @@ export type LeaderboardEntry = {
 	elo_rating: number;
 };
 
-export async function getMyGamificationStats(token: string): Promise<GamificationStats> {
+export async function getMyGamificationStats(): Promise<GamificationStats> {
 	const response = await fetch(`${API_BASE_URL}/gamification/me`, {
 		method: 'GET',
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
+		credentials: 'include',
 	});
 
 	if (!response.ok) {
@@ -37,13 +35,13 @@ export async function getMyGamificationStats(token: string): Promise<Gamificatio
 	return response.json();
 }
 
-export async function rewardWin(token: string, attempts: number): Promise<GamificationRewardResponse> {
+export async function rewardWin(attempts: number): Promise<GamificationRewardResponse> {
 	const response = await fetch(`${API_BASE_URL}/gamification/win`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
 		},
+		credentials: 'include',
 		body: JSON.stringify({ attempts }),
 	});
 

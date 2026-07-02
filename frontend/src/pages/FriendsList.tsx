@@ -35,29 +35,11 @@ function FriendsList() {
       : friendship.requester;
   }
 
-  function getToken() {
-    const token = localStorage.getItem('access_token');
-
-    if (!token) {
-      setError(t("friends.expired"));
-      return null;
-    }
-
-    return token;
-  }
-
   async function loadFriendsData() {
-    const token = getToken();
-
-    if (!token) {
-      setIsLoading(false);
-      return;
-    }
-
     try {
       const [friendsData, requestsData] = await Promise.all([
-        getFriends(token),
-        getReceivedFriendRequests(token),
+        getFriends(),
+        getReceivedFriendRequests(),
       ]);
 
       setFriends(friendsData);
@@ -110,16 +92,15 @@ function FriendsList() {
   }, [socket]);
 
   async function handleSendFriendRequest() {
-    const token = getToken();
     const trimmedUsername = usernameToAdd.trim();
 
-    if (!token || !trimmedUsername) {
+    if (!trimmedUsername) {
       return;
     }
 
     try {
       const targetUser = await getUserByUsername(trimmedUsername);
-      await sendFriendRequest(token, targetUser.id);
+      await sendFriendRequest(targetUser.id);
       await loadFriendsData();
       setUsernameToAdd('');
       setError(null);
@@ -129,14 +110,8 @@ function FriendsList() {
   }
 
   async function handleAcceptRequest(requestId: string) {
-    const token = getToken();
-
-    if (!token) {
-      return;
-    }
-
     try {
-      await acceptFriendRequest(token, requestId);
+      await acceptFriendRequest(requestId);
       await loadFriendsData();
     } catch {
       setError(t("friends.cantaccept"));
@@ -144,14 +119,8 @@ function FriendsList() {
   }
 
   async function handleDeleteFriendship(friendshipId: string) {
-    const token = getToken();
-
-    if (!token) {
-      return;
-    }
-
     try {
-      await deleteFriendship(token, friendshipId);
+      await deleteFriendship(friendshipId);
       await loadFriendsData();
     } catch {
       setError(t("friends.cantdelete"));

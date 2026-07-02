@@ -34,12 +34,10 @@ export type FriendshipRecord = {
     addressee_id: string;
 };
 
-export async function getFriends(token: string): Promise<Friendship[]> {
+export async function getFriends(): Promise<Friendship[]> {
     const response = await fetch(`${API_BASE_URL}/friends`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -49,12 +47,10 @@ export async function getFriends(token: string): Promise<Friendship[]> {
     return response.json();
 }
 
-export async function getReceivedFriendRequests(token: string): Promise<FriendRequest[]> {
+export async function getReceivedFriendRequests(): Promise<FriendRequest[]> {
     const response = await fetch(`${API_BASE_URL}/friends/requests`, {
         method: 'GET',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -64,12 +60,10 @@ export async function getReceivedFriendRequests(token: string): Promise<FriendRe
     return response.json();
 }
 
-export async function sendFriendRequest(token: string, targetUserId: string): Promise<FriendshipRecord> {
+export async function sendFriendRequest(targetUserId: string): Promise<FriendshipRecord> {
     const response = await fetch(`${API_BASE_URL}/friends/requests/${targetUserId}`, {
         method: 'POST',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -79,12 +73,10 @@ export async function sendFriendRequest(token: string, targetUserId: string): Pr
     return response.json();
 }
 
-export async function acceptFriendRequest(token: string, requestId: string): Promise<FriendshipRecord> {
+export async function acceptFriendRequest(requestId: string): Promise<FriendshipRecord> {
     const response = await fetch(`${API_BASE_URL}/friends/requests/${requestId}/accept`, {
         method: 'PATCH',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {
@@ -94,12 +86,10 @@ export async function acceptFriendRequest(token: string, requestId: string): Pro
     return response.json();
 }
 
-export async function deleteFriendship(token: string, friendshipId: string): Promise<FriendshipRecord> {
+export async function deleteFriendship(friendshipId: string): Promise<FriendshipRecord> {
     const response = await fetch(`${API_BASE_URL}/friends/${friendshipId}`, {
         method: 'DELETE',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
     });
 
     if (!response.ok) {

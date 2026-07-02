@@ -23,21 +23,19 @@ function ProfilePage() {
 
   useEffect(() => {
     async function loadStats() {
-      const token = localStorage.getItem('access_token');
-
-      if (!token) {
+      if (!currentUser) {
         return;
       }
 
       try {
-        const userStats = await getMyGamificationStats(token);
+        const userStats = await getMyGamificationStats();
         setStats(userStats);
       } catch {
         setStats(null);
       }
     }
     loadStats();
-  }, []);
+  }, [currentUser]);
 
   if (isLoading) {
     return <p>{t("profile.loading")}</p>;

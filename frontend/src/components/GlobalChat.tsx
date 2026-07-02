@@ -16,11 +16,6 @@ export function GlobalChat() {
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
   const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
-
-  function getToken() {
-    return localStorage.getItem('access_token');
-  }
-
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
       return friendship.requester;
@@ -33,14 +28,12 @@ export function GlobalChat() {
 
   useEffect(() => {
     async function loadFriends() {
-      const token = getToken();
-
-      if (!token || !currentUser) {
+      if (!currentUser) {
         return;
       }
 
       try {
-        const friendsData = await getFriends(token);
+        const friendsData = await getFriends();
         setFriends(friendsData);
         setError(null);
       } catch {
@@ -88,15 +81,13 @@ export function GlobalChat() {
   }, [socket, currentUser, selectedFriend]);
 
   async function handleOpenConversation(friendUser: FriendUser) {
-    const token = getToken();
-
-    if (!token) {
+    if (!currentUser) {
       setError('Utilisateur non connecté');
       return;
     }
 
     try {
-      const conversation = await getConversation(token, friendUser.id);
+      const conversation = await getConversation(friendUser.id);
       setSelectedFriend(friendUser);
       setMessages(conversation);
       setError(null);

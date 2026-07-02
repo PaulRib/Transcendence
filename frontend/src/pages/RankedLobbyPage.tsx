@@ -19,10 +19,6 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
   const { currentUser } = useAuth();
   const { sendGameInvite, gameInviteError } = useSocialSocket();
 
-  function getToken() {
-    return localStorage.getItem('access_token');
-  }
-
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
       return friendship.requester;
@@ -52,14 +48,12 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
 
   useEffect(() => {
     async function loadFriends() {
-      const token = getToken();
-
-      if (!token || !currentUser) {
+      if (!currentUser) {
         return;
       }
 
       try {
-        const friendsData = await getFriends(token);
+        const friendsData = await getFriends();
         setFriends(friendsData);
       } catch {
         setInviteStatus("Impossible de charger vos amis.");

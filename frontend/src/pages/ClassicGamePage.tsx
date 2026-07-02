@@ -12,6 +12,7 @@ import { VictoryCard } from '../components/Game/VictoryCard';
 import { rewardWin } from '../api/gamification.api';
 import { useLanguage } from '../i18n/LanguageContext';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 
 function ClassicGamePage() {
   const [inputValue, setInputValue] = useState<string>('');
@@ -26,6 +27,7 @@ function ClassicGamePage() {
   const [matchId, setMatchId] = useState<string | null>(null);
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     async function loadGameData() {
@@ -111,11 +113,9 @@ function ClassicGamePage() {
       if (isWin) {
         setHasWon(true);
 
-        const token = localStorage.getItem('access_token');
-
-        if (token) {
+        if (currentUser) {
           const attempts = guesses.length + 1;
-          const rewardResponse = await rewardWin(token, attempts);
+          const rewardResponse = await rewardWin(attempts);
 
           if (rewardResponse.rewardGiven) {
             setRewardMessage(t("game.rewardEarned")

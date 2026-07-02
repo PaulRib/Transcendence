@@ -16,8 +16,24 @@ export class AuthController {
 
     @Post('login')
     @HttpCode(200)
-    login(@Body() loginDto: LoginDto) {
-        return this.authService.login(loginDto);
+    async login(
+        @Body() loginDto: LoginDto,
+        @Res({ passthrough: true }) response: Response ){
+        const result = await this.authService.login(loginDto);
+
+        response.cookie('access_token', result.access_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+        return { user: result.user }
+    }
+
+    @Post('logout')
+    logout(@Res({ passthrough: true }) response: Response) {
+        response.clearCookie('access_token');
+        return { message: 'Logged out sucessfully'};
     }
 
     @Get('me')
@@ -43,11 +59,14 @@ export class AuthController {
         try {
             const loginResponse = await this.authService.loginWith42(code);
 
-            const params = new URLSearchParams({
-                token: loginResponse.access_token,
-            });
+            response.cookie('access_token', loginResponse.access_token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
 
-            return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?${params.toString()}`);
+            return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?`);
         } catch {
             return response.redirect(`${process.env.FRONTEND_URL}/login?oauthError=email_exists`);
         }
