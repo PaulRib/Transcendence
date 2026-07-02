@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
+import { useLanguage } from '@/i18n/LanguageContext';
+import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
+import { useAuth } from '../auth/AuthContext';
+import { useSocialSocket } from '../context/SocialSocketContext';
 
 interface RankedLobbyPageProps {
   socket: Socket | null;
@@ -8,6 +12,26 @@ interface RankedLobbyPageProps {
 function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
   // État pour savoir si le joueur est dans la file d'attente
   const [isSearching, setIsSearching] = useState(false);
+  const { t } = useLanguage();
+  const [friends, setFriends] = useState<Friendship[]>([]);
+  const [selectedFriendId, setSelectedFriendId] = useState('');
+  const [inviteStatus, setInviteStatus] = useState<string | null>(null);
+  const { currentUser } = useAuth();
+  const { sendGameInvite, gameInviteError } = useSocialSocket();
+
+  function getToken() {
+    return localStorage.getItem('access_token');
+  }
+
+  function getOtherUser(friendship: Friendship): FriendUser {
+    if (!currentUser) {
+      return friendship.requester;
+    }
+
+    return friendship.requester_id === currentUser.id
+      ? friendship.addressee
+      : friendship.requester;
+  }
 
   useEffect(() => {
     if (!socket) return;
@@ -26,6 +50,25 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
     };
   }, [socket]);
 
+  useEffect(() => {
+    async function loadFriends() {
+      const token = getToken();
+
+      if (!token || !currentUser) {
+        return;
+      }
+
+      try {
+        const friendsData = await getFriends(token);
+        setFriends(friendsData);
+      } catch {
+        setInviteStatus("Impossible de charger vos amis.");
+      }
+    }
+
+    loadFriends();
+  }, [currentUser]);
+
   const handleJoinMatchmaking = () => {
     if (socket) {
       socket.emit('join_matchmaking');
@@ -40,15 +83,20 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
     }
   };
 
-  // Placeholder pour l'invitation d'un ami (Géré par StatusGateway)
   const handleInviteFriend = () => {
-    console.log("Ouvrir la modale d'invitation d'un ami");
+    if (!selectedFriendId) {
+      setInviteStatus("Selectionnez un ami a inviter.");
+      return;
+    }
+
+    sendGameInvite(selectedFriendId);
+    setInviteStatus("Invitation envoyee.");
   };
 
   return (
     <div className="lobby-container" style={{ textAlign: 'center', padding: '50px' }}>
-      <h2>Mode Classé (1v1) - Lobby</h2>
-      <p>Prouvez votre connaissance des champions !</p>
+      <h2>{t("selectGame.rankedTitle")} (1v1) - {t("multiplayer.lobby")}</h2>
+      <p>{t("multiplayer.prouve")}</p>
       
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
         
@@ -66,8 +114,8 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
             transition: 'all 0.3s ease'
           }}
         >
-          <h3>Matchmaking Aléatoire</h3>
-          <p>{isSearching ? "Recherche d'un adversaire à votre niveau..." : "Affrontez un joueur du monde entier."}</p>
+          <h3>{t("multiplayer.randomMatchmaking")}</h3>
+          <p>{isSearching ? t("multiplayer.findingOpponent") : t("multiplayer.facePlayer")}</p>
           
           {!isSearching ? (
             <button 
@@ -79,11 +127,11 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
                 fontWeight: 'bold', fontSize: '16px'
               }}
             >
-              Chercher une partie
+              {t("multiplayer.findMatch")}
             </button>
           ) : (
             <div style={{ marginTop: '20px' }}>
-              <div className="loader" style={{ marginBottom: '15px' }}>⏳ Recherche en cours...</div>
+              <div className="loader" style={{ marginBottom: '15px' }}>⏳ {t("multiplayer.searchInProgress")}</div>
               <button 
                 onClick={handleLeaveMatchmaking}
                 style={{ 
@@ -92,7 +140,7 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
                   borderRadius: '8px', fontWeight: 'bold'
                 }}
               >
-                Annuler
+                {t("multiplayer.cancel")}
               </button>
             </div>
           )}
@@ -113,23 +161,57 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
         >
           <h3>Lancer un défi</h3>
           <p>Invitez un joueur de votre liste d'amis.</p>
-          <button 
-            onClick={handleInviteFriend}
-            style={{ 
-                marginTop: '20px', padding: '12px 24px', cursor: 'pointer',
-                backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '8px',
-                fontWeight: 'bold', fontSize: '16px'
+          <select
+            value={selectedFriendId}
+            onChange={(event) => {
+              setSelectedFriendId(event.target.value);
+              setInviteStatus(null);
+            }}
+            style={{
+              marginTop: '15px',
+              padding: '10px',
+              width: '100%',
+              borderRadius: '8px',
+              backgroundColor: '#15151a',
+              color: 'white',
+              border: '1px solid rgba(255,255,255,0.2)'
             }}
           >
-            Inviter un ami
+            <option value="">Choisir un ami</option>
+            {friends.map((friendship) => {
+              const friendUser = getOtherUser(friendship);
+
+              return (
+                <option key={friendship.id} value={friendUser.id}>
+                  {friendUser.username}
+                </option>
+              );
+            })}
+          </select>
+
+          <button 
+            onClick={handleInviteFriend}
+            disabled={!selectedFriendId}
+            style={{ 
+                marginTop: '20px', padding: '12px 24px', cursor: selectedFriendId ? 'pointer' : 'not-allowed',
+                backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '8px',
+                fontWeight: 'bold', fontSize: '16px', opacity: selectedFriendId ? 1 : 0.6
+            }}
+          >
+            {t("multiplayer.inviteFriend")}
           </button>
+          {(inviteStatus || gameInviteError) && (
+            <p style={{ marginTop: '12px', color: gameInviteError ? '#F44336' : '#9CA3AF', fontSize: '14px' }}>
+              {gameInviteError || inviteStatus}
+            </p>
+          )}
         </div>
 
       </div>
 
       <div style={{ marginTop: '50px', color: '#888', fontStyle: 'italic', fontSize: '14px' }}>
-        <p>💡 L'invitation directe d'un ami est gérée par le système global de notification.</p>
-        {!socket && <p style={{ color: '#F44336' }}>⚠️ Connexion au serveur de jeu en cours...</p>}
+        <p>💡 {t("multiplayer.friendInvInfo")} </p>
+        {!socket && <p style={{ color: '#F44336' }}>⚠️ {t("multiplayer.connectingToGameServer")} </p>}
       </div>
     </div>
   );

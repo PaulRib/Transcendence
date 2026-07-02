@@ -22,12 +22,15 @@ import {
     DropdownMenuRadioGroup,
     DropdownMenuRadioItem
 } from '../components/ui/dropdown-menu';
+import { useSocialSocket } from '@/context/SocialSocketContext';
+import { useEffect } from 'react';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
     const { universe, toggleUniverse } = useGameUniverse();
     const navigate = useNavigate();
     const { language, setLanguage, t } = useLanguage();
+    const { pendingGameInvite, acceptedGameInvite, acceptGameInvite, clearPendingGameInvite } = useSocialSocket();
 
     const handleLogout = () => {
         logout();
@@ -38,6 +41,14 @@ function Layout() {
         toggleUniverse();
         navigate('/');
     };
+
+    useEffect(() => {
+        if (!acceptedGameInvite) {
+            return;
+        }
+
+        navigate('/ranked');
+    }, [acceptedGameInvite, navigate]);
 
     return (
         <div className="min-h-screen flex flex-col bg-transparent">
@@ -73,6 +84,9 @@ function Layout() {
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
                                     <Link to="/friends">{t("nav.friends")}</Link>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
+                                    <Link to="/match-history">{t("nav.matchHistory")}</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
                                     <Link to="/leaderboard">{t("nav.leaderboard")}</Link>
@@ -130,7 +144,7 @@ function Layout() {
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger className="hover:bg-white/10 cursor-pointer py-2">
                                 <Languages size={16} className="mr-2" />
-                                Langue
+                                {t("nav.language")}
                             </DropdownMenuSubTrigger>
                             <DropdownMenuSubContent className="bg-[#1d1d20]  text-white ml-2" sideOffset={8}>
                                 <DropdownMenuRadioGroup value={language} onValueChange={(val) => setLanguage(val as Language)}>
@@ -143,6 +157,34 @@ function Layout() {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
+
+            {pendingGameInvite && (
+                <div className="fixed right-6 top-24 z-[1100] w-80 rounded-xl border border-white/10 bg-[#1d1d20] p-4 text-white shadow-[0_8px_32px_rgba(0,0,0,0.45)]">
+                    <p className="mb-3 text-sm font-semibold">
+                        {pendingGameInvite.inviterUsername} vous invite en partie
+                    </p>
+
+                    <div className="flex justify-end gap-2">
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={clearPendingGameInvite}
+                            className="text-slate-300 hover:bg-white/10 hover:text-white"
+                        >
+                            Refuser
+                        </Button>
+
+                        <Button
+                            type="button"
+                            onClick={() => acceptGameInvite(pendingGameInvite.inviterId)}
+                            className="bg-green-600 text-white hover:bg-green-500"
+                        >
+                            Accepter
+                        </Button>
+                    </div>
+                </div>
+            )}
+
             <Toaster position="top-right" richColors />
         </div>
     );

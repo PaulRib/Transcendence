@@ -3536,40 +3536,6 @@
     }
   },
   {
-    "code": "IL",
-    "flag": {
-      "emoji": "🇮🇱",
-      "png": "https://flagcdn.com/w320/il.png",
-      "svg": "https://flagcdn.com/il.svg"
-    },
-    "country": {
-      "en": "Israel",
-      "fr": "Israël",
-      "ru": "Израиль"
-    },
-    "language": {
-      "en": "Hebrew",
-      "fr": "hébreu",
-      "ru": "иврит"
-    },
-    "population": 8882800,
-    "continent": {
-      "en": "Asia",
-      "fr": "Asie",
-      "ru": "Азия"
-    },
-    "currency": {
-      "code": "ILS",
-      "symbol": "₪",
-      "decimal_digits": 2,
-      "name": {
-        "en": "Israeli New Shekel",
-        "fr": "nouveau shekel israélien",
-        "ru": "новый израильский шекель"
-      }
-    }
-  },
-  {
     "code": "IT",
     "flag": {
       "emoji": "🇮🇹",

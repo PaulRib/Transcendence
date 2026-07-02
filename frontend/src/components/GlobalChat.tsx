@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, User } from 'lucide-react';
+import { Send, User , Swords } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
-import { getConversation, sendMessage, type ChatMessage } from '../api/chat.api';
+import { getConversation, type ChatMessage } from '../api/chat.api';
+import { useSocialSocket } from '@/context/SocialSocketContext';
 
 export function GlobalChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ export function GlobalChat() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
+  const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
 
   function getToken() {
     return localStorage.getItem('access_token');
@@ -49,6 +51,42 @@ export function GlobalChat() {
     loadFriends();
   }, [currentUser]);
 
+  useEffect(() => {
+    if (!socket || !currentUser) {
+      return;
+    }
+
+    function handleMessageReceived(receivedMessage: ChatMessage) {
+      const isCurrentConversation = selectedFriend &&
+      (
+        receivedMessage.sender_id === selectedFriend.id ||
+        receivedMessage.receiver_id === selectedFriend.id
+      );
+
+      if (!isCurrentConversation) {
+        return;
+      }
+
+      setMessages((currentMessages) => {
+        const messageAlreadyExists = currentMessages.some(
+          (message) => message.id === receivedMessage.id
+        );
+
+        if (messageAlreadyExists) {
+          return currentMessages;
+        }
+
+        return [...currentMessages, receivedMessage];
+      });
+    }
+
+    socket.on('message_received', handleMessageReceived);
+
+    return () => {
+      socket.off('message_received', handleMessageReceived);
+    };
+  }, [socket, currentUser, selectedFriend]);
+
   async function handleOpenConversation(friendUser: FriendUser) {
     const token = getToken();
 
@@ -67,26 +105,21 @@ export function GlobalChat() {
     }
   }
 
-  const handleSend = async (e: React.FormEvent) => {
+  const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
-    const token = getToken();
     const trimmedMessage = message.trim();
 
-    if (!token || !selectedFriend || !trimmedMessage) {
+    if (!socket || !selectedFriend || !trimmedMessage) {
       return;
     }
 
-    try {
-      const createdMessage = await sendMessage(token, selectedFriend.id, {
-        content: trimmedMessage,
-      });
+    socket.emit('send_message', {
+      receiverId: selectedFriend.id,
+      content: trimmedMessage,
+    });
 
-      setMessages([...messages, createdMessage]);
-      setMessage('');
-      setError(null);
-    } catch {
-      setError("Impossible d'envoyer le message");
-    }
+    setMessage('');
+    setError(null);
   };
 
   return (
@@ -107,12 +140,21 @@ export function GlobalChat() {
               Retour
             </button>
             <span className="text-sm font-semibold text-slate-100">{selectedFriend.username}</span>
+
+            <Button
+              type="button"
+              onClick={() => sendGameInvite(selectedFriend.id)}
+              className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
+              title="Inviter en partie"
+              >
+                <Swords size={16} />
+              </Button>
           </div>
         )}
 
         <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
-          {error && (
-            <p className="text-sm text-red-400">{error}</p>
+          {(error || gameInviteError) && (
+            <p className="text-sm text-red-400">{error || gameInviteError}</p>
           )}
 
           {!currentUser ? (
@@ -158,18 +200,19 @@ export function GlobalChat() {
         </div>
 
         {/* Formulaire d'envoi */}
-        <form onSubmit={handleSend} className="p-3 border-t border-white/10 bg-[#15151a] flex items-center gap-2">
-          <Input 
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Votre message..."
-            disabled={!currentUser || !selectedFriend}
-            className="flex-1 h-10 m-0 !mt-0 !mb-0 bg-[#2a2a35] border-white/5 focus-visible:ring-blue-500"
-          />
-          <Button type="submit" aria-label="Envoyer" disabled={!currentUser || !selectedFriend} className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
-            <Send size={18} className="ml-[-2px]" />
-          </Button>
-        </form>
+        {selectedFriend && (
+          <form onSubmit={handleSend} className="p-3 border-t border-white/10 bg-[#15151a] flex items-center gap-2">
+            <Input 
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Votre message..."
+              className="flex-1 h-10 m-0 !mt-0 !mb-0 bg-[#2a2a35] border-white/5 focus-visible:ring-blue-500"
+            />
+            <Button type="submit" aria-label="Envoyer" className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+              <Send size={18} className="ml-[-2px]" />
+            </Button>
+          </form>
+        )}
       </div>
 
       {/* Bouton flottant pour ouvrir/fermer le chat */}

@@ -21,8 +21,4 @@ export class ChampionsController {
   async getExactChampByName(@Query('name') name: string) {
 	return this.championsService.getExactChampByName(name);
   }
-  @Get('exactChampId')
-  async getExactChampById(@Query('id') id: string) {
-	return this.championsService.getExactChampById(id);
-  }
 }

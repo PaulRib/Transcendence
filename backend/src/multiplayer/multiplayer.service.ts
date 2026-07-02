@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { InfinitematchesService } from '../infinitematches/infinitematches.service';
+import { GamificationService } from '../gamification/gamification.service';
 
 @Injectable()
 export class MultiplayerService {
-    constructor(private readonly prisma: PrismaService, private championsService: ChampionsService, private inifinitematchesservice: InfinitematchesService) {}
+    constructor(
+		private readonly prisma: PrismaService,
+		private championsService: ChampionsService,
+		private inifinitematchesservice: InfinitematchesService,
+		private readonly gamificationService: GamificationService,
+	) {}
 
     async createMatch(player1Id: string, player2Id: string) {
 		const targetChampionId = await this.inifinitematchesservice.getRandomChamp();
@@ -29,16 +35,25 @@ export class MultiplayerService {
 
 	async endMatch(matchId: string, winnerId: string, userId: string) {
 		const isDraw = winnerId === 'none';
-		await this.prisma.match.update({
-			where: { id: matchId },
+		const finalizedMatch = await this.prisma.match.updateMany({
+			where: { id: matchId, status: 'ongoing' },
 			data: { status: "finished" }
 		});
+
+		if (finalizedMatch.count === 0)
+			return;
+
 		if (isDraw) {
 			await this.prisma.match_Participant.updateMany({
 				where: { match_id: matchId },
 				data: { result: "draw", score: 1 }
 			});
 		} else {
+			const loser = await this.prisma.match_Participant.findFirst({
+				where: { match_id: matchId, user_id: { not: winnerId } },
+				select: { user_id: true },
+			});
+
 			await this.prisma.match_Participant.updateMany({
 				where: { match_id: matchId, user_id: winnerId },
 				data: { result: "win", score: 3 }
@@ -47,6 +62,10 @@ export class MultiplayerService {
 				where: { match_id: matchId, user_id: { not: winnerId } },
 				data: { result: "loose", score: 0 }
 			});
+
+			if (loser) {
+				await this.gamificationService.updateRankedElo(winnerId, loser.user_id);
+			}
 		}
 	}
 
@@ -84,7 +103,7 @@ export class MultiplayerService {
 		return newguess;
     }
 
-	async processPlayerTurn(matchId: string, userId: string, guessedChampion: string) {
+	async processPlayerTurn(matchId: string, userId: string, guessedChampion: string, starterUserId: string) {
 		const match = await this.prisma.match.findUnique({
 			where: {
 				id: matchId,
@@ -101,7 +120,6 @@ export class MultiplayerService {
 		if (!guessedChamp) 
 			throw new Error("Impossible de trouver le champion guess");
 
-		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
 
 		const existingGuesses = await this.prisma.guess.count({
 			where: {
@@ -112,15 +130,22 @@ export class MultiplayerService {
 			}
 		});
 		const attempt_number = existingGuesses + 1;
-		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number)
 		const opponentAttempts = await this.prisma.guess.count({
 			where: {
 				match_id: matchId,
 				participant: {user_id: { not: userId } }
 			}
 		});
-		if (attempt_number > opponentAttempts + 1) 
-    		throw new Error("Triche détectée : Ce n'est pas ton tour !");
+
+		let isPlayerTurn = false;
+		if (existingGuesses < opponentAttempts) 
+    		isPlayerTurn = true;
+		else if (existingGuesses === opponentAttempts) 
+			isPlayerTurn = (userId === starterUserId);
+		if (!isPlayerTurn)
+			throw new Error("Triche détectée : Ce n'est pas ton tour !")
+		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
+		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number);
 
 		const opponentLastGuess = await this.prisma.guess.findFirst({
 			where: {
@@ -156,9 +181,10 @@ export class MultiplayerService {
 			finalWinnerId = opponentLastGuess.participant.user_id;
 			}
 		}
+		const isLastChance = matchStatus === 'last_chance';
 		return {
 			fullData: comparisonResult,
-			censoredData: { championId: guessedChamp.id },
+			censoredData: { name: isLastChance? null : guessedChamp.name },
 			matchState: {
 				status: matchStatus,
 				isDraw: isDraw,
@@ -187,4 +213,89 @@ export class MultiplayerService {
 
 		return winnerId;
 	}
+
+	//a voir
+	async getMatchHistory(userId: string) {
+		return this.prisma.match_Participant.findMany({
+			where: {
+				user_id: userId,
+				match: {
+					status: "finished",
+				},
+			},
+			select: {
+				id: true,
+				result: true,
+				score: true,
+				match: {
+					select: {
+						id: true,
+						game_mode: true,
+						played_at: true,
+						participants: {
+							select: {
+								result: true,
+								score: true,
+								user: {
+									select: {
+										id: true,
+										username: true,
+										avatar_url: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			orderBy: {
+				match: {
+					played_at: "desc",
+				},
+			},
+		});
+	}
+	async getActiveMatchForUser(userId: string) {
+        return this.prisma.match.findFirst({
+            where: {
+                status: 'ongoing',
+                participants: {
+                    some: { user_id: userId }
+                }
+            },
+            include: {
+                guesses: {
+                    orderBy: { attempt_number: 'asc' },
+                    include: {
+                        champion: true,
+                        participant: true
+                    }
+                },
+                participants: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        });
+    }
+	async getMatchState(matchId: string) {
+        return this.prisma.match.findUnique({
+            where: { id: matchId },
+            include: {
+                guesses: {
+                    orderBy: { attempt_number: 'asc' },
+                    include: {
+                        champion: true,
+                        participant: true
+                    }
+                },
+                participants: {
+                    include: {
+                        user: true
+                    }
+                }
+            }
+        });
+    }
 }

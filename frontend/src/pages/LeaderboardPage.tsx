@@ -70,17 +70,17 @@ function LeaderboardPage() {
                   <td className="w-full p-4 border-b border-[#2a2a35]">
                     <div className="flex items-center gap-4">
                       <span className="w-9 h-9 bg-[#3b3b4f] rounded-full flex items-center justify-center text-base">
-                        {player.user.avatar_url ? (
+                        {player.avatar_url ? (
                           <img
-                            src={player.user.avatar_url}
-                            alt={player.user.username}
+                            src={player.avatar_url}
+                            alt={player.username}
                             className="w-9 h-9 rounded-full object-cover"
                           />
                         ) : (
-                          player.user.username.charAt(0).toUpperCase()
+                          player.username.charAt(0).toUpperCase()
                         )}
                       </span>
-                      <span className="font-bold text-lg">{player.user.username}</span>
+                      <span className="font-bold text-lg">{player.username}</span>
                     </div>
                   </td>
                   <td className="w-[120px] p-4 border-b border-[#2a2a35] font-bold text-[#f1c40f] text-lg">

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { useLanguage } from '../i18n/LanguageContext';
+import { getCurrentUser } from '../api/auth.api';
 
 function FortyTwoCallbackPage() {
   const [searchParams] = useSearchParams();
@@ -19,25 +20,24 @@ function FortyTwoCallbackPage() {
     hasHandledCallback.current = true;
 
     const token = searchParams.get('token');
-    const userId = searchParams.get('userId');
-    const username = searchParams.get('username');
-    const avatarUrl = searchParams.get('avatarUrl');
 
-    if (!token || !userId || !username) {
+    if (!token) {
       navigate('/login', { replace: true });
       return;
     }
 
-    login(
-      {
-        id: userId,
-        username,
-        avatar_url: avatarUrl || null,
-      },
-      token,
-    );
+    async function completeFortyTwoLogin(validToken: string) {
+      try {
+        const user = await getCurrentUser(validToken);
 
-    navigate('/', { replace: true });
+        login(user, validToken);
+        navigate('/', { replace: true });
+      } catch {
+        navigate('/login', { replace: true });
+      }
+    }
+
+    completeFortyTwoLogin(token);
   }, [login, navigate, searchParams]);
 
   return (

@@ -28,7 +28,7 @@ function HomePage() {
         <ul className="text-sm space-y-3 bg-white/5 border border-white/10 rounded-xl p-6 text-slate-300">
           <li className="flex items-center gap-3">🟩 <span className="font-medium text-white">{t("home.green")}</span> : {t("home.greenMeaning")}</li>
           <li className="flex items-center gap-3">🟨 <span className="font-medium text-white">{t("home.yellow")}</span> : {t("home.yellowMeaning")}</li>
-          <li className="flex items-center gap-3">🟥 <span className="font-medium text-white">{t("home.red")}</span> : {t("home.redMeaning")}</li>
+          <li className="flex items-center gap-3">🟥 <span className="font-medium text-white">{t("home.red")}</span> : {t(universe === 'country' ? "countrydle.redCountryMeaning" : "home.redMeaning")} </li>
         </ul>
       </div>
 

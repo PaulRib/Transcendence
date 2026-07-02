@@ -48,7 +48,6 @@ export class GamificationService {
 			return {
 				rewardGiven: false,
 				xpEarned: 0,
-				pointsEarned: 0,
 				stats,
 			};
 		}
@@ -64,16 +63,13 @@ export class GamificationService {
 		const attemptXp = Math.max(110 - safeAttempts * 10, 10);
 		const streakBonus = Math.min((newStreakCount - 1) * 10, 50);
 		const xpEarned = Math.min(attemptXp + streakBonus, 100);
-		const pointsEarned = 50;
 
 		const newXpPoints = stats.xp_points + xpEarned;
-		const newPointsEarned = stats.points_earned + pointsEarned;
 
 		const updatedStats = await this.prisma.daily_Reward.update({
 			where: { user_id: userId },
 			data: {
 				xp_points: newXpPoints,
-				points_earned: newPointsEarned,
 				level: this.calculateLevel(newXpPoints),
 				streak_count: newStreakCount,
 				reward_date: today,
@@ -83,25 +79,58 @@ export class GamificationService {
 		return {
 			rewardGiven: true,
 			xpEarned,
-			pointsEarned,
 			stats: updatedStats,
 		};
 	}
 
+	async updateRankedElo(winnerId: string, loserId: string) {
+		const [winner, loser] = await Promise.all([
+			this.prisma.user.findUnique({
+				where: { id: winnerId },
+				select: { elo_rating: true },
+			}),
+			this.prisma.user.findUnique({
+				where: { id: loserId },
+				select: { elo_rating: true },
+			}),
+		]);
+
+		if (!winner || !loser) {
+			throw new Error('Impossible de trouver les joueurs');
+		}
+
+		const eloChange = 20;
+
+		await this.prisma.$transaction([
+			this.prisma.user.update({
+				where: { id: winnerId },
+				data: {
+					elo_rating: winner.elo_rating + eloChange,
+					ranked_wins: {
+						increment: 1,
+					}
+				},
+			}),
+			this.prisma.user.update({
+				where: { id: loserId },
+				data: {
+					elo_rating: Math.max(loser.elo_rating - eloChange, 0),
+				},
+			}),
+		]);
+	}
+
 	async getLeaderboard() {
-		return this.prisma.daily_Reward.findMany({
+		return this.prisma.user.findMany({
 			orderBy: {
 				elo_rating: 'desc',
 			},
 			take: 10,
-			include: {
-				user: {
-					select: {
-						id: true,
-						username: true,
-						avatar_url: true,
-					},
-				},
+			select: {
+				id: true,
+				username: true,
+				avatar_url: true,
+				elo_rating: true,
 			},
 		});
 	}

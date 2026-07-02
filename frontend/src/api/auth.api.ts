@@ -4,6 +4,8 @@ export type AuthUser = {
     id: string;
     username: string;
     avatar_url: string | null;
+    elo_rating: number;
+    ranked_wins: number;
 };
 
 export type LoginResponse = {
