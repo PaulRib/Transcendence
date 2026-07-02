@@ -1,4 +1,4 @@
-After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
+After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi !!!
 Run `npm install @prisma/client` and `npx prisma generate` if you have some errors on VScode.
 
 General direction !!!
@@ -13,7 +13,20 @@ Frontend -> React(JavaScript/Typescript)
 Backend -> NestJS(Typescript)
 BDD -> PostgreSQL
 
-Done/almost points -> 15 points (to validate with the team)
+TO DO LIST:
+- Tracking lose / Add lose-win in profile / Replace points by elo in match history (Murad)
+- End Countrydle (Murad)
+- Fix security of reward distribution (Murad)
+- Traduction for Global Chat and Ranked Lobby (Murad)
+- Netherlands Antilles/ Serbia to check, overall check country data (Murad)
+- 2FA (Amine)
+- Profile picture to check (Amine)
+- Put level back in ProfilePage (Amine)
+- Remove delete button in parameters and chat/game button in friends (Amine)
+- Finish chat advanced (Mehdi)
+- Add blocked friend (Mehdi)
+- Content Moderation AI to check (Paul)
+- GENERAL Readme to do
 
 Modules done :
 - Major : Framework backend & frontend -> Done (Mehdi)
@@ -28,19 +41,15 @@ Modules done :
 - Minor : Remote authentication -> (Murad)
 - Minor : Custom-made design system -> Done (Amine)
 - Minor : Compability with at least 2 additional browsers -> Done
+- Minor : Game stats and match history -> almost done (Murad)
 
 In progress :
-- Minor : Game stats and match history -> almost done (Murad)
 - Minor : Advanced chat feature (Mehdi)
-- 
-Total points done/in progress : 19 pts
-
-Confirmed modules : 
 
 To validate :
 - Minor : Content moderation AI
 - Minor : 2FA 
 
 Total Point
-- Already done : 16 points
-- In progress : 3 points (19)
+- Already done : 19 points
+- In progress : 22 points
