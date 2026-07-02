@@ -84,9 +84,15 @@ function FriendsList() {
       });
     }
 
+    function handleSocketConnect() {
+      loadFriendsData();
+    }
+
+    socket.on('connect', handleSocketConnect);
     socket.on('friend_status_changed', handleFriendStatusChanged);
 
     return () => {
+      socket.off('connect', handleSocketConnect);
       socket.off('friend_status_changed', handleFriendStatusChanged);
     };
   }, [socket]);

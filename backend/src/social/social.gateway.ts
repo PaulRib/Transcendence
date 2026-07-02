@@ -26,6 +26,7 @@ OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     server!: Namespace;
     private readonly connectedUsers = new Map<string, number>();
+    private readonly offlineTimeouts = new Map<string, NodeJS.Timeout>();
 
     constructor(
         private readonly jwtService: JwtService,
@@ -61,6 +62,13 @@ OnGatewayConnection, OnGatewayDisconnect {
         await this.usersService.getUserById(payload.sub);
         client.data.userId = payload.sub;
         client.join(`user:${payload.sub}`);
+
+        const offlineTimeout = this.offlineTimeouts.get(payload.sub);
+        if (offlineTimeout) {
+            clearTimeout(offlineTimeout);
+            this.offlineTimeouts.delete(payload.sub);
+        }
+
         const currentConnections = this.connectedUsers.get(payload.sub) ?? 0;
         if (currentConnections === 0) {
             await this.usersService.updateOnlineStatus(payload.sub, true);
@@ -82,12 +90,43 @@ OnGatewayConnection, OnGatewayDisconnect {
 
         if (nextConnections <= 0) {
             this.connectedUsers.delete(userId);
-            await this.usersService.updateOnlineStatus(userId, false);
-            await this.notifyFriendsStatus(userId, false);
+
+            const offlineTimeout = setTimeout(async () => {
+                if (this.connectedUsers.has(userId)) {
+                    return;
+                }
+
+                this.offlineTimeouts.delete(userId);
+                await this.usersService.updateOnlineStatus(userId, false);
+                await this.notifyFriendsStatus(userId, false);
+            }, 3000);
+
+            this.offlineTimeouts.set(userId, offlineTimeout);
             return;
         }
 
         this.connectedUsers.set(userId, nextConnections);
+    }
+
+    @SubscribeMessage('logout')
+    async handleLogout(@ConnectedSocket() client: Socket) {
+        const userId = client.data.userId;
+
+        if (!userId) {
+            client.disconnect();
+            return;
+        }
+
+        const offlineTimeout = this.offlineTimeouts.get(userId);
+        if (offlineTimeout) {
+            clearTimeout(offlineTimeout);
+            this.offlineTimeouts.delete(userId);
+        }
+
+        this.connectedUsers.delete(userId);
+        await this.usersService.updateOnlineStatus(userId, false);
+        await this.notifyFriendsStatus(userId, false);
+        client.disconnect();
     }
 
     @SubscribeMessage('send_message')
@@ -137,6 +176,22 @@ OnGatewayConnection, OnGatewayDisconnect {
             return;
         }
 
+        const inviterActiveMatch = await this.multiplayerService.getActiveMatchForUser(inviterId);
+        if (inviterActiveMatch) {
+            client.emit('game_invite_error', {
+                message: "You are already in a game",
+            });
+            return;
+        }
+
+        const receiverActiveMatch = await this.multiplayerService.getActiveMatchForUser(data.receiverId);
+        if (receiverActiveMatch) {
+            client.emit('game_invite_error', {
+                message: "This player is already in a game",
+            });
+            return;
+        }
+
         const inviter = await this.usersService.getUserById(inviterId);
 
         this.server.to(`user:${data.receiverId}`).emit('game_invite_received', {
@@ -174,6 +229,22 @@ OnGatewayConnection, OnGatewayDisconnect {
         if (!areFriends) {
             client.emit('game_invite_error', {
                 message: "You can only accept invites from your friends",
+            });
+            return;
+        }
+
+        const invitedActiveMatch = await this.multiplayerService.getActiveMatchForUser(invitedId);
+        if (invitedActiveMatch) {
+            client.emit('game_invite_error', {
+                message: "You are already in a game",
+            });
+            return;
+        }
+
+        const inviterActiveMatch = await this.multiplayerService.getActiveMatchForUser(data.inviterId);
+        if (inviterActiveMatch) {
+            client.emit('game_invite_error', {
+                message: "This player is already in a game",
             });
             return;
         }

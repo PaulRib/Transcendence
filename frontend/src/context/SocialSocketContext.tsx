@@ -49,9 +49,15 @@ export function SocialSocketProvider({ children }: SocialSocketProviderProps) {
             withCredentials: true,
         });
 
+        function handleAuthLogout() {
+            socialSocket.emit('logout');
+        }
+
+        window.addEventListener('auth:logout', handleAuthLogout);
         setSocket(socialSocket);
 
         return () => {
+            window.removeEventListener('auth:logout', handleAuthLogout);
             socialSocket.disconnect();
             setSocket(null);
         };

@@ -28,6 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const logout = useCallback(async() => {
         try {
+            window.dispatchEvent(new Event('auth:logout'));
             await logoutUser();
         } catch (error) {
             console.error("Failed to logout backend session:", error);
