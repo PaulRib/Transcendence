@@ -24,6 +24,7 @@ TO DO LIST:
 - Put level back in ProfilePage (Amine)
 - Remove delete button in parameters and chat/game button in friends (Amine)
 - Finish chat advanced (Mehdi)
+- Correct refresh to display in friends and chat (Mehdi)
 - Add blocked friend (Mehdi)
 - Content Moderation AI to check (Paul)
 - GENERAL Readme to do
