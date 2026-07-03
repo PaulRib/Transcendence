@@ -89,10 +89,12 @@ function FriendsList() {
     }
 
     socket.on('connect', handleSocketConnect);
+    socket.on('friends_changed', loadFriendsData);
     socket.on('friend_status_changed', handleFriendStatusChanged);
 
     return () => {
       socket.off('connect', handleSocketConnect);
+      socket.off('friends_changed', loadFriendsData);
       socket.off('friend_status_changed', handleFriendStatusChanged);
     };
   }, [socket]);

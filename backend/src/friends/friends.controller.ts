@@ -1,18 +1,24 @@
 import { UseGuards, Request, Controller, Post, Param, Get, Patch, Delete } from "@nestjs/common";
 import { FriendsService } from "./friends.service";
 import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { SocialEventsService } from "../social/social-events.service";
 
 @Controller('friends')
 export class FriendsController {
-    constructor(private readonly friendsService: FriendsService) {}
+    constructor(
+        private readonly friendsService: FriendsService,
+        private readonly socialEventsService: SocialEventsService,
+    ) {}
 
     @Post('requests/:userId')
     @UseGuards(JwtAuthGuard)
-    sendFriendRequest(
+    async sendFriendRequest(
         @Request() request,
         @Param('userId') targetUserId: string,
     ) {
-        return this.friendsService.sendFriendRequest(request.user.sub, targetUserId);
+        const friendRequest = await this.friendsService.sendFriendRequest(request.user.sub, targetUserId);
+        this.socialEventsService.emitFriendsChanged([request.user.sub, targetUserId]);
+        return friendRequest;
     }
 
     @Get('requests')
@@ -29,20 +35,30 @@ export class FriendsController {
 
     @Patch('requests/:requestId/accept')
     @UseGuards(JwtAuthGuard)
-    acceptFriendRequest(
+    async acceptFriendRequest(
         @Request() request,
         @Param('requestId') requestId: string,
     ) {
-        return this.friendsService.acceptFriendRequest(request.user.sub, requestId);
+        const friendship = await this.friendsService.acceptFriendRequest(request.user.sub, requestId);
+        this.socialEventsService.emitFriendsChanged([
+            friendship.requester_id,
+            friendship.addressee_id,
+        ]);
+        return friendship;
     }
 
     @Delete(':friendshipId')
     @UseGuards(JwtAuthGuard)
-    deleteFriendship(
+    async deleteFriendship(
         @Request() request,
         @Param('friendshipId') friendshipId: string,
     ) {
-        return this.friendsService.deleteFriendship(request.user.sub, friendshipId);
+        const friendship = await this.friendsService.deleteFriendship(request.user.sub, friendshipId);
+        this.socialEventsService.emitFriendsChanged([
+            friendship.requester_id,
+            friendship.addressee_id,
+        ]);
+        return friendship;
     }
 
 }

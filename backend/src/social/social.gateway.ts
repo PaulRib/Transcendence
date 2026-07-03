@@ -1,10 +1,11 @@
-import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { JwtService } from "@nestjs/jwt";
 import { UsersService } from "../users/users.service";
 import { FriendsService } from "../friends/friends.service";
 import { ChatService } from "../chat/chat.service";
 import { Namespace, Socket } from "socket.io";
 import { MultiplayerService } from "../multiplayer/multiplayer.service";
+import { SocialEventsService } from "./social-events.service";
 
 type SendMessagePayload = {
     receiverId: string;
@@ -22,7 +23,7 @@ type AcceptGameInvitePayload = {
 @WebSocketGateway({ cors:  {origin: process.env.FRONTEND_URL ?? 'http://localhost:5173', credentials: true }, 
                     namespace: '/social' })
 export class SocialGateway implements
-OnGatewayConnection, OnGatewayDisconnect {
+OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
     @WebSocketServer()
     server!: Namespace;
     private readonly connectedUsers = new Map<string, number>();
@@ -34,7 +35,12 @@ OnGatewayConnection, OnGatewayDisconnect {
         private readonly chatService: ChatService,
         private readonly friendsService: FriendsService,
         private readonly multiplayerService: MultiplayerService,
+        private readonly socialEventsService: SocialEventsService,
     ) {}
+
+    afterInit() {
+        this.socialEventsService.setServer(this.server);
+    }
 
     async handleConnection(client: Socket) {
         const cookieHeader = client.handshake.headers.cookie;

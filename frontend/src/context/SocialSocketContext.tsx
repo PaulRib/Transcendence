@@ -13,6 +13,7 @@ type SocialSocketContextValue = {
     acceptGameInvite: (inviterId: string) => void;
     clearPendingGameInvite: () => void;
     clearAcceptedGameInvite: () => void;
+    clearGameInviteError: () => void;
 };
 
 type SocialSocketProviderProps = {
@@ -118,6 +119,10 @@ export function SocialSocketProvider({ children }: SocialSocketProviderProps) {
         setAcceptedGameInvite(null);
     }
 
+    function clearGameInviteError() {
+        setGameInviteError(null);
+    }
+
     return (
         <SocialSocketContext.Provider value={{ 
             socket,
@@ -128,6 +133,7 @@ export function SocialSocketProvider({ children }: SocialSocketProviderProps) {
             acceptGameInvite,
             clearPendingGameInvite,
             clearAcceptedGameInvite, 
+            clearGameInviteError,
             }}>
             {children}
         </SocialSocketContext.Provider>

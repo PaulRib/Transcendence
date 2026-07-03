@@ -15,7 +15,8 @@ export function GlobalChat() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
-  const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
+  const { socket, sendGameInvite, gameInviteError, clearGameInviteError } = useSocialSocket();
+
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
       return friendship.requester;
@@ -26,23 +27,35 @@ export function GlobalChat() {
       : friendship.requester;
   }
 
-  useEffect(() => {
-    async function loadFriends() {
-      if (!currentUser) {
-        return;
-      }
-
-      try {
-        const friendsData = await getFriends();
-        setFriends(friendsData);
-        setError(null);
-      } catch {
-        setError('Impossible de charger les amis');
-      }
+  async function loadFriends() {
+    if (!currentUser) {
+      return;
     }
 
+    try {
+      const friendsData = await getFriends();
+      setFriends(friendsData);
+      setError(null);
+    } catch {
+      setError('Impossible de charger les amis');
+    }
+  }
+
+  useEffect(() => {
     loadFriends();
   }, [currentUser]);
+
+  useEffect(() => {
+    if (!socket || !currentUser) {
+      return;
+    }
+
+    socket.on('friends_changed', loadFriends);
+
+    return () => {
+      socket.off('friends_changed', loadFriends);
+    };
+  }, [socket, currentUser]);
 
   useEffect(() => {
     if (!socket || !currentUser) {
@@ -86,6 +99,8 @@ export function GlobalChat() {
       return;
     }
 
+    clearGameInviteError();
+
     try {
       const conversation = await getConversation(friendUser.id);
       setSelectedFriend(friendUser);
@@ -125,6 +140,7 @@ export function GlobalChat() {
                 setSelectedFriend(null);
                 setMessages([]);
                 setMessage('');
+                clearGameInviteError();
               }}
               className="text-sm text-slate-400 hover:text-white"
             >
