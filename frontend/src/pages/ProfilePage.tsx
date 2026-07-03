@@ -13,6 +13,7 @@ import firstBloodBadge from '../assets/badges/firstBlood-badge.png';
 import riftConquerorBadge from '../assets/badges/riftConqueror-badge.png';
 
 import { Award, CheckCircle2, ChevronDown, LockKeyhole } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 
 
 function ProfilePage() {
@@ -46,9 +47,6 @@ function ProfilePage() {
   if (!currentUser) {
     return <p>{t("profile.notConnected")}</p>;
   }
-
-  const avatarUrl = currentUser.avatar_url ??
-    'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
 
   const badges = [
     {
@@ -95,11 +93,12 @@ function ProfilePage() {
       <Heading>{currentUser.username}</Heading>
 
       <div className="flex flex-col items-center gap-4">
-        <img
-          src={avatarUrl}
-          alt={t("profile.avatarAlt").replace("{username}", currentUser.username)}
-          className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
-        />
+        <Avatar className="w-[150px] h-[150px] border-[3px] border-white/20 shadow-lg">
+          <AvatarImage src={currentUser.avatar_url || undefined} alt={currentUser.username} className="object-cover" />
+          <AvatarFallback className="text-5xl bg-slate-800 text-white font-bold">
+            {currentUser.username?.charAt(0).toUpperCase() || 'U'}
+          </AvatarFallback>
+        </Avatar>
       </div>
 
       <div className="text-center">

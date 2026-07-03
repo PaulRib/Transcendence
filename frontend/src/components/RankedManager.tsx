@@ -34,9 +34,12 @@ function RankedManager() {
     });
 
     // 2. ÉCOUTE DE LA CRÉATION DU MATCH (Matchmaking)
-    newSocket.on('match_found', (data: { matchId: string }) => {
+    newSocket.on('match_found', (data: { matchId: string; matchData?: any }) => {
       console.log("Match trouvé !", data.matchId);
       setMatchId(data.matchId);
+      if (data.matchData) {
+        setInitialMatchData(data.matchData);
+      }
       setMatchState('waiting'); // On affiche un écran de chargement
       
       // On toque immédiatement à la porte de la Room !
@@ -44,10 +47,13 @@ function RankedManager() {
     });
 
     // 3. ÉCOUTE DU FEU VERT TECHNIQUE (Les 2 joueurs sont dans la Room)
-    newSocket.on('game_ready', (data?: { starterUserId?: string }) => {
+    newSocket.on('game_ready', (data?: { starterUserId?: string; matchData?: any }) => {
       console.log("Les deux joueurs sont connectés, c'est parti !", data);
       if (data?.starterUserId) {
         setStarterUserId(data.starterUserId);
+      }
+      if (data?.matchData) {
+        setInitialMatchData(data.matchData);
       }
       setMatchState('playing'); // On affiche le plateau de jeu !
     });

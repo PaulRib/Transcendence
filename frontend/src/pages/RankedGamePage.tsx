@@ -12,6 +12,7 @@ import { useAuth } from '../auth/AuthContext';
 import type { Socket } from 'socket.io-client';
 import { GameOverCard } from '../components/Game/GameOverCard';
 import { getCurrentUser } from '../api/auth.api';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 
 interface RankedGamePageProps {
   socket: Socket;
@@ -35,10 +36,17 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [lastChance, setLastChance] = useState<boolean>(false);
   const [opponentDisconnected, setOpponentDisconnected] = useState<boolean>(false);
   const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
+  const [matchData, setMatchData] = useState<any | null>(initialMatchData || null);
 
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
   const { currentUser, updateCurrentUser } = useAuth();
+
+  useEffect(() => {
+    if (initialMatchData) {
+      setMatchData(initialMatchData);
+    }
+  }, [initialMatchData]);
 
   useEffect(() => {
     async function loadGameData() {
@@ -212,6 +220,18 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       }
     });
 
+    socket.on('match_state_restored', (data: { matchState: any; starterUserId: string }) => {
+      if (data?.matchState) {
+        setMatchData(data.matchState);
+      }
+    });
+
+    socket.on('game_ready', (data?: { matchData?: any }) => {
+      if (data?.matchData) {
+        setMatchData(data.matchData);
+      }
+    });
+
     return () => {
       socket.off('guess_result_full');
       socket.off('guess_result_spectator');
@@ -220,6 +240,8 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       socket.off('game_error');
       socket.off('player_disconnected_grace');
       socket.off('player_reconnected');
+      socket.off('match_state_restored');
+      socket.off('game_ready');
     };
   }, [socket, matchId, currentUser, t, starterUserId, updateCurrentUser]);
 
@@ -280,6 +302,11 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     return <Navigate to="/countrydle" replace />;
   }
 
+  const oppParticipant = matchData?.participants?.find((p: any) => p.user_id !== currentUser?.id);
+  const oppUser = oppParticipant?.user;
+  const oppUsername = oppUser?.username || t("multiplayer.opponent");
+  const oppAvatarUrl = oppUser?.avatar_url || null;
+
   return (
     <PageContainer className="game-PageContainer !max-w-[1200px] w-full">
       <div className="text-center mb-6">
@@ -314,9 +341,12 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center font-bold text-indigo-400">
-                {t("multiplayer.youInitials")}
-              </div>
+              <Avatar className="w-9 h-9 border-2 border-indigo-500/50 shadow-md">
+                <AvatarImage src={currentUser?.avatar_url || undefined} alt={currentUser?.username || "You"} className="object-cover" />
+                <AvatarFallback className="bg-indigo-600 text-white font-bold text-xs">
+                  {currentUser?.username?.charAt(0).toUpperCase() || 'V'}
+                </AvatarFallback>
+              </Avatar>
               <span className="font-semibold text-slate-200">{currentUser?.username || t("multiplayer.you")}</span>
             </div>
 
@@ -388,10 +418,13 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center font-bold text-amber-400">
-                {t("multiplayer.opponentInitials")}
-              </div>
-              <span className="font-semibold text-slate-200">{t("multiplayer.opponent")}</span>
+              <Avatar className="w-9 h-9 border-2 border-amber-500/50 shadow-md">
+                <AvatarImage src={oppAvatarUrl || undefined} alt={oppUsername} className="object-cover" />
+                <AvatarFallback className="bg-amber-600 text-white font-bold text-xs">
+                  {oppUsername?.charAt(0).toUpperCase() || 'A'}
+                </AvatarFallback>
+              </Avatar>
+              <span className="font-semibold text-slate-200">{oppUsername}</span>
             </div>
 
             {!gameOverInfo && (
