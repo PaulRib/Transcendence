@@ -4,4 +4,6 @@ export type PublicUser = {
     avatar_url: string | null;
     elo_rating: number;
     ranked_wins: number;
+    // --- [AJOUT 2FA] --- Indique au frontend si la 2FA est active sur le compte
+    is_two_factor_enabled?: boolean;
 }

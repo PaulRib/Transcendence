@@ -91,10 +91,6 @@ function ProfilePage() {
   const xpProgress = ((stats?.xp_points ?? 0) % 100) / 100;
   const circleOffset = circleCircumference - (xpProgress * circleCircumference);
 
-  const avatarRadius = 78;
-  const avatarCircumference = 2 * Math.PI * avatarRadius;
-  const avatarOffset = avatarCircumference - (xpProgress * avatarCircumference);
-
   return (
     <PageContainer>
       <Heading>{currentUser.username}</Heading>

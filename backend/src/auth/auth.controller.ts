@@ -21,13 +21,21 @@ export class AuthController {
         @Res({ passthrough: true }) response: Response ){
         const result = await this.authService.login(loginDto);
 
-        response.cookie('access_token', result.access_token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000,
-        });
-        return { user: result.user }
+        // --- [AJOUT 2FA] --- Si le compte est protégé par 2FA, on ne pose pas de cookie et on demande le code
+        if ('requires2FA' in result && result.requires2FA) {
+            return { requires2FA: true, userId: result.userId };
+        }
+
+        if ('access_token' in result) {
+            response.cookie('access_token', result.access_token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax',
+                maxAge: 24 * 60 * 60 * 1000,
+            });
+            return { user: result.user };
+        }
+        return result;
     }
 
     @Post('logout')

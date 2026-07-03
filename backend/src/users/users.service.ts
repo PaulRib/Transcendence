@@ -12,6 +12,8 @@ type UserForLogin = {
     password_hash: string | null;
     elo_rating: number;
     ranked_wins: number;
+    // --- [AJOUT 2FA] ---
+    is_two_factor_enabled: boolean;
 };
 
 @Injectable()
@@ -27,6 +29,8 @@ export class UsersService {
                 avatar_url: true,
                 elo_rating: true,
                 ranked_wins: true,
+                // --- [AJOUT 2FA] ---
+                is_two_factor_enabled: true,
             },
         });
         
@@ -45,6 +49,8 @@ export class UsersService {
                 avatar_url: true,
                 elo_rating: true,
                 ranked_wins: true,
+                // --- [AJOUT 2FA] ---
+                is_two_factor_enabled: true,
             },
         });
         
@@ -117,6 +123,8 @@ export class UsersService {
                 password_hash: true,
                 elo_rating: true,
                 ranked_wins: true,
+                // --- [AJOUT 2FA] ---
+                is_two_factor_enabled: true,
             },
         });
     }

@@ -56,7 +56,20 @@ export class AuthService {
             throw new UnauthorizedException('Invalid credentials');
         }
 
-        const payload = { sub: user.id, username: user.username};
+        // --- [AJOUT 2FA] --- Si l'utilisateur a activé la 2FA, on n'émet pas immédiatement le JWT
+        if (user.is_two_factor_enabled) {
+            return {
+                requires2FA: true,
+                userId: user.id,
+            };
+        }
+
+        return this.generateJwtTokenForUser(user);
+    }
+
+    // --- [AJOUT 2FA] --- Méthode utilitaire pour générer le JWT une fois l'authentification (ou la 2FA) réussie
+    async generateJwtTokenForUser(user: any) {
+        const payload = { sub: user.id, username: user.username };
         return {
             user: {
                 id: user.id,
@@ -64,6 +77,7 @@ export class AuthService {
                 avatar_url: user.avatar_url,
                 elo_rating: user.elo_rating,
                 ranked_wins: user.ranked_wins,
+                is_two_factor_enabled: user.is_two_factor_enabled,
             },
             access_token: await this.jwtService.signAsync(payload),
         };
