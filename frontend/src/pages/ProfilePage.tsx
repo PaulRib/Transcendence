@@ -102,13 +102,19 @@ function ProfilePage() {
 
       <div className="text-center">
         <p className="text-[1.2rem] mt-2">
-          <strong>Elo: </strong> {currentUser.elo_rating}
+          <strong>ELO: </strong> {currentUser.elo_rating}
         </p>
         <p className="text-[1.2rem] mt-2">
           <strong>{t("profile.xp")}</strong> {stats?.xp_points ?? 0}
         </p>
         <p className="text-[1.2rem] mt-2">
           <strong>{t("profile.streak")}</strong> {stats?.streak_count ?? 0} {t("profile.days")}
+        </p>
+        <p className="text-[1.2rem] mt-2">
+          <strong>{t("multiplayer.rankedWins")}</strong> {currentUser.ranked_wins}
+        </p>
+        <p className="text-[1.2rem] mt-2">
+          <strong>{t("multiplayer.rankedLosses")}</strong> {currentUser.ranked_losses}
         </p>
         <button
           onClick={() => setShowBadges(!showBadges)}

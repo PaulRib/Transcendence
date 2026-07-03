@@ -251,6 +251,8 @@ export const translations = {
 			friendInvInfo: "L'invitation directe d'un ami est gérée par le système global de notification.",
 			connectingToGameServer: "Connexion au serveur de jeu en cours...",
 			opponentDisconnectedGrace: "Adversaire déconnecté. Victoire par abandon dans {count}s...",
+			rankedWins: "Victoires : ",
+			rankedLosses: "Défaites : ",
 		},
 		matchHistory: {
 			title: "Historique des matchs",
@@ -261,7 +263,7 @@ export const translations = {
 			defeat: "Défaite",
 			draw: "Égalité",
 			versus: "contre",
-			points: "Points",
+			points: "ELO",
 			unknownOpponent: "Adversaire inconnu",
 		},
 		notFound: {
@@ -521,6 +523,9 @@ export const translations = {
 			inviteFriend: "Invite a Friend",
 			friendInvInfo: "Direct friend invitations are handled through the global notification system.",
 			connectingToGameServer: "Connecting to the game server...",
+			opponentDisconnectedGrace: "Opponent disconnected. Forfeit victory in {count}s...",
+			rankedWins: "Wins : ",
+			rankedLosses: "Losses : ",
 		},
 		matchHistory: {
 			title: "Match History",
@@ -531,9 +536,8 @@ export const translations = {
 			defeat: "Defeat",
 			draw: "Draw",
 			versus: "against",
-			points: "Points",
+			points: "ELO",
 			unknownOpponent: "Unknown opponent",
-			opponentDisconnectedGrace: "Opponent disconnected. Forfeit victory in {count}s...",
 		},
 		notFound: {
 			title: "Page Not Found (404)",
@@ -793,6 +797,8 @@ export const translations = {
 			friendInvInfo: "Прямые приглашения друзей обрабатываются глобальной системой уведомлений.",
 			connectingToGameServer: "Подключение к игровому серверу...",
 			opponentDisconnectedGrace: "Соперник отключился. Техническая победа через {count}сек...",
+			rankedWins: "Победы : ",
+			rankedLosses: "Поражения : ",
 		},
 		matchHistory: {
 			title: "История матчей",
@@ -803,7 +809,7 @@ export const translations = {
 			defeat: "Поражение",
 			draw: "Ничья",
 			versus: "против",
-			points: "Очки",
+			points: "ELO",
 			unknownOpponent: "Неизвестный соперник",
 		},
 		notFound: {
