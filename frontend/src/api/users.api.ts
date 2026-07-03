@@ -75,7 +75,6 @@ export async function uploadMyAvatar(token: string, file: File): Promise<AuthUse
     return response.json();
 }
 
-export async function updateMyPassword(token: string, payload: UpdatePasswordPayload): Promise<UpdatePasswordResponse> {
 export async function updateMyPassword(payload: UpdatePasswordPayload): Promise<UpdatePasswordResponse> {
     const response = await fetch(`${API_BASE_URL}/users/me/password`, {
         method: 'PATCH',

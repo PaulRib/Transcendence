@@ -175,15 +175,6 @@ function SettingsPage() {
             <Button type="submit">{t("settings.updatePassword")}</Button>
           </form>
         </div>
-
-        {/* Zone de danger */}
-        <div className="bg-white/5 border border-red-500/50 rounded-xl p-6 flex flex-col gap-4 text-left">
-          <h2 className="text-xl font-semibold m-0 text-red-500 border-b border-red-500/20 pb-2">{t("settings.dangerZone")}</h2>
-          <p className="text-red-400/90 text-sm m-0">{t("settings.dangerDescription")}</p>
-          <Button variant="destructive"  onClick={handleDeleteAccount}>
-            {t("settings.deleteAccount")}
-          </Button>
-        </div>
       </div>
     </PageContainer>
   );
