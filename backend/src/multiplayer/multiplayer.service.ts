@@ -44,10 +44,19 @@ export class MultiplayerService {
 			return;
 
 		if (isDraw) {
+			const participants = await this.prisma.match_Participant.findMany({
+				where: { match_id: matchId },
+				select: { user_id: true },
+			});
+
 			await this.prisma.match_Participant.updateMany({
 				where: { match_id: matchId },
-				data: { result: "draw", score: 1 }
+				data: { result: "draw", score: 1 },
 			});
+
+			await this.gamificationService.updateDrawElo(
+				participants.map((participant) => participant.user_id),
+			);
 		} else {
 			const loser = await this.prisma.match_Participant.findFirst({
 				where: { match_id: matchId, user_id: { not: winnerId } },

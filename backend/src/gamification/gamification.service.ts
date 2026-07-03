@@ -123,6 +123,23 @@ export class GamificationService {
 		]);
 	}
 
+	async updateDrawElo(playerIds: string[]) {
+		if (playerIds.length === 0) {
+			return;
+		}
+
+		await this.prisma.user.updateMany({
+			where: {
+				id: { in: playerIds },
+			},
+			data: {
+				elo_rating: {
+					increment: 10,
+				},
+			},
+		});
+	}
+
 	async getLeaderboard() {
 		return this.prisma.user.findMany({
 			orderBy: {
