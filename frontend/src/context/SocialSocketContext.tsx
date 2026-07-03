@@ -44,20 +44,20 @@ export function SocialSocketProvider({ children }: SocialSocketProviderProps) {
             return;
         }
 
-        const token = localStorage.getItem('access_token');
-
-        if (!token) {
-            return;
-        }
-
         const socialSocket = io(`${window.location.origin}/social`, {
             path: '/ws',
-            auth: { token },
+            withCredentials: true,
         });
 
+        function handleAuthLogout() {
+            socialSocket.emit('logout');
+        }
+
+        window.addEventListener('auth:logout', handleAuthLogout);
         setSocket(socialSocket);
 
         return () => {
+            window.removeEventListener('auth:logout', handleAuthLogout);
             socialSocket.disconnect();
             setSocket(null);
         };

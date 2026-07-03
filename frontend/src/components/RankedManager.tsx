@@ -13,11 +13,9 @@ function RankedManager() {
   const { acceptedGameInvite, clearAcceptedGameInvite } = useSocialSocket();
 
   useEffect(() => {
-    // 1. On ouvre le tuyau vers le namespace /game dès qu'on arrive sur le menu Classé
-    const token = localStorage.getItem('access_token');
     const newSocket = io(`${window.location.origin}/game`, { 
 		path: "/ws",
-		auth: { token } 
+		withCredentials: true
 	});
     
     setSocket(newSocket);

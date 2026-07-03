@@ -6,7 +6,8 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
  import { UsersService } from '../users/users.service';
  import { MultiplayerService } from './multiplayer.service'
 
- @WebSocketGateway({ cors: true, namespace: '/game'})
+ @WebSocketGateway({ cors:  { origin: process.env.FRONTEND_URL ?? 'http://localhost:5173', credentials: true },
+					namespace: '/game' })
  export class MultiplayerGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
 	@WebSocketServer()
@@ -24,7 +25,13 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 
 	async handleConnection(client: Socket) {
 		try {
-			const token = client.handshake.auth.token;
+			const cookieHeader = client.handshake.headers.cookie;
+        	const token = cookieHeader
+				?.split(';')
+				.find((c) => c.trim().startsWith('access_token='))
+				?.split('=')
+				.slice(1)
+				.join('=');
 			if (!token)
 					throw new Error("No token provided");
 			const payload = this.jwtService.verify(token, {secret : process.env.JWT_SECRET});

@@ -14,16 +14,14 @@ function MatchHistoryPage() {
 
 	useEffect(() => {
 		async function loadMatchHistory() {
-			const token = localStorage.getItem('access_token');
-
-			if (!token) {
+			if (!currentUser) {
 				setError(t('matchHistory.loadError'));
 				setIsLoading(false);
 				return;
 			}
 
 			try {
-				const history = await getMatchHistory(token);
+				const history = await getMatchHistory();
 				setMatches(history);
 				setError(null);
 			} catch {
@@ -33,7 +31,7 @@ function MatchHistoryPage() {
 			}
 		}
 		loadMatchHistory();
-	}, [t]);
+	}, [t, currentUser]);
 
 	return (
 		<div className="mx-auto my-8 w-full max-w-[900px] rounded-xl bg-[#14141e]/85 p-8 text-white">

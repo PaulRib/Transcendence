@@ -28,7 +28,7 @@ function LoginPage() {
         identifier,
         password,
       });
-      login(loginResponse.user, loginResponse.access_token);
+      login(loginResponse.user);
       navigate('/');
       setError(null);
     } catch {

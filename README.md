@@ -1,9 +1,4 @@
-DONT FORGET TO PUT HTTPS !!!!! @Amine @Mehdi @Paul @Murad
-
-After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi!!!
-
-If you wanna see a visual image of the database : `npx prisma studio`
-
+After cloning, you must run `npm install` on both the backend and the frontend. @Murad @Amine @Paul @Mehdi !!!
 Run `npm install @prisma/client` and `npx prisma generate` if you have some errors on VScode.
 
 General direction !!!
@@ -18,36 +13,43 @@ Frontend -> React(JavaScript/Typescript)
 Backend -> NestJS(Typescript)
 BDD -> PostgreSQL
 
-Done/almost points -> 15 points (to validate with the team)
+TO DO LIST:
+- Tracking lose / Add lose-win in profile / Replace points by elo in match history (Murad)
+- End Countrydle (Murad)
+- Fix security of reward distribution (Murad)
+- Traduction for Global Chat and Ranked Lobby (Murad)
+- Netherlands Antilles/ Serbia to check, overall check country data (Murad)
+- 2FA (Amine)
+- Profile picture to check (Amine)
+- Put level back in ProfilePage (Amine)
+- Remove delete button in parameters and chat/game button in friends (Amine)
+- Finish chat advanced (Mehdi)
+- Add blocked friend (Mehdi)
+- Content Moderation AI to check (Paul)
+- GENERAL Readme to do
 
 Modules done :
 - Major : Framework backend & frontend -> Done (Mehdi)
 - Major : User management and authentication -> Done (Mehdi)
 - Major : Real-time features (WebSockets) -> Done (Paul)
-- Major : Multiplayer (realtime?) -> Done (Paul)
+- Major : Users interaction (basic chat, profile, friends) -> Done (Mehdi)
+- Major : Multiplayer -> Done (Paul)
 - Major : Remote players -> Done (Paul)
 - Minor : ORM for database -> Done (Paul)
-- Minor : gamification system (daily reward?) -> Done (Murad)
+- Minor : gamification system -> Done (Murad)
 - Minor : Multiple languages (at least 3) -> Done (Murad)
 - Minor : Remote authentication -> (Murad)
 - Minor : Custom-made design system -> Done (Amine)
 - Minor : Compability with at least 2 additional browsers -> Done
-
-In progress :
-- Major : Users interaction (basic chat, profile, friends) -> In progress, almost done (Mehdi)
 - Minor : Game stats and match history -> almost done (Murad)
 
-Total points done/in progress : 19 pts
-
-Confirmed modules : 
-- Major : Advanced permissions system -> to do (Mehdi ?)
+In progress :
 - Minor : Advanced chat feature (Mehdi)
 
 To validate :
-- Major : IA Opponent
 - Minor : Content moderation AI
 - Minor : 2FA 
 
 Total Point
-- Already done : 16 points
-- In progress : 3 points (19)
+- Already done : 19 points
+- In progress : 22 points

@@ -1,12 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import type { ReactNode } from 'react';
-import { getCurrentUser } from "../api/auth.api";
+import { getCurrentUser, logoutUser } from "../api/auth.api";
 import type { AuthUser } from "../api/auth.api";
 
 type AuthContextValue = {
     currentUser: AuthUser | null;
     isLoading: boolean;
-    login: (user: AuthUser, token: string) => void;
+    login: (user: AuthUser) => void;
     logout: () => void;
     updateCurrentUser: (user: AuthUser) => void;
 };
@@ -21,16 +21,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const login = useCallback((user: AuthUser, token: string) => {
-        localStorage.setItem('access_token', token);
+    const login = useCallback((user: AuthUser) => {
         setCurrentUser(user);
         setIsLoading(false);
     }, []);
 
-    const logout = useCallback(() => {
-        localStorage.removeItem('access_token');
-        setCurrentUser(null);
-        setIsLoading(false);
+    const logout = useCallback(async() => {
+        try {
+            window.dispatchEvent(new Event('auth:logout'));
+            await logoutUser();
+        } catch (error) {
+            console.error("Failed to logout backend session:", error);
+        } finally {
+            setCurrentUser(null);
+            setIsLoading(false);
+        }
     }, []);
 
     // A VOIR 
@@ -40,18 +45,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     useEffect(() => {
         async function loadCurrentUser() {
-            const token = localStorage.getItem('access_token');
-
-            if (!token) {
-                setIsLoading(false);
-                return;
-            }
-
             try {
-                const user = await getCurrentUser(token);
+                const user = await getCurrentUser();
                 setCurrentUser(user);
             } catch {
-                localStorage.removeItem('access_token');
                 setCurrentUser(null);
             } finally {
                 setIsLoading(false);

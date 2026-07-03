@@ -18,19 +18,18 @@ function SettingsPage() {
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const token = localStorage.getItem('access_token');
-  const { updateCurrentUser } = useAuth();
+  const { currentUser, updateCurrentUser } = useAuth();
   const { t } = useLanguage();
 
   useEffect(() => {
     async function loadProfile() {
-      if (!token) {
+      if (!currentUser) {
         setError(t("settings.notConnected"));
         return;
       }
 
       try {
-        const user = await getMyProfile(token);
+        const user = await getMyProfile();
         setPseudo(user.username);
         setAvatarUrl(user.avatar_url);
         setError(null);
@@ -39,12 +38,12 @@ function SettingsPage() {
       }
     }
     loadProfile();
-  }, [token]);
+  }, [currentUser, t]);
   
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!token) {
+    if (!currentUser) {
       setError(t("settings.notConnected"));
       setMessage(null);
       return;
@@ -55,7 +54,7 @@ function SettingsPage() {
       // Si la base de données s'attend à une vraie URL, et que l'utilisateur a uploadé une image (qui est en Base64),
       // il faudra remplacer la validation `@IsUrl()` par `@IsString()` dans le `UpdateProfileDto` du backend.
       // Si vous implémentez l'Option A (Fichier via FormData), modifiez cet appel API pour utiliser FormData.
-      const updatedUser = await updateMyProfile(token, {
+      const updatedUser = await updateMyProfile({
         username: pseudo,
         avatar_url: avatarUrl,
       });
@@ -73,14 +72,14 @@ function SettingsPage() {
   const handleUpdatePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!token) {
+    if (!currentUser) {
       setError(t("settings.notConnected"));
       setMessage(null);
       return;
     }
 
     try {
-      await updateMyPassword(token, {
+      await updateMyPassword({
         currentPassword,
         newPassword,
       });
