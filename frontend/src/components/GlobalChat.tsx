@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, User , Swords } from 'lucide-react';
+import { Send, User , Swords, Ban } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
-import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
+import { blockUser, getFriends, type FriendUser, type Friendship } from '../api/friends.api';
 import { getConversation, type ChatMessage } from '../api/chat.api';
 import { useSocialSocket } from '@/context/SocialSocketContext';
 
@@ -111,6 +111,20 @@ export function GlobalChat() {
     }
   }
 
+  async function handleBlockUser(friendUser: FriendUser) {
+    try {
+      await blockUser(friendUser.id);
+      setSelectedFriend(null);
+      setMessages([]);
+      setMessage('');
+      clearGameInviteError();
+      await loadFriends();
+      setError(null);
+    } catch {
+      setError('Impossible de bloquer cet utilisateur');
+    }
+  }
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedMessage = message.trim();
@@ -156,6 +170,15 @@ export function GlobalChat() {
               >
                 <Swords size={16} />
               </Button>
+
+            <Button
+              type="button"
+              onClick={() => handleBlockUser(selectedFriend)}
+              className="h-8 w-8 p-0 bg-red-600 text-white hover:bg-red-500"
+              title="Bloquer"
+            >
+              <Ban size={16} />
+            </Button>
           </div>
         )}
 

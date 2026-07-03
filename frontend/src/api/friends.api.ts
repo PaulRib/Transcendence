@@ -98,3 +98,16 @@ export async function deleteFriendship(friendshipId: string): Promise<Friendship
 
     return response.json();
 }
+
+export async function blockUser(userId: string): Promise<FriendshipRecord> {
+    const response = await fetch(`${API_BASE_URL}/friends/block/${userId}`, {
+        method: 'POST',
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to block user');
+    }
+
+    return response.json();
+}

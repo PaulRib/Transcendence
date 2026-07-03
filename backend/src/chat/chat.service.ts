@@ -19,6 +19,21 @@ export class ChatService {
             throw new NotFoundException("User not found");
         }
 
+        const blockedFriendship = await this.prisma.friendship.findFirst({
+            where: {
+                status: "blocked",
+                OR: [
+                    { requester_id: senderId, addressee_id: receiverId },
+                    { requester_id: receiverId, addressee_id: senderId },
+                ],
+            },
+            select: { id: true },
+        });
+
+        if (blockedFriendship) {
+            throw new ForbiddenException("You cannot message this user");
+        }
+        
         const friendship = await this.prisma.friendship.findFirst({
             where: {
                 status: "accepted",

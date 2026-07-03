@@ -61,4 +61,20 @@ export class FriendsController {
         return friendship;
     }
 
+    @Post('block/:userId')
+    @UseGuards(JwtAuthGuard)
+    async blockUser(
+        @Request() request,
+        @Param('userId') blockedUserId: string,
+    ) {
+        const friendship = await this.friendsService.blockUser(request.user.sub, blockedUserId);
+
+        this.socialEventsService.emitFriendsChanged([
+            friendship.requester_id,
+            friendship.addressee_id,
+        ]);
+
+        return friendship;
+    }
+
 }
