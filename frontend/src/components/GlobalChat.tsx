@@ -328,15 +328,15 @@ export function GlobalChat() {
                     <span className="text-xs text-gray-400 mb-1 px-1">
                       {isMine ? 'Moi' : msg.sender.username}
                     </span>
-	                    <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
-	                      {msg.content}
-	                    </div>
-	                    {isMine && msg.read_at && (
-	                      <span className="mt-1 text-[10px] text-slate-400">
-	                        Lu
-	                      </span>
-	                    )}
-	                  </div>
+                    <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
+                      {msg.content}
+                    </div>
+                    {isMine && msg.read_at && (
+                      <span className="mt-1 text-[10px] text-slate-400">
+                        Lu
+                      </span>
+                    )}
+                  </div>
                 );
               })}
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { getChampionNames } from '../api/champions.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { PageContainer } from '../components/ui/page-content';
