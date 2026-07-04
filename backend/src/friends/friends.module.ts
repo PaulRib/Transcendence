@@ -3,6 +3,7 @@ import { FriendsController } from "./friends.controller";
 import { FriendsService } from "./friends.service";
 import { PrismaModule } from "../../prisma/prisma.module";
 import { JwtModule } from "@nestjs/jwt";
+import { SocialEventsModule } from "../social/social-events.module";
 
 @Module({
     imports: [
@@ -12,7 +13,9 @@ import { JwtModule } from "@nestjs/jwt";
         signOptions: {
             expiresIn: '1h'
         },
-    })],
+    }),
+        SocialEventsModule,
+    ],
     controllers: [FriendsController],
     providers: [FriendsService],
     exports: [FriendsService],

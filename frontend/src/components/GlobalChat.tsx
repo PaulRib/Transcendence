@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, User , Swords } from 'lucide-react';
+import { Send, User , Swords, Ban } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
-import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
+import { blockUser, getFriends, type FriendUser, type Friendship } from '../api/friends.api';
 import { getConversation, type ChatMessage } from '../api/chat.api';
 import { useSocialSocket } from '@/context/SocialSocketContext';
 import { useLanguage } from '@/i18n/LanguageContext';
@@ -15,9 +16,12 @@ export function GlobalChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [chatNotice, setChatNotice] = useState<string | null>(null);
   const { currentUser } = useAuth();
   const { t } = useLanguage();
-  const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
+  const navigate = useNavigate();
+  const { socket, sendGameInvite, gameInviteError, clearGameInviteError, pendingGameInvite } = useSocialSocket();
+
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
       return friendship.requester;
@@ -28,23 +32,40 @@ export function GlobalChat() {
       : friendship.requester;
   }
 
-  useEffect(() => {
-    async function loadFriends() {
-      if (!currentUser) {
-        return;
-      }
+  function handleSendGameInvite(friendUser: FriendUser) {
+    sendGameInvite(friendUser.id);
+    setChatNotice(`Invitation envoyée à ${friendUser.username}`);
+  }
 
-      try {
-        const friendsData = await getFriends();
-        setFriends(friendsData);
-        setError(null);
-      } catch {
-        setError(t('chat.loadFriendsError'));
-      }
+  async function loadFriends() {
+    if (!currentUser) {
+      return;
     }
 
+    try {
+      const friendsData = await getFriends();
+      setFriends(friendsData);
+      setError(null);
+    } catch {
+      setError('Impossible de charger les amis');
+    }
+  }
+
+  useEffect(() => {
     loadFriends();
   }, [currentUser, t]);
+
+  useEffect(() => {
+    if (!socket || !currentUser) {
+      return;
+    }
+
+    socket.on('friends_changed', loadFriends);
+
+    return () => {
+      socket.off('friends_changed', loadFriends);
+    };
+  }, [socket, currentUser]);
 
   useEffect(() => {
     if (!socket || !currentUser) {
@@ -88,13 +109,31 @@ export function GlobalChat() {
       return;
     }
 
+    clearGameInviteError();
+
     try {
       const conversation = await getConversation(friendUser.id);
       setSelectedFriend(friendUser);
       setMessages(conversation);
+      setChatNotice(null);
       setError(null);
     } catch {
       setError(t('chat.loadConversationError'));
+    }
+  }
+
+  async function handleBlockUser(friendUser: FriendUser) {
+    try {
+      await blockUser(friendUser.id);
+      setSelectedFriend(null);
+      setMessages([]);
+      setMessage('');
+      setChatNotice(null);
+      clearGameInviteError();
+      await loadFriends();
+      setError(null);
+    } catch {
+      setError('Impossible de bloquer cet utilisateur');
     }
   }
 
@@ -120,34 +159,68 @@ export function GlobalChat() {
       {/* Fenêtre de chat animée */}
       <div className={`mb-4 w-80 h-96 bg-[rgba(20,20,30,0.95)] backdrop-blur-md border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" : "scale-75 opacity-0 translate-y-8 pointer-events-none"}`}> 
         {selectedFriend && (
-          <div className="flex items-center justify-between border-b border-white/10 bg-[#15151a] px-4 py-3">
+          <div className="flex items-center gap-3 border-b border-white/10 bg-[#15151a] px-4 py-3">
             <button
               type="button"
               onClick={() => {
                 setSelectedFriend(null);
                 setMessages([]);
                 setMessage('');
+                setChatNotice(null);
+                clearGameInviteError();
               }}
               className="text-sm text-slate-400 hover:text-white"
             >
               {t('chat.back')}
             </button>
-            <span className="text-sm font-semibold text-slate-100">{selectedFriend.username}</span>
+            <span className="min-w-0 flex-1 truncate text-center text-sm font-semibold text-slate-100">{selectedFriend.username}</span>
 
-            <Button
-              type="button"
-              onClick={() => sendGameInvite(selectedFriend.id)}
-              className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
-              title={t('chat.inviteToGame')}
+            <div className="flex shrink-0 items-center gap-1">
+              <Button
+                type="button"
+                onClick={() => navigate(`/profile/${selectedFriend.id}`)}
+                className="h-8 w-8 p-0 bg-slate-700 text-white hover:bg-slate-600"
+                title="Voir le profil"
+              >
+                <User size={16} />
+              </Button>
+
+              <Button
+                type="button"
+                onClick={() => handleSendGameInvite(selectedFriend)}
+                className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
+                title="Inviter en partie"
               >
                 <Swords size={16} />
               </Button>
+
+              <Button
+                type="button"
+                onClick={() => handleBlockUser(selectedFriend)}
+                className="h-8 w-8 p-0 bg-red-600 text-white hover:bg-red-500"
+                title="Bloquer"
+              >
+                <Ban size={16} />
+              </Button>
+            </div>
           </div>
         )}
 
         <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
           {(error || gameInviteError) && (
             <p className="text-sm text-red-400">{error || gameInviteError}</p>
+          )}
+
+          {chatNotice && (
+            <p className="rounded-lg bg-green-500/10 px-3 py-2 text-sm text-green-300">
+              {chatNotice}
+            </p>
+          )}
+
+          {pendingGameInvite && (
+            <p className="rounded-lg bg-blue-500/10 px-3 py-2 text-sm text-blue-300">
+              {pendingGameInvite.inviterUsername} vous invite à jouer
+            </p>
           )}
 
           {!currentUser ? (

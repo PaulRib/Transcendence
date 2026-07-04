@@ -198,6 +198,7 @@ export class MultiplayerService {
 				status: matchStatus,
 				isDraw: isDraw,
 				winnerId: finalWinnerId,
+				secretChampionName: matchStatus === 'game_over' ? secretChamp.name : undefined
 			}
 		}
 	}

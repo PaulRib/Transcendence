@@ -169,4 +169,48 @@ export class FriendsService {
 
         return !!friendship;
     }
+
+    async blockUser(blockerId: string, blockedUserId: string) {
+        if (blockerId === blockedUserId) {
+            throw new BadRequestException("You cannot block yourself");
+        }
+
+        const blockedUser = await this.prisma.user.findUnique({
+            where: { id: blockedUserId },
+            select: { id: true },
+        });
+
+        if (!blockedUser) {
+            throw new NotFoundException("User not found");
+        }
+
+        const existingFriendship = await
+        this.prisma.friendship.findFirst({
+            where: {
+                OR: [
+                    { requester_id: blockerId, addressee_id: blockedUserId },
+                    { requester_id: blockedUserId, addressee_id: blockerId },
+                ],
+            },
+        });
+
+        if (existingFriendship) {
+            return this.prisma.friendship.update({
+                where: { id: existingFriendship.id },
+                data: {
+                    requester_id: blockerId,
+                    addressee_id: blockedUserId,
+                    status: "blocked",
+                },
+            });
+        }
+
+        return this.prisma.friendship.create({
+            data: {
+                requester_id: blockerId,
+                addressee_id: blockedUserId,
+                status: "blocked",
+            },
+        });
+    }
 }

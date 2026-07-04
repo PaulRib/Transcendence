@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
-import { getMyGamificationStats } from '../api/gamification.api';
+import { getMyGamificationStats, getUserGamificationStats } from '../api/gamification.api';
 import type { GamificationStats } from '../api/gamification.api';
+import { getUserById } from '../api/users.api';
+import type { AuthUser } from '../api/auth.api';
 import { useLanguage } from '../i18n/LanguageContext';
 import apprenticeBadge from '../assets/badges/lvl-badge.png';
 import streakBadge from '../assets/badges/streak-badge.png';
@@ -11,41 +14,66 @@ import expertStreakBadge from '../assets/badges/expertStreak-badge.png';
 import expertBadge from '../assets/badges/expert-badge.png';
 import firstBloodBadge from '../assets/badges/firstBlood-badge.png';
 import riftConquerorBadge from '../assets/badges/riftConqueror-badge.png';
-
 import { Award, CheckCircle2, ChevronDown, LockKeyhole } from 'lucide-react';
 
 
 function ProfilePage() {
   const { currentUser, isLoading } = useAuth();
+  const { userId } = useParams();
+  const [profileUser, setProfileUser] = useState<AuthUser | null>(null);
   const [stats, setStats] = useState<GamificationStats | null>(null);
   const [showBadges, setShowBadges] = useState(false);
   const { t } = useLanguage();
+  const displayedUser = userId ? profileUser : currentUser;
 
   useEffect(() => {
-    async function loadStats() {
-      if (!currentUser) {
+    async function loadProfile() {
+      if (!userId) {
+        setProfileUser(null);
         return;
       }
 
       try {
-        const userStats = await getMyGamificationStats();
+        const user = await getUserById(userId);
+        setProfileUser(user);
+      } catch {
+        setProfileUser(null);
+      }
+    }
+
+    loadProfile();
+  }, [userId]);
+
+  useEffect(() => {
+    async function loadStats() {
+      const targetUserId = userId ?? currentUser?.id;
+
+      if (!targetUserId) {
+        return;
+      }
+
+      try {
+        const userStats = userId
+          ? await getUserGamificationStats(userId)
+          : await getMyGamificationStats();
         setStats(userStats);
       } catch {
         setStats(null);
       }
     }
+
     loadStats();
-  }, [currentUser]);
+  }, [currentUser, userId]);
 
   if (isLoading) {
     return <p>{t("profile.loading")}</p>;
   }
 
-  if (!currentUser) {
+  if (!displayedUser) {
     return <p>{t("profile.notConnected")}</p>;
   }
 
-  const avatarUrl = currentUser.avatar_url ??
+  const avatarUrl = displayedUser.avatar_url ??
     'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
 
   const badges = [
@@ -76,13 +104,13 @@ function ProfilePage() {
     {
       name: t("profile.firstBlood"),
       description: t("profile.firstBloodDescription"),
-      unlocked: currentUser.ranked_wins >= 1,
+      unlocked: displayedUser.ranked_wins >= 1,
       image: firstBloodBadge,
     },
     {
       name:t("profile.riftConqueror"),
       description: t("profile.riftConquerorDescription"),
-      unlocked: currentUser.ranked_wins >= 5,
+      unlocked: displayedUser.ranked_wins >= 5,
       image: riftConquerorBadge,
     }
   ];
@@ -90,19 +118,19 @@ function ProfilePage() {
 
   return (
     <PageContainer>
-      <Heading>{currentUser.username}</Heading>
+      <Heading>{displayedUser.username}</Heading>
 
       <div className="flex flex-col items-center gap-4">
         <img
           src={avatarUrl}
-          alt={t("profile.avatarAlt").replace("{username}", currentUser.username)}
+          alt={t("profile.avatarAlt").replace("{username}", displayedUser.username)}
           className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
         />
       </div>
 
       <div className="text-center">
         <p className="text-[1.2rem] mt-2">
-          <strong>ELO: </strong> {currentUser.elo_rating}
+          <strong>Elo: </strong> {displayedUser.elo_rating}
         </p>
         <p className="text-[1.2rem] mt-2">
           <strong>{t("profile.xp")}</strong> {stats?.xp_points ?? 0}

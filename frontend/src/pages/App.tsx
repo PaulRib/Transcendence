@@ -31,6 +31,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="profile" element={<ProfilePage />} />
+            <Route path="profile/:userId" element={<ProfilePage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="friends" element={<FriendsList />} />
             <Route path="leaderboard" element={<LeaderboardPage/>} />

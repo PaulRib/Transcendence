@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getChampionNames } from '../api/champions.api';
 import type { ChampionName, GuessResponse } from '../api/type.api';
 import { PageContainer } from '../components/ui/page-content';
@@ -21,24 +21,64 @@ interface RankedGamePageProps {
 }
 
 function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: RankedGamePageProps) {
+  const { currentUser, updateCurrentUser } = useAuth();
+  const { t } = useLanguage();
+  const { universe } = useGameUniverse();
+
   const [inputValue, setInputValue] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
-  const [guesses, setGuesses] = useState<GuessResponse[]>([]);
-  const [opponentGuesses, setOpponentGuesses] = useState<Array<{name: string, imagePath: string }>>([]);
+
+  const [guesses, setGuesses] = useState<GuessResponse[]>(() => {
+    if (!initialMatchData || !currentUser) return [];
+    const myParticipant = initialMatchData.participants.find(
+      (p: any) => p.user_id === currentUser.id
+    );
+    if (!myParticipant) return [];
+
+    return initialMatchData.guesses
+      .filter((g: any) => g.participant_id === myParticipant.id)
+      .map((g: any) => ({
+        id: g.champion.id,
+        name: g.champion.name,
+        isWin: g.is_correct,
+        ...g.comparison_result
+      })).reverse();
+  });
+
+  const [opponentGuesses, setOpponentGuesses] = useState<Array<{ id?: string; name: string; imagePath: string }>>(() => {
+    if (!initialMatchData || !currentUser) return [];
+    const myParticipant = initialMatchData.participants.find(
+      (p: any) => p.user_id === currentUser.id
+    );
+    if (!myParticipant) return [];
+
+    const opponentGuessesRaw = initialMatchData.guesses.filter(
+      (g: any) => g.participant_id !== myParticipant.id
+    );
+
+    return opponentGuessesRaw.map((g: any) => {
+      const name = g.champion.name;
+      const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+      return { id: g.champion.id, name, imagePath };
+    }).reverse();
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [hasWon, setHasWon] = useState<boolean>(false);
   const [showVictory, setShowVictory] = useState<boolean>(false);
-  const [isMyTurn, setIsMyTurn] = useState<boolean>(true);
-  const [gameOverInfo, setGameOverInfo] = useState<{ isDraw: boolean; winnerId: string; reason?: string } | null>(null);
+
+  const [gameOverInfo, setGameOverInfo] = useState<{ isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string } | null>(null);
   const [lastChance, setLastChance] = useState<boolean>(false);
   const [opponentDisconnected, setOpponentDisconnected] = useState<boolean>(false);
   const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
 
-  const { t } = useLanguage();
-  const { universe } = useGameUniverse();
-  const { currentUser, updateCurrentUser } = useAuth();
+  const isMyTurn = !gameOverInfo && (
+    guesses.length === opponentGuesses.length
+      ? (currentUser ? currentUser.id === starterUserId : true)
+      : (guesses.length < opponentGuesses.length)
+  );
 
   useEffect(() => {
     async function loadGameData() {
@@ -55,59 +95,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     }
     loadGameData();
   }, [t]);
-
-  // Restaurer l'historique de la partie si initialMatchData est présent au montage
-  useEffect(() => {
-    if (initialMatchData) {
-      const myParticipant = initialMatchData.participants.find(
-        (p: any) => p.user_id === currentUser?.id
-      );
-      if (myParticipant) {
-        const myGuessesRaw = initialMatchData.guesses.filter(
-          (g: any) => g.participant_id === myParticipant.id
-        );
-        const opponentGuessesRaw = initialMatchData.guesses.filter(
-          (g: any) => g.participant_id !== myParticipant.id
-        );
-
-        const restoredGuesses: GuessResponse[] = myGuessesRaw.map((g: any) => ({
-          id: g.champion.id,
-          name: g.champion.name,
-          isWin: g.is_correct,
-          ...g.comparison_result
-        })).reverse();
-
-        const restoredOpponentGuesses = opponentGuessesRaw.map((g: any) => {
-          const name = g.champion.name;
-          const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-          return { id: g.champion.id, name, imagePath };
-        }).reverse();
-
-        setGuesses(restoredGuesses);
-        setOpponentGuesses(restoredOpponentGuesses);
-
-        // Déterminer à qui est le tour en comparant les essais
-        const myCount = restoredGuesses.length;
-        const oppCount = restoredOpponentGuesses.length;
-
-        if (myCount < oppCount) {
-          setIsMyTurn(true);
-        } else if (myCount > oppCount) {
-          setIsMyTurn(false);
-        } else {
-          // Égalité : le tour dépend du starter de la partie
-          if (starterUserId) {
-            setIsMyTurn(currentUser?.id === starterUserId);
-          } else {
-            setIsMyTurn(true);
-          }
-        }
-      }
-    } else {
-      // Cas classique : le starter commence
-      setIsMyTurn(starterUserId ? currentUser?.id === starterUserId : true);
-    }
-  }, [initialMatchData, currentUser, starterUserId]);
 
   // Timer de déconnexion de l'adversaire
   useEffect(() => {
@@ -153,20 +140,31 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
 			...prev,
 			]);
 		}
-      setIsMyTurn(true);
     });
 
     socket.on('last_chance_triggered', () => {
       setLastChance(true);
-      setIsMyTurn(true);
     });
 
-    socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string }) => {
+    socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string }) => {
       setGameOverInfo(data);
       if (data.winnerId === currentUser?.id) {
         setHasWon(true);
       }
-
+      const secretName = data.secretChampionName;
+      if (secretName) {
+        setOpponentGuesses((prev) =>
+          prev.map((g) =>
+            g.id === 'hidden'
+              ? {
+                  name: secretName,
+                  imagePath: `/champions/${secretName.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`,
+                }
+              : g
+          )
+        );
+      }
+	  if (!data.isDraw) {
 		if (currentUser) {
 		  try {
 			const refreshedUser = await getCurrentUser();
@@ -188,7 +186,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
 
     socket.on('game_error', (data: { message: string }) => {
       alert(`${t("multiplayer.gameError")}${data.message}`);
-      setIsMyTurn(true);
     });
 
     // ÉCOUTES DES ÉVÉNEMENTS DE DÉCONNEXION TEMPORAIRE ET DE RETOUR
@@ -249,8 +246,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     }
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
 
-    setIsMyTurn(false);
-
     try {
       socket.emit('submit_guess', { GuessedChamp: validChamp.name, matchId });
       setInputValue('');
@@ -258,7 +253,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     } catch (err) {
       console.error(err);
       alert(t("game.tryError"));
-      setIsMyTurn(true);
     }
   };
 

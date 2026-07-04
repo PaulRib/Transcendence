@@ -5,6 +5,7 @@ import { UsersModule } from "../users/users.module";
 import { ChatModule } from "../chat/chat.module";
 import { FriendsModule } from "../friends/friends.module";
 import { MultiplayerModule } from "../multiplayer/multiplayer.module";
+import { SocialEventsModule } from "./social-events.module";
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { MultiplayerModule } from "../multiplayer/multiplayer.module";
         FriendsModule,
         ChatModule,
         MultiplayerModule,
+        SocialEventsModule,
         JwtModule.register({
             secret: process.env.JWT_SECRET,
         }),
