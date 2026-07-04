@@ -56,12 +56,12 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
         const friendsData = await getFriends();
         setFriends(friendsData);
       } catch {
-        setInviteStatus("Impossible de charger vos amis.");
+        setInviteStatus(t('multiplayer.loadFriendsError'));
       }
     }
 
     loadFriends();
-  }, [currentUser]);
+  }, [currentUser, t]);
 
   const handleJoinMatchmaking = () => {
     if (socket) {
@@ -79,12 +79,12 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
 
   const handleInviteFriend = () => {
     if (!selectedFriendId) {
-      setInviteStatus("Selectionnez un ami a inviter.");
+      setInviteStatus(t('multiplayer.selectFriendError'));
       return;
     }
 
     sendGameInvite(selectedFriendId);
-    setInviteStatus("Invitation envoyee.");
+    setInviteStatus(t('multiplayer.invitationSent'));
   };
 
   return (
@@ -153,8 +153,8 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
             maxWidth: '400px'
           }}
         >
-          <h3>Lancer un défi</h3>
-          <p>Invitez un joueur de votre liste d'amis.</p>
+          <h3>{t('multiplayer.startChallenge')}</h3>
+          <p>{t('multiplayer.inviteToPlay')}</p>
           <select
             value={selectedFriendId}
             onChange={(event) => {
@@ -171,7 +171,7 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
               border: '1px solid rgba(255,255,255,0.2)'
             }}
           >
-            <option value="">Choisir un ami</option>
+            <option value="">{t('multiplayer.chooseFriend')}</option>
             {friends.map((friendship) => {
               const friendUser = getOtherUser(friendship);
 

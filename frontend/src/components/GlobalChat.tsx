@@ -6,6 +6,7 @@ import { useAuth } from '../auth/AuthContext';
 import { getFriends, type FriendUser, type Friendship } from '../api/friends.api';
 import { getConversation, type ChatMessage } from '../api/chat.api';
 import { useSocialSocket } from '@/context/SocialSocketContext';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 export function GlobalChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ export function GlobalChat() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { currentUser } = useAuth();
+  const { t } = useLanguage();
   const { socket, sendGameInvite, gameInviteError } = useSocialSocket();
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
@@ -37,12 +39,12 @@ export function GlobalChat() {
         setFriends(friendsData);
         setError(null);
       } catch {
-        setError('Impossible de charger les amis');
+        setError(t('chat.loadFriendsError'));
       }
     }
 
     loadFriends();
-  }, [currentUser]);
+  }, [currentUser, t]);
 
   useEffect(() => {
     if (!socket || !currentUser) {
@@ -82,7 +84,7 @@ export function GlobalChat() {
 
   async function handleOpenConversation(friendUser: FriendUser) {
     if (!currentUser) {
-      setError('Utilisateur non connecté');
+      setError(t('chat.notConnected'));
       return;
     }
 
@@ -92,7 +94,7 @@ export function GlobalChat() {
       setMessages(conversation);
       setError(null);
     } catch {
-      setError('Impossible de charger la conversation');
+      setError(t('chat.loadConversationError'));
     }
   }
 
@@ -128,7 +130,7 @@ export function GlobalChat() {
               }}
               className="text-sm text-slate-400 hover:text-white"
             >
-              Retour
+              {t('chat.back')}
             </button>
             <span className="text-sm font-semibold text-slate-100">{selectedFriend.username}</span>
 
@@ -136,7 +138,7 @@ export function GlobalChat() {
               type="button"
               onClick={() => sendGameInvite(selectedFriend.id)}
               className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
-              title="Inviter en partie"
+              title={t('chat.inviteToGame')}
               >
                 <Swords size={16} />
               </Button>
@@ -149,7 +151,7 @@ export function GlobalChat() {
           )}
 
           {!currentUser ? (
-            <p className="text-sm text-slate-400">Connecte-toi pour utiliser le chat.</p>
+            <p className="text-sm text-slate-400">{t('chat.loginRequired')}</p>
           ) : !selectedFriend ? (
             friends.length > 0 ? (
               friends.map((friendship) => {
@@ -170,7 +172,7 @@ export function GlobalChat() {
                 );
               })
             ) : (
-              <p className="text-sm text-slate-400">Aucun ami disponible.</p>
+              <p className="text-sm text-slate-400">{t('chat.noFriends')}</p>
             )
           ) : (
             messages.map((msg) => {
@@ -179,7 +181,7 @@ export function GlobalChat() {
               return (
                 <div key={msg.id} className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
                   <span className="text-xs text-gray-400 mb-1 px-1">
-                    {isMine ? 'Moi' : msg.sender.username}
+                    {isMine ? t('chat.me') : msg.sender.username}
                   </span>
                   <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
                     {msg.content}
@@ -196,10 +198,10 @@ export function GlobalChat() {
             <Input 
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Votre message..."
+              placeholder={t('chat.messagePlaceholder')}
               className="flex-1 h-10 m-0 !mt-0 !mb-0 bg-[#2a2a35] border-white/5 focus-visible:ring-blue-500"
             />
-            <Button type="submit" aria-label="Envoyer" className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            <Button type="submit" aria-label={t('chat.send')} className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
               <Send size={18} className="ml-[-2px]" />
             </Button>
           </form>
