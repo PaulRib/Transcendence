@@ -26,6 +26,7 @@ model User {
 	updated_at				DateTime	@updatedAt
 	elo_rating				Int 		@default(0)
 	ranked_wins				Int 		@default(0)
+	ranked_losses				Int 		@default(0)
 
 	matches_participated	Match_Participant[]
 	rewards					Daily_Reward[]

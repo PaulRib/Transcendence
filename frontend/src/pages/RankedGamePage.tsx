@@ -165,15 +165,15 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
         );
       }
 	  if (!data.isDraw) {
-		if (currentUser) {
-		  try {
-			const refreshedUser = await getCurrentUser();
-			updateCurrentUser(refreshedUser);
-		  } catch (error) {
-			console.error("Impossible de mettre à jour l'Elo :", error);
-		  }
-		}
-	  }
+      if (currentUser) {
+        try {
+          const refreshedUser = await getCurrentUser();
+          updateCurrentUser(refreshedUser);
+        } catch (error) {
+            console.error("Impossible de mettre à jour l'Elo :", error);
+        }
+      }
+    }
       
       // Delay showing the GameOverCard by 3.5 seconds so flip animations can finish, except if it is a forfeit
       if (data.reason === 'opponent_disconnected') {

@@ -172,7 +172,7 @@ function ClassicGamePage() {
         inputValue={inputValue}
         hasWon={hasWon}
         isInputValid={isInputValid}
-        placeholder="Entrez un nom de champion..."
+        placeholder={t("game.inputPlaceholder")}
         suggestions={suggestions.map(c => ({
           name: c.name,
           imagePath: `/champions/${c.name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`

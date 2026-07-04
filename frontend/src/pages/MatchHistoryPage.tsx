@@ -58,6 +58,15 @@ function MatchHistoryPage() {
 									? t('matchHistory.draw')
 									: t('matchHistory.defeat');
 
+						const eloChange =
+							entry.result === 'win'
+								? 20
+								: entry.result === 'loose'
+									? -20
+									: entry.result === 'draw'
+										? 10
+										:0;
+
 						const resultClasses =
 							entry.result === 'win'
 								? 'border-green-500 text-green-400'
@@ -97,7 +106,7 @@ function MatchHistoryPage() {
 
 								<div className="text-right">
 									<p className="font-bold">
-										{t('matchHistory.points')} : {entry.score}
+										Elo : {eloChange > 0 ? `+${eloChange}` : eloChange}
 									</p>
 									<p className="text-sm text-slate-400">
 										{new Date(entry.match.played_at).toLocaleDateString(

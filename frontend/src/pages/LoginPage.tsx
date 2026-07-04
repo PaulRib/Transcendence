@@ -63,7 +63,7 @@ function LoginPage() {
         {/* Séparateur */}
         <div className="flex items-center gap-4 my-1">
           <div className="h-px bg-white/10 flex-1"></div>
-          <span className="text-slate-400 text-sm font-medium uppercase">ou</span>
+          <span className="text-slate-400 text-sm font-medium uppercase">{t("login.or")}</span>
           <div className="h-px bg-white/10 flex-1"></div>
         </div>
 
@@ -75,7 +75,7 @@ function LoginPage() {
           className="border-white/20 hover:bg-white/5 hover:text-white flex items-center justify-center gap-3 h-12"
         >
           <div className="bg-white text-black font-extrabold text-xs px-1.5 py-0.5 rounded-sm">42</div>
-          Se connecter avec 42
+          {t("login.fortyTwoLogin")}
         </Button>
       </form>
 

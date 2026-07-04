@@ -115,9 +115,29 @@ export class GamificationService {
 				where: { id: loserId },
 				data: {
 					elo_rating: Math.max(loser.elo_rating - eloChange, 0),
+					ranked_losses: {
+						increment: 1,
+					}
 				},
 			}),
 		]);
+	}
+
+	async updateDrawElo(playerIds: string[]) {
+		if (playerIds.length === 0) {
+			return;
+		}
+
+		await this.prisma.user.updateMany({
+			where: {
+				id: { in: playerIds },
+			},
+			data: {
+				elo_rating: {
+					increment: 10,
+				},
+			},
+		});
 	}
 
 	async getLeaderboard() {

@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import RankedLobbyPage from '../pages/RankedLobbyPage';
 import RankedGamePage from '../pages/RankedGamePage';
 import { useSocialSocket } from '@/context/SocialSocketContext';
+import { useLanguage } from '@/i18n/LanguageContext';
 
 function RankedManager() {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -11,6 +12,7 @@ function RankedManager() {
   const [starterUserId, setStarterUserId] = useState<string | null>(null);
   const [initialMatchData, setInitialMatchData] = useState<any | null>(null);
   const { acceptedGameInvite, clearAcceptedGameInvite } = useSocialSocket();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const newSocket = io(`${window.location.origin}/game`, { 
@@ -53,7 +55,7 @@ function RankedManager() {
     // 4. (Optionnel mais recommandé) Retour au lobby si l'adversaire fuit
     newSocket.on('game_over', (data) => {
         if (data.reason === 'opponent_disconnected') {
-            alert("Victoire par forfait ! Ton adversaire a quitté la partie.");
+            alert(t('multiplayer.forfeitText'));
             setMatchState('lobby');
             setMatchId(null);
             setInitialMatchData(null);
@@ -64,7 +66,7 @@ function RankedManager() {
     return () => {
       newSocket.disconnect();
     };
-  }, []); // Le tableau vide garantit qu'on ne crée qu'un seul Socket
+  }, [t]);
 
   useEffect(() => {
     if(!socket || !acceptedGameInvite) {
@@ -92,8 +94,8 @@ function RankedManager() {
       {/* ÉTAPE 2 : Transition invisible (le temps que join_game_room se fasse) */}
       {matchState === 'waiting' && (
         <div style={{ textAlign: 'center', padding: '50px' }}>
-          <h2>Préparation de l'arène...</h2>
-          <div className="loader">Attente de la connexion de l'adversaire...</div>
+          <h2>{t('multiplayer.preparingArena')}</h2>
+          <div className="loader">{t('multiplayer.waitingForOpponent')}</div>
         </div>
       )}
       

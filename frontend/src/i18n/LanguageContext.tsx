@@ -18,9 +18,24 @@ type LanguageProviderProps = {
 };
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
+const LANGUAGE_STORAGE_KEY = "language";
+
+function getStoredLanguage(): Language {
+	const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+
+	if (storedLanguage === "fr" || storedLanguage === "en" || storedLanguage === "ru") {
+		return storedLanguage;
+	}
+	return "fr";
+}
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
-	const [language, setLanguage] = useState<Language>("fr");
+	const [language, setLanguageState] = useState<Language>(getStoredLanguage);
+
+	const setLanguage = (newLanguage: Language) => {
+		localStorage.setItem(LANGUAGE_STORAGE_KEY, newLanguage);
+		setLanguageState(newLanguage);
+	}
 
 	const value = useMemo(() => {
 		return {
