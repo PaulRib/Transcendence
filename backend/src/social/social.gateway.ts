@@ -159,12 +159,20 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
             client.disconnect();
             return;
         }
+		try {
+			const createdMessage = await this.chatService.sendMessage(senderId, data.receiverId, data.content);
 
-        const createdMessage = await this.chatService.sendMessage(senderId, data.receiverId, data.content);
+			client.emit('message_received', createdMessage);
 
-        client.emit('message_received', createdMessage);
-
-        this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
+			this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
+		}
+		catch (error: any) {
+			console.error("Erreur dans handleSendMessage :", error);
+			client.emit('message_error', {
+				receiverId: data.receiverId,
+				message: error.message
+			});
+		}
     }
 
     @SubscribeMessage('typing_start')
