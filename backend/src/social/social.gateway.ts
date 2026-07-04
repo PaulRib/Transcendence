@@ -43,48 +43,45 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
     }
 
     async handleConnection(client: Socket) {
-        const cookieHeader = client.handshake.headers.cookie;
-        const token = cookieHeader
-            ?.split(';')
-            .find((c) => c.trim().startsWith('access_token='))
-            ?.split('=')
-            .slice(1)
-            .join('=');
- 
-        if(!token) {
-            client.disconnect();
-            return;
-        }
-
-        let payload: { sub: string; username: string; };
-
         try {
-            payload = await this.jwtService.verifyAsync(token);
-        } catch {
+            const cookieHeader = client.handshake.headers.cookie;
+            const token = cookieHeader
+                ?.split(';')
+                .find((c) => c.trim().startsWith('access_token='))
+                ?.split('=')
+                .slice(1)
+                .join('=');
+     
+            if(!token) {
+                client.disconnect();
+                return;
+            }
+
+            const payload: { sub: string; username: string; } = await this.jwtService.verifyAsync(token);
+
+            await this.usersService.getUserById(payload.sub);
+            client.data.userId = payload.sub;
+            client.join(`user:${payload.sub}`);
+
+            const offlineTimeout = this.offlineTimeouts.get(payload.sub);
+            if (offlineTimeout) {
+                clearTimeout(offlineTimeout);
+                this.offlineTimeouts.delete(payload.sub);
+            }
+
+            const currentConnections = this.connectedUsers.get(payload.sub) ?? 0;
+            if (currentConnections === 0) {
+                await this.usersService.updateOnlineStatus(payload.sub, true);
+                await this.notifyFriendsStatus(payload.sub, true);
+            }
+            this.connectedUsers.set(payload.sub, currentConnections + 1);
+        } catch (error) {
+            console.error(`Social gateway connection failed: ${error}`);
             client.disconnect();
-            return;
         }
-
-        await this.usersService.getUserById(payload.sub);
-        client.data.userId = payload.sub;
-        client.join(`user:${payload.sub}`);
-
-        const offlineTimeout = this.offlineTimeouts.get(payload.sub);
-        if (offlineTimeout) {
-            clearTimeout(offlineTimeout);
-            this.offlineTimeouts.delete(payload.sub);
-        }
-
-        const currentConnections = this.connectedUsers.get(payload.sub) ?? 0;
-        if (currentConnections === 0) {
-            await this.usersService.updateOnlineStatus(payload.sub, true);
-            await this.notifyFriendsStatus(payload.sub, true);
-        }
-        this.connectedUsers.set(payload.sub, currentConnections + 1);
     }
 
     async handleDisconnect(client: Socket) {
-
         const userId = client.data.userId;
 
         if(!userId) {
@@ -103,8 +100,12 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
                 }
 
                 this.offlineTimeouts.delete(userId);
-                await this.usersService.updateOnlineStatus(userId, false);
-                await this.notifyFriendsStatus(userId, false);
+                try {
+                    await this.usersService.updateOnlineStatus(userId, false);
+                    await this.notifyFriendsStatus(userId, false);
+                } catch (error) {
+                    console.error(`Error updating offline status for user ${userId}:`, error);
+                }
             }, 3000);
 
             this.offlineTimeouts.set(userId, offlineTimeout);
@@ -130,8 +131,12 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
         }
 
         this.connectedUsers.delete(userId);
-        await this.usersService.updateOnlineStatus(userId, false);
-        await this.notifyFriendsStatus(userId, false);
+        try {
+            await this.usersService.updateOnlineStatus(userId, false);
+            await this.notifyFriendsStatus(userId, false);
+        } catch (error) {
+            console.error(`Error during logout update for user ${userId}:`, error);
+        }
         client.disconnect();
     }
 

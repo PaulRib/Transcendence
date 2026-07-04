@@ -68,29 +68,37 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		const matchId = client.data.currentMatchId;
 
 		this.matchmakingQueue = this.matchmakingQueue.filter(player => player.socketId !== client.id);
-		 if (user && matchId) {
+		if (user && matchId) {
+			const activeMatch = await this.multiplayerService.getActiveMatchForUser(user.id);
+			if (!activeMatch || activeMatch.id !== matchId) {
+				return;
+			}
 			const timeout = setTimeout(async() => {
 				this.reconnectTimeouts.delete(user.id);
-			try {
-				const winnerId = await this.multiplayerService.forfeitMatch(matchId, user.id);
-				if (winnerId) {
-					this.server.to(`room_${matchId}`).emit('game_over', {
-						isDraw: false,
-						winnerId: winnerId,
-						reason: 'opponent_disconnected'
-					});
-					this.server.in(`room_${matchId}`).socketsLeave(`room_${matchId}`);
+				try {
+					const winnerId = await this.multiplayerService.forfeitMatch(matchId, user.id);
+					if (winnerId) {
+						this.server.to(`room_${matchId}`).emit('game_over', {
+							isDraw: false,
+							winnerId: winnerId,
+							reason: 'opponent_disconnected'
+						});
+						const sockets = await this.server.in(`room_${matchId}`).fetchSockets();
+						for (const s of sockets) {
+							s.data.currentMatchId = undefined;
+						}
+						this.server.in(`room_${matchId}`).socketsLeave(`room_${matchId}`);
+					}
 				}
-			}
-			catch (error) {
-				console.error(`Erreur lors du forfait de ${user.username}:`, error)
-			}
-		}, 60000);
-		this.reconnectTimeouts.set(user.id, { timeout, matchId});
-		this.server.to(`room_${matchId}`).emit('player_disconnected_grace', {
-			userId: user.id,
-			username: user.username,
-			reconnectWindowMs: 60000
+				catch (error) {
+					console.error(`Erreur lors du forfait de ${user.username}:`, error)
+				}
+			}, 60000);
+			this.reconnectTimeouts.set(user.id, { timeout, matchId});
+			this.server.to(`room_${matchId}`).emit('player_disconnected_grace', {
+				userId: user.id,
+				username: user.username,
+				reconnectWindowMs: 60000
 			});
 		}
 	}
@@ -114,8 +122,13 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 				await this.multiplayerService.endMatch(data.matchId, result.matchState.winnerId, user.id);
 				this.server.to(`room_${data.matchId}`).emit('game_over', {
 					isDraw: result.matchState.isDraw,
-					winnerId: result.matchState.winnerId
+					winnerId: result.matchState.winnerId,
+					secretChampionName: result.matchState.secretChampionName
 				});
+				const sockets = await this.server.in(`room_${data.matchId}`).fetchSockets();
+				for (const s of sockets) {
+					s.data.currentMatchId = undefined;
+				}
 				this.server.in(`room_${data.matchId}`).socketsLeave(`room_${data.matchId}`);
 			}
 		}
