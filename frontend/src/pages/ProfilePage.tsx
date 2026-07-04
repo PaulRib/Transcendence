@@ -14,7 +14,6 @@ import expertStreakBadge from '../assets/badges/expertStreak-badge.png';
 import expertBadge from '../assets/badges/expert-badge.png';
 import firstBloodBadge from '../assets/badges/firstBlood-badge.png';
 import riftConquerorBadge from '../assets/badges/riftConqueror-badge.png';
-
 import { Award, CheckCircle2, ChevronDown, LockKeyhole } from 'lucide-react';
 
 
