@@ -20,6 +20,14 @@ type AcceptGameInvitePayload = {
     inviterId: string;
 };
 
+type TypingPayload = {
+    receiverId: string;
+};
+
+type MarkMessagesReadPayload = {
+    otherUserId: string;
+};
+
 @WebSocketGateway({ cors:  {origin: process.env.FRONTEND_URL ?? 'http://localhost:5173', credentials: true }, 
                     namespace: '/social' })
 export class SocialGateway implements
@@ -159,6 +167,40 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
         this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
     }
 
+    @SubscribeMessage('typing_start')
+    handleTypingStart(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: TypingPayload,
+    ) {
+        const senderId = client.data.userId;
+
+        if (!senderId) {
+            client.disconnect();
+            return;
+        }
+
+        this.server.to(`user:${data.receiverId}`).emit('typing_started', {
+            userId: senderId,
+        });
+    }
+
+    @SubscribeMessage('typing_stop')
+    handleTypingStop(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: TypingPayload,
+    ) {
+        const senderId = client.data.userId;
+
+        if (!senderId) {
+            client.disconnect();
+            return;
+        }
+
+        this.server.to(`user:${data.receiverId}`).emit('typing_stopped', {
+            userId: senderId,
+        });
+    }
+
     @SubscribeMessage('send_game_invite')
     async handleSendGameInvite(
         @ConnectedSocket() client: Socket,
@@ -272,6 +314,28 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
             opponentId: data.inviterId,
         });
 
+    }
+
+    @SubscribeMessage('mark_message_read')
+    async handleMarkMessagesRead(
+        @ConnectedSocket() client: Socket,
+        @MessageBody() data: MarkMessagesReadPayload,
+    ) {
+        const currentUserId = client.data.userId;
+
+        if (!currentUserId){
+            client.disconnect();
+            return;
+        }
+        const result = await this.chatService.markConversationAsRead(
+            currentUserId,
+            data.otherUserId,
+        );
+
+        this.server.to(`user:${data.otherUserId}`).emit('message_read', {
+            readerId: currentUserId,
+            read_at: result.read_at,
+        });
     }
 
     private async notifyFriendsStatus(userId: string, isOnline: boolean) {

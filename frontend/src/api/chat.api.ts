@@ -9,6 +9,7 @@ export type ChatMessage = {
     receiver_id: string;
     sender: FriendUser;
     receiver: FriendUser;
+    read_at: string | null;
 };
 
 export type SendMessagePayload = {

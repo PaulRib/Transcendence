@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -19,6 +19,8 @@ export function GlobalChat() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const { socket, sendGameInvite, gameInviteError, clearGameInviteError, pendingGameInvite } = useSocialSocket();
+  const [typingUserId, setTypingUserId] = useState<string | null>(null);
+  const typingStopTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function getOtherUser(friendship: Friendship): FriendUser {
     if (!currentUser) {
@@ -29,6 +31,7 @@ export function GlobalChat() {
       ? friendship.addressee
       : friendship.requester;
   }
+
 
   function handleSendGameInvite(friendUser: FriendUser) {
     sendGameInvite(friendUser.id);
@@ -92,14 +95,44 @@ export function GlobalChat() {
 
         return [...currentMessages, receivedMessage];
       });
+
+      if (isOpen && receivedMessage.sender_id === selectedFriend.id) {
+        socket?.emit('mark_message_read', {
+          otherUserId: selectedFriend.id,
+        });
+      }
+    }
+
+    function handleTypingStarted(data: { userId: string }) {
+      setTypingUserId(data.userId);
+    }
+
+    function handleTypingStopped(data: { userId: string }) {
+      setTypingUserId((currentTypingUserId) => currentTypingUserId === data.userId ? null : currentTypingUserId);
+    }
+
+    function handleMessagesRead(data: { readerId: string; read_at: string}) {
+      setMessages((currentMessages) =>
+        currentMessages.map((message) =>
+          message.receiver_id === data.readerId
+          ? { ...message, read_at: data.read_at }
+          : message
+        )
+      );
     }
 
     socket.on('message_received', handleMessageReceived);
+    socket.on('typing_started', handleTypingStarted);
+    socket.on('typing_stopped', handleTypingStopped);
+    socket.on('message_read', handleMessagesRead);
 
     return () => {
       socket.off('message_received', handleMessageReceived);
+      socket.off('typing_started', handleTypingStarted);
+      socket.off('typing_stopped', handleTypingStopped);
+      socket.off('message_read', handleMessagesRead);
     };
-  }, [socket, currentUser, selectedFriend]);
+  }, [socket, currentUser, selectedFriend, isOpen]);
 
   async function handleOpenConversation(friendUser: FriendUser) {
     if (!currentUser) {
@@ -113,6 +146,11 @@ export function GlobalChat() {
       const conversation = await getConversation(friendUser.id);
       setSelectedFriend(friendUser);
       setMessages(conversation);
+
+      socket?.emit('mark_message_read', {
+        otherUserId: friendUser.id,
+      });
+
       setChatNotice(null);
       setError(null);
     } catch {
@@ -135,6 +173,35 @@ export function GlobalChat() {
     }
   }
 
+  function handleMessageChange(value: string) {
+    setMessage(value);
+
+    if(!socket || !selectedFriend){
+      return;
+    }
+
+    if(!value.trim()) {
+      socket.emit('typing_stop', {
+        receiverId: selectedFriend.id,
+      });
+      return;
+    }
+
+    socket.emit('typing_start', {
+      receiverId: selectedFriend.id,
+    });
+
+    if (typingStopTimeout.current) {
+      clearTimeout(typingStopTimeout.current);
+    }
+
+    typingStopTimeout.current = setTimeout(() => {
+      socket.emit('typing_stop', {
+        receiverId: selectedFriend.id,
+      });
+    }, 1000);
+  }
+
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmedMessage = message.trim();
@@ -147,7 +214,9 @@ export function GlobalChat() {
       receiverId: selectedFriend.id,
       content: trimmedMessage,
     });
-
+    socket.emit('typing_stop', {
+      receiverId: selectedFriend.id,
+    });
     setMessage('');
     setError(null);
   };
@@ -165,6 +234,10 @@ export function GlobalChat() {
                 setMessages([]);
                 setMessage('');
                 setChatNotice(null);
+                setTypingUserId(null);
+                if (typingStopTimeout.current) {
+                  clearTimeout(typingStopTimeout.current);
+                }
                 clearGameInviteError();
               }}
               className="text-sm text-slate-400 hover:text-white"
@@ -246,20 +319,33 @@ export function GlobalChat() {
               <p className="text-sm text-slate-400">Aucun ami disponible.</p>
             )
           ) : (
-            messages.map((msg) => {
-              const isMine = msg.sender_id === currentUser.id;
+            <>
+              {messages.map((msg) => {
+                const isMine = msg.sender_id === currentUser.id;
 
-              return (
-                <div key={msg.id} className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
-                  <span className="text-xs text-gray-400 mb-1 px-1">
-                    {isMine ? 'Moi' : msg.sender.username}
-                  </span>
-                  <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
-                    {msg.content}
-                  </div>
-                </div>
-              );
-            })
+                return (
+                  <div key={msg.id} className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
+                    <span className="text-xs text-gray-400 mb-1 px-1">
+                      {isMine ? 'Moi' : msg.sender.username}
+                    </span>
+	                    <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
+	                      {msg.content}
+	                    </div>
+	                    {isMine && msg.read_at && (
+	                      <span className="mt-1 text-[10px] text-slate-400">
+	                        Lu
+	                      </span>
+	                    )}
+	                  </div>
+                );
+              })}
+
+              {typingUserId === selectedFriend.id && (
+                <p className="text-xs italic text-slate-400">
+                  {selectedFriend.username} écrit...
+                </p>
+              )}
+            </>
           )}
         </div>
 
@@ -268,7 +354,7 @@ export function GlobalChat() {
           <form onSubmit={handleSend} className="p-3 border-t border-white/10 bg-[#15151a] flex items-center gap-2">
             <Input 
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(e) => handleMessageChange(e.target.value)}
               placeholder="Votre message..."
               className="flex-1 h-10 m-0 !mt-0 !mb-0 bg-[#2a2a35] border-white/5 focus-visible:ring-blue-500"
             />

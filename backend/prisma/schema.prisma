@@ -53,6 +53,7 @@ model Message {
 	id						String		@id @default(uuid())
 	content					String
 	created_at				DateTime	@default(now())
+	read_at					DateTime?
 
 	sender_id				String
 	sender					User		@relation("sent_messages", fields: [sender_id], references: [id])

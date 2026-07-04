@@ -131,4 +131,21 @@ export class ChatService {
             },
         });
     }
+
+    async markConversationAsRead(currentUserId: string, otherUserId: string) {
+        const readAt = new Date();
+
+        await this.prisma.message.updateMany({
+            where: {
+                sender_id: otherUserId,
+                receiver_id: currentUserId,
+                read_at: null,
+            },
+            data: {
+                read_at: readAt,
+            },
+        });
+
+        return { read_at: readAt };
+    }
 }
