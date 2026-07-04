@@ -94,10 +94,17 @@ export function GlobalChat() {
       });
     }
 
+	function handleMessageError(err: { receiverId: String; message: string }) {
+		if (selectedFriend && err.receiverId === selectedFriend.id) {
+			setError(err.message);
+		}
+	}
     socket.on('message_received', handleMessageReceived);
+	socket.on('message_error', handleMessageError);
 
     return () => {
       socket.off('message_received', handleMessageReceived);
+	  socket.off('message_error', handleMessageError);
     };
   }, [socket, currentUser, selectedFriend]);
 

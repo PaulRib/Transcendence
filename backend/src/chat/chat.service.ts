@@ -1,9 +1,31 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, OnModuleInit, PreconditionFailedException } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
+import * as toxicity from '@tensorflow-models/toxicity';
 
+//OnModuleInit -> after initialize chat service, nestjs search if service has OnModuleInit, if it does, NestJS execute it one time at the start
 @Injectable()
-export class ChatService {
+export class ChatService implements OnModuleInit {
+	private toxicityModel: any;
     constructor(private readonly prisma: PrismaService) {}
+
+	async onModuleInit() {
+		const threshold = 0.85;
+
+		const categoriesToLoad = ['toxicity', 'insult', 'threat'];
+
+		this.toxicityModel = await toxicity.load(threshold, categoriesToLoad);
+		console.log('IA Moderation launched and ready to work !')
+	}
+
+	private async automaticModeration(content: string): Promise<boolean> {
+		if (!this.toxicityModel) {
+			return false;
+		}
+
+		const predictions = await this.toxicityModel.classify([content]);
+
+		return predictions.some((prediction: any) => prediction.results[0].match === true);
+	}
 
     async sendMessage(senderId: string, receiverId: string, content: string) {
         if (senderId === receiverId) {
@@ -48,6 +70,11 @@ export class ChatService {
         if (!friendship) {
             throw new ForbiddenException("You can only message your friends");
         }
+
+		const isToxic = await this.automaticModeration(content);
+		if (isToxic) {
+			throw new BadRequestException("Your message has been blocked by the moderation.");
+		}
 
         return this.prisma.message.create({
             data: {
