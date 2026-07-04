@@ -35,6 +35,18 @@ export async function getMyGamificationStats(): Promise<GamificationStats> {
 	return response.json();
 }
 
+export async function getUserGamificationStats(userId: string): Promise<GamificationStats> {
+	const response = await fetch(`${API_BASE_URL}/gamification/users/${userId}`, {
+		method: 'GET',
+	});
+
+	if (!response.ok) {
+		throw new Error('User gamification stats request failed');
+	}
+
+	return response.json();
+}
+
 export async function rewardWin(attempts: number): Promise<GamificationRewardResponse> {
 	const response = await fetch(`${API_BASE_URL}/gamification/win`, {
 		method: 'POST',
