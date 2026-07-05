@@ -27,7 +27,7 @@ import { useEffect } from 'react';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
-    const { universe, toggleUniverse } = useGameUniverse();
+    const { universe, toggleUniverse, setUniverse } = useGameUniverse();
     const navigate = useNavigate();
     const { language, setLanguage, t } = useLanguage();
     const { pendingGameInvite, acceptedGameInvite, acceptGameInvite, clearPendingGameInvite } = useSocialSocket();
@@ -46,9 +46,9 @@ function Layout() {
         if (!acceptedGameInvite) {
             return;
         }
-
+        setUniverse('league');
         navigate('/ranked');
-    }, [acceptedGameInvite, navigate]);
+    }, [acceptedGameInvite, navigate, setUniverse]);
 
     return (
         <div className="min-h-screen flex flex-col bg-transparent">
