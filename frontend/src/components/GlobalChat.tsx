@@ -37,7 +37,7 @@ export function GlobalChat() {
 
   function handleSendGameInvite(friendUser: FriendUser) {
     sendGameInvite(friendUser.id);
-    setChatNotice(`Invitation envoyée à ${friendUser.username}`);
+    setChatNotice(t('chat.invitationSent').replace('{username}', friendUser.username));
   }
 
   async function loadFriends() {
@@ -50,7 +50,7 @@ export function GlobalChat() {
       setFriends(friendsData);
       setError(null);
     } catch {
-      setError('Impossible de charger les amis');
+      setError(t('chat.loadFriendsError'));
     }
   }
 
@@ -178,7 +178,7 @@ export function GlobalChat() {
       await loadFriends();
       setError(null);
     } catch {
-      setError('Impossible de bloquer cet utilisateur');
+      setError(t('chat.blockError'));
     }
   }
 
@@ -260,7 +260,7 @@ export function GlobalChat() {
                 type="button"
                 onClick={() => navigate(`/profile/${selectedFriend.id}`)}
                 className="h-8 w-8 p-0 bg-slate-700 text-white hover:bg-slate-600"
-                title="Voir le profil"
+                title={t('chat.viewProfile')}
               >
                 <User size={16} />
               </Button>
@@ -269,7 +269,7 @@ export function GlobalChat() {
                 type="button"
                 onClick={() => handleSendGameInvite(selectedFriend)}
                 className="h-8 w-8 p-0 bg-green-600 text-white hover:bg-green-500"
-                title="Inviter en partie"
+                title={t('chat.inviteToGame')}
               >
                 <Swords size={16} />
               </Button>
@@ -278,7 +278,7 @@ export function GlobalChat() {
                 type="button"
                 onClick={() => handleBlockUser(selectedFriend)}
                 className="h-8 w-8 p-0 bg-red-600 text-white hover:bg-red-500"
-                title="Bloquer"
+                title={t('chat.block')}
               >
                 <Ban size={16} />
               </Button>
@@ -299,7 +299,7 @@ export function GlobalChat() {
 
           {pendingGameInvite && (
             <p className="rounded-lg bg-blue-500/10 px-3 py-2 text-sm text-blue-300">
-              {pendingGameInvite.inviterUsername} vous invite à jouer
+              {t('chat.gameInvitation').replace('{username}', pendingGameInvite.inviterUsername)}
             </p>
           )}
 
@@ -335,14 +335,14 @@ export function GlobalChat() {
                 return (
                   <div key={msg.id} className={`flex flex-col ${isMine ? 'items-end' : 'items-start'}`}>
                     <span className="text-xs text-gray-400 mb-1 px-1">
-                      {isMine ? 'Moi' : msg.sender.username}
+                      {isMine ? t('chat.me') : msg.sender.username}
                     </span>
                     <div className={`px-3 py-2 rounded-xl text-sm max-w-[85%] break-words shadow-sm ${isMine ? 'bg-blue-600 text-white rounded-br-none' : 'bg-[#2a2a35] text-gray-200 rounded-bl-none'}`}>
                       {msg.content}
                     </div>
                     {isMine && msg.read_at && (
                       <span className="mt-1 text-[10px] text-slate-400">
-                        Lu
+                        {t('chat.read')}
                       </span>
                     )}
                   </div>
@@ -351,7 +351,7 @@ export function GlobalChat() {
 
               {typingUserId === selectedFriend.id && (
                 <p className="text-xs italic text-slate-400">
-                  {selectedFriend.username} écrit...
+                  {t('chat.typing').replace('{username}', selectedFriend.username)}
                 </p>
               )}
             </>
