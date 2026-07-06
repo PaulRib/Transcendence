@@ -2,66 +2,92 @@ import { createContext, useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { translations, type Language } from "./translations";
 
-type TranslationSection = keyof typeof translations.fr;
+type Translations = typeof translations.fr;
+type TranslationSection = keyof Translations;
+
 type TranslationKey = {
-    [Section in TranslationSection]: `${Section}.${keyof typeof translations.fr[Section] & string}`;
+  [Section in TranslationSection]: `${Section}.${keyof Translations[Section] & string}`;
 }[TranslationSection];
 
 type LanguageContextValue = {
-	language: Language;
-	setLanguage: (language: Language) => void;
-	t: (key: TranslationKey) => string;
+  language: Language;
+  setLanguage: (language: Language) => void;
+  t: (key: TranslationKey) => string;
 };
 
 type LanguageProviderProps = {
-    children: ReactNode;
+  children: ReactNode;
 };
 
-const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextValue | undefined>(
+  undefined
+);
+
 const LANGUAGE_STORAGE_KEY = "language";
+const DEFAULT_LANGUAGE: Language = "fr";
+
+function isLanguage(value: unknown): value is Language {
+  return value === "fr" || value === "en" || value === "ru";
+}
 
 function getStoredLanguage(): Language {
-	const storedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  if (typeof window === "undefined") {
+    return DEFAULT_LANGUAGE;
+  }
 
-	if (storedLanguage === "fr" || storedLanguage === "en" || storedLanguage === "ru") {
-		return storedLanguage;
-	}
-	return "fr";
+  const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+
+  return isLanguage(storedLanguage) ? storedLanguage : DEFAULT_LANGUAGE;
 }
 
 export function LanguageProvider({ children }: LanguageProviderProps) {
-	const [language, setLanguageState] = useState<Language>(getStoredLanguage);
+  const [language, setLanguageState] = useState<Language>(getStoredLanguage);
 
-	const setLanguage = (newLanguage: Language) => {
-		localStorage.setItem(LANGUAGE_STORAGE_KEY, newLanguage);
-		setLanguageState(newLanguage);
-	}
+  const setLanguage = (newLanguage: Language) => {
+    if (!isLanguage(newLanguage)) {
+      return;
+    }
 
-	const value = useMemo(() => {
-		return {
-			language,
-			setLanguage,
-			t: (key: TranslationKey) => {
-				const [section, item] = key.split(".") as [TranslationSection, string];
+    window.localStorage.setItem(LANGUAGE_STORAGE_KEY, newLanguage);
+    setLanguageState(newLanguage);
+  };
 
-				return translations[language][section][item as keyof typeof translations.fr[typeof section]];
-			},
-		};
-	}, [language]);
+  const value = useMemo(() => {
+    const t = (key: TranslationKey): string => {
+      const [section, item] = key.split(".") as [
+        TranslationSection,
+        keyof Translations[TranslationSection] & string
+      ];
 
-	return (
-		<LanguageContext.Provider value={value}>
-			{children}
-		</LanguageContext.Provider>
-	);
+      const translatedValue = translations[language][section]?.[item];
+
+      if (translatedValue === undefined) {
+        throw new Error(`Missing translation: ${language}.${key}`);
+      }
+
+      return translatedValue;
+    };
+
+    return {
+      language,
+      setLanguage,
+      t,
+    };
+  }, [language]);
+
+  return (
+    <LanguageContext.Provider value={value}>
+      {children}
+    </LanguageContext.Provider>
+  );
 }
 
 export function useLanguage() {
-	const context = useContext(LanguageContext);
+  const context = useContext(LanguageContext);
 
-	if (!context) {
-		throw new Error("useLanguage must be used inside LanguageProvider");
-	}
+  if (!context) {
+    throw new Error("useLanguage must be used inside LanguageProvider");
+  }
 
-	return context;
+  return context;
 }
