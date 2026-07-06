@@ -669,13 +669,13 @@
       "ru": "Европа"
     },
     "currency": {
-      "code": "BYR",
-      "symbol": "BYR",
+      "code": "BYN",
+      "symbol": "BYN",
       "decimal_digits": 0,
       "name": {
-        "en": "Belarusian Ruble (2000–2016)",
-        "fr": "rouble biélorusse (2000–2016)",
-        "ru": "Белорусский рубль (2000–2016)"
+        "en": "Belarusian Ruble",
+        "fr": "rouble biélorusse",
+        "ru": "Белорусский рубль"
       }
     }
   },
@@ -1208,9 +1208,9 @@
     },
     "population": 555987,
     "continent": {
-      "en": null,
-      "fr": null,
-      "ru": null
+      "en": "Africa",
+      "fr": "Afrique",
+      "ru": "Африка"
     },
     "currency": {
       "code": "CVE",
@@ -1451,13 +1451,13 @@
       "ru": "Южная Америка"
     },
     "currency": {
-      "code": "CLF",
-      "symbol": "CLF",
+      "code": "CLP",
+      "symbol": "CLP",
       "decimal_digits": 4,
       "name": {
-        "en": "Chilean Unit of Account (UF)",
-        "fr": "unité d’investissement chilienne",
-        "ru": "Условная расчетная единица Чили"
+        "en": "Chilean Peso",
+        "fr": "peso chilien",
+        "ru": "чилийское песо"
       }
     }
   },
@@ -4806,9 +4806,9 @@
       "ru": "Черногория"
     },
     "language": {
-      "en": "Sr_Latn",
-      "fr": "serbe latin",
-      "ru": "сербский латиница"
+      "en": "Montenegrin",
+      "fr": "Monténégrin",
+      "ru": "Черногорский"
     },
     "population": 631219,
     "continent": {
@@ -5096,40 +5096,6 @@
         "en": "Euro",
         "fr": "euro",
         "ru": "евро"
-      }
-    }
-  },
-  {
-    "code": "AN",
-    "flag": {
-      "emoji": "🇦🇳",
-      "png": "https://flagcdn.com/w320/an.png",
-      "svg": "https://flagcdn.com/an.svg"
-    },
-    "country": {
-      "en": "Netherlands Antilles",
-      "fr": "Netherlands Antilles",
-      "ru": "Netherlands Antilles"
-    },
-    "language": {
-      "en": "Dutch",
-      "fr": "néerlandais",
-      "ru": "нидерландский"
-    },
-    "population": 227049,
-    "continent": {
-      "en": "North America",
-      "fr": "Amérique du Nord",
-      "ru": "Северная Америка"
-    },
-    "currency": {
-      "code": "ANG",
-      "symbol": "ANG",
-      "decimal_digits": 2,
-      "name": {
-        "en": "Netherlands Antillean Guilder",
-        "fr": "florin antillais",
-        "ru": "нидерландский антильский гульден"
       }
     }
   },
@@ -6506,9 +6472,9 @@
       "ru": "Сербия"
     },
     "language": {
-      "en": "Sr_Latn",
-      "fr": "serbe latin",
-      "ru": "сербский латиница"
+      "en": "Serbian",
+      "fr": "Serbe",
+      "ru": "Сербский"
     },
     "population": 6963764,
     "continent": {
