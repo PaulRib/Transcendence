@@ -5,11 +5,6 @@ import { DailycountrymatchesService } from './dailycountrymatches.service';
 export class DailycountrymatchesController {
   constructor(private dailycountrymatchesService: DailycountrymatchesService) {}
 
-  @Get('country')
-  async getDailyCountry() {
-    return this.dailycountrymatchesService.selectDayCountry();
-  }
-
   @Post('guess')
   async verifyGuess(@Body('name') guessName: string) {
     return this.dailycountrymatchesService.verifyGuess(guessName);
