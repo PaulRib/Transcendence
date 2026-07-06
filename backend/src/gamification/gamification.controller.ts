@@ -17,15 +17,6 @@ export class GamificationController {
 		return this.gamificationService.getOrCreateStats(userId);
 	}
 
-	@Post('win')
-	@UseGuards(JwtAuthGuard)
-	rewardWin(
-		@Request() request,
-		@Body('attempts') attempts: number, 
-	) {
-		return this.gamificationService.rewardWin(request.user.sub, attempts);
-	}
-
 	@Get('leaderboard')
 	getLeaderboard() {
 		return this.gamificationService.getLeaderboard();

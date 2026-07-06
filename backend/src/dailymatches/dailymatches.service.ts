@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
+import { GamificationService } from '../gamification/gamification.service';
 
 @Injectable()
 
 export class DailymatchesService {
-  constructor(private prisma: PrismaService, private championsService: ChampionsService) {}
+  constructor(private gamificationService: GamificationService, private prisma: PrismaService, private championsService: ChampionsService) {}
 
 
   private seededRandom(seed: number) {
@@ -85,7 +86,7 @@ export class DailymatchesService {
 		return Value.split(',').map(item => item.trim());
 	}
 
-	async verifyGuess(guessName: string) {
+	async verifyGuess(guessName: string, attempts: number, userId?: string) {
 		const todayChamp = await this.selectDayChamp();
 		const guessedChamp = await this.championsService.getExactChampByName(guessName);
 		if (!guessedChamp) {
@@ -104,6 +105,12 @@ export class DailymatchesService {
 		const guessedRegions = this.parseToArrays(guessedChamp.region);
 		const todayRegions = this.parseToArrays(todayChamp.region);
 
+		const isWin = guessedChamp.name === todayChamp.name;
+		let reward;
+		if (isWin && userId)
+			reward = await this.gamificationService.rewardWin(userId, attempts);
+		else
+			reward = null;
 		return {
 			name: guessedChamp.name,
 			gender: {

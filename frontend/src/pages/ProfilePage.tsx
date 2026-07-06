@@ -128,9 +128,9 @@ function ProfilePage() {
 
 
           <Avatar className="w-[150px] h-[150px] border-[3px] border-white/20 shadow-lg">
-            <AvatarImage src={currentUser.avatar_url || undefined} alt={currentUser.username} className="object-cover" />
+            <AvatarImage src={displayedUser.avatar_url || undefined} alt={displayedUser.username} className="object-cover" />
             <AvatarFallback className="text-5xl bg-slate-800 text-white font-bold">
-              {currentUser.username?.charAt(0).toUpperCase() || 'U'}
+              {displayedUser.username?.charAt(0).toUpperCase() || 'U'}
             </AvatarFallback>
           </Avatar>
 
@@ -180,10 +180,10 @@ function ProfilePage() {
           <strong>{t("profile.streak")}</strong> {stats?.streak_count ?? 0} {t("profile.days")}
         </p>
         <p className="text-[1.2rem] mt-2">
-          <strong>{t("multiplayer.rankedWins")}</strong> {currentUser.ranked_wins}
+          <strong>{t("multiplayer.rankedWins")}</strong> {displayedUser.ranked_wins}
         </p>
         <p className="text-[1.2rem] mt-2">
-          <strong>{t("multiplayer.rankedLosses")}</strong> {currentUser.ranked_losses}
+          <strong>{t("multiplayer.rankedLosses")}</strong> {displayedUser.ranked_losses}
         </p>
         <button
           onClick={() => setShowBadges(!showBadges)}

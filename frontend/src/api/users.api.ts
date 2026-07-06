@@ -68,25 +68,6 @@ export async function updateMyProfile(payload: UpdateProfilePayload): Promise<Au
     return response.json();
 }
 
-export async function uploadMyAvatar(token: string, file: File): Promise<AuthUser> {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const response = await fetch(`${API_BASE_URL}/users/me/avatar`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-    });
-
-    if (!response.ok) {
-        throw new Error('Avatar upload request failed');
-    }
-
-    return response.json();
-}
-
 export async function updateMyPassword(payload: UpdatePasswordPayload): Promise<UpdatePasswordResponse> {
     const response = await fetch(`${API_BASE_URL}/users/me/password`, {
         method: 'PATCH',

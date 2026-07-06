@@ -1,17 +1,28 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Request, Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { DailymatchesService } from './dailymatches.service'; 
+import { JwtService } from '@nestjs/jwt'
 
 @Controller('dailyMatches')
 export class DailymatchesController {
-  constructor(private dailymatchesService: DailymatchesService) {}
+  constructor(private dailymatchesService: DailymatchesService, private jwtService: JwtService) {}
  
  @Get('champ') // Endpoint: GET /champ
   async getDailyChampion() {
 	return this.dailymatchesService.selectDayChamp();
 }
   @Post('guess')
-   async verifyGuess(@Body('name') guessName: string) {
-	return this.dailymatchesService.verifyGuess(guessName);
+   async verifyGuess(@Request() request, @Body('attempts') attempts: number, @Body('name') guessName: string) {
+	const token = request.cookies?.['access_token'];
+	let userId: string | undefined = undefined;
+	if (token) {
+		try {
+			const payload = await this.jwtService.verifyAsync(token); 
+            userId = payload.sub;
+		}
+		catch {
+		}
+	}
+	return this.dailymatchesService.verifyGuess(guessName, attempts, userId);
    }
    @Get('data')
    	async getDailyData() {
