@@ -31,7 +31,7 @@ export function GameForm({
   const { t } = useLanguage();
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full max-w-md items-center gap-2">
+    <form onSubmit={onSubmit} className="flex w-full max-w-xl items-center gap-2">
       <div className="relative flex-1">
         <Input
           type="text"
@@ -39,14 +39,17 @@ export function GameForm({
           value={inputValue}
           disabled={hasWon}
           onChange={(e) => onInputChange(e.target.value)}
-          className="w-full m-0 !mb-0 !mt-0"
+          className="w-full m-0 !mb-0 !mt-0 text-base sm:text-lg py-3 sm:py-3.5"
         />
-        <ul className={`absolute top-full m-0 p-0 inset-x-0 z-[100] max-h-[200px] overflow-y-auto list-none bg-[#1d1d20] border border-white/10 rounded-b-lg shadow-lg transition-all duration-200 origin-top ${suggestions.length > 0 ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
+        <ul className={`absolute top-full m-0 p-0 inset-x-0 z-[100] max-h-[200px] overflow-y-auto overscroll-contain touch-pan-y list-none bg-[#1d1d20] border border-white/10 rounded-b-lg shadow-lg transition-all duration-200 origin-top ${suggestions.length > 0 ? 'opacity-100 scale-100 translate-y-0 pointer-events-auto' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}>
           {suggestions.map((entity) => (
             <li
               key={entity.name}
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
               onClick={() => onSelectEntity(entity.name)}
-              className="flex cursor-pointer items-center gap-2.5 rounded-sm px-3 py-2 hover:bg-white/10 text-white transition-colors duration-150"
+              className="flex cursor-pointer items-center gap-2.5 rounded-sm px-3 py-2 hover:bg-white/10 text-white transition-colors duration-150 touch-manipulation select-none"
             >
               <img
                 src={entity.imagePath}

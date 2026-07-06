@@ -325,10 +325,10 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 w-full items-start min-w-0">
         
         {/* Left Column: Player (You) */}
-        <div className="lg:col-span-8 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-6 shadow-xl relative min-h-[500px]">
+        <div className="lg:col-span-8 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-6 shadow-xl relative min-h-[500px] w-full min-w-0 break-words">
           
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
@@ -405,7 +405,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
         </div>
 
         {/* Right Column: Opponent */}
-        <div className="lg:col-span-4 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-6 shadow-xl relative min-h-[500px]">
+        <div className="lg:col-span-4 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-6 shadow-xl relative min-h-[500px] w-full min-w-0 break-words">
           
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
@@ -437,14 +437,14 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
             <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-4 text-center">{t("multiplayer.opponentAttempts")}</h3>
             
             {opponentGuesses.length > 0 ? (
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 gap-4 justify-items-center">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 gap-2 sm:gap-4 justify-items-center w-full">
                 {opponentGuesses.map((g, idx) => {
                   const isHidden = lastChance && !gameOverInfo && idx === 0;
 
                   return (
                     <div key={g.name} className="flex flex-col items-center gap-1 animate-pop-in">
                       <span className="text-[10px] text-slate-400 font-semibold">{t("multiplayer.attemptCount").replace("{count}", String(opponentGuesses.length - idx))}</span>
-                      <div className="w-[72px] h-[72px] rounded-lg overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center shadow-lg relative group">
+                      <div className="w-[76px] h-[76px] sm:w-[80px] sm:h-[80px] rounded-lg overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center shadow-lg relative group">
                         {isHidden ? (
                           <div className="w-full h-full bg-gradient-to-br from-amber-500/20 to-yellow-600/30 flex items-center justify-center text-amber-400 font-extrabold text-2xl animate-pulse">
                             ❓

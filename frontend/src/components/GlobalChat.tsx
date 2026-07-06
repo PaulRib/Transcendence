@@ -233,7 +233,7 @@ export function GlobalChat() {
   return (
     <div className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end">
       {/* Fenêtre de chat animée */}
-      <div className={`mb-4 w-80 h-96 bg-[rgba(20,20,30,0.95)] backdrop-blur-md border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" : "scale-75 opacity-0 translate-y-8 pointer-events-none"}`}> 
+      <div className={`mb-4 w-[calc(100vw-3rem)] sm:w-80 h-[75vh] sm:h-96 max-h-[500px] bg-[rgba(20,20,30,0.95)] backdrop-blur-md border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" : "scale-75 opacity-0 translate-y-8 pointer-events-none"}`}> 
         {selectedFriend && (
           <div className="flex items-center gap-3 border-b border-white/10 bg-[#15151a] px-4 py-3">
             <button
@@ -286,7 +286,7 @@ export function GlobalChat() {
           </div>
         )}
 
-        <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3">
+        <div className="flex-1 p-4 overflow-y-auto overscroll-contain touch-pan-y flex flex-col gap-3">
           {(error || gameInviteError) && (
             <p className="text-sm text-red-400">{error || gameInviteError}</p>
           )}
@@ -315,7 +315,7 @@ export function GlobalChat() {
                     key={friendship.id}
                     type="button"
                     onClick={() => handleOpenConversation(friendUser)}
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-left hover:bg-white/10"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-left hover:bg-white/10 touch-manipulation select-none"
                   >
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800">
                       <User size={18} className="text-slate-400" />

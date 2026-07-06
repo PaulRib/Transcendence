@@ -88,7 +88,7 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
   };
 
   return (
-    <div className="lobby-container" style={{ textAlign: 'center', padding: '50px' }}>
+    <div className="lobby-container p-4 sm:p-8 md:p-12 text-center w-full max-w-4xl mx-auto min-w-0" style={{ textAlign: 'center' }}>
       <h2>{t("selectGame.rankedTitle")} (1v1) - {t("multiplayer.lobby")}</h2>
       <p>{t("multiplayer.prouve")}</p>
       
@@ -98,12 +98,12 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
         <div 
           className="lobby-card" 
           style={{ 
-            padding: '30px', 
+            padding: '20px', 
             border: `2px dashed ${isSearching ? '#FF9800' : '#9C27B0'}`, 
             borderRadius: '12px', 
             backgroundColor: isSearching ? 'rgba(255, 152, 0, 0.1)' : 'rgba(156, 39, 176, 0.1)',
             flex: '1',
-            minWidth: '300px',
+            minWidth: '260px',
             maxWidth: '400px',
             transition: 'all 0.3s ease'
           }}
@@ -144,12 +144,12 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
         <div 
           className="lobby-card" 
           style={{ 
-            padding: '30px', 
+            padding: '20px', 
             border: '2px dashed #4CAF50', 
             borderRadius: '12px', 
             backgroundColor: 'rgba(76, 175, 80, 0.1)',
             flex: '1',
-            minWidth: '300px',
+            minWidth: '260px',
             maxWidth: '400px'
           }}
         >

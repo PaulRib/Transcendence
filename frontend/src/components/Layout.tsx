@@ -54,7 +54,7 @@ function Layout() {
         <div className="min-h-screen flex flex-col bg-transparent">
             <DynamicBackground />
 
-            <header className="px-6 py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
+            <header className="px-3 py-3 sm:px-6 sm:py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
                 <nav className="flex justify-center items-center gap-4">
                     <Link to="/" className="p-0 flex items-center bg-transparent group">
                         <img
@@ -115,7 +115,7 @@ function Layout() {
             </header>
 
             <div className="flex-1 flex justify-center min-h-0">
-                <main className="p-8 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10">
+                <main className="p-2 sm:p-4 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10 min-w-0">
                     <Outlet />
                 </main>
             </div>
