@@ -168,7 +168,6 @@ function FriendsList() {
       )}
 
       <section className="mb-8 flex flex-col gap-2 text-left">
-        <span className="text-xs font-bold uppercase tracking-[1px] text-[#f1c40f]">{t("friends.add")}</span>
         <div className="flex gap-3">
           <div className="relative flex-1">
             <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -209,14 +208,6 @@ function FriendsList() {
                   <h3 className="m-0 text-lg font-bold text-slate-100">{friendUser.username}</h3>
                   <p className="m-0 mt-0.5 text-sm font-medium text-slate-500">{t("friends.friend")}</p>
                 </div>
-
-                <div className="flex gap-2">
-                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title={t("friends.messageTitle")}>
-                    <MessageCircle size={18} />
-                  </Button>
-                  <Button variant="ghost" className="h-10 w-10 p-0 text-slate-300 hover:bg-white/10 hover:text-white" title={t("friends.inviteTitle")}>
-                    <Gamepad2 size={18} />
-                  </Button>
                   <Button
                     variant="ghost"
                     className="h-10 w-10 p-0 text-slate-400 hover:bg-red-500/10 hover:text-red-400"
@@ -226,7 +217,6 @@ function FriendsList() {
                     <UserX size={18} />
                   </Button>
                 </div>
-              </div>
             );
           })
         ) : (

@@ -4,6 +4,9 @@ import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 
+import { TwoFactorController } from './two-factor.controller';
+import { TwoFactorService } from './two-factor.service';
+
 @Module({
     imports: [UsersModule, JwtModule.register({
         secret: process.env.JWT_SECRET,
@@ -11,7 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
             expiresIn: '1h'
         },
     })],
-    controllers: [AuthController],
-    providers: [AuthService],
+    controllers: [AuthController, TwoFactorController],
+    providers: [AuthService, TwoFactorService],
 })
 export class AuthModule {}

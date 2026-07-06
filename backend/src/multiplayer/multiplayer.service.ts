@@ -28,7 +28,11 @@ export class MultiplayerService {
                 },
             },
             include: {
-                participants: true,
+                participants: {
+                    include: {
+                        user: true
+                    }
+                },
             }
         });
     }

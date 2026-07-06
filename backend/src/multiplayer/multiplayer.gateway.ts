@@ -180,7 +180,8 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 				: (sockets[0]?.data?.user?.id || '');
 
 			this.matchStarters.set(data.matchId, starterUserId);
-			this.server.to(`room_${data.matchId}`).emit('game_ready', { starterUserId });
+			const matchState = await this.multiplayerService.getMatchState(data.matchId);
+			this.server.to(`room_${data.matchId}`).emit('game_ready', { starterUserId, matchData: matchState });
 			console.log(`La partie ${data.matchId} commence ! Starter (UserId): ${starterUserId}`);
 		}
 	}
@@ -204,8 +205,8 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 			if (!player1 || !player2)
 				return;
 			const match = await this.multiplayerService.createMatch(player1.userId, player2.userId);
-			this.server.to(player1.socketId).emit('match_found', { matchId: match.id });
-        	this.server.to(player2.socketId).emit('match_found', { matchId: match.id });
+			this.server.to(player1.socketId).emit('match_found', { matchId: match.id, matchData: match });
+        	this.server.to(player2.socketId).emit('match_found', { matchId: match.id, matchData: match });
 		}
 	}
 

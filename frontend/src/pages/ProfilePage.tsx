@@ -15,6 +15,7 @@ import expertBadge from '../assets/badges/expert-badge.png';
 import firstBloodBadge from '../assets/badges/firstBlood-badge.png';
 import riftConquerorBadge from '../assets/badges/riftConqueror-badge.png';
 import { Award, CheckCircle2, ChevronDown, LockKeyhole } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 
 
 function ProfilePage() {
@@ -73,9 +74,6 @@ function ProfilePage() {
     return <p>{t("profile.notConnected")}</p>;
   }
 
-  const avatarUrl = displayedUser.avatar_url ??
-    'https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false';
-
   const badges = [
     {
       name: t("profile.apprenticeName"),
@@ -116,19 +114,62 @@ function ProfilePage() {
   ];
   const unlockedBadgeCount = badges.filter((badge) => badge.unlocked).length;
 
+  const circleRadius = 24;
+  const circleCircumference = 2 * Math.PI * circleRadius;
+  const xpProgress = ((stats?.xp_points ?? 0) % 100) / 100;
+  const circleOffset = circleCircumference - (xpProgress * circleCircumference);
+
   return (
     <PageContainer>
       <Heading>{displayedUser.username}</Heading>
 
-      <div className="flex flex-col items-center gap-4">
-        <img
-          src={avatarUrl}
-          alt={t("profile.avatarAlt").replace("{username}", displayedUser.username)}
-          className="w-[150px] h-[150px] rounded-full border-[3px] border-[#ccc] object-cover"
-        />
-      </div>
+      <div className="my-6 flex flex-col items-center gap-4">
+        <div className="relative flex items-center justify-center">
 
-      <div className="text-center">
+
+          <Avatar className="w-[150px] h-[150px] border-[3px] border-white/20 shadow-lg">
+            <AvatarImage src={currentUser.avatar_url || undefined} alt={currentUser.username} className="object-cover" />
+            <AvatarFallback className="text-5xl bg-slate-800 text-white font-bold">
+              {currentUser.username?.charAt(0).toUpperCase() || 'U'}
+            </AvatarFallback>
+          </Avatar>
+
+          {/* Badge du niveau et anneau d'XP issu de la version API */}
+          <div className="absolute left-1/2 bottom-[-20px] -translate-x-1/2 w-[56px] h-[56px] flex items-center justify-center">
+            <svg className="absolute inset-0 -rotate-90 drop-shadow-md" width="56" height="56" viewBox="0 0 56 56">
+              <circle
+                cx="28"
+                cy="28"
+                r={circleRadius}
+                fill="none"
+                stroke="rgba(255,255,255,0.2)"
+                strokeWidth="4"
+              />loadStats
+              <circle
+                cx="28"
+                cy="28"
+                r={circleRadius}
+                fill="none"
+                stroke="#f1c40f"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeDasharray={circleCircumference}
+                strokeDashoffset={circleOffset}
+                className="transition-all duration-1000 ease-out"
+              />
+            </svg>
+
+            <div className="w-[42px] h-[42px] rounded-full bg-[#111827] border border-[#f1c40f]/60 flex items-center justify-center shadow-lg z-10" title={`${stats?.xp_points ?? 0} XP au total`}>
+              <span className="text-white font-bold text-lg">
+                {stats?.level ?? 1}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div className="text-center mt-6">
         <p className="text-[1.2rem] mt-2">
           <strong>Elo: </strong> {displayedUser.elo_rating}
         </p>
