@@ -22,7 +22,7 @@ Modules done :
 - Major : Real-time features (WebSockets) (Paul, Mehdi)
 - Major : Users interaction (basic chat, profile, friends) (Mehdi, Amine)
 - Major : Multiplayer (Paul)
-- Major : Remote players Done (Paul)
+- Major : Remote players (Paul)
 - Minor : ORM for database (Paul)
 - Minor : gamification system (Murad)
 - Minor : Multiple languages (at least 3) (Murad)
