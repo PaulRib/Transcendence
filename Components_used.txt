@@ -1,5 +1,5 @@
   1. button.tsx 
-      • Nombre d'utilisations : Plus de 50 fois !
+      • Nombre d'utilisations : Plus de 50 fois 
       • Où : Partout dans l'application (Layout.tsx, LoginPage.tsx, GameForm.tsx, GlobalChat.tsx, etc.).
   2. page-content.tsx 
       • Nombre d'utilisations : 16 fois
