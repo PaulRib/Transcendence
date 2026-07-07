@@ -34,6 +34,7 @@ Modules done :
 - Minor : Content moderation AI (Paul)
 - Minor : 2FA (Amine)
 
+Team :
 - Mehdi : 4 Majors - 1 Minor
 - Paul : 3 Majors - 2 Minors
 - Amine : 1 Major - 3 Minors
