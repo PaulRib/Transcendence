@@ -28,6 +28,20 @@ export class GamificationService {
 		});
 
 		if (existingStats) {
+			const today = new Date();
+
+			const streakIsActive =
+				this.isSameDay(existingStats.reward_date, today) ||
+				this.isYesterday(existingStats.reward_date, today);
+
+			if (!streakIsActive && existingStats.streak_count !== 0) {
+				return this.prisma.daily_Reward.update({
+					where: { user_id: userId },
+					data: {
+						streak_count: 0,
+					},
+				});
+			}
 			return existingStats;
 		}
 
