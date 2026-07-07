@@ -28,7 +28,11 @@ export class MultiplayerService {
                 },
             },
             include: {
-                participants: true,
+                participants: {
+                    include: {
+                        user: true
+                    }
+                },
             }
         });
     }
@@ -273,6 +277,9 @@ export class MultiplayerService {
                     some: { user_id: userId }
                 }
             },
+			omit: {
+				target_champion_id: true,
+			},
             include: {
                 guesses: {
                     orderBy: { attempt_number: 'asc' },
@@ -292,6 +299,9 @@ export class MultiplayerService {
 	async getMatchState(matchId: string) {
         return this.prisma.match.findUnique({
             where: { id: matchId },
+			omit: {
+				target_champion_id: true,
+			},
             include: {
                 guesses: {
                     orderBy: { attempt_number: 'asc' },

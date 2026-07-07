@@ -47,23 +47,6 @@ export async function getUserGamificationStats(userId: string): Promise<Gamifica
 	return response.json();
 }
 
-export async function rewardWin(attempts: number): Promise<GamificationRewardResponse> {
-	const response = await fetch(`${API_BASE_URL}/gamification/win`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		credentials: 'include',
-		body: JSON.stringify({ attempts }),
-	});
-
-	if (!response.ok) {
-		throw new Error('Gamification reward request failed');
-	}
-
-	return response.json();
-}
-
 export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
 	const response = await fetch(`${API_BASE_URL}/gamification/leaderboard`, {
 		method: 'GET',

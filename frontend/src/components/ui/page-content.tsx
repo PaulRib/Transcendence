@@ -15,11 +15,11 @@ export function PageContainer({
     <Component
       className={cn(
         // Flexbox & Alignement
-        "flex flex-col items-center w-full max-w-[720px] text-center ",
+        "flex flex-col items-center w-full max-w-[720px] text-center min-w-0 break-words",
         // Effet Glassmorphism (Fond noir transparent + flou)
         "bg-black/40 backdrop-blur-md",
         // Espacement et bordures
-        "p-8 rounded-2xl border border-white/10",
+        "p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10",
         // Ombre portée
         "shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
         className

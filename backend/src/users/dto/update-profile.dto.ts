@@ -8,6 +8,6 @@ export class UpdateProfileDto {
     username?: string;
 
     @IsOptional()
-    @IsUrl()
+    @IsString()
     avatar_url?: string | null;
 }

@@ -7,10 +7,15 @@ export type AuthUser = {
     elo_rating: number;
     ranked_wins: number;
     ranked_losses: number;
+    // --- [AJOUT 2FA] ---
+    is_two_factor_enabled?: boolean;
 };
 
 export type LoginResponse = {
-    user: AuthUser;
+    user?: AuthUser;
+    // --- [AJOUT 2FA] --- Indique au login si on doit demander un code 2FA
+    requires2FA?: boolean;
+    userId?: string;
 };
 
 export type RegisterPayload = {

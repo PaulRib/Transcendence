@@ -27,7 +27,7 @@ import { useEffect } from 'react';
 
 function Layout() {
     const { currentUser, isLoading, logout } = useAuth();
-    const { universe, toggleUniverse } = useGameUniverse();
+    const { universe, toggleUniverse, setUniverse } = useGameUniverse();
     const navigate = useNavigate();
     const { language, setLanguage, t } = useLanguage();
     const { pendingGameInvite, acceptedGameInvite, acceptGameInvite, clearPendingGameInvite } = useSocialSocket();
@@ -46,15 +46,15 @@ function Layout() {
         if (!acceptedGameInvite) {
             return;
         }
-
+        setUniverse('league');
         navigate('/ranked');
-    }, [acceptedGameInvite, navigate]);
+    }, [acceptedGameInvite, navigate, setUniverse]);
 
     return (
         <div className="min-h-screen flex flex-col bg-transparent">
             <DynamicBackground />
 
-            <header className="px-6 py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
+            <header className="px-3 py-3 sm:px-6 sm:py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
                 <nav className="flex justify-center items-center gap-4">
                     <Link to="/" className="p-0 flex items-center bg-transparent group">
                         <img
@@ -68,15 +68,17 @@ function Layout() {
                     {isLoading ? null : currentUser ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    className="rounded-full w-10 h-10 p-0 text-lg border-white/20 transition-all duration-300 hover:scale-110 outline-none focus-visible:ring-0"
-                                >
-                                    <Avatar className="w-full h-full">
-                                        <AvatarImage src={currentUser.avatar_url || undefined} />
-                                        <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
-                                    </Avatar>
-                                </Button>
+                                <div className="group w-10 h-10 flex items-center justify-center cursor-pointer outline-none rounded-full">
+                                    <Button
+                                        variant="outline"
+                                        className="rounded-full w-10 h-10 p-0 text-lg border-white/20 transition-all duration-300 group-hover:scale-110 outline-none focus-visible:ring-0 pointer-events-none"
+                                    >
+                                        <Avatar className="w-full h-full">
+                                            <AvatarImage src={currentUser.avatar_url || undefined} />
+                                            <AvatarFallback>{currentUser.username?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
+                                        </Avatar>
+                                    </Button>
+                                </div>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="bg-[#1d1d20] border-white/10 text-white min-w-[160px] mt-2 shadow-[0_4px_20px_rgba(0,0,0,0.5)]" align="end">
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
@@ -113,7 +115,7 @@ function Layout() {
             </header>
 
             <div className="flex-1 flex justify-center min-h-0">
-                <main className="p-8 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10">
+                <main className="p-2 sm:p-4 md:p-6 pb-28 md:pb-24 flex justify-center items-start w-full relative z-10 min-w-0">
                     <Outlet />
                 </main>
             </div>
@@ -123,12 +125,14 @@ function Layout() {
             <div className="fixed bottom-6 left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="outline"
-                            className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md w-12 h-12 p-0 border-white/20 hover:bg-white/10 flex items-center justify-center text-white outline-none focus-visible:ring-0 transition-all duration-300 hover:scale-110"
-                        >
-                            <Settings size={22} className="text-slate-300" />
-                        </Button>
+                        <div className="group w-12 h-12 flex items-center justify-center cursor-pointer outline-none rounded-full">
+                            <Button
+                                variant="outline"
+                                className="rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] bg-[#1d1d20]/80 backdrop-blur-md w-12 h-12 p-0 border-white/20 group-hover:bg-white/10 flex items-center justify-center text-white outline-none focus-visible:ring-0 transition-all duration-300 group-hover:scale-110 pointer-events-none"
+                            >
+                                <Settings size={22} className="text-slate-300" />
+                            </Button>
+                        </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
                         <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onSelect={handleToggleUniverse}>

@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import { getBackendHealth } from '../api/health.api';
 import { getChampionNames} from '../api/champions.api';
 import type { ChampionName } from '../api/type.api';
-import { getDailyChamp } from '../api/dailygame.api';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 
 import './debug.css';
 
 export default function Debug() {
-  const [dailyChampionName, setDailyChampionName] = useState<string>('');
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [backendStatus, setBackendStatus] = useState<string>('loading');
   const [error, setError] = useState<string | null>(null);
@@ -21,8 +19,6 @@ export default function Debug() {
 		setBackendStatus(data.status);
 		const names = await getChampionNames();
 		setChampionNames(names);
-		const dailyChampion = await getDailyChamp();
-		setDailyChampionName(dailyChampion.name);
 	  } catch {
 		setError('Cannot reach backend');
 		setBackendStatus('error');
@@ -48,11 +44,6 @@ export default function Debug() {
             <p>Backend status: {backendStatus}</p>
           )}
         </div>
-      </PageContainer>
-
-      <PageContainer>
-        <h2>Champion of the day</h2>
-        <p>{dailyChampionName || 'Loading...'}</p>
       </PageContainer>
 
       <PageContainer>

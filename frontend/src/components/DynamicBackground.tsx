@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useGameUniverse } from '../context/GameUniverseContext';
 import './DynamicBackground.css';
 
@@ -8,9 +8,10 @@ const countryMedia = import.meta.glob('../assets/backgrounds_country/*.{png,jpg,
 type VideoBackgroundProps = {
   url: string;
   isActive: boolean;
+  onEnded: () => void;
 };
 
-function VideoBackground({ url, isActive }: VideoBackgroundProps) {
+function VideoBackground({ url, isActive, onEnded }: VideoBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -30,10 +31,10 @@ function VideoBackground({ url, isActive }: VideoBackgroundProps) {
       ref={videoRef}
       className="dynamic-bg-container"
       src={url}
-      loop
       muted
       playsInline
       preload="auto"
+      onEnded={onEnded}
       style={{
         opacity: isActive ? 1 : 0,
         transition: 'opacity 1.5s ease-in-out'
@@ -45,26 +46,33 @@ function VideoBackground({ url, isActive }: VideoBackgroundProps) {
 export default function DynamicBackground() {
   const { universe } = useGameUniverse();
   const media = universe === 'league' ? leagueMedia : countryMedia;
-  const mediaUrls = Object.values(media) as string[];
+  const mediaUrls = useMemo(() => Object.values(media) as string[], [media]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const activeIndex = mediaUrls.length > 0 ? currentIndex % mediaUrls.length : 0;
+  const activeUrl = mediaUrls[activeIndex];
+
+  const goToNextMedia = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length);
+  };
 
   useEffect(() => {
     if (mediaUrls.length <= 1) return; // Pas besoin de tourner s'il y a 0 ou 1 média
 
-    // Changer toutes les 5 minutes (300 000 ms)
-    const intervalId = setInterval(() => {
+    // Les vidéos passent au média suivant via leur événement onEnded.
+    if (activeUrl.toLowerCase().includes('.webm')) return;
+
+    // Conserver la rotation de 10 secondes pour les images.
+    const timeoutId = window.setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length);
     }, 10000);
 
-    return () => clearInterval(intervalId);
-  }, [universe, mediaUrls.length]);
+    return () => window.clearTimeout(timeoutId);
+  }, [activeUrl, mediaUrls.length]);
 
   if (mediaUrls.length === 0) {
     return <div className="dynamic-bg-container bg-[#14141e]"></div>;
   }
-
-  const activeIndex = currentIndex % mediaUrls.length;
 
   return (
     <>
@@ -81,6 +89,7 @@ export default function DynamicBackground() {
             key={url}
             url={url}
             isActive={index === activeIndex}
+            onEnded={goToNextMedia}
           />
         ) : (
           <div
