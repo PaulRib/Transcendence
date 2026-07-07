@@ -11,18 +11,6 @@ export class ChampionsService {
     });
   }
 
-  //return all champ starting by the string name
-  async getChampByName(name: string) {
-    return this.prisma.champion.findMany({
-      where: {
-        name: {
-          startsWith: name,
-        },
-      },
-      select: { name: true },
-    });
-  }
-
   async getExactChampByName(name: string) {
 	return this.prisma.champion.findUnique({
 		where: {name},
