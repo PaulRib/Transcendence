@@ -3535,6 +3535,40 @@
       }
     }
   },
+    {
+    "code": "IL",
+    "flag": {
+      "emoji": "🇮🇱",
+      "png": "https://flagcdn.com/w320/il.png",
+      "svg": "https://flagcdn.com/il.svg"
+    },
+    "country": {
+      "en": "Israel",
+      "fr": "Israël",
+      "ru": "Израиль"
+    },
+    "language": {
+      "en": "Hebrew",
+      "fr": "hébreu",
+      "ru": "иврит"
+    },
+    "population": 8882800,
+    "continent": {
+      "en": "Asia",
+      "fr": "Asie",
+      "ru": "Азия"
+    },
+    "currency": {
+      "code": "ILS",
+      "symbol": "₪",
+      "decimal_digits": 2,
+      "name": {
+        "en": "Israeli New Shekel",
+        "fr": "nouveau shekel israélien",
+        "ru": "новый израильский шекель"
+      }
+    }
+  },
   {
     "code": "IT",
     "flag": {
@@ -5096,6 +5130,40 @@
         "en": "Euro",
         "fr": "euro",
         "ru": "евро"
+      }
+    }
+  },
+  {
+    "code": "AN",
+    "flag": {
+      "emoji": "🇦🇳",
+      "png": "https://flagcdn.com/w320/an.png",
+      "svg": "https://flagcdn.com/an.svg"
+    },
+    "country": {
+      "en": "Netherlands Antilles",
+      "fr": "Netherlands Antilles",
+      "ru": "Netherlands Antilles"
+    },
+    "language": {
+      "en": "Dutch",
+      "fr": "néerlandais",
+      "ru": "нидерландский"
+    },
+    "population": 227049,
+    "continent": {
+      "en": "North America",
+      "fr": "Amérique du Nord",
+      "ru": "Северная Америка"
+    },
+    "currency": {
+      "code": "ANG",
+      "symbol": "ANG",
+      "decimal_digits": 2,
+      "name": {
+        "en": "Netherlands Antillean Guilder",
+        "fr": "florin antillais",
+        "ru": "нидерландский антильский гульден"
       }
     }
   },
