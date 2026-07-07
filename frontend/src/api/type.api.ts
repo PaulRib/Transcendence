@@ -16,19 +16,6 @@ export type DailyData = {
 	date: string;
 };
 
-export type GamificationReward = {
-    rewardGiven: boolean;
-    xpEarned: number;
-    stats: {
-		id: string;
-		streak_count: number;
-		xp_points: number;
-		level: number;
-		reward_date: string;
-        user_id: string;
-    };
-};
-
 export type GuessResponse = {
 	name: string;
 	gender: GuessAttribute<string>;
@@ -39,7 +26,6 @@ export type GuessResponse = {
 	region: GuessAttribute<string>;
 	release_year: GuessAttribute<number>;
 	isWin: boolean;
-	reward?: GamificationReward | null;
 };
 
 export type ChampionRandom =  {

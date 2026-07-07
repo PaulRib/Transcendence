@@ -106,11 +106,8 @@ export class DailymatchesService {
 		const todayRegions = this.parseToArrays(todayChamp.region);
 
 		const isWin = guessedChamp.name === todayChamp.name;
-		let reward;
 		if (isWin && userId)
-			reward = await this.gamificationService.rewardWin(userId, attempts);
-		else
-			reward = null;
+			await this.gamificationService.rewardWin(userId, attempts);
 		return {
 			name: guessedChamp.name,
 			gender: {
