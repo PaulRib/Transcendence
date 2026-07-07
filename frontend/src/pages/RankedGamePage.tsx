@@ -30,6 +30,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
 
+  //guesses and opponentguesses use lazy initialization to avoid recalculating intiial data every re-render and to avoid visual flash of empty state at the loading
   const [guesses, setGuesses] = useState<GuessResponse[]>(() => {
     if (!initialMatchData || !currentUser) return [];
     const myParticipant = initialMatchData.participants.find(
@@ -76,12 +77,15 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
   const [matchData, setMatchData] = useState<any | null>(initialMatchData || null);
 
+  //isMyTurn is a Derived State as it only depend of other value already existing. Calculate its value here avoid to have another useEffect that need
+  //to calculate again everytime one of these values change
   const isMyTurn = !gameOverInfo && (
     guesses.length === opponentGuesses.length
       ? (currentUser ? currentUser.id === starterUserId : true)
       : (guesses.length < opponentGuesses.length)
   );
 
+  //both use effect to initialize data
   useEffect(() => {
     if (initialMatchData) {
       setMatchData(initialMatchData);
@@ -104,7 +108,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     loadGameData();
   }, [t]);
 
-  // Timer de déconnexion de l'adversaire
+  //Deconnexion timer
   useEffect(() => {
     let interval: any;
     if (opponentDisconnected && disconnectCountdown > 0) {
@@ -117,9 +121,11 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     };
   }, [opponentDisconnected, disconnectCountdown]);
 
+  //useEffect used for socket
   useEffect(() => {
     if (!socket) return;
 
+	//sockets for the gameplay
     socket.on('guess_result_full', (result: GuessResponse) => {
       setGuesses((prev) => [result, ...prev]);
       if (result.isWin) {
@@ -154,6 +160,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       setLastChance(true);
     });
 
+	//gestion of the end of the game
     socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string }) => {
       setGameOverInfo(data);
       if (data.winnerId === currentUser?.id) {
@@ -183,7 +190,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
      	 }
     }
       
-      // Delay showing the GameOverCard by 3.5 seconds so flip animations can finish, except if it is a forfeit
       if (data.reason === 'opponent_disconnected') {
         setShowVictory(true);
       } else {
@@ -197,7 +203,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       alert(`${t("multiplayer.gameError")}${data.message}`);
     });
 
-    // ÉCOUTES DES ÉVÉNEMENTS DE DÉCONNEXION TEMPORAIRE ET DE RETOUR
+    // Sockets for deconnexion and reconnexion
     socket.on('player_disconnected_grace', (data: { userId: string; username: string; reconnectWindowMs: number }) => {
       console.log("player_disconnected_grace reçu :", data);
       if (data.userId !== currentUser?.id) {
@@ -258,6 +264,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     });
     setSuggestions(filtered);
   };
+
   const handleSubmitGuess = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!isMyTurn || gameOverInfo) return;
