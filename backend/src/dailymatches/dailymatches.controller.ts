@@ -5,11 +5,6 @@ import { JwtService } from '@nestjs/jwt'
 @Controller('dailyMatches')
 export class DailymatchesController {
   constructor(private dailymatchesService: DailymatchesService, private jwtService: JwtService) {}
- 
- @Get('champ') // Endpoint: GET /champ
-  async getDailyChampion() {
-	return this.dailymatchesService.selectDayChamp();
-}
 
 	//verification during guess if user have jwt token to  give daily reward
   @Post('guess')
