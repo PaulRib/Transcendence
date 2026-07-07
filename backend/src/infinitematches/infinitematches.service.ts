@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
+import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 
@@ -21,7 +22,7 @@ export class InfinitematchesService {
 
 	async getRandomChamp() {
 		const totalChamps = await this.prisma.champion.count();
-		if (totalChamps === 0) { throw new Error('No champions found in the database'); }
+		if (totalChamps === 0) { throw new InternalServerErrorException('No champions found in the database'); }
 		const randomIndex = Math.floor(Math.random() * totalChamps);
 		const selectedChampion = await this.prisma.champion.findFirst({
 			skip: randomIndex,
@@ -29,7 +30,7 @@ export class InfinitematchesService {
 			orderBy: { name: 'asc' },
 		});
 		if (!selectedChampion) {
-      		throw new Error('Failed to get random champion');
+      		throw new InternalServerErrorException('Failed to get random champion');
    	 	}
 		return selectedChampion.id;
 	}
@@ -39,7 +40,7 @@ export class InfinitematchesService {
     const guessedChamp = await this.championsService.getExactChampByName(guessName);
     
     if (!todayChamp || !guessedChamp) {
-      throw new Error("Can't find the champions for comparison");
+      throw new NotFoundException("Can't find the champions for comparison");
     }
     const guessedPos = this.parseToArrays(guessedChamp.position);
     const todayPos = this.parseToArrays(todayChamp.position);

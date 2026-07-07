@@ -5,14 +5,13 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ChampionsService {
   constructor(private prisma: PrismaService) {}
 
-  //Change function to return name starting by a letter
   async getAllNames() {
     return this.prisma.champion.findMany({
       select: { name: true },
     });
   }
 
-  //verifier si je peux remplacer startswith par un truc du style "nameis"
+  //return all champ starting by the string name
   async getChampByName(name: string) {
     return this.prisma.champion.findMany({
       where: {

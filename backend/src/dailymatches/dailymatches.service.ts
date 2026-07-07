@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { GamificationService } from '../gamification/gamification.service';
+import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 
@@ -28,7 +29,7 @@ export class DailymatchesService {
 	}
 
     const totalChamps = await this.prisma.champion.count();
-	if (totalChamps === 0) { throw new Error('No champions found in the database'); }
+	if (totalChamps === 0) { throw new InternalServerErrorException('No champions found in the database'); }
 	const yesterday = new Date(today);
 	yesterday.setDate(yesterday.getDate() - 1);
 
@@ -36,7 +37,6 @@ export class DailymatchesService {
 		where: { date: yesterday },
 	});
 
-	//seed based on date
 	const seed = today.getFullYear() * 10000 + (today.getMonth() + 1 ) * 100 + today.getDate();
 	let randomIndex = Math.floor(this.seededRandom(seed) * totalChamps);
 	let selectedChampion = await this.prisma.champion.findFirst({
@@ -46,7 +46,7 @@ export class DailymatchesService {
 	});
 
 	if (!selectedChampion) {
-        throw new Error('Failed to retrieve a champion with skip');
+        throw new InternalServerErrorException('Failed to retrieve a champion with skip');
     }
 
 	if (yesterdayMatch && selectedChampion && selectedChampion.id === yesterdayMatch.championId) {
@@ -59,7 +59,7 @@ export class DailymatchesService {
 	}
 
 	if (!selectedChampion) {
-        throw new Error('Failed to retrieve a replacement champion');
+        throw new InternalServerErrorException('Failed to retrieve a replacement champion');
     }
 
 	const newDaily = await this.prisma.dailyMatch.create({
@@ -90,7 +90,7 @@ export class DailymatchesService {
 		const todayChamp = await this.selectDayChamp();
 		const guessedChamp = await this.championsService.getExactChampByName(guessName);
 		if (!guessedChamp) {
-			throw new Error("Can't find the champion");
+			throw new NotFoundException("Can't find the champion");
 		}
 
 		const guessedPos = this.parseToArrays(guessedChamp.position);

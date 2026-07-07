@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class GamificationService {
@@ -96,7 +97,7 @@ export class GamificationService {
 		]);
 
 		if (!winner || !loser) {
-			throw new Error('Impossible de trouver les joueurs');
+			throw new NotFoundException('Impossible de trouver les joueurs');
 		}
 
 		const eloChange = 20;

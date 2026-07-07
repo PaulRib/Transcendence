@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { CountriesService } from '../countries/countries.service';
+import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
 
 @Injectable()
 
@@ -26,7 +27,7 @@ export class DailycountrymatchesService {
 	}
 
     const totalCountries = await this.prisma.country.count();
-	if (totalCountries === 0) { throw new Error('No countries found in the database'); }
+	if (totalCountries === 0) { throw new InternalServerErrorException('No countries found in the database'); }
 
 	const yesterday = new Date(today);
 	yesterday.setDate(yesterday.getDate() - 1);
@@ -44,7 +45,7 @@ export class DailycountrymatchesService {
 	});
 
 	if (!selectedCountry) {
-        throw new Error('Failed to retrieve a country with skip');
+        throw new InternalServerErrorException('Failed to retrieve a country with skip');
     }
 
 	if (yesterdayMatch && selectedCountry && selectedCountry.id === yesterdayMatch.countryId) {
@@ -57,7 +58,7 @@ export class DailycountrymatchesService {
 	}
 
 	if (!selectedCountry) {
-        throw new Error('Failed to retrieve a replacement country');
+        throw new InternalServerErrorException('Failed to retrieve a replacement country');
     }
 
 	const newDaily = await this.prisma.dailyCountryMatch.create({
@@ -75,7 +76,7 @@ export class DailycountrymatchesService {
 	const todayCountry = await this.selectDayCountry();
 	const guessedCountry = await this.countriesService.getExactCountryByName(guessName);
 	if (!guessedCountry) {
-		throw new Error("Can't find the country");
+		throw new NotFoundException("Can't find the country");
 	}
 
 	return {
