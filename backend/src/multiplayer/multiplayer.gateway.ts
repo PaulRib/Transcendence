@@ -44,7 +44,7 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 				clearTimeout(pendingReconnect.timeout);
 				console.log(`Timer de reconnexion suspendu (en attente de réintégration) pour ${user.username}`);
 			}
- 
+
 			const activeMatch = await this.multiplayerService.getActiveMatchForUser(user.id);
 			if (activeMatch) {
 				console.log(`Partie en cours trouvée pour ${user.username}. Envoi du signal de reconnexion.`);

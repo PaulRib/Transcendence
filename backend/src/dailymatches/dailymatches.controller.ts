@@ -22,6 +22,7 @@ export class DailymatchesController {
             userId = payload.sub;
 		}
 		catch {
+			//if token is invalid or expired, we ignore the error and user play as guest
 		}
 	}
 	return this.dailymatchesService.verifyGuess(guessName, attempts, userId);
