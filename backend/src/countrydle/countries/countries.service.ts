@@ -12,17 +12,6 @@ export class CountriesService {
 		});
 	}
 
-	async getCountryByName(name: string) {
-		return this.prisma.country.findMany({
-			where: {
-				name: {
-					startsWith: name,
-				},
-			},
-			select: { name: true, flagUrl: true },
-		});
-	}
-
 	async getExactCountryByName(name: string) {
 		return this.prisma.country.findUnique({
 			where: { name },

@@ -12,9 +12,4 @@ export class ChampionsController {
     return this.championsService.getAllNames();
   }
 
-  @Get('name')
-  async getChampByName(@Query('name') name: string) {
-	return this.championsService.getChampByName(name);
-  }
-
 }
