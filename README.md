@@ -34,9 +34,9 @@ Modules done :
 - Minor : Content moderation AI (Paul)
 - Minor : 2FA (Amine)
 
-Mehdi : 4 Majors - 1 Minor
-Paul : 3 Majors - 2 Minors
-Amine : 1 Major - 3 Minors
-Murad : 1 Major - 4 Minors
+- Mehdi : 4 Majors - 1 Minor
+- Paul : 3 Majors - 2 Minors
+- Amine : 1 Major - 3 Minors
+- Murad : 1 Major - 4 Minors
 
 Total Point : 22 points
