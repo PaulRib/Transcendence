@@ -21,7 +21,7 @@ async function main() {
 
 	for (const champion of champions) {
 		await prisma.champion.upsert({
-			where: { name: champion.name }, // On utilise l'index UNIQUE défini dans le schéma
+			where: { name: champion.name },
       		update: {}, // Si le champion existe déjà, on ne touche à rien
 			create: {
 				name: champion.name,

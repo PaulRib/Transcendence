@@ -33,7 +33,6 @@ function ClassicGamePage() {
       try {
         setIsLoading(true);
         
-        // On récupère en parallèle les noms des champions et les infos du match du jour
         const [names, dailyData] = await Promise.all([
           getChampionNames(),
           getDailyData()

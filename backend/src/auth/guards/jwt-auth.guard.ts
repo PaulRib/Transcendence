@@ -10,7 +10,7 @@ export class JwtAuthGuard implements CanActivate {
 
         const token = request.cookies?.['access_token'];
         if (!token)
-            throw new UnauthorizedException;
+            throw new UnauthorizedException();
 
         try { 
             const payload = await this.jwtService.verifyAsync(token);

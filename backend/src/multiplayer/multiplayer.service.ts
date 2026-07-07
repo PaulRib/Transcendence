@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException, ForbiddenException, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { InfinitematchesService } from '../infinitematches/infinitematches.service';
@@ -91,7 +91,7 @@ export class MultiplayerService {
 		});
 
 		if (!participant) 
-			throw new Error("Participant introuvable pour ce match");
+			throw new NotFoundException("Participant introuvable pour ce match");
 
 		const champion = await this.prisma.champion.findFirst({
 			where: {
@@ -100,7 +100,7 @@ export class MultiplayerService {
 		})
 
 		if (!champion) 
-			throw new Error("Champion introuvable pour ce match");
+			throw new NotFoundException("Champion introuvable pour ce match");
 
 		const newguess = await this.prisma.guess.create({
             data: {
@@ -123,15 +123,15 @@ export class MultiplayerService {
 			}
 		});
 		if (!match ) 
-			throw new Error("Impossible de trouver le match");
+			throw new NotFoundException("Impossible de trouver le match");
 		if (match.status !== 'ongoing')
-    		throw new Error("Ce match est déjà terminé !");
+    		throw new BadRequestException("Ce match est déjà terminé !");
 		const secretChamp = await this.championsService.getExactChampById(match.target_champion_id);
 		if (!secretChamp) 
-			throw new Error("Impossible de trouver le champion");
+			throw new InternalServerErrorException("Impossible de trouver le champion");
 		const guessedChamp = await this.championsService.getExactChampByName(guessedChampion);
 		if (!guessedChamp) 
-			throw new Error("Impossible de trouver le champion guess");
+			throw new NotFoundException("Impossible de trouver le champion guess");
 
 
 		const existingGuesses = await this.prisma.guess.count({
@@ -156,7 +156,7 @@ export class MultiplayerService {
 		else if (existingGuesses === opponentAttempts) 
 			isPlayerTurn = (userId === starterUserId);
 		if (!isPlayerTurn)
-			throw new Error("Triche détectée : Ce n'est pas ton tour !")
+			throw new ForbiddenException("Triche détectée : Ce n'est pas ton tour !")
 		const comparisonResult = await this.inifinitematchesservice.verifyInfiniteGuess(guessedChamp.name, secretChamp.id);
 		await this.saveGuess(matchId, userId, guessedChamp.id, comparisonResult, attempt_number);
 
