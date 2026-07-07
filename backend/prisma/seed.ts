@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import * as fs from 'fs'; // -> pour lire les fichiers JSON
-import * as path from 'path'; // -> pour gérer les chemins de fichiers
+import * as fs from 'fs';
+import * as path from 'path';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import "dotenv/config"; 

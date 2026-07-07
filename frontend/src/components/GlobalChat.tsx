@@ -232,7 +232,6 @@ export function GlobalChat() {
 
   return (
     <div className="fixed bottom-6 right-6 z-[1000] flex flex-col items-end">
-      {/* Fenêtre de chat animée */}
       <div className={`mb-4 w-[calc(100vw-3rem)] sm:w-80 h-[75vh] sm:h-96 max-h-[500px] bg-[rgba(20,20,30,0.95)] backdrop-blur-md border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-all duration-300 origin-bottom-right ${isOpen ? "scale-100 opacity-100 translate-y-0 pointer-events-auto" : "scale-75 opacity-0 translate-y-8 pointer-events-none"}`}> 
         {selectedFriend && (
           <div className="flex items-center gap-3 border-b border-white/10 bg-[#15151a] px-4 py-3">

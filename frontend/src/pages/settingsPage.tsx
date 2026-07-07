@@ -101,10 +101,6 @@ function SettingsPage() {
     }
     
     try {
-      // @TODO(Backend): L'objet envoyé au backend contient désormais un champ `avatar_url` (Option B : texte/lien).
-      // Si la base de données s'attend à une vraie URL, et que l'utilisateur a uploadé une image (qui est en Base64),
-      // il faudra remplacer la validation `@IsUrl()` par `@IsString()` dans le `UpdateProfileDto` du backend.
-      // Si vous implémentez l'Option A (Fichier via FormData), modifiez cet appel API pour utiliser FormData.
       const updatedUser = await updateMyProfile({
         username: pseudo,
         avatar_url: avatarUrl,

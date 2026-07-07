@@ -39,9 +39,6 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // @TODO(Backend): Côté frontend, nous lisons le fichier en Base64 pour l'afficher instantanément.
-    // Si votre collègue a choisi l'Option B (Base64), 'currentAvatar' contiendra cette longue chaîne, et il faudra utiliser @IsString() dans le backend.
-    // S'il choisit l'Option A (Vrai fichier), il faudra modifier ce composant pour faire remonter le fichier 'file' au parent et l'envoyer via FormData.
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64String = event.target?.result as string;

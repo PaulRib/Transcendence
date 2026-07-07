@@ -6,7 +6,7 @@ import { JwtService } from '@nestjs/jwt'
 export class DailymatchesController {
   constructor(private dailymatchesService: DailymatchesService, private jwtService: JwtService) {}
 
-	//verification during guess if user have jwt token to  give daily reward
+
   @Post('guess')
    async verifyGuess(@Request() request, @Body('attempts') attempts: number, @Body('name') guessName: string) {
 	const token = request.cookies?.['access_token'];

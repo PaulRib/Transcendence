@@ -1,13 +1,13 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ChampionsService } from './champions.service';
 
-@Controller('champions') // Toutes les URLs commenceront par /champions
+@Controller('champions')
 export class ChampionsController {
   constructor(private readonly championsService: ChampionsService) {}
 
 
 
-  @Get('names') // Endpoint: GET /champions/names
+  @Get('names')
   async getAllNames() {
     return this.championsService.getAllNames();
   }

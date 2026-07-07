@@ -22,7 +22,6 @@ function RankedManager() {
     
     setSocket(newSocket);
 
-    // ÉCOUTE DU SIGNAL DE RECONNEXION AUTOMATIQUE
     newSocket.on('active_match_found', (data: { matchId: string; matchData: any; starterUserId: string | null }) => {
       console.log("Match actif trouvé lors de la connexion, reconnexion...", data.matchId);
       setMatchId(data.matchId);
@@ -33,20 +32,17 @@ function RankedManager() {
       newSocket.emit('join_game_room', { matchId: data.matchId });
     });
 
-    // 2. ÉCOUTE DE LA CRÉATION DU MATCH (Matchmaking)
     newSocket.on('match_found', (data: { matchId: string; matchData?: any }) => {
       console.log("Match trouvé !", data.matchId);
       setMatchId(data.matchId);
       if (data.matchData) {
         setInitialMatchData(data.matchData);
       }
-      setMatchState('waiting'); // On affiche un écran de chargement
+      setMatchState('waiting');
       
-      // On toque immédiatement à la porte de la Room !
       newSocket.emit('join_game_room', { matchId: data.matchId });
     });
 
-    // 3. ÉCOUTE DU FEU VERT TECHNIQUE (Les 2 joueurs sont dans la Room)
     newSocket.on('game_ready', (data?: { starterUserId?: string; matchData?: any }) => {
       console.log("Les deux joueurs sont connectés, c'est parti !", data);
       if (data?.starterUserId) {
@@ -55,10 +51,9 @@ function RankedManager() {
       if (data?.matchData) {
         setInitialMatchData(data.matchData);
       }
-      setMatchState('playing'); // On affiche le plateau de jeu !
+      setMatchState('playing');
     });
 
-    // 4. (Optionnel mais recommandé) Retour au lobby si l'adversaire fuit
     newSocket.on('game_over', (data) => {
         if (data.reason === 'opponent_disconnected') {
             alert(t('multiplayer.forfeitText'));
@@ -92,12 +87,10 @@ function RankedManager() {
   return (
     <div className="ranked-container">
       
-      {/* ÉTAPE 1 : Le joueur est dans le menu ou cherche une partie */}
       {matchState === 'lobby' && (
         <RankedLobbyPage socket={socket} />
       )}
       
-      {/* ÉTAPE 2 : Transition invisible (le temps que join_game_room se fasse) */}
       {matchState === 'waiting' && (
         <div style={{ textAlign: 'center', padding: '50px' }}>
           <h2>{t('multiplayer.preparingArena')}</h2>
@@ -105,7 +98,6 @@ function RankedManager() {
         </div>
       )}
       
-      {/* ÉTAPE 3 : Le jeu commence ! */}
       {matchState === 'playing' && matchId && socket && (
         <RankedGamePage 
           socket={socket} 

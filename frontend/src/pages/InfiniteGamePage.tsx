@@ -24,8 +24,6 @@ function InfiniteGamePage() {
   const { t } = useLanguage();
   const { universe } = useGameUniverse();
 
-  // useCallback évite de recréer startNewGame à chaque rendu.
-  // On la recrée seulement quand t change, pour garder les messages dans la bonne langue.
   const startNewGame = useCallback(async () => {
     try {
       setInputValue('');

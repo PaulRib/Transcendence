@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import type { GameEntity } from './GameForm';
 
 export interface GenericAttribute {
@@ -25,14 +25,12 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
         className="grid gap-1.5 sm:gap-2 w-fit px-1 sm:px-2 pb-4"
         style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(75px, 105px))` }}
       >
-        {/* En-tête de la grille */}
         {columns.map((col, idx) => (
           <div key={idx} className="text-slate-300 uppercase tracking-wide text-[11px] sm:text-xs font-extrabold leading-tight break-words flex items-center justify-center p-1 text-center min-h-[36px]">
             {col}
           </div>
         ))}
 
-        {/* Lignes de l'historique */}
         {guesses.map((guess) => {
           const getBgColor = (status?: string) => {
             if (status === 'correct') return 'bg-emerald-500 border-emerald-600 shadow-[0_0_10px_rgba(16,185,129,0.3)]';
@@ -42,7 +40,6 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
 
           return (
             <Fragment key={guess.entity.name}>
-              {/* Image Entité */}
               <div className="champion-avatar-cell flex items-center justify-center w-full aspect-square" style={{ animationDelay: '0s' }}>
                 <img 
                   src={guess.entity.imagePath} 
@@ -51,7 +48,6 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
                 />
               </div>
 
-              {/* Attributs Génériques */}
               {guess.attributes.map((attr, attrIdx) => (
                 <div
                   key={attrIdx}

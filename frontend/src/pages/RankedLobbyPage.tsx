@@ -93,8 +93,7 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
       <p>{t("multiplayer.prouve")}</p>
       
       <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '30px', flexWrap: 'wrap' }}>
-        
-        {/* SECTION MATCHMAKING (Nouveau) */}
+
         <div 
           className="lobby-card" 
           style={{ 
@@ -140,7 +139,6 @@ function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
           )}
         </div>
 
-        {/* SECTION INVITATION AMI (Placeholder) */}
         <div 
           className="lobby-card" 
           style={{ 

@@ -19,14 +19,14 @@ async function bootstrap() {
     }),
   );
 
-  app.setGlobalPrefix('api'); // mettre le prefix globale 'api' pour toutes les routes
+  app.setGlobalPrefix('api'); // put 'api' prefix to all routes
 
   app.enableCors({
     origin: process.env.FRONTEND_URL ?? 'https://localhost',
     credentials: true,
   });
 
-  app.use(cookieParser());
+  app.use(cookieParser()); //initialization of cookie app
 
   await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
 }

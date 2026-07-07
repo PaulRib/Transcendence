@@ -5,7 +5,6 @@ import type { ChampionName, GuessResponse } from '../api/type.api';
 import { Heading } from '../components/ui/heading';
 import { PageContainer } from '../components/ui/page-content';
 import { useGameUniverse } from '../context/GameUniverseContext';
-// Import des nouveaux composants mutualisés
 import { HistoryGrid } from '../components/Game/HistoryGrid';
 import { GameForm } from '../components/Game/GameForm';
 import { VictoryCard } from '../components/Game/VictoryCard';

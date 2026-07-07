@@ -38,7 +38,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }, []);
 
-    // A VOIR 
     const updateCurrentUser = useCallback((user: AuthUser) => {
         setCurrentUser(user);
     }, []);

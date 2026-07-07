@@ -29,8 +29,7 @@ function SelectGame() {
     <PageContainer>
       <div className="flex flex-col gap-6 sm:gap-8 w-full max-w-5xl min-w-0 break-words">
         <Heading className="break-words w-full text-center">{t("selectGame.title")}</Heading>
-        
-        {/* Grille responsive : 1 colonne sur mobile, 3 sur écran moyen/large */}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full mt-2 sm:mt-4">
           {gameModes.map((mode) => (
             <div 

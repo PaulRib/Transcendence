@@ -1,9 +1,8 @@
 import { API_BASE_URL } from "../config/api";
 import type { AuthUser } from "./auth.api";
 
-/**
- * 1. Demande au backend de générer un secret 2FA et de renvoyer l'image QR Code en Base64
- */
+
+//Demande au backend de générer un secret 2FA et de renvoyer l'image QR Code en Base64
 export async function generateTwoFactorQrCode(): Promise<{ qrCodeDataUrl: string; secret?: string }> {
   const response = await fetch(`${API_BASE_URL}/2fa/generate`, {
     method: "POST",
@@ -17,9 +16,9 @@ export async function generateTwoFactorQrCode(): Promise<{ qrCodeDataUrl: string
   return response.json();
 }
 
-/**
- * 2. Valide le premier code à 6 chiffres pour activer définitivement la 2FA sur le compte
- */
+
+ // Valide le premier code à 6 chiffres pour activer définitivement la 2FA sur le compte
+
 export async function turnOnTwoFactor(code: string): Promise<{ message: string }> {
   const response = await fetch(`${API_BASE_URL}/2fa/turn-on`, {
     method: "POST",
@@ -36,9 +35,8 @@ export async function turnOnTwoFactor(code: string): Promise<{ message: string }
   return response.json();
 }
 
-/**
- * 3. Désactive la 2FA en vérifiant le code à 6 chiffres
- */
+//Désactive la 2FA en vérifiant le code à 6 chiffres
+
 export async function turnOffTwoFactor(code: string): Promise<{ message: string }> {
   const response = await fetch(`${API_BASE_URL}/2fa/turn-off`, {
     method: "POST",
@@ -55,9 +53,8 @@ export async function turnOffTwoFactor(code: string): Promise<{ message: string 
   return response.json();
 }
 
-/**
- * 4. Saisir le code 2FA lors de la connexion pour finaliser le Login
- */
+//Saisir le code 2FA lors de la connexion pour finaliser le Login
+
 export async function authenticateTwoFactorLogin(userId: string, code: string): Promise<{ user: AuthUser }> {
   const response = await fetch(`${API_BASE_URL}/2fa/authenticate`, {
     method: "POST",

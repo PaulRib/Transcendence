@@ -121,7 +121,6 @@ function Layout() {
             </div>
             <GlobalChat />
 
-            {/* Bouton Paramètres Rapides (Langue & Univers) */}
             <div className="fixed bottom-6 left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
