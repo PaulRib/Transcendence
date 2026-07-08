@@ -10,6 +10,7 @@ import { AvatarPicker } from '../components/AvatarPicker';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { useLanguage } from '../i18n/LanguageContext';
+import { toast } from 'sonner';
 
 function SettingsPage() {
   const [pseudo, setPseudo] = useState('');
@@ -36,7 +37,7 @@ function SettingsPage() {
       setQrCodeDataUrl(data.qrCodeDataUrl);
       setIs2FADialogOpen(true);
     } catch {
-      setError("Impossible de générer le QR Code 2FA");
+      toast.error("Impossible de générer le QR Code 2FA");
     }
   };
 
@@ -45,14 +46,14 @@ function SettingsPage() {
     setError(null);
     try {
       await turnOnTwoFactor(twoFactorInput);
-      setMessage("Authentification à double facteur activée avec succès !");
+      toast.success("Authentification à double facteur activée avec succès !");
       setIs2FADialogOpen(false);
       setTwoFactorInput('');
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: true });
       }
     } catch (err: any) {
-      setError(err.message || "Code 2FA invalide");
+      toast.error(err.message || "Code 2FA invalide");
     }
   };
 
@@ -61,14 +62,14 @@ function SettingsPage() {
     setError(null);
     try {
       await turnOffTwoFactor(twoFactorInput);
-      setMessage("Authentification à double facteur désactivée");
+      toast.success("Authentification à double facteur désactivée");
       setIsDisableDialogOpen(false);
       setTwoFactorInput('');
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: false });
       }
     } catch (err: any) {
-      setError(err.message || "Code 2FA invalide");
+      toast.error(err.message || "Code 2FA invalide");
     }
   };
 
@@ -95,7 +96,7 @@ function SettingsPage() {
     e.preventDefault();
     
     if (!currentUser) {
-      setError(t("settings.notConnected"));
+      toast.error(t("settings.notConnected"));
       setMessage(null);
       return;
     }
@@ -108,10 +109,10 @@ function SettingsPage() {
       
       updateCurrentUser(updatedUser);
       setPseudo(updatedUser.username);
-      setMessage(t("settings.profileUpdated"));
+      toast.success(t("settings.profileUpdated"));
       setError(null);
     } catch {
-      setError(t("settings.updateProfileError"));
+      toast.error(t("settings.updateProfileError"));
       setMessage(null);
     }
   };
@@ -133,10 +134,10 @@ function SettingsPage() {
 
       setCurrentPassword('');
       setNewPassword('');
-      setMessage(t("settings.passwordUpdated"));
+      toast.success(t("settings.passwordUpdated"));
       setError(null);
     } catch {
-      setError(t("settings.updatePasswordError"));
+      toast.error(t("settings.updatePasswordError"));
       setMessage(null);
     }
   };

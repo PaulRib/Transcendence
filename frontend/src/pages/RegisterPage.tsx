@@ -7,6 +7,7 @@ import { useLanguage } from "../i18n/LanguageContext";
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { FormError } from '../components/ui/form-error';
+import { toast } from "sonner";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function RegisterPage() {
         password,
       });
       navigate('/login');
-      setMessage(t("register.success").replace("{username}", user.username));
+      toast.success(t("register.success").replace("{username}", user.username));
       setError(null);
     } catch (error) {
       setError(error instanceof Error ? error.message : t("register.error"));

@@ -9,6 +9,7 @@ import { Input } from '../components/ui/input';
 import { PageContainer } from '../components/ui/page-content';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useSocialSocket } from '@/context/SocialSocketContext';
+import { toast } from 'sonner';
 
 type FriendStatusChangedPayload = {
   userId: string;
@@ -112,8 +113,9 @@ function FriendsList() {
       await loadFriendsData();
       setUsernameToAdd('');
       setError(null);
+      toast.success("Demande d'amis envoyé");
     } catch {
-      setError(t("friends.cantsend"));
+     toast.error(t("friends.cantsend"));
     }
   }
 
