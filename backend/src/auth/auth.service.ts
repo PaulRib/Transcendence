@@ -65,7 +65,6 @@ export class AuthService {
         }
         return this.generateJwtTokenForUser(user);
     }
-
     // --- [AJOUT 2FA] --- Méthode utilitaire pour générer le JWT une fois l'authentification (ou la 2FA) réussie
     async generateJwtTokenForUser(user: any) {
         const payload = { sub: user.id, username: user.username };

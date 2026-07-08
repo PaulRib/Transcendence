@@ -5,11 +5,11 @@ import { useLanguage } from "../i18n/LanguageContext";
 
 const DEFAULT_AVATARS = [
   "https://cdn.intra.42.fr/users/3bf69c389f36c86e822b07a0167b858c/lsaiti.jpg",
-  "https://www.radiofrance.fr/pikapi/images/837695f1-b7da-48a1-94bf-c4901718432c/1200x680?webp=false",
-  "https://i.pravatar.cc/150?img=33",
-  "https://i.pravatar.cc/150?img=47",
-  "https://i.pravatar.cc/150?img=12",
-  "https://i.pravatar.cc/150?img=68",
+  "https://imgs.search.brave.com/4hDEl5in3OA3yLTcFiMmP0_7468q98SxyfQ3PMN5G1Y/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDEwMzkw/NzEzLmpwZw",
+  "https://imgs.search.brave.com/bDfFpfF7eLNSESYDB78NGjA_NI0kapz0cr-Tqs-TymM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/aWNvbnNjb3V0LmNv/bS9pY29uL2ZyZWUv/cG5nLTI1Ni9mcmVl/LWxpbnV4LWljb24t/c3ZnLWRvd25sb2Fk/LXBuZy0xMTc0OTI4/LnBuZz9mPXdlYnAm/dz0xMjg",
+  "https://imgs.search.brave.com/F_9QEoAJHQOY4nKaoVnEiS8AUxk8GjO-Zojcvy6kUVI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3RpL3Bob3Rv/cy1ncmF0dWl0ZS90/Mi8yMjc3OTMzMy1h/c3Ryb25hdXRlLWRh/bnMtZXNwYWNlLWNv/bnRleHRlLWlsbHVz/dHJhdGlvbi1haS1n/ZW5lcmF0aWYtZ3Jh/dHVpdC1waG90by5q/cGc",
+  "https://imgs.search.brave.com/po_GZ3pT18pVUiSyps6Px0hxng-J8irjogEhNDZ2_NY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/MzUzODI2NTE5MjEt/NWU3N2VhNDQ1OGYy/P2ZtPWpwZyZxPTYw/Jnc9MzAwMCZhdXRv/PWZvcm1hdCZmaXQ9/Y3JvcCZpeGxpYj1y/Yi00LjEuMCZpeGlk/PU0zd3hNakEzZkRC/OE1IeHpaV0Z5WTJo/OE1qQjhmR3hoYldK/dmNtZG9hVzVwSlRJ/d2QyRnNiSEJoY0dW/eWZHVnVmREI4ZkRC/OGZId3c",
+  "https://imgs.search.brave.com/sqnWnqMWpvnNSAM7w98IbJsDr8jfQGPs22dhuztZPnE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTA3/NjAzMjM4Mi9mci9w/aG90by9mZXJyYXJp/LWxhZmVycmFyaS5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/ajhmRFdEZElkTnVY/b3lYR2haRTlQZ2lO/bzg5Q0FPNVJwRWxl/RVRYWTYyUT0",
 ];
 
 type AvatarPickerProps = {
