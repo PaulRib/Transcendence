@@ -33,7 +33,7 @@ Key features:
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
 | Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (ngrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
 | Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system (`shadcn`/Tailwind), responsive layouts, avatar management (`AvatarPicker`), browser compatibility, 2FA frontend UI/integration (`requires2FA` login modal & settings), UI polish. |
-| Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. TODO: confirm exact scope. |
+| Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. |
 
 ## Project Management
 
@@ -335,6 +335,15 @@ Amine contribution details:
 - Created the QR Code generation modal (`/2fa/generate`) and initial 6-digit verification activation (`/2fa/turn-on`).
 - Integrated the two-step login verification flow (`LoginPage.tsx`), handling the `requires2FA: true` response to display the Google Authenticator TOTP input and finalize authentication via `/2fa/authenticate`.
 
+Murad contribution details:
+
+- Implemented the backend 42 OAuth authorization and callback flow in `AuthController` and `AuthService`.
+- Exchanged the authorization code for a 42 access token and used it to retrieve the authenticated user's 42 profile.
+- Added OAuth user lookup and creation using the 42 identifier, username, email, and profile image.
+- Prevented duplicate accounts when a local account already uses the email returned by 42.
+- Issued the application JWT through the existing HTTP-only cookie session flow.
+- Connected the frontend 42 login redirect and callback page to authentication state recovery.
+
 
 ### Friends and user interaction
 
@@ -475,6 +484,17 @@ Implemented by: Murad.
 - Daily rewards / XP / level data.
 - Match history.
 
+Murad contribution details:
+
+- Created `GamificationModule`, `GamificationController`, and `GamificationService`, with frontend access through `gamification.api.ts`.
+- Implemented daily XP rewards based on the number of attempts, with one reward allowed per day.
+- Added current streak, best streak, streak reset, streak bonus, XP totals, and automatic level calculation.
+- Integrated daily-game rewards into the champion game service and displayed progress and badges on user profiles.
+- Implemented ranked Elo changes for wins, losses, and draws, including ranked win/loss counter updates.
+- Used a Prisma transaction to update both ranked players consistently after a completed match.
+- Added the top-10 leaderboard endpoint ordered by Elo and connected it to `LeaderboardPage`.
+- Connected authenticated match-history data to `MatchHistoryPage`, including opponent, result, Elo variation, avatar, and localized date.
+
 ### Game modes and data
 
 Implemented by: Paul (Daily & Infinite Loldle modes, Multiplayer), Murad (Countrydle mode).
@@ -491,6 +511,15 @@ Paul contribution details:
 - Designed and built the Infinite champion guessing mode backend APIs and frontend integration.
 - Worked on the comparison engine that returns comparative results (position, region, species, etc.) for each champion guess.
 - Set up seeds for champions data in the PostgreSQL database.
+
+Murad contribution details:
+
+- Implemented the Countrydle frontend flow with country loading, autocomplete suggestions, input validation, and duplicate-guess prevention.
+- Added daily country guesses and comparison feedback for flag, continent, language, population, and currency.
+- Integrated the reusable game form, history grid, and victory state into `CountrydlePage`.
+- Added the country API types and frontend API calls for country names and daily guesses.
+- Implemented the backend country and daily-country-match services used by the game mode.
+- Added the Prisma country models, database migration, country seed integration, and country dataset.
 
 ### Frontend UI and design
 
@@ -511,6 +540,14 @@ Amine contribution details:
 - Designed reusable UI primitives (`Button`, `Input`, `Dialog`, `Avatar`, `Heading`, `PageContainer`) ensuring uniform styling across all pages.
 - Integrated the `Sonner` global notification system (`Toaster`), configuring single-toast queueing (`visibleToasts={1}`) and customizable display durations.
 - Verified and fixed CSS compatibility issues across Google Chrome, Mozilla Firefox .
+
+Murad contribution details:
+
+- Built the typed internationalization system with `LanguageContext`, `LanguageProvider`, and the shared translation catalogue.
+- Added French, English, and Russian translations for navigation, authentication, profiles, settings, friends, chat, game modes, leaderboard, and match history.
+- Added runtime validation for supported languages and explicit errors for missing translation keys.
+- Persisted the selected language in browser local storage and connected it to the language selector in the main layout.
+- Integrated localized labels and messages across pages and reusable game components through the `useLanguage` hook.
 
 ## Modules
 
@@ -732,15 +769,57 @@ How they were addressed:
 
 ### Murad
 
-TODO: complete with Murad.
+Main areas:
 
-Possible areas to verify:
+- Remote authentication with the 42 OAuth API.
+- Gamification with XP, levels, daily rewards, streaks, and badges.
+- Ranked statistics, Elo updates, and leaderboard.
+- Match history frontend integration.
+- Internationalization in French, English, and Russian.
+- Countrydle game mode and country data.
 
-- 42 OAuth.
-- Gamification.
-- Leaderboard.
-- Match history.
-- Multiple languages.
+Detailed contribution:
+
+- **42 OAuth Authentication**:
+  - Implemented the backend authorization and callback flow with the 42 API.
+  - Exchanged the authorization code for a 42 access token and retrieved the authenticated user's profile.
+  - Added lookup and creation of OAuth users with their 42 identifier, email, username, and avatar.
+  - Prevented an OAuth account from silently replacing an existing local account with the same email.
+  - Issued the application JWT in an HTTP-only cookie and connected the frontend callback page to session recovery.
+- **Gamification System**:
+  - Created the gamification module, service, controller, and frontend API integration.
+  - Implemented daily win rewards with XP based on the number of attempts.
+  - Added consecutive-day streak tracking, best streak preservation, and streak bonuses.
+  - Implemented automatic level calculation and exposed gamification statistics on user profiles.
+  - Integrated rewards into the daily champion game flow and added badge progress to the profile interface.
+- **Ranked Statistics & Leaderboard**:
+  - Implemented Elo updates for multiplayer victories, defeats, and draws.
+  - Updated ranked win/loss counters when a ranked match is resolved.
+  - Added a top-10 leaderboard endpoint ordered by Elo and connected it to the leaderboard page.
+- **Match History**:
+  - Connected the authenticated match-history API to the frontend.
+  - Displayed the opponent, result, Elo variation, avatar, and localized match date for each ranked game.
+- **Internationalization**:
+  - Built the typed React language context and translation lookup system.
+  - Added French, English, and Russian translations across navigation, authentication, profiles, social features, game pages, settings, leaderboard, and match history.
+  - Persisted the selected language in browser local storage and integrated the language selector into the main layout.
+- **Countrydle**:
+  - Implemented the country guessing mode with country suggestions, duplicate-guess prevention, comparison feedback, and victory handling.
+  - Added the country API integration, daily country match logic, Prisma models/migration, and country seed data.
+
+Challenges:
+
+- Linking an external OAuth identity to the local user model without exposing tokens or creating duplicate accounts.
+- Keeping XP, streak, Elo, and ranked statistics consistent when several game modes update user data.
+- Maintaining complete and type-safe translations across a growing number of pages and reusable components.
+- Representing country attributes consistently between seed data, backend comparisons, API types, and the frontend grid.
+
+How they were addressed:
+
+- Kept the OAuth code exchange and 42 profile request on the backend, then reused the existing JWT cookie session flow.
+- Centralized rewards and Elo calculations in `GamificationService` and used Prisma transactions for paired ranked updates.
+- Used a single typed translation catalogue and `LanguageContext` so missing keys are detected instead of silently falling back.
+- Shared typed API structures and reusable game components for Countrydle suggestions, guesses, history, and victory states.
 
 ## Security Notes
 
