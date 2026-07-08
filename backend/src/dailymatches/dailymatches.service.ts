@@ -9,7 +9,6 @@ import { NotFoundException, InternalServerErrorException } from '@nestjs/common'
 export class DailymatchesService {
   constructor(private gamificationService: GamificationService, private prisma: PrismaService, private championsService: ChampionsService) {}
 
-
   private seededRandom(seed: number) {
 	const x = Math.sin(seed) * 10000;
 	return x - Math.floor(x);
@@ -106,8 +105,15 @@ export class DailymatchesService {
 		const todayRegions = this.parseToArrays(todayChamp.region);
 
 		const isWin = guessedChamp.name === todayChamp.name;
-		if (isWin && userId)
-			await this.gamificationService.rewardWin(userId, attempts);
+		if (isWin && userId) {
+			const userExists = await this.prisma.user.findUnique({
+				where: { id: userId },
+				select: { id: true },
+			});
+			if (userExists) {
+				await this.gamificationService.rewardWin(userId, attempts);
+			}
+		}
 		return {
 			name: guessedChamp.name,
 			gender: {
