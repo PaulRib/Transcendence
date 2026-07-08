@@ -11,7 +11,7 @@ import { TwoFactorService } from './two-factor.service';
     imports: [UsersModule, JwtModule.register({
         secret: process.env.JWT_SECRET,
         signOptions: {
-            expiresIn: '1h'
+            expiresIn: '24h'
         },
     })],
     controllers: [AuthController, TwoFactorController],

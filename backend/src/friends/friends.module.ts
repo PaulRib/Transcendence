@@ -10,9 +10,6 @@ import { SocialEventsModule } from "../social/social-events.module";
         PrismaModule, 
         JwtModule.register({
         secret: process.env.JWT_SECRET,
-        signOptions: {
-            expiresIn: '1h'
-        },
     }),
         SocialEventsModule,
     ],

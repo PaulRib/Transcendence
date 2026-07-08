@@ -7,9 +7,6 @@ import { GamificationController } from './gamification.controller';
 	imports: [
 		JwtModule.register({
 			secret: process.env.JWT_SECRET,
-			signOptions: {
-				expiresIn: '1h',
-			},
 		}),
 	],
 	controllers: [GamificationController],
