@@ -43,7 +43,10 @@ async function main() {
 	const countries = JSON.parse(rawCountriesData);
 
 	for (const [index, country] of countries.entries()) {
-		const continent = country.continent.en ?? 'Africa';
+		if (!country.continent?.en) {
+			throw new Error(`Missing continent for ${country.country.en}`);
+		}
+		const continent = country.continent.en;
 		const countryData = {
 			name: country.country.en,
 			continent: continent,
@@ -58,7 +61,7 @@ async function main() {
 
 		await prisma.country.upsert({
 			where: { name: countryData.name },
-			update: countryData,
+			update: {}, // If the country already exists, leave it unchanged
 			create: countryData,
 		});
 	}
