@@ -15,6 +15,9 @@ BDD -> PostgreSQL
 
 TO DO LIST:
 - GENERAL Readme to do
+- MCD
+- Fix cookie
+- Test route
 
 Modules done :
 - Major : Framework backend & frontend (Mehdi)
