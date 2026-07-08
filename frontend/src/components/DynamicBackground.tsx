@@ -57,12 +57,12 @@ export default function DynamicBackground() {
   };
 
   useEffect(() => {
-    if (mediaUrls.length <= 1) return; // Pas besoin de tourner s'il y a 0 ou 1 média
+    if (mediaUrls.length <= 1) return; // No rotation needed with 0 or 1 media item
 
-    // Les vidéos passent au média suivant via leur événement onEnded.
+    // Videos move to the next media item through their onEnded event.
     if (activeUrl.toLowerCase().includes('.webm')) return;
 
-    // Conserver la rotation de 10 secondes pour les images.
+    // Keep the 10-second rotation for images.
     const timeoutId = window.setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % mediaUrls.length);
     }, 10000);
@@ -76,7 +76,7 @@ export default function DynamicBackground() {
 
   return (
     <>
-      {/* Rendu de tous les médias superposés pour un cross-fade parfait */}
+      {/* Render all stacked media items for a clean cross-fade */}
       {mediaUrls.map((url, index) => {
         const isVideo = url.toLowerCase().includes('.webm');
         const style = {
@@ -100,7 +100,7 @@ export default function DynamicBackground() {
         );
       })}
       
-      {/* Filtre sombre (overlay) pour faire ressortir le texte */}
+      {/* Dark overlay to make text stand out */}
       <div className="dynamic-bg-overlay" />
     </>
   );

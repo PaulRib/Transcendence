@@ -20,8 +20,6 @@ function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
   const oauthError = searchParams.get('oauthError');
-
-  // --- [AJOUT 2FA] --- États pour gérer l'étape de vérification 2FA
   const [requires2FA, setRequires2FA] = useState(false);
   const [tempUserId, setTempUserId] = useState<string | null>(null);
   const [twoFactorCode, setTwoFactorCode] = useState('');
@@ -35,7 +33,6 @@ function LoginPage() {
         password,
       });
 
-      // --- [AJOUT 2FA] --- Si le serveur indique que le compte a la 2FA activée
       if (loginResponse.requires2FA && loginResponse.userId) {
         setRequires2FA(true);
         setTempUserId(loginResponse.userId);
@@ -54,7 +51,6 @@ function LoginPage() {
     }
   };
 
-  // --- [AJOUT 2FA] --- Soumission du code Google Authenticator (6 chiffres)
   const handle2FASubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!tempUserId) return;
@@ -77,7 +73,7 @@ function LoginPage() {
     <PageContainer>
       <Heading>{requires2FA ? "Vérification 2FA" : t("login.title")}</Heading>
 
-      {/* --- [AJOUT 2FA] --- Formulaire de vérification TOTP */}
+      {/* TOTP verification form */}
       {requires2FA ? (
         <form className="flex flex-col gap-6 w-full max-w-sm mx-auto" onSubmit={handle2FASubmit}>
           <p className="text-center text-slate-300 text-sm">
@@ -118,14 +114,13 @@ function LoginPage() {
           />
           <Button type="submit">{t("login.submit")}</Button>
 
-          {/* Séparateur */}
           <div className="flex items-center gap-4 my-1">
             <div className="h-px bg-white/10 flex-1"></div>
             <span className="text-slate-400 text-sm font-medium uppercase">ou</span>
             <div className="h-px bg-white/10 flex-1"></div>
           </div>
 
-          {/* Bouton 42 */}
+          {/* 42 button */}
           <Button 
             type="button" 
             variant="outline" 

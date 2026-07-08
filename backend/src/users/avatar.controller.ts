@@ -59,7 +59,7 @@ export class AvatarController {
             throw new BadRequestException('File is required');
         }
 
-        // Le chemin accessible publiquement
+        // Publicly accessible path
         const avatarUrl = `/uploads/avatars/${file.filename}`;
 
         return this.usersService.updateProfile(request.user.sub, {

@@ -22,11 +22,11 @@ async function main() {
 	for (const champion of champions) {
 		await prisma.champion.upsert({
 			where: { name: champion.name },
-      		update: {}, // Si le champion existe déjà, on ne touche à rien
+				update: {}, // If the champion already exists, leave it unchanged
 			create: {
 				name: champion.name,
 				gender: champion.gender,
-				position: champion.positions.join(', '), // Convertit le tableau en string pour le stockage
+				position: champion.positions.join(', '),
 				species: champion.species.join(', '),
 				resource_type: champion.resource_type,
 				range_type: champion.range_type.join(', '),

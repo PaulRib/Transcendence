@@ -36,7 +36,7 @@ function App() {
             <Route path="friends" element={<FriendsList />} />
             <Route path="leaderboard" element={<LeaderboardPage/>} />
             <Route path="match-history" element={<MatchHistoryPage/>} />
-			      <Route path="ranked" element={<RankedManager/>}/>
+            <Route path="ranked" element={<RankedManager/>}/>
           </Route>
           <Route path="classic" element={<ClassicGamePage/>}/>
           <Route path="infinite" element={<InfiniteGamePage/>}/>

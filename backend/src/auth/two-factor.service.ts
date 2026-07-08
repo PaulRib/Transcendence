@@ -8,8 +8,8 @@ export class TwoFactorService {
   constructor(private readonly prisma: PrismaService) {}
 
   
-//    Génère un nouveau secret TOTP pour l'utilisateur, l'enregistre en base
-//    (sans encore activer 2FA) et retourne le QR Code en Base64 (DataURL).
+//    Generate a new TOTP secret for the user, store it in the database
+//    without enabling 2FA yet, then return the QR Code as a Base64 DataURL.
    
   async generateTwoFactorSecret(userId: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
@@ -28,15 +28,15 @@ export class TwoFactorService {
   }
 
 
-   //Active officiellement la 2FA après vérification du premier code à 6 chiffres
-   //scanné depuis Google Authenticator.
+   //Officially enable 2FA after verifying the first 6-digit code
+   //scanned from Google Authenticator.
   async turnOnTwoFactor(userId: string, code: string) {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user || !user.two_factor_secret) {
       throw new UnauthorizedException('Secret 2FA non généré pour cet utilisateur');
     }
 
-    // Vérification cryptographique du code
+    // Cryptographic code verification
     const isCodeValid = authenticator.verify({
       token: code,
       secret: user.two_factor_secret,

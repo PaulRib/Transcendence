@@ -349,7 +349,7 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
     private async notifyFriendsStatus(userId: string, isOnline: boolean) {
         const friendIds = await this.friendsService.getFriendIdsForSocialEvents(userId);
 
-        for (const friendId of friendIds) { // of = prendre chaque element du tableau a la fois (ami 1 puis ami 2 etc ...)
+        for (const friendId of friendIds) { // of = take each array element one by one
             this.server.to(`user:${friendId}`).emit('friend_status_changed', {
                 userId,
                 isOnline,

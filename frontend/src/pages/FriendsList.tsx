@@ -52,10 +52,12 @@ function FriendsList() {
     }
   }
 
+  // Initial friends and requests load.
   useEffect(() => {
     loadFriendsData();
   }, []);
 
+  // Keep friends state synced with social socket events.
   useEffect(() => {
     if (!socket) {
       return;

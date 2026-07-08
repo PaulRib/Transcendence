@@ -22,7 +22,6 @@ function SettingsPage() {
   const { currentUser, updateCurrentUser } = useAuth();
   const { t } = useLanguage();
 
-  // --- [AJOUT 2FA] --- États pour la gestion 2FA
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
   const [twoFactorInput, setTwoFactorInput] = useState('');
   const [is2FADialogOpen, setIs2FADialogOpen] = useState(false);
@@ -149,11 +148,11 @@ function SettingsPage() {
         {message && <p className="text-emerald-400 font-medium m-0">{message}</p>}
         {error && <p className="text-red-400 font-medium m-0">{error}</p>}
 
-        {/* Bloc Profil (Pseudo + Avatar) */}
+        {/* Profile block: username and avatar */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center gap-8 text-center">
           <form className="flex flex-col items-center gap-8 w-full" onSubmit={handleUpdateProfile}>
             
-            {/* Section Pseudo */}
+            {/* Username section */}
             <div className="flex flex-col items-center gap-4 w-full">
               <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.username")}</h2>
               <Input 
@@ -165,7 +164,7 @@ function SettingsPage() {
               />
             </div>
 
-            {/* Section Avatar */}
+            {/* Avatar section */}
             <div className="flex flex-col items-center gap-4 w-full">
               <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.avatar")}</h2>
               
@@ -195,7 +194,7 @@ function SettingsPage() {
           </form>
         </div>
 
-        {/* Bloc Mot de passe */}
+        {/* Password block */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center gap-4 text-center">
           <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.changePassword")}</h2>
           <form className="flex flex-col items-center gap-3 w-full" onSubmit={handleUpdatePassword}>
@@ -217,7 +216,7 @@ function SettingsPage() {
           </form>
         </div>
 
-        {/* --- [AJOUT 2FA] --- Bloc Sécurité (Double Facteur TOTP Google Authenticator) */}
+        {/* Security block: TOTP with Google Authenticator */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center gap-4 text-center">
           <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">Sécurité 2FA (Google Authenticator)</h2>
           <p className="text-sm text-slate-300">

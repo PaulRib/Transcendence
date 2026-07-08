@@ -13,7 +13,6 @@ type UserForLogin = {
     elo_rating: number;
     ranked_wins: number;
     ranked_losses: number;
-    // --- [AJOUT 2FA] ---
     is_two_factor_enabled: boolean;
 };
 
@@ -31,7 +30,6 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
-                // --- [AJOUT 2FA] ---
                 is_two_factor_enabled: true,
             },
         });
@@ -52,7 +50,6 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
-                // --- [AJOUT 2FA] ---
                 is_two_factor_enabled: true,
             },
         });
@@ -128,7 +125,6 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
-                // --- [AJOUT 2FA] ---
                 is_two_factor_enabled: true,
             },
         });
