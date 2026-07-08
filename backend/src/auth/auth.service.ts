@@ -62,10 +62,8 @@ export class AuthService {
                 userId: user.id,
             };
         }
-
         return this.generateJwtTokenForUser(user);
     }
-
     async generateJwtTokenForUser(user: any) {
         const payload = { sub: user.id, username: user.username };
         return {

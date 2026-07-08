@@ -16,7 +16,7 @@ export function PageContainer({
       className={cn(
         "flex flex-col items-center w-full max-w-[720px] text-center min-w-0 break-words",
         "bg-black/40 backdrop-blur-md",
-        "p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10",
+        "p-4 rounded-xl border border-white/10",
         "shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
         className
       )}

@@ -84,13 +84,13 @@ function ProfilePage() {
     {
       name: t("profile.regularName"),
       description: t("profile.regularDescription"),
-      unlocked: (stats?.streak_count ?? 0) >= 2,
+      unlocked: (stats?.best_streak ?? 0) >= 2,
       image: streakBadge,
     },
     {
 		name: t("profile.expertStreakName"),
 		description: t("profile.expertStreakDescription"),
-		unlocked: (stats?.streak_count ?? 0) >= 5,
+		unlocked: (stats?.best_streak ?? 0) >= 5,
 		image: expertStreakBadge,
     },
     {

@@ -7,6 +7,7 @@ export type GamificationStats = {
 	level: number;
 	reward_date: string;
 	user_id: string;
+	best_streak: number;
 };
 
 export type GamificationRewardResponse = {

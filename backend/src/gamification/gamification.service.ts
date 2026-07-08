@@ -87,6 +87,7 @@ export class GamificationService {
 				xp_points: newXpPoints,
 				level: this.calculateLevel(newXpPoints),
 				streak_count: newStreakCount,
+				best_streak: Math.max(stats.best_streak, newStreakCount),
 				reward_date: today,
 			},
 		});
