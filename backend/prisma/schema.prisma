@@ -125,6 +125,7 @@ model Champion {
 model Daily_Reward  {
 	id 						String 		@id @default(uuid())
 	streak_count			Int 		@default(0)
+	best_streak				Int 		@default(0)
 	xp_points				Int 		@default(0)
 	level					Int 		@default(0)
 	reward_date				DateTime 	@default(now())
