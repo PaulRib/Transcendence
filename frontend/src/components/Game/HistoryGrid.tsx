@@ -20,14 +20,17 @@ interface HistoryGridProps {
 export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
 
   return (
-    <div className="mt-8 overflow-x-auto w-full flex justify-center [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <div className="mt-8 w-full flex justify-center overflow-x-hidden">
       <div 
-        className="grid gap-1.5 sm:gap-2 w-fit px-1 sm:px-2 pb-4"
-        style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(75px, 105px))` }}
+        className="grid gap-1 sm:gap-1.5 md:gap-2 w-full max-w-6xl mx-auto px-1 sm:px-2 pb-4"
+        style={{ gridTemplateColumns: `repeat(${columns.length}, minmax(0, 1fr))` }}
       >
         {columns.map((col, idx) => (
-          <div key={idx} className="text-slate-300 uppercase tracking-wide text-[11px] sm:text-xs font-extrabold leading-tight break-words flex items-center justify-center p-1 text-center min-h-[36px]">
-            {col}
+          <div 
+            key={idx} 
+            className="min-w-0 overflow-hidden text-slate-300 uppercase tracking-tighter sm:tracking-tight md:tracking-wide text-[clamp(6px,1.15vw,13px)] font-extrabold leading-tight flex items-center justify-center px-0.5 py-1 text-center min-h-[28px] sm:min-h-[36px] select-none"
+          >
+            <span className="w-full whitespace-nowrap">{col}</span>
           </div>
         ))}
 
@@ -40,10 +43,10 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
 
           return (
             <Fragment key={guess.entity.name}>
-              <div className="champion-avatar-cell flex items-center justify-center w-full aspect-square" style={{ animationDelay: '0s' }}>
+              <div className="champion-avatar-cell min-w-0 overflow-hidden flex items-center justify-center w-full aspect-square" style={{ animationDelay: '0s' }}>
                 <img 
                   src={guess.entity.imagePath} 
-                  className="w-full h-full rounded-lg object-cover block mx-auto border-2 border-white/10 shadow-lg" 
+                  className="w-full h-full rounded sm:rounded-lg object-cover block mx-auto border sm:border-2 border-white/10 shadow-lg" 
                   alt={guess.entity.name} 
                 />
               </div>
@@ -51,14 +54,14 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
               {guess.attributes.map((attr, attrIdx) => (
                 <div
                   key={attrIdx}
-                  className={`guess-box flex flex-row flex-wrap items-center justify-center gap-1 w-full aspect-square border-2 text-white font-bold text-xs leading-tight text-center break-words rounded-lg p-1 sm:p-1.5 transition-all duration-300 ${getBgColor(attr.status)}`}
+                  className={`guess-box min-w-0 overflow-hidden flex flex-row flex-wrap items-center justify-center gap-0.5 sm:gap-1 w-full aspect-square border sm:border-2 text-white font-bold tracking-tighter sm:tracking-normal text-[clamp(6px,1.15vw,13px)] leading-tight text-center break-words sm:break-normal rounded sm:rounded-lg p-0.5 sm:p-1.5 transition-all duration-300 ${getBgColor(attr.status)}`}
                   style={{ animationDelay: `${(attrIdx + 1) * 0.4}s` }}
                 >
                   <span className="line-clamp-3">
                     {Array.isArray(attr.value) ? attr.value.join(', ') : attr.value}
                   </span>
-                  {attr.status === 'higher' && <span className="text-base sm:text-lg font-black">↑</span>}
-                  {attr.status === 'lower' && <span className="text-base sm:text-lg font-black">↓</span>}
+                  {attr.status === 'higher' && <span className="text-[clamp(9px,1.4vw,15px)] font-black">↑</span>}
+                  {attr.status === 'lower' && <span className="text-[clamp(9px,1.4vw,15px)] font-black">↓</span>}
                 </div>
               ))}
             </Fragment>
