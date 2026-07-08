@@ -19,8 +19,9 @@ export function PageContainer({
         // Effet Glassmorphism (Fond noir transparent + flou)
         "bg-black/40 backdrop-blur-md",
         // Espacement et bordures
-        "p-4 sm:p-6 md:p-8 rounded-2xl border border-white/10",
-        // Ombre portée
+        "p-4 rounded-xl border border-white/10",
+        // Ombre portéeMale
+        
         "shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
         className
       )}

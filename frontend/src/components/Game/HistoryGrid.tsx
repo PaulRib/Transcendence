@@ -51,7 +51,7 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
               {guess.attributes.map((attr, attrIdx) => (
                 <div
                   key={attrIdx}
-                  className={`guess-box flex flex-row flex-wrap items-center justify-center gap-1 w-full aspect-square border-2 text-white font-bold text-xs sm:text-sm leading-tight text-center break-words rounded-lg p-1 sm:p-1.5 transition-all duration-300 ${getBgColor(attr.status)}`}
+                  className={`guess-box flex flex-row flex-wrap items-center justify-center gap-1 w-full aspect-square border-2 text-white font-bold text-xs leading-tight text-center break-words rounded-lg p-1 sm:p-1.5 transition-all duration-300 ${getBgColor(attr.status)}`}
                   style={{ animationDelay: `${(attrIdx + 1) * 0.4}s` }}
                 >
                   <span className="line-clamp-3">

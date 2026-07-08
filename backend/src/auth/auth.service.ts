@@ -63,7 +63,6 @@ export class AuthService {
                 userId: user.id,
             };
         }
-
         return this.generateJwtTokenForUser(user);
     }
 
