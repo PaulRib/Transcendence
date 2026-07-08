@@ -341,7 +341,6 @@ Murad contribution details:
 - Exchanged the authorization code for a 42 access token and used it to retrieve the authenticated user's 42 profile.
 - Added OAuth user lookup and creation using the 42 identifier, username, email, and profile image.
 - Prevented duplicate accounts when a local account already uses the email returned by 42.
-- Issued the application JWT through the existing HTTP-only cookie session flow.
 - Connected the frontend 42 login redirect and callback page to authentication state recovery.
 
 
@@ -785,7 +784,7 @@ Detailed contribution:
   - Exchanged the authorization code for a 42 access token and retrieved the authenticated user's profile.
   - Added lookup and creation of OAuth users with their 42 identifier, email, username, and avatar.
   - Prevented an OAuth account from silently replacing an existing local account with the same email.
-  - Issued the application JWT in an HTTP-only cookie and connected the frontend callback page to session recovery.
+  - Connected the frontend 42 callback page to session recovery after a successful OAuth login.
 - **Gamification System**:
   - Created the gamification module, service, controller, and frontend API integration.
   - Implemented daily win rewards with XP based on the number of attempts.
