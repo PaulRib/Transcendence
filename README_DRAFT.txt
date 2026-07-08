@@ -31,7 +31,7 @@ Key features:
 
 | Team member | 42 login | Assigned role(s) | Main responsibilities |
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
-| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, ranked match flow, game socket, remote players, content moderation AI, parts of database/gameplay integration. TODO: confirm exact scope. |
+| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (ngrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
 | Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system, browser compatibility, 2FA UI/integration support, UI polish. TODO: confirm exact scope. |
 | Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. TODO: confirm exact scope. |
 
@@ -369,6 +369,12 @@ Implemented by: Mehdi, Paul.
 - Access user profiles from chat. (Mehdi)
 - Content moderation AI. (Paul)
 
+Paul contribution details:
+
+- Integrated automatic content moderation into `ChatService` using a TensorFlow toxicity model.
+- Handled loading of the toxicity model on module initialization with specific toxicity categories (`toxicity`, `insult`, `threat`) and a confidence threshold of 0.85.
+- Intercepted and blocked messages flagged as toxic, throwing a bad request exception to the sender to prevent offensive chat.
+
 Mehdi contribution details:
 
 - Built and integrated private chat around `ChatService`, `ChatController`, `chat.api.ts`, and `GlobalChat`.
@@ -415,6 +421,12 @@ Mehdi contribution details:
 - Helped separate social socket responsibilities from game socket responsibilities.
 - Worked on logout/offline behavior and refresh-safe online status.
 
+Paul contribution details:
+
+- Implemented the `/game` Socket.IO gateway (`GameGateway`) handling matchmaking, live game state updates, turn validation, and multiplayer synchronization.
+- Created real-time multiplayer game rooms using socket communication.
+- Managed user connection and disconnection states specific to the gaming flow to prevent data corruption.
+
 ### Multiplayer game
 
 Implemented by: Paul.
@@ -426,6 +438,14 @@ Implemented by: Paul.
 - Match creation and match end.
 - Reconnection/forfeit handling.
 - Match history data.
+
+Paul contribution details:
+
+- Developed ranked matchmaking and game room flow, pairing active users automatically.
+- Designed turn-based guessing mechanics and verification logic on the backend to prevent cheating.
+- Managed match state progression (creation, guess submission, victory delay screens, and resolution).
+- Secured the game by removing insecure REST APIs (e.g. `getExactChampByID`) and blocking client-side leaks of champion identities.
+- Handled reconnection logic and player forfeit/abandon states gracefully.
 
 ### Gamification and statistics
 
@@ -439,13 +459,20 @@ Implemented by: Murad.
 
 ### Game modes and data
 
-Implemented by: Paul, Murad, other contributors. TODO: confirm exact split.
+Implemented by: Paul (Daily & Infinite Loldle modes, Multiplayer), Murad (Countrydle mode).
 
-- Classic champion guessing mode.
-- Infinite champion guessing mode.
-- Ranked multiplayer mode.
-- Countrydle mode.
-- Champion and country seed data.
+- Classic champion guessing mode (Daily Loldle). (Paul)
+- Infinite champion guessing mode. (Paul)
+- Ranked multiplayer mode. (Paul)
+- Countrydle mode. (Murad)
+- Champion and country seed data. (Paul, Murad)
+
+Paul contribution details:
+
+- Implemented the Daily Loldle (classic guessing) mode, utilizing local storage to persist the player's progression across the day and prevent cheating.
+- Designed and built the Infinite champion guessing mode backend APIs and frontend integration.
+- Worked on the comparison engine that returns comparative results (position, region, species, etc.) for each champion guess.
+- Set up seeds for champions data in the PostgreSQL database.
 
 ### Frontend UI and design
 
@@ -477,7 +504,7 @@ Current module list from the team planning:
 | User interaction | Major | 2 | Mehdi, Amine | Friends, private chat, profiles, online status, block system, frontend user interaction pages. |
 | Multiplayer | Major | 2 | Paul | Ranked multiplayer game, matchmaking, turns, match state. |
 | Remote players | Major | 2 | Paul | Remote multiplayer through Socket.IO game gateway. |
-| ORM for database | Minor | 1 | Paul | Prisma ORM with PostgreSQL schema and migrations. TODO: confirm exact owner. |
+| ORM for database | Minor | 1 | Paul | Prisma ORM with PostgreSQL schema and migrations. |
 | Gamification system | Minor | 1 | Murad | Rewards, XP/levels, Elo/ranked stats. |
 | Multiple languages | Minor | 1 | Murad | French, English, Russian translations through frontend i18n context. |
 | Remote authentication | Minor | 1 | Murad | 42 OAuth login and callback. |
@@ -485,7 +512,7 @@ Current module list from the team planning:
 | Compatibility with at least 2 additional browsers | Minor | 1 | Amine | Browser testing and fixes. TODO: list tested browsers. |
 | Game stats and match history | Minor | 1 | Murad | Match history pages and ranked statistics. |
 | Advanced chat features | Minor | 1 | Mehdi | Persistent private chat, typing indicator, read receipts, block messages, game invites from chat, profile access. |
-| Content moderation AI | Minor | 1 | Paul | TensorFlow toxicity model used to block toxic messages. TODO: confirm owner/details. |
+| Content moderation AI | Minor | 1 | Paul | TensorFlow toxicity model used to block toxic messages. |
 | 2FA | Minor | 1 | Amine | Two-factor authentication using OTP and QR code. TODO: confirm exact split. |
 
 Total planned points: 22.
@@ -584,15 +611,54 @@ How they were addressed:
 
 ### Paul
 
-TODO: complete with Paul.
+Main areas:
 
-Possible areas to verify:
+- Backend & Frontend multiplayer architecture and game socket.
+- Ranked matchmaking flow and turn-based guessing game loop.
+- Remote player access setup (HTTPS & Ngrok tunnel).
+- Game modes (Daily Loldle and Infinite guessing modes).
+- AI content moderation.
+- Anticheat backend logic & security verification.
+- PostgreSQL database health check, seeds, and Prisma integration.
 
-- Multiplayer game logic.
-- Game Socket.IO gateway.
-- Matchmaking and remote players.
-- Content moderation AI.
-- Prisma/game data integration.
+Detailed contribution:
+
+- **Multiplayer & Game Gateway**:
+  - Implemented the `/game` namespace with Socket.IO on NestJS (`GameGateway`).
+  - Handled multiplayer game loop, room creation, socket state, and player connections.
+  - Implemented ranked matchmaking queue on the backend, pairing players into active games.
+  - Integrated multiplayer gameplay UI cards, turn-based inputs, and state synchronization on the frontend.
+- **Game Modes**:
+  - Developed the Classic Daily Loldle mode.
+  - Developed the Infinite guessing mode with full backend endpoints and state tracking.
+  - Saved daily game progress in the client's LocalStorage to persist states on refresh.
+  - Handled match victory screens with delay transitions.
+- **Remote Access & Networking**:
+  - Implemented tunnel-based remote player testing via ngrok (`undiluted-unscented-fiction.ngrok-free.dev`).
+  - Set up and tested HTTPS support for the project.
+- **Anticheat & Security**:
+  - Implemented turn-verification on the backend to enforce valid guess orders and prevent exploits.
+  - Disabled insecure REST endpoints (e.g. `getExactChampByID`) and secured the champion selection logic.
+  - Avoided client-side champion detail leaks when a player is on their last attempt.
+- **AI Content Moderation**:
+  - Integrated `@tensorflow-models/toxicity` inside `ChatService`.
+  - Configured categories like toxicity, insult, and threat validation with a threshold of 0.85 to block offensive messages automatically.
+- **Infrastructure & Database**:
+  - Wrote a database health check system to delay the backend container startup until PostgreSQL is ready.
+  - Created and optimized Prisma schema and migrations for game tables.
+  - Configured development shortcut commands in Makefile (e.g., `make re` which executes fclean and all) and resolved cookies cleanup bugs upon rebuild.
+
+Challenges:
+
+- Ensuring complete security against cheating attempts (like direct API queries or client-side metadata leaks) in a turn-based multiplayer structure.
+- Integrating and managing dual Socket.IO namespaces (`/social` and `/game`) without conflicting handshakes.
+- Resolving Docker start order dependencies where the NestJS container would fail if PostgreSQL was not fully ready to accept connections.
+
+How they were addressed:
+
+- Kept all critical validation, champion identities, and turn logic on the backend; the frontend only receives comparison results.
+- Built a custom health check script in Docker/Docker Compose that polls the Postgres port before booting NestJS.
+- Tested remote connectivity using tunnels to simulate actual network latency and cookie behaviors across different hosts.
 
 ### Amine
 
