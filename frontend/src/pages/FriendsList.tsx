@@ -210,15 +210,15 @@ function FriendsList() {
                   <h3 className="m-0 text-lg font-bold text-slate-100">{friendUser.username}</h3>
                   <p className="m-0 mt-0.5 text-sm font-medium text-slate-500">{t("friends.friend")}</p>
                 </div>
-                  <Button
-                    variant="ghost"
-                    className="h-10 w-10 p-0 text-slate-400 hover:bg-red-500/10 hover:text-red-400"
-                    title={t("friends.removeTitle")}
-                    onClick={() => handleDeleteFriendship(friendship.id)}
-                  >
-                    <UserX size={18} />
-                  </Button>
-                </div>
+                <Button
+                  variant="ghost"
+                  className="h-10 w-10 p-0 text-slate-400 hover:bg-red-500/10 hover:text-red-400"
+                  title={t("friends.removeTitle")}
+                  onClick={() => handleDeleteFriendship(friendship.id)}
+                >
+                  <UserX size={18} />
+                </Button>
+              </div>
             );
           })
         ) : (

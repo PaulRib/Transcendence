@@ -175,11 +175,14 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		if (room && room.size === 2) {
 			const sockets = await this.server.in(`room_${data.matchId}`).fetchSockets();
 			const userIds = sockets.map(s => s.data.user?.id).filter(Boolean);
-			const starterUserId = userIds.length === 2 
+			let starterUserId = this.matchStarters.get(data.matchId);
+			if  (!starterUserId) {
+				const chosenStarter = userIds.length === 2 
 				? userIds[Math.floor(Math.random() * userIds.length)]
 				: (sockets[0]?.data?.user?.id || '');
-
-			this.matchStarters.set(data.matchId, starterUserId);
+				this.matchStarters.set(data.matchId, chosenStarter);
+				starterUserId = chosenStarter;
+			}
 			const matchState = await this.multiplayerService.getMatchState(data.matchId);
 			this.server.to(`room_${data.matchId}`).emit('game_ready', { starterUserId, matchData: matchState });
 			console.log(`La partie ${data.matchId} commence ! Starter (UserId): ${starterUserId}`);

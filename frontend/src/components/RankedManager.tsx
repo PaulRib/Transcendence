@@ -27,7 +27,10 @@ function RankedManager() {
       setMatchId(data.matchId);
       setInitialMatchData(data.matchData);
       setStarterUserId(data.starterUserId);
-      setMatchState('playing');
+	  if (!data.starterUserId)
+      	setMatchState('waiting');
+	  else
+		setMatchState('playing');
       
       newSocket.emit('join_game_room', { matchId: data.matchId });
     });
