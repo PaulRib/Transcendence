@@ -32,6 +32,15 @@ export class ChatService implements OnModuleInit {
             throw new BadRequestException("You cannot send a message to yourself");
         }
 
+        if (typeof content !== 'string' || content.trim().length === 0)
+        {
+            throw new BadRequestException('Message cannot be empty');
+        }
+
+        if (content.length > 1000) {
+            throw new BadRequestException('Message cannot exceed 1000 characters');
+        }
+
         const receiver = await this.prisma.user.findUnique({
             where: { id: receiverId },
             select: { id: true },
