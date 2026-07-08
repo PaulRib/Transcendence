@@ -22,18 +22,12 @@ export class TwoFactorController {
     private readonly usersService: UsersService,
   ) {}
 
-  /**
-   * 1. Route pour générer le QR Code et le secret (nécessite d'être connecté via JWT).
-   */
   @Post('generate')
   @UseGuards(JwtAuthGuard)
   async generate(@Request() req: any) {
     return this.twoFactorService.generateTwoFactorSecret(req.user.sub);
   }
 
-  /**
-   * 2. Route pour confirmer et activer définitivement la 2FA après avoir scanné le QR Code.
-   */
   @Post('turn-on')
   @UseGuards(JwtAuthGuard)
   async turnOn(@Request() req: any, @Body() body: { code: string }) {
@@ -43,9 +37,6 @@ export class TwoFactorController {
     return this.twoFactorService.turnOnTwoFactor(req.user.sub, body.code);
   }
 
-  /**
-   * 3. Route pour désactiver la 2FA (exige la saisie du code actuel pour raison de sécurité).
-   */
   @Post('turn-off')
   @UseGuards(JwtAuthGuard)
   async turnOff(@Request() req: any, @Body() body: { code: string }) {
@@ -55,9 +46,6 @@ export class TwoFactorController {
     return this.twoFactorService.turnOffTwoFactor(req.user.sub, body.code);
   }
 
-  /**
-   * 4. Route publique utilisée lors du Login pour finaliser la connexion après saisie du code 2FA.
-   */
   @Post('authenticate')
   @HttpCode(200)
   async authenticate(

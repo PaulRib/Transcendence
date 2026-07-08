@@ -45,20 +45,20 @@ function ClassicGamePage() {
           try {
             const parsed = JSON.parse(savedState);
             if (parsed && parsed.matchId === dailyData.id) {
-				const isValidStructure = Array.isArray(parsed.guesses) && parsed.guesses.every((g: any) => 
-				g && typeof g.name === 'string' && g.name && g.gender &&
-				g.positions && g.species && g.resource_type &&
-				g.range_type && g.region && g.release_year );
-			  if (isValidStructure) {
-				setGuesses(parsed.guesses || []);
-				setHasWon(!!parsed.hasWon);
-				if (parsed.hasWon) {
-					setShowVictory(true);
-				}
-				else {
-					console.warn("Structure localStorage invalide. Nettoyage...");
-            		localStorage.removeItem('daily_classic_game');
-				}
+              const isValidStructure = Array.isArray(parsed.guesses) && parsed.guesses.every((g: any) =>
+                g && typeof g.name === 'string' && g.name && g.gender &&
+                g.positions && g.species && g.resource_type &&
+                g.range_type && g.region && g.release_year
+              );
+              if (isValidStructure) {
+                setGuesses(parsed.guesses || []);
+                setHasWon(!!parsed.hasWon);
+                if (parsed.hasWon) {
+                  setShowVictory(true);
+                } else {
+                  console.warn("Structure localStorage invalide. Nettoyage...");
+                  localStorage.removeItem('daily_classic_game');
+                }
               }
             } else {
               localStorage.removeItem('daily_classic_game');
@@ -108,7 +108,7 @@ function ClassicGamePage() {
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
 
     try {
-	  const attempts = guesses.length + 1
+      const attempts = guesses.length + 1
       const result = await sendGuess(attempts, validChamp.name);
       const newGuesses = [result, ...guesses];
       const isWin = result.isWin;

@@ -54,10 +54,12 @@ export function GlobalChat() {
     }
   }
 
+  // Load friends when auth is ready.
   useEffect(() => {
     loadFriends();
   }, [currentUser, t]);
 
+  // Refresh friends on social socket updates.
   useEffect(() => {
     if (!socket || !currentUser) {
       return;
@@ -70,6 +72,7 @@ export function GlobalChat() {
     };
   }, [socket, currentUser]);
 
+  // Listen to chat socket events for the active conversation.
   useEffect(() => {
     if (!socket || !currentUser) {
       return;
@@ -358,7 +361,7 @@ export function GlobalChat() {
           )}
         </div>
 
-        {/* Formulaire d'envoi */}
+        {/* Send form */}
         {selectedFriend && (
           <form onSubmit={handleSend} className="p-3 border-t border-white/10 bg-[#15151a] flex items-center gap-2">
             <Input 
@@ -374,7 +377,7 @@ export function GlobalChat() {
         )}
       </div>
 
-      {/* Bouton flottant pour ouvrir/fermer le chat */}
+      {/* Floating button to open or close chat */}
       <Button 
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 rounded-full text-2xl shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:scale-110"

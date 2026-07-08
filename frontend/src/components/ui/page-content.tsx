@@ -8,20 +8,15 @@ export interface PageContainerProps extends React.HTMLAttributes<HTMLElement> {
 export function PageContainer({ 
   className, 
   children, 
-  as: Component = "section", // Par défaut, ce sera une balise <section>
+  as: Component = "section",
   ...props 
 }: PageContainerProps) {
   return (
     <Component
       className={cn(
-        // Flexbox & Alignement
         "flex flex-col items-center w-full max-w-[720px] text-center min-w-0 break-words",
-        // Effet Glassmorphism (Fond noir transparent + flou)
         "bg-black/40 backdrop-blur-md",
-        // Espacement et bordures
         "p-4 rounded-xl border border-white/10",
-        // Ombre portéeMale
-        
         "shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
         className
       )}

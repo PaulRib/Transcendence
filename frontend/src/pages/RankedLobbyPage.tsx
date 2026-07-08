@@ -10,7 +10,6 @@ interface RankedLobbyPageProps {
 }
 
 function RankedLobbyPage({ socket }: RankedLobbyPageProps) {
-  // État pour savoir si le joueur est dans la file d'attente
   const [isSearching, setIsSearching] = useState(false);
   const { t } = useLanguage();
   const [friends, setFriends] = useState<Friendship[]>([]);

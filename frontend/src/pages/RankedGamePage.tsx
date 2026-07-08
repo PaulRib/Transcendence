@@ -30,7 +30,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [championNames, setChampionNames] = useState<ChampionName[]>([]);
   const [suggestions, setSuggestions] = useState<ChampionName[]>([]);
 
-  //guesses and opponentguesses use lazy initialization to avoid recalculating intiial data every re-render and to avoid visual flash of empty state at the loading
+  // guesses and opponentguesses use lazy initialization to avoid recalculating intiial data every re-render and to avoid visual flash of empty state at the loading
   const [guesses, setGuesses] = useState<GuessResponse[]>(() => {
     if (!initialMatchData || !currentUser) return [];
     const myParticipant = initialMatchData.participants.find(
@@ -77,15 +77,15 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const [disconnectCountdown, setDisconnectCountdown] = useState<number>(60);
   const [matchData, setMatchData] = useState<any | null>(initialMatchData || null);
 
-  //isMyTurn is a Derived State as it only depend of other value already existing. Calculate its value here avoid to have another useEffect that need
-  //to calculate again everytime one of these values change
+  // isMyTurn is a Derived State as it only depend of other value already existing. Calculate its value here avoid to have another useEffect that need
+  // to calculate again everytime one of these values change
   const isMyTurn = !gameOverInfo && (
     guesses.length === opponentGuesses.length
       ? (currentUser ? currentUser.id === starterUserId : true)
       : (guesses.length < opponentGuesses.length)
   );
 
-  //both use effect to initialize data
+  // both use effect to initialize data
   useEffect(() => {
     if (initialMatchData) {
       setMatchData(initialMatchData);
@@ -108,7 +108,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     loadGameData();
   }, [t]);
 
-  //Deconnexion timer
+  // Disconnection timer
   useEffect(() => {
     let interval: any;
     if (opponentDisconnected && disconnectCountdown > 0) {
@@ -121,11 +121,11 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     };
   }, [opponentDisconnected, disconnectCountdown]);
 
-  //useEffect used for socket
+  // useEffect used for socket
   useEffect(() => {
     if (!socket) return;
 
-	//sockets for the gameplay
+    // sockets for the gameplay
     socket.on('guess_result_full', (result: GuessResponse) => {
       setGuesses((prev) => [result, ...prev]);
       if (result.isWin) {
@@ -135,32 +135,30 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
 
     socket.on('guess_result_spectator', async (data: { name: string }) => {
       try {
-		if (data && data.name != null) {
-				const name = data.name;
-				const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
-				setOpponentGuesses((prev) => [{ name, imagePath }, ...prev]);
-			}
-		else {
-			setOpponentGuesses((prev) => [{id: 'hidden', name: 'Champion', imagePath: '/champions/unknown.png'}, ...prev]);
-		}
-		}
-    	catch (err) {
-			console.error("Error fetching opponent champion info:", err);
-			setOpponentGuesses((prev) => [
-			{
-				name: "Champion",
-				imagePath: "/champions/unknown.png",
-			},
-			...prev,
-			]);
-		}
+        if (data && data.name != null) {
+          const name = data.name;
+          const imagePath = `/champions/${name.toLowerCase().replace(/[^a-z0-9]/g, '')}.png`;
+          setOpponentGuesses((prev) => [{ name, imagePath }, ...prev]);
+        } else {
+          setOpponentGuesses((prev) => [{id: 'hidden', name: 'Champion', imagePath: '/champions/unknown.png'}, ...prev]);
+        }
+      } catch (err) {
+        console.error("Error fetching opponent champion info:", err);
+        setOpponentGuesses((prev) => [
+          {
+            name: "Champion",
+            imagePath: "/champions/unknown.png",
+          },
+          ...prev,
+        ]);
+      }
     });
 
     socket.on('last_chance_triggered', () => {
       setLastChance(true);
     });
 
-	//gestion of the end of the game
+    // End-of-game handling
     socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string }) => {
       setGameOverInfo(data);
       if (data.winnerId === currentUser?.id) {
@@ -179,16 +177,16 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           )
         );
       }
-	  if (!data.isDraw) {
-		if (currentUser) {
-			try {
-				const refreshedUser = await getCurrentUser();
-				updateCurrentUser(refreshedUser);
-			} catch (error) {
-				console.error("Impossible de mettre à jour l'Elo :", error);
-			}
-     	 }
-    }
+      if (!data.isDraw) {
+        if (currentUser) {
+          try {
+            const refreshedUser = await getCurrentUser();
+            updateCurrentUser(refreshedUser);
+          } catch (error) {
+            console.error("Impossible de mettre à jour l'Elo :", error);
+          }
+        }
+      }
       
       if (data.reason === 'opponent_disconnected') {
         setShowVictory(true);
@@ -203,7 +201,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       alert(`${t("multiplayer.gameError")}${data.message}`);
     });
 
-    // Sockets for deconnexion and reconnexion
+    // Sockets for disconnection and reconnection
     socket.on('player_disconnected_grace', (data: { userId: string; username: string; reconnectWindowMs: number }) => {
       console.log("player_disconnected_grace reçu :", data);
       if (data.userId !== currentUser?.id) {
@@ -333,8 +331,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 w-full items-start min-w-0">
-        
-        {/* Left Column: Player (You) */}
         <div className="lg:col-span-8 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-6 shadow-xl relative min-h-[500px] w-full min-w-0 break-words">
           
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
@@ -411,9 +407,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           </div>
         </div>
 
-        {/* Right Column: Opponent */}
         <div className="lg:col-span-4 flex flex-col items-center bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-6 shadow-xl relative min-h-[500px] w-full min-w-0 break-words">
-          
           <div className="w-full flex items-center justify-between mb-6 pb-4 border-b border-white/5">
             <div className="flex items-center gap-3">
               <Avatar className="w-9 h-9 border-2 border-amber-500/50 shadow-md">
@@ -424,7 +418,6 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
               </Avatar>
               <span className="font-semibold text-slate-200">{oppUsername}</span>
             </div>
-
             {!gameOverInfo && (
               !isMyTurn ? (
                 <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.15)]">

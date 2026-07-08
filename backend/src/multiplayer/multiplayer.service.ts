@@ -228,7 +228,6 @@ export class MultiplayerService {
 		return winnerId;
 	}
 
-	//a voir
 	async getMatchHistory(userId: string) {
 		return this.prisma.match_Participant.findMany({
 			where: {

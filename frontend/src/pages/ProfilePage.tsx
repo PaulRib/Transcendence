@@ -133,8 +133,6 @@ function ProfilePage() {
               {displayedUser.username?.charAt(0).toUpperCase() || 'U'}
             </AvatarFallback>
           </Avatar>
-
-          {/* Badge du niveau et anneau d'XP issu de la version API */}
           <div className="absolute left-1/2 bottom-[-20px] -translate-x-1/2 w-[56px] h-[56px] flex items-center justify-center">
             <svg className="absolute inset-0 -rotate-90 drop-shadow-md" width="56" height="56" viewBox="0 0 56 56">
               <circle
@@ -158,7 +156,6 @@ function ProfilePage() {
                 className="transition-all duration-1000 ease-out"
               />
             </svg>
-
             <div className="w-[42px] h-[42px] rounded-full bg-[#111827] border border-[#f1c40f]/60 flex items-center justify-center shadow-lg z-10" title={`${stats?.xp_points ?? 0} XP au total`}>
               <span className="text-white font-bold text-lg">
                 {stats?.level ?? 1}
@@ -167,8 +164,6 @@ function ProfilePage() {
           </div>
         </div>
       </div>
-      
-
       <div className="text-center mt-6">
         <p className="text-[1.2rem] mt-2">
           <strong>Elo: </strong> {displayedUser.elo_rating}
@@ -222,7 +217,6 @@ function ProfilePage() {
                     <Award size={64} strokeWidth={1.25} className={badge.unlocked ? 'text-amber-400' : 'text-white/20'} />
                   )}
                 </div>
-
                 <p className="m-0 text-base font-bold">{badge.name}</p>
                 <p className="m-0 mt-1 min-h-10 text-sm text-current/75">{badge.description}</p>
                 <div className={`mt-3 inline-flex items-center gap-1.5 text-xs font-semibold ${badge.unlocked ? 'text-amber-300' : 'text-white/35'}`}>

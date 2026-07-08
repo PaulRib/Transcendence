@@ -49,7 +49,7 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      {/* Contrôles de sélection */}
+      {/* Selection controls */}
       <div className="flex flex-wrap gap-2 border-b border-white/10 pb-3">
         <Button type="button" variant={activeTab === 'default' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('default')}>{t("settings.default")}</Button>
         <Button type="button" variant={activeTab === 'link' ? 'default' : 'ghost'} size="sm" onClick={() => setActiveTab('link')}>{t("settings.webLink")}</Button>
