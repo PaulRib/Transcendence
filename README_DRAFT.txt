@@ -32,7 +32,7 @@ Key features:
 | Team member | 42 login | Assigned role(s) | Main responsibilities |
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
 | Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (ngrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
-| Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system, browser compatibility, 2FA UI/integration support, UI polish. TODO: confirm exact scope. |
+| Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system (`shadcn`/Tailwind), responsive layouts, avatar management (`AvatarPicker`), browser compatibility, 2FA frontend UI/integration (`requires2FA` login modal & settings), UI polish. |
 | Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. TODO: confirm exact scope. |
 
 ## Project Management
@@ -313,7 +313,7 @@ Implemented by: Mehdi, Murad, Amine.
 - `/auth/me` session recovery. (Mehdi)
 - Logout. (Mehdi)
 - 42 OAuth login. (Murad)
-- 2FA support. (Amine)
+- 2FA frontend UI/modal setup and two-step verification login flow (`requires2FA` integration with Google Authenticator TOTP). (Amine)
 - Profile display and profile editing. (Mehdi)
 - Password update. (Mehdi)
 - Public user data separation from sensitive database fields. (Mehdi)
@@ -329,17 +329,28 @@ Mehdi contribution details:
 - Connected protected routes and guest routes.
 - Worked on settings/profile integration with backend routes.
 
+Amine contribution details:
+
+- Built the two-factor authentication (2FA) frontend interfaces (`settingsPage.tsx` and `two-factor.api.ts`).
+- Created the QR Code generation modal (`/2fa/generate`) and initial 6-digit verification activation (`/2fa/turn-on`).
+- Integrated the two-step login verification flow (`LoginPage.tsx`), handling the `requires2FA: true` response to display the Google Authenticator TOTP input and finalize authentication via `/2fa/authenticate`.
+
+
 ### Friends and user interaction
 
 Implemented by: Mehdi, Amine.
 
 - Send friend requests. (Mehdi)
-- Receive friend requests. (Medi)
+- Receive friend requests. (Mehdi)
 - Accept requests. (Mehdi)
 - Delete friends. (Mehdi)
 - Block users. (Mehdi)
-- Online/offline status display. (Mehi)
+- Online/offline status display. (Mehdi)
 - Realtime friend list refresh with `friends_changed`. (Mehdi)
+- Custom UI Design System and visual styling. (Amine)
+- Responsive multi-device layout (`Layout.tsx`, grid adaptations). (Amine)
+- Avatar management (`AvatarPicker`, default gallery, web link, file upload, and initial fallback). (Amine)
+- 2FA settings modal and status section. (Amine)
 
 Mehdi contribution details:
 
@@ -353,6 +364,13 @@ Mehdi contribution details:
   - block behavior.
 - Connected the frontend friend list to backend APIs.
 - Integrated realtime refresh with the social socket.
+
+Amine contribution details:
+
+- Designed and developed the user interaction visual components across profile, settings, and friend pages using custom Tailwind CSS / `shadcn` components.
+- Developed the full `AvatarPicker` component and `Avatar` Radix UI integration, allowing users to choose between 6 local default gaming avatars, a direct web link, or local image upload via `FileReader` base64 conversion, along with stylized initial fallbacks.
+- Ensured full mobile and desktop responsiveness (`grid-cols-3 sm:grid-cols-4 md:grid-cols-5...`) across all user interaction views.
+
 
 ### Private chat and advanced chat
 
@@ -476,16 +494,23 @@ Paul contribution details:
 
 ### Frontend UI and design
 
-Implemented by: Amine, with integration work by the rest of the team. TODO: confirm exact split.
+Implemented by: Amine, with integration work by the rest of the team.
 
-- Custom UI style.
-- Responsive layout.
-- Global navigation.
-- Global chat component.
-- Game pages.
-- Profile/settings/friends UI.
-- Multilingual text integration.
-- Browser compatibility work.
+- Custom UI design system inspired by `shadcn` / Radix UI with Tailwind CSS. (Amine)
+- Responsive layouts and multi-device grid adaptations (`Layout.tsx`). (Amine)
+- Global navigation bar with user profile dropdown menu and universe theme toggle (`toggleUniverse`). (Amine)
+- Global real-time chat component (`GlobalChat`) visual structure and notification toast system (`Sonner`). (Amine)
+- Game pages styling (`ClassicGamePage`, `InfiniteGamePage`, `RankedGamePage`, `CountrydlePage`, `RankedLobbyPage`). (Amine)
+- Profile, settings, and friends UI structure, dialogs, and modals. (Amine)
+- Multilingual text layout integration. (Amine)
+- Browser compatibility testing and adjustments across major browsers (Chrome, Firefox, ). (Amine)
+
+Amine contribution details:
+
+- Built the visual foundation of the web application (`index.css`, custom tokens, glassmorphism, dynamic animations, and `DynamicBackground`).
+- Designed reusable UI primitives (`Button`, `Input`, `Dialog`, `Avatar`, `Heading`, `PageContainer`) ensuring uniform styling across all pages.
+- Integrated the `Sonner` global notification system (`Toaster`), configuring single-toast queueing (`visibleToasts={1}`) and customizable display durations.
+- Verified and fixed CSS compatibility issues across Google Chrome, Mozilla Firefox .
 
 ## Modules
 
@@ -508,12 +533,12 @@ Current module list from the team planning:
 | Gamification system | Minor | 1 | Murad | Rewards, XP/levels, Elo/ranked stats. |
 | Multiple languages | Minor | 1 | Murad | French, English, Russian translations through frontend i18n context. |
 | Remote authentication | Minor | 1 | Murad | 42 OAuth login and callback. |
-| Custom-made design system | Minor | 1 | Amine | Custom UI components, consistent visual styling. |
-| Compatibility with at least 2 additional browsers | Minor | 1 | Amine | Browser testing and fixes. TODO: list tested browsers. |
+| Custom-made design system | Minor | 1 | Amine | Custom UI components (`shadcn`/Tailwind), rich aesthetics, consistent visual styling. |
+| Compatibility with at least 2 additional browsers | Minor | 1 | Amine | Tested and verified cross-browser compatibility across Google Chrome, Mozilla Firefox . |
 | Game stats and match history | Minor | 1 | Murad | Match history pages and ranked statistics. |
 | Advanced chat features | Minor | 1 | Mehdi | Persistent private chat, typing indicator, read receipts, block messages, game invites from chat, profile access. |
 | Content moderation AI | Minor | 1 | Paul | TensorFlow toxicity model used to block toxic messages. |
-| 2FA | Minor | 1 | Amine | Two-factor authentication using OTP and QR code. TODO: confirm exact split. |
+| 2FA | Minor | 1 | Amine | Two-factor authentication frontend UI, QR Code generation modal, and two-step login verification flow (`requires2FA`). |
 
 Total planned points: 22.
 
@@ -662,14 +687,48 @@ How they were addressed:
 
 ### Amine
 
-TODO: complete with Amine.
+Main areas:
 
-Possible areas to verify:
+- Custom frontend design system and visual architecture (`shadcn`/Tailwind).
+- Full UI/UX implementation across all pages and interactive components.
+- Responsive multi-device layout across desktop, tablet, and mobile breakpoints (`Layout.tsx`).
+- Avatar management (`AvatarPicker`) and dynamic initial fallbacks.
+- Two-Factor Authentication (2FA) frontend setup, QR code generation modal, and two-step login flow (`requires2FA`).
+- Global notification system (`Sonner` toasts).
+- Cross-browser compatibility and UI testing across Google Chrome, Mozilla Firefox.
 
-- Custom frontend design system.
-- UI implementation and polish.
-- Browser compatibility.
-- 2FA UI/integration.
+Detailed contribution:
+
+- **Custom Design System & UI Architecture**:
+  - Developed the custom design system using Vanilla CSS, Tailwind CSS, and `shadcn` / Radix UI inspired primitives (`Button`, `Input`, `Dialog`, `DropdownMenu`, `Avatar`, `Heading`).
+  - Implemented the modern gaming/arcade aesthetic featuring glassmorphism, rich color palettes, micro-animations, and the `<DynamicBackground />` component.
+  - Built the global navigation (`Layout.tsx`) with dynamic universe switching (`toggleUniverse`), user dropdown menu, and authenticated state handling.
+- **Frontend Pages & Interactive Components**:
+  - Created and polished all primary application views: `HomePage`, `LoginPage`, `RegisterPage`, `settingsPage`, `ProfilePage`, `FriendsList`, `MatchHistoryPage`, `LeaderboardPage`, and game interfaces (`ClassicGamePage`, `InfiniteGamePage`, `RankedGamePage`, `CountrydlePage`, `RankedLobbyPage`).
+  - Integrated the visual structure of the real-time global chat (`GlobalChat.tsx`), including game invitation modals, user profile shortcuts, and typing indicators.
+  - Implemented the `Sonner` toast notification system (`Toaster` in `Layout.tsx`), replacing static/native alerts with elegant floating notifications, configuring single-toast queues (`visibleToasts={1}`) and duration controls (`duration={4000}`).
+- **Avatar Management System**:
+  - Built the `AvatarPicker.tsx` modal in user settings allowing three flexible input methods: picking from a local gallery of default gaming avatars (`DEFAULT_AVATARS`), pasting a direct web image link, or uploading a local image file via `FileReader` base64 encoding.
+  - Configured `<AvatarFallback>` to display the first letter of the user's username inside a stylized badge whenever an avatar is unassigned (`null`) or fails to load.
+- **Two-Factor Authentication (2FA) Frontend Integration**:
+  - Built the complete 2FA management interface in `settingsPage.tsx` and `two-factor.api.ts`.
+  - Implemented the QR Code generation modal (`generateTwoFactorQrCode`), the initial 6-digit TOTP verification (`turnOnTwoFactor`), and the secure deactivation modal (`turnOffTwoFactor`).
+  - Integrated the two-step login verification challenge in `LoginPage.tsx`: intercepting `{ requires2FA: true }` from the backend login response, dynamically rendering the Google Authenticator 6-digit input form, and calling `/2fa/authenticate` to finalize session cookie issuance.
+- **Responsive Layouts & Cross-Browser Compatibility**:
+  - Applied adaptive CSS grid and flexbox rules (`grid-cols-3 sm:grid-cols-4 md:grid-cols-5...`) to guarantee seamless navigation across all device screen sizes.
+  - Tested, debugged, and verified cross-browser visual consistency and behavior across Google Chrome, Mozilla Firefox.
+
+Challenges:
+
+- Maintaining visual consistency across complex real-time states (chat, matchmaking, 2FA modals, and game boards) while keeping the UI responsive.
+- Handling 2FA login state transitions smoothly without refreshing or losing user input when switching between email/password and TOTP verification screens.
+- Managing various avatar formats (base64 uploads, external URLs, and local defaults) while preventing layout shifts or broken image icons.
+
+How they were addressed:
+
+- Standardized all UI building blocks through Radix UI and Tailwind utility tokens (`cn()`, `cva()`), avoiding ad-hoc inline styles.
+- Built clean state transitions in `LoginPage.tsx` (`requires2FA` boolean state) to swap views instantly while keeping the temporary user ID (`tempUserId`) securely in memory.
+- Combined Radix UI `<AvatarImage>` with `<AvatarFallback>` to ensure a seamless, professional fallback to the user's initial (`username.charAt(0).toUpperCase()`) whenever an image asset is missing.
 
 ### Murad
 

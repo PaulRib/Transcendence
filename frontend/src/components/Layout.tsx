@@ -188,9 +188,10 @@ function Layout() {
                 </div>
             )}
 
-            <Toaster position="top-right" richColors />
+            <Toaster position="top-center" richColors visibleToasts={1} duration={4000} />
         </div>
     );
 }
 
 export default Layout;
+    
