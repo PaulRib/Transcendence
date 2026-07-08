@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Send, User , Swords, Ban } from 'lucide-react';
+import { Send, User, Swords, Ban } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { blockUser, getFriends, type FriendUser, type Friendship } from '../api/friends.api';
 import { getConversation, type ChatMessage } from '../api/chat.api';
@@ -123,23 +123,24 @@ export function GlobalChat() {
       );
     }
 
-	function handleMessageError(err: { receiverId: String; message: string }) {
-		if (selectedFriend && err.receiverId === selectedFriend.id) {
-			setError(err.message);
-		}
-	}
+    function handleMessageError(err: { receiverId: String; message: string }) {
+      if (selectedFriend && err.receiverId === selectedFriend.id) {
+        setError(err.message);
+      }
+    }
+
     socket.on('message_received', handleMessageReceived);
     socket.on('typing_started', handleTypingStarted);
     socket.on('typing_stopped', handleTypingStopped);
     socket.on('message_read', handleMessagesRead);
-	socket.on('message_error', handleMessageError);
+    socket.on('message_error', handleMessageError);
 
     return () => {
       socket.off('message_received', handleMessageReceived);
       socket.off('typing_started', handleTypingStarted);
       socket.off('typing_stopped', handleTypingStopped);
       socket.off('message_read', handleMessagesRead);
-	  socket.off('message_error', handleMessageError);
+      socket.off('message_error', handleMessageError);
     };
   }, [socket, currentUser, selectedFriend, isOpen]);
 
