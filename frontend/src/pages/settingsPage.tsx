@@ -106,7 +106,7 @@ function SettingsPage() {
         avatar_url: avatarUrl,
       });
       
-      updateCurrentUser(updatedUser);
+      updateCurrentUser({ ...currentUser, ...updatedUser });     
       setPseudo(updatedUser.username);
       toast.success(t("settings.profileUpdated"));
       setError(null);

@@ -16,6 +16,9 @@ export class TwoFactorService {
     if (!user) {
       throw new UnauthorizedException('Utilisateur introuvable');
     }
+    if (user.is_two_factor_enabled) {                                                                                           
+      throw new UnauthorizedException('La 2FA est déjà activée. Vous devez la désactiver avant d\'en générer une nouvelle.');   
+    }    
     const secret = authenticator.generateSecret();
 
     const otpauthUrl = authenticator.keyuri(user.email, 'FT_Transcendence', secret);
