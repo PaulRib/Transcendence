@@ -115,7 +115,7 @@ function FriendsList() {
       await loadFriendsData();
       setUsernameToAdd('');
       setError(null);
-      toast.success("Demande d'amis envoyé");
+      toast.success(t("friends.requestSent"));
     } catch {
      toast.error(t("friends.cantsend"));
     }

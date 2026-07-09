@@ -156,7 +156,7 @@ function ProfilePage() {
                 className="transition-all duration-1000 ease-out"
               />
             </svg>
-            <div className="w-[42px] h-[42px] rounded-full bg-[#111827] border border-[#f1c40f]/60 flex items-center justify-center shadow-lg z-10" title={`${stats?.xp_points ?? 0} XP au total`}>
+            <div className="w-[42px] h-[42px] rounded-full bg-[#111827] border border-[#f1c40f]/60 flex items-center justify-center shadow-lg z-10" title={t("profile.totalXp").replace("{xp}", String(stats?.xp_points ?? 0))}>
               <span className="text-white font-bold text-lg">
                 {stats?.level ?? 1}
               </span>
