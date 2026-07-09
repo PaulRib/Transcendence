@@ -334,6 +334,7 @@ Amine contribution details:
 - Built the two-factor authentication (2FA) frontend interfaces (`settingsPage.tsx` and `two-factor.api.ts`).
 - Created the QR Code generation modal (`/2fa/generate`) and initial 6-digit verification activation (`/2fa/turn-on`).
 - Integrated the two-step login verification flow (`LoginPage.tsx`), handling the `requires2FA: true` response to display the Google Authenticator TOTP input and finalize authentication via `/2fa/authenticate`.
+- Use modern notification UI (toaster)
 
 Murad contribution details:
 
@@ -840,6 +841,8 @@ Official documentation and references:
 - PostgreSQL documentation: https://www.postgresql.org/docs/
 - Docker documentation: https://docs.docker.com/
 - Nginx documentation: https://nginx.org/en/docs/
+- Tailwind documentation: https://tailwindcss.com/docs/installation/using-vite
+- chadcn UI components documentations https://ui.shadcn.com/docs
 - JWT introduction: https://jwt.io/introduction
 - 42 OAuth/API documentation: https://api.intra.42.fr/apidoc
 - class-validator documentation: https://github.com/typestack/class-validator
