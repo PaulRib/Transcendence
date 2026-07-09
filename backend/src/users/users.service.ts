@@ -157,6 +157,7 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
+                is_two_factor_enabled: true,
             },
         });
         return updatedUser;
