@@ -61,7 +61,7 @@ function LoginPage() {
       navigate('/');
       setError(null);
     } catch {
-      setError("Code 2FA invalide ou expiré");
+      setError(t("login.twoFactorInvalid"));
     }
   };
 
@@ -71,31 +71,31 @@ function LoginPage() {
 
   return (
     <PageContainer>
-      <Heading>{requires2FA ? "Vérification 2FA" : t("login.title")}</Heading>
+      <Heading>{requires2FA ? t("login.twoFactorTitle") : t("login.title")}</Heading>
 
       {/* TOTP verification form */}
       {requires2FA ? (
         <form className="flex flex-col gap-6 w-full max-w-sm mx-auto" onSubmit={handle2FASubmit}>
           <p className="text-center text-slate-300 text-sm">
-            Ouvrez votre application Google Authenticator et saisissez le code à 6 chiffres.
+            {t("login.twoFactorDescription")}
           </p>
           <Input
             type="text"
-            placeholder="Code à 6 chiffres (ex: 123456)"
+            placeholder={t("login.twoFactorPlaceholder")}
             maxLength={6}
             value={twoFactorCode}
             onChange={(e) => setTwoFactorCode(e.target.value)}
             className="text-center tracking-widest text-lg font-mono"
             autoFocus
           />
-          <Button type="submit">Vérifier et me connecter</Button>
+          <Button type="submit">{t("login.twoFactorSubmit")}</Button>
           <Button
             type="button"
             variant="outline"
             onClick={() => setRequires2FA(false)}
             className="border-white/20 text-slate-400"
           >
-            Retour
+            {t("login.twoFactorBack")}
           </Button>
         </form>
       ) : (
@@ -116,7 +116,7 @@ function LoginPage() {
 
           <div className="flex items-center gap-4 my-1">
             <div className="h-px bg-white/10 flex-1"></div>
-            <span className="text-slate-400 text-sm font-medium uppercase">ou</span>
+            <span className="text-slate-400 text-sm font-medium uppercase">{t("login.or")}</span>
             <div className="h-px bg-white/10 flex-1"></div>
           </div>
 

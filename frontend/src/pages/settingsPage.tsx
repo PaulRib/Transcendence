@@ -36,7 +36,7 @@ function SettingsPage() {
       setQrCodeDataUrl(data.qrCodeDataUrl);
       setIs2FADialogOpen(true);
     } catch {
-      toast.error("Impossible de générer le QR Code 2FA");
+      toast.error(t("settings.twoFactorQrError"));
     }
   };
 
@@ -45,14 +45,14 @@ function SettingsPage() {
     setError(null);
     try {
       await turnOnTwoFactor(twoFactorInput);
-      toast.success("Authentification à double facteur activée avec succès !");
+      toast.success(t("settings.twoFactorEnabledSuccess"));
       setIs2FADialogOpen(false);
       setTwoFactorInput('');
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: true });
       }
     } catch (err: any) {
-      toast.error(err.message || "Code 2FA invalide");
+      toast.error(err.message || t("settings.twoFactorInvalidCode"));
     }
   };
 
@@ -61,14 +61,14 @@ function SettingsPage() {
     setError(null);
     try {
       await turnOffTwoFactor(twoFactorInput);
-      toast.success("Authentification à double facteur désactivée");
+      toast.success(t("settings.twoFactorDisabledSuccess"));
       setIsDisableDialogOpen(false);
       setTwoFactorInput('');
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: false });
       }
     } catch (err: any) {
-      toast.error(err.message || "Code 2FA invalide");
+      toast.error(err.message || t("settings.twoFactorInvalidCode"));
     }
   };
 
@@ -219,27 +219,27 @@ function SettingsPage() {
 
         {/* Security block: TOTP with Google Authenticator */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col items-center gap-4 text-center">
-          <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">Sécurité 2FA (Google Authenticator)</h2>
+          <h2 className="text-xl font-semibold m-0 border-b border-white/10 pb-2 w-full">{t("settings.twoFactorTitle")}</h2>
           <p className="text-sm text-slate-300">
-            Protégez votre compte avec un code à 6 chiffres généré par votre application mobile.
+            {t("settings.twoFactorDescription")}
           </p>
           <div className="flex items-center gap-4 mt-2">
             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${currentUser?.is_two_factor_enabled ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-500/20 text-slate-400 border border-slate-500/30'}`}>
-              Statut : {currentUser?.is_two_factor_enabled ? 'Activée' : 'Désactivée'}
+              {t("settings.twoFactorStatus")} {currentUser?.is_two_factor_enabled ? t("settings.twoFactorEnabled") : t("settings.twoFactorDisabled")}
             </span>
 
             {!currentUser?.is_two_factor_enabled ? (
               <Dialog open={is2FADialogOpen} onOpenChange={setIs2FADialogOpen}>
                 <Button type="button" onClick={handleOpen2FASetting} className="bg-emerald-600 hover:bg-emerald-700">
-                  Activer la 2FA
+                  {t("settings.twoFactorEnable")}
                 </Button>
                 <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
                   <DialogHeader>
-                    <DialogTitle className="text-center">Configuration Google Authenticator</DialogTitle>
+                    <DialogTitle className="text-center">{t("settings.twoFactorSetupTitle")}</DialogTitle>
                   </DialogHeader>
                   <div className="flex flex-col items-center gap-4 py-4">
                     <p className="text-xs text-slate-300 text-center">
-                      Scannez ce QR Code avec Google Authenticator ou Authy, puis saisissez le code à 6 chiffres pour valider.
+                      {t("settings.twoFactorSetupDescription")}
                     </p>
                     {qrCodeDataUrl && (
                       <div className="bg-white p-3 rounded-xl shadow-lg">
@@ -249,14 +249,14 @@ function SettingsPage() {
                     <form onSubmit={handleTurnOn2FA} className="flex flex-col items-center gap-3 w-full mt-2">
                       <Input
                         type="text"
-                        placeholder="Code à 6 chiffres"
+                        placeholder={t("settings.twoFactorCodePlaceholder")}
                         maxLength={6}
                         value={twoFactorInput}
                         onChange={(e) => setTwoFactorInput(e.target.value)}
                         className="text-center tracking-widest text-lg font-mono"
                       />
                       <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700">
-                        Confirmer et Activer
+                        {t("settings.twoFactorConfirmEnable")}
                       </Button>
                     </form>
                   </div>
@@ -265,26 +265,26 @@ function SettingsPage() {
             ) : (
               <Dialog open={isDisableDialogOpen} onOpenChange={setIsDisableDialogOpen}>
                 <Button type="button" variant="destructive" onClick={() => setIsDisableDialogOpen(true)}>
-                  Désactiver la 2FA
+                  {t("settings.twoFactorDisable")}
                 </Button>
                 <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
                   <DialogHeader>
-                    <DialogTitle className="text-center">Désactiver la 2FA</DialogTitle>
+                    <DialogTitle className="text-center">{t("settings.twoFactorDisable")}</DialogTitle>
                   </DialogHeader>
                   <form onSubmit={handleTurnOff2FA} className="flex flex-col items-center gap-4 py-4 w-full">
                     <p className="text-sm text-slate-300 text-center">
-                      Saisissez votre code actuel pour confirmer la désactivation de l'authentification à double facteur.
+                      {t("settings.twoFactorDisableDescription")}
                     </p>
                     <Input
                       type="text"
-                      placeholder="Code à 6 chiffres"
+                      placeholder={t("settings.twoFactorCodePlaceholder")}
                       maxLength={6}
                       value={twoFactorInput}
                       onChange={(e) => setTwoFactorInput(e.target.value)}
                       className="text-center tracking-widest text-lg font-mono"
                     />
                     <Button type="submit" variant="destructive" className="w-full">
-                      Confirmer la désactivation
+                      {t("settings.twoFactorConfirmDisable")}
                     </Button>
                   </form>
                 </DialogContent>
