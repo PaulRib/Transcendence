@@ -28,7 +28,7 @@ export function HistoryGrid({ columns, guesses }: HistoryGridProps) {
         {columns.map((col, idx) => (
           <div 
             key={idx} 
-            className="min-w-0 overflow-hidden text-slate-300 uppercase tracking-tighter sm:tracking-tight md:tracking-wide text-[clamp(6px,1.15vw,13px)] font-extrabold leading-tight flex items-center justify-center px-0.5 py-1 text-center min-h-[28px] sm:min-h-[36px] select-none"
+            className="min-w-0 overflow-hidden text-slate-300 uppercase tracking-tighter sm:tracking-tight md:tracking-wide text-[clamp(6px,1.15vw,9px)] font-extrabold leading-tight flex items-center justify-center px-0.5 py-1 text-center min-h-[28px] sm:min-h-[36px] select-none"
           >
             <span className="w-full whitespace-nowrap">{col}</span>
           </div>
