@@ -594,7 +594,6 @@ Main areas:
 
 Detailed contribution:
 
-- Helped move `UsersService` from mock-like behavior to Prisma/PostgreSQL-backed user access.
 - Worked on safe user responses:
   - public user shape;
   - no `password_hash` exposed to the frontend;
@@ -602,11 +601,9 @@ Detailed contribution:
 - Worked on local auth:
   - register DTO and validation;
   - duplicate username/email checks;
-  - `409 Conflict` behavior;
   - password hashing with `scrypt` and salt;
   - login with identifier/password;
-  - invalid credentials as `401 Unauthorized`.
-- Helped implement JWT authentication:
+  - Implement JWT authentication:
   - payload with user id in `sub`;
   - `JwtAuthGuard`;
   - `/auth/me`;
@@ -619,7 +616,6 @@ Detailed contribution:
 - Worked on profile/settings:
   - update profile;
   - update password;
-  - avatar URL handling;
   - profile access from chat.
 - Built friends flow:
   - send friend request;
@@ -830,17 +826,6 @@ How they were addressed:
 - Sensitive fields such as `password_hash` and 2FA secrets should never be returned to the frontend.
 - HTTP-only cookies reduce direct token exposure to frontend JavaScript.
 
-## Known Limitations / TODO
-
-> TODO: review with the whole team before final submission.
-
-- Some team responsibilities and exact 42 logins still need to be filled in.
-- Browser compatibility section must list the exact tested browsers.
-- Project management tools and communication channels must be confirmed.
-- The final README should replace placeholders before submission.
-- Some game-related edge cases should be verified with two real browser sessions.
-- If the final deployed URL differs from local Docker URLs, update the Instructions section.
-
 ## Resources
 
 Official documentation and references:
@@ -850,14 +835,12 @@ Official documentation and references:
 - NestJS WebSockets: https://docs.nestjs.com/websockets/gateways
 - Socket.IO documentation: https://socket.io/docs/v4/
 - React documentation: https://react.dev/
-- Vite documentation: https://vite.dev/
 - React Router documentation: https://reactrouter.com/
 - Prisma documentation: https://www.prisma.io/docs
 - PostgreSQL documentation: https://www.postgresql.org/docs/
 - Docker documentation: https://docs.docker.com/
 - Nginx documentation: https://nginx.org/en/docs/
 - JWT introduction: https://jwt.io/introduction
-- OWASP Authentication Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
 - 42 OAuth/API documentation: https://api.intra.42.fr/apidoc
 - class-validator documentation: https://github.com/typestack/class-validator
 - TensorFlow.js toxicity model: https://github.com/tensorflow/tfjs-models/tree/master/toxicity
@@ -876,5 +859,3 @@ AI usage:
 ## License / Credits
 
 This project was developed for educational purposes as part of the 42 curriculum.
-
-TODO: add license choice if the team wants to publish the project publicly.
