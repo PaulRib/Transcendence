@@ -57,16 +57,6 @@ function RankedManager() {
       setMatchState('playing');
     });
 
-    newSocket.on('game_over', (data) => {
-        if (data.reason === 'opponent_disconnected') {
-            alert(t('multiplayer.forfeitText'));
-            setMatchState('lobby');
-            setMatchId(null);
-            setInitialMatchData(null);
-            setStarterUserId(null);
-        }
-    });
-
     return () => {
       newSocket.disconnect();
     };

@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.ngrok-free.dev', 'localhost', '127.0.0.1'],
+    allowedHosts: ['.shares.zrok.io', 'localhost', '127.0.0.1'],
   },
 })
