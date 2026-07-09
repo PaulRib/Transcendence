@@ -134,12 +134,19 @@ function LoginPage() {
       )}
 
       {!requires2FA && (
-        <div className="flex flex-row items-center justify-center gap-1.5 mt-4 text-slate-300 text-[0.95rem]">
-          <span>{t("login.noAccount")}</span>
-          <Link to="/register" className="text-blue-300 font-semibold no-underline hover:text-blue-200 hover:underline">
-            {t("login.register")}
-          </Link>
-        </div>
+        <>
+          <div className="flex flex-row items-center justify-center gap-1.5 mt-4 text-slate-300 text-[0.95rem]">
+            <span>{t("login.noAccount")}</span>
+            <Link to="/register" className="text-blue-300 font-semibold no-underline hover:text-blue-200 hover:underline">
+              {t("login.register")}
+            </Link>
+          </div>
+          <div className="text-xs text-slate-400 text-center leading-relaxed mt-2">
+            <Link to="/terms" className="text-blue-400 hover:underline font-medium">{t("nav.termsOfService")}</Link>
+            {' • '}
+            <Link to="/privacy" className="text-blue-400 hover:underline font-medium">{t("nav.privacyPolicy")}</Link>
+          </div>
+        </>
       )}
 
       {message && <p>{message}</p>}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../api/auth.api";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
@@ -60,6 +60,11 @@ function RegisterPage() {
           onChange={(event) => setPassword(event.target.value)}
         />
         <Button type="submit">{t("register.submit")}</Button>
+        <div className="text-xs text-slate-400 text-center leading-relaxed px-2 mt-1">
+          <Link to="/terms" className="text-blue-400 hover:underline font-medium">{t("nav.termsOfService")}</Link>
+          {' • '}
+          <Link to="/privacy" className="text-blue-400 hover:underline font-medium">{t("nav.privacyPolicy")}</Link>
+        </div>
       </form>
 
       {message && <p>{message}</p>}
