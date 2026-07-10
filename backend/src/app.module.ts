@@ -13,8 +13,9 @@ import { FriendsModule } from './friends/friends.module';
 import { ChatModule } from './chat/chat.module';
 import { MultiplayerModule } from './multiplayer/multiplayer.module';
 import { SocialeModule } from './social/social.module';
+import { PublicApiModule } from './public-api/public-api.module';
 
 @Module({
-  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, MultiplayerModule, FriendsModule, ChatModule, GamificationModule, CountriesModule, DailycountrymatchesModule, SocialeModule]
+  imports: [HealthModule, UsersModule, PrismaModule, ChampionsModule, DailymatchesModule, InfinitematchesModule, AuthModule, MultiplayerModule, FriendsModule, ChatModule, GamificationModule, CountriesModule, DailycountrymatchesModule, SocialeModule, PublicApiModule]
 })
 export class AppModule {}
