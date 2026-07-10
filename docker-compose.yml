@@ -51,14 +51,19 @@ services:
     depends_on:
       - frontend
       - backend
-  # tunnel:
-  #   image: ngrok/ngrok:latest
-  #   container_name: ngrok_tunnel
-  #   env_file:
-  #     - ./backend/.env
-  #   command: http https://gateway:443 --url=undiluted-unscented-fiction.ngrok-free.dev
-  #   depends_on:
-  #     - gateway
+  tunnel:
+    image: openziti/zrok2
+    container_name: zrok_tunnel
+    restart: unless-stopped
+    user: "0:0"
+    volumes:
+      - ${HOME}/.zrok2:/home/ziggy/.zrok2
+    environment:
+      - PFXLOG_NO_JSON=true
+      - HOME=/home/ziggy
+    command: share public https://gateway:443 --insecure --headless -n public:42dle
+    depends_on:
+      - gateway
 
 volumes:
   pgdata:

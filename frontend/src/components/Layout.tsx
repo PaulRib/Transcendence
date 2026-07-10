@@ -7,7 +7,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords, User, Languages, Settings } from 'lucide-react';
+import { Globe, Swords, User, Languages, Settings, ShieldCheck, FileText } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Toaster } from './ui/sonner';
 import { 
@@ -119,9 +119,26 @@ function Layout() {
                     <Outlet />
                 </main>
             </div>
+
+            <footer className="fixed bottom-0 left-0 right-0 w-full py-2 sm:py-2.5 px-3 sm:px-6 border-t border-white/15 bg-[#1d1d20]/90 backdrop-blur-xl flex flex-row justify-between items-center gap-2 text-[11px] sm:text-xs text-slate-400 z-[900] shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+                <div className="flex items-center gap-1 sm:gap-1.5 font-medium truncate">
+                    <span>© 2026 ft_transcendence</span>
+                    <span className="text-white/20 hidden sm:inline">•</span>
+                    <span className="hidden sm:inline">42 School Project</span>
+                </div>
+                <div className="flex items-center gap-3 sm:gap-4 font-medium shrink-0">
+                    <Link to="/privacy" className="hover:text-white transition-colors underline underline-offset-4">
+                        {t("nav.privacyPolicy")}
+                    </Link>
+                    <span className="text-white/20">•</span>
+                    <Link to="/terms" className="hover:text-white transition-colors underline underline-offset-4">
+                        {t("nav.termsOfService")}
+                    </Link>
+                </div>
+            </footer>
             <GlobalChat />
 
-            <div className="fixed bottom-6 left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
+            <div className="fixed bottom-12 sm:bottom-11 left-4 sm:left-6 z-[1000] pointer-events-none [&>*]:pointer-events-auto">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="group w-12 h-12 flex items-center justify-center cursor-pointer outline-none rounded-full">
@@ -157,6 +174,21 @@ function Layout() {
                                 </DropdownMenuRadioGroup>
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
+
+                        <DropdownMenuSeparator className="bg-white/10" />
+
+                        <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2">
+                            <Link to="/privacy" className="flex items-center">
+                                <ShieldCheck size={16} className="mr-2 text-indigo-400" />
+                                {t("nav.privacyPolicy")}
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2">
+                            <Link to="/terms" className="flex items-center">
+                                <FileText size={16} className="mr-2 text-purple-400" />
+                                {t("nav.termsOfService")}
+                            </Link>
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

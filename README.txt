@@ -31,7 +31,7 @@ Key features:
 
 | Team member | 42 login | Assigned role(s) | Main responsibilities |
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
-| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (ngrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
+| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (zrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
 | Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system (`shadcn`/Tailwind), responsive layouts, avatar management (`AvatarPicker`), browser compatibility, 2FA frontend UI/integration (`requires2FA` login modal & settings), UI polish. |
 | Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. |
 
@@ -134,11 +134,10 @@ POSTGRES_USER=admin_user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=my_db
 JWT_SECRET=change_this_secret
-FRONTEND_URL=http://localhost:5173
+FRONTEND_URL=https://localhost:5173
 FORTYTWO_CLIENT_ID=<your_42_client_id>
 FORTYTWO_CLIENT_SECRET=<your_42_client_secret>
-FORTYTWO_CALLBACK_URL=http://localhost:3000/api/auth/42/callback
-NGROK_AUTHTOKEN=<your_ngrok_token>
+FORTYTWO_CALLBACK_URL=https://localhost:3000/api/auth/42/callback
 ```
 
 Notes:
@@ -334,6 +333,7 @@ Amine contribution details:
 - Built the two-factor authentication (2FA) frontend interfaces (`settingsPage.tsx` and `two-factor.api.ts`).
 - Created the QR Code generation modal (`/2fa/generate`) and initial 6-digit verification activation (`/2fa/turn-on`).
 - Integrated the two-step login verification flow (`LoginPage.tsx`), handling the `requires2FA: true` response to display the Google Authenticator TOTP input and finalize authentication via `/2fa/authenticate`.
+- Use modern notification UI (toaster)
 
 Murad contribution details:
 
@@ -594,7 +594,6 @@ Main areas:
 
 Detailed contribution:
 
-- Helped move `UsersService` from mock-like behavior to Prisma/PostgreSQL-backed user access.
 - Worked on safe user responses:
   - public user shape;
   - no `password_hash` exposed to the frontend;
@@ -602,11 +601,9 @@ Detailed contribution:
 - Worked on local auth:
   - register DTO and validation;
   - duplicate username/email checks;
-  - `409 Conflict` behavior;
   - password hashing with `scrypt` and salt;
   - login with identifier/password;
-  - invalid credentials as `401 Unauthorized`.
-- Helped implement JWT authentication:
+  - Implement JWT authentication:
   - payload with user id in `sub`;
   - `JwtAuthGuard`;
   - `/auth/me`;
@@ -619,7 +616,6 @@ Detailed contribution:
 - Worked on profile/settings:
   - update profile;
   - update password;
-  - avatar URL handling;
   - profile access from chat.
 - Built friends flow:
   - send friend request;
@@ -676,7 +672,7 @@ Main areas:
 
 - Backend & Frontend multiplayer architecture and game socket.
 - Ranked matchmaking flow and turn-based guessing game loop.
-- Remote player access setup (HTTPS & Ngrok tunnel).
+- Remote player access setup (HTTPS & Zrok tunnel).
 - Game modes (Daily Loldle and Infinite guessing modes).
 - AI content moderation.
 - Anticheat backend logic & security verification.
@@ -695,7 +691,7 @@ Detailed contribution:
   - Saved daily game progress in the client's LocalStorage to persist states on refresh.
   - Handled match victory screens with delay transitions.
 - **Remote Access & Networking**:
-  - Implemented tunnel-based remote player testing via ngrok (`undiluted-unscented-fiction.ngrok-free.dev`).
+  - Implemented tunnel-based remote player testing via Zrok (`42dle.shares.zrok.io`).
   - Set up and tested HTTPS support for the project.
 - **Anticheat & Security**:
   - Implemented turn-verification on the backend to enforce valid guess orders and prevent exploits.
@@ -830,17 +826,6 @@ How they were addressed:
 - Sensitive fields such as `password_hash` and 2FA secrets should never be returned to the frontend.
 - HTTP-only cookies reduce direct token exposure to frontend JavaScript.
 
-## Known Limitations / TODO
-
-> TODO: review with the whole team before final submission.
-
-- Some team responsibilities and exact 42 logins still need to be filled in.
-- Browser compatibility section must list the exact tested browsers.
-- Project management tools and communication channels must be confirmed.
-- The final README should replace placeholders before submission.
-- Some game-related edge cases should be verified with two real browser sessions.
-- If the final deployed URL differs from local Docker URLs, update the Instructions section.
-
 ## Resources
 
 Official documentation and references:
@@ -850,14 +835,14 @@ Official documentation and references:
 - NestJS WebSockets: https://docs.nestjs.com/websockets/gateways
 - Socket.IO documentation: https://socket.io/docs/v4/
 - React documentation: https://react.dev/
-- Vite documentation: https://vite.dev/
 - React Router documentation: https://reactrouter.com/
 - Prisma documentation: https://www.prisma.io/docs
 - PostgreSQL documentation: https://www.postgresql.org/docs/
 - Docker documentation: https://docs.docker.com/
 - Nginx documentation: https://nginx.org/en/docs/
+- Tailwind documentation: https://tailwindcss.com/docs/installation/using-vite
+- chadcn UI components documentations https://ui.shadcn.com/docs
 - JWT introduction: https://jwt.io/introduction
-- OWASP Authentication Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
 - 42 OAuth/API documentation: https://api.intra.42.fr/apidoc
 - class-validator documentation: https://github.com/typestack/class-validator
 - TensorFlow.js toxicity model: https://github.com/tensorflow/tfjs-models/tree/master/toxicity
@@ -876,5 +861,3 @@ AI usage:
 ## License / Credits
 
 This project was developed for educational purposes as part of the 42 curriculum.
-
-TODO: add license choice if the team wants to publish the project publicly.

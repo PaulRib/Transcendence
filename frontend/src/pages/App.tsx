@@ -18,6 +18,8 @@ import CountrydlePage from './countrydle/CountrydlePage';
 import FortyTwoCallbackPage from './FortyTwoCallbackPage';
 import MatchHistoryPage from "./MatchHistoryPage";
 import NotFoundPage from './NotFoundPage';
+import PrivacyPolicyPage from './PrivacyPolicyPage';
+import TermsOfServicePage from './TermsOfServicePage';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
           <Route path="selectGame" element={<SelectGame/>}/>
           <Route path="countrydle" element={<CountrydlePage/>}/>
           <Route path="auth/42/callback" element={<FortyTwoCallbackPage/>}/>
+          <Route path="privacy" element={<PrivacyPolicyPage/>}/>
+          <Route path="terms" element={<TermsOfServicePage/>}/>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

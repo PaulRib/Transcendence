@@ -51,8 +51,8 @@ function SettingsPage() {
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: true });
       }
-    } catch (err: any) {
-      toast.error(err.message || t("settings.twoFactorInvalidCode"));
+    } catch {
+      toast.error(t("settings.twoFactorInvalidCode"));
     }
   };
 
@@ -67,8 +67,8 @@ function SettingsPage() {
       if (currentUser) {
         updateCurrentUser({ ...currentUser, is_two_factor_enabled: false });
       }
-    } catch (err: any) {
-      toast.error(err.message || t("settings.twoFactorInvalidCode"));
+    } catch {
+      toast.error(t("settings.twoFactorInvalidCode"));
     }
   };
 

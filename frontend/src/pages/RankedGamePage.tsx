@@ -118,22 +118,21 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
     }
     return () => {
       if (interval) clearInterval(interval);
-    };
+    }
   }, [opponentDisconnected, disconnectCountdown]);
 
   // useEffect used for socket
   useEffect(() => {
     if (!socket) return;
 
-    // sockets for the gameplay
-    socket.on('guess_result_full', (result: GuessResponse) => {
+    const handleGuessResultFull = (result: GuessResponse) => {
       setGuesses((prev) => [result, ...prev]);
       if (result.isWin) {
         setHasWon(true);
       }
-    });
+    };
 
-    socket.on('guess_result_spectator', async (data: { name: string }) => {
+    const handleGuessResultSpectator = async (data: { name: string }) => {
       try {
         if (data && data.name != null) {
           const name = data.name;
@@ -152,14 +151,13 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           ...prev,
         ]);
       }
-    });
+    };
 
-    socket.on('last_chance_triggered', () => {
+    const handleLastChanceTriggered = () => {
       setLastChance(true);
-    });
+    };
 
-    // End-of-game handling
-    socket.on('game_over', async (data: { isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string }) => {
+    const handleGameOver = async (data: { isDraw: boolean; winnerId: string; reason?: string; secretChampionName?: string }) => {
       setGameOverInfo(data);
       if (data.winnerId === currentUser?.id) {
         setHasWon(true);
@@ -195,51 +193,60 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
           setShowVictory(true);
         }, 3500);
       }
-    });
+    };
 
-    socket.on('game_error', (data: { message: string }) => {
+    const handleGameError = (data: { message: string }) => {
       alert(`${t("multiplayer.gameError")}${data.message}`);
-    });
+    };
 
-    // Sockets for disconnection and reconnection
-    socket.on('player_disconnected_grace', (data: { userId: string; username: string; reconnectWindowMs: number }) => {
+    const handlePlayerDisconnectedGrace = (data: { userId: string; username: string; reconnectWindowMs: number }) => {
       console.log("player_disconnected_grace reçu :", data);
       if (data.userId !== currentUser?.id) {
         setOpponentDisconnected(true);
         setDisconnectCountdown(Math.round(data.reconnectWindowMs / 1000));
       }
-    });
+    };
 
-    socket.on('player_reconnected', (data: { userId: string; username: string }) => {
+    const handlePlayerReconnected = (data: { userId: string; username: string }) => {
       console.log("player_reconnected reçu :", data);
       if (data.userId !== currentUser?.id) {
         setOpponentDisconnected(false);
         setDisconnectCountdown(60);
       }
-    });
+    };
 
-    socket.on('match_state_restored', (data: { matchState: any; starterUserId: string }) => {
+    const handleMatchStateRestored = (data: { matchState: any; starterUserId: string }) => {
       if (data?.matchState) {
         setMatchData(data.matchState);
       }
-    });
+    };
 
-    socket.on('game_ready', (data?: { matchData?: any }) => {
+    const handleGameReady = (data?: { matchData?: any }) => {
       if (data?.matchData) {
         setMatchData(data.matchData);
       }
-    });
+    };
+
+    socket.on('guess_result_full', handleGuessResultFull);
+    socket.on('guess_result_spectator', handleGuessResultSpectator);
+    socket.on('last_chance_triggered', handleLastChanceTriggered);
+    socket.on('game_over', handleGameOver);
+    socket.on('game_error', handleGameError);
+    socket.on('player_disconnected_grace', handlePlayerDisconnectedGrace);
+    socket.on('player_reconnected', handlePlayerReconnected);
+    socket.on('match_state_restored', handleMatchStateRestored);
+    socket.on('game_ready', handleGameReady);
 
     return () => {
-      socket.off('guess_result_full');
-      socket.off('guess_result_spectator');
-      socket.off('last_chance_triggered');
-      socket.off('game_over');
-      socket.off('game_error');
-      socket.off('player_disconnected_grace');
-      socket.off('player_reconnected');
-      socket.off('match_state_restored');
-      socket.off('game_ready');
+      socket.off('guess_result_full', handleGuessResultFull);
+      socket.off('guess_result_spectator', handleGuessResultSpectator);
+      socket.off('last_chance_triggered', handleLastChanceTriggered);
+      socket.off('game_over', handleGameOver);
+      socket.off('game_error', handleGameError);
+      socket.off('player_disconnected_grace', handlePlayerDisconnectedGrace);
+      socket.off('player_reconnected', handlePlayerReconnected);
+      socket.off('match_state_restored', handleMatchStateRestored);
+      socket.off('game_ready', handleGameReady);
     };
   }, [socket, matchId, currentUser, t, starterUserId, updateCurrentUser]);
 
