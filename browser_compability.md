@@ -7,6 +7,8 @@ This document certifies the full compatibility of the **Transcendence** applicat
 ## 🖥️ Tested & Fully Supported Browsers
 * **Google Chrome / Chromium** (V8 / Blink) — *Primary & reference browser*
 * **Mozilla Firefox** (Gecko) — *Tested & compatible*
+* **Microsoft Edge** (Blink) — *Tested & compatible*
+* **Brave** (Blink/chromium) — *Tested & compatible*
 * **Safari** (WebKit) — *untested*
 
 ---
@@ -60,10 +62,12 @@ Ce document atteste de la compatibilité complète de l'application **Transcende
 
 ---
 
-## 🖥️ Navigateurs testés & entièrement pris en charge
-* **Google Chrome / Chromium** (V8 / Blink) — *Navigateur principal et de référence*
-* **Mozilla Firefox** ( Gecko) — *Testé et compatible*
-* **Safari** ( WebKit) — *Non testé*
+## 🖥️ Tested & Fully Supported Browsers
+* **Google Chrome / Chromium** (V8 / Blink) — *Primary & reference browser*
+* **Mozilla Firefox** (Gecko) — *Tested & compatible*
+* **Microsoft Edge** (Blink) — *Tested & compatible*
+* **Brave** (Blink/chromium) — *Tested & compatible*
+* **Safari** (WebKit) — *untested*
 
 ---
 
@@ -79,7 +83,7 @@ Ce document atteste de la compatibilité complète de l'application **Transcende
 * **Différence / Limitation spécifique :** 
   Les navigateurs basés sur Blink (Chrome, Edge) appliquent un bridage (throttling) très agressif sur les fonctions Javascript `setInterval` et `setTimeout` lorsque l'onglet est en arrière-plan ou minimisé (réduction à 1 exécution par seconde ou moins). Firefox et Safari gèrent la mise en veille des sockets et des timers de manière différente.
 * **Solution apportée :** 
-  Pour éviter toute désynchronisation pendant les parties en ligne ([RankedGamePage.tsx](file:///home/amine/Desktop/Code/Transcendence/frontend/src/pages/RankedGamePage.tsx)) ou lors du compte à rebours de déconnexion (`disconnectCountdown`), l'application adopte une architecture **Server-Authoritative**. Le temps, la validation du tour par tour (`isMyTurn`) et l'état du jeu sont exclusivement calculés et diffusés par le serveur backend NestJS via des événements **Socket.IO**.
+  Pour éviter toute désynchronisation pendant les parties en ligne ([RankedGamePage.tsx]  ) ou lors du compte à rebours de déconnexion (`disconnectCountdown`), l'application adopte une architecture **Server-Authoritative**. Le temps, la validation du tour par tour (`isMyTurn`) et l'état du jeu sont exclusivement calculés et diffusés par le serveur backend NestJS via des événements **Socket.IO**.
 
 ### 3. Connexions WebSockets & Réseaux stricts (iOS Safari & Firewalls)
 * **Différence / Limitation spécifique :** 
@@ -92,12 +96,12 @@ Ce document atteste de la compatibilité complète de l'application **Transcende
   * **Flou de fond (Glassmorphism / Backdrop Filter) :** Chromium (Blink) calcule le flou via l'accélération GPU de manière agressive mais peut souffrir de scintillements (*flickering*) lors d'animations combinées avec des bordures arrondies (`border-radius` + `overflow: hidden`). Firefox (Gecko) gère les contextes d'empilement plus strictement avec un rendu plus doux mais sensible au CPU sous Linux. WebKit (Safari) exige quant à lui le préfixe `-webkit-`.
   * **Personnalisation des Scrollbars (Barres de défilement) :** Chromium utilise historiquement les pseudo-éléments propriétaires `::-webkit-scrollbar`, alors que Firefox les ignore totalement et respecte strictement les normes du W3C (`scrollbar-width` et `scrollbar-color`).
   * **Flexbox, CSS Grids & Débordements (`min-width/height: auto`) :** Firefox applique très strictement la spécification W3C sur les conteneurs flexibles : un élément enfant avec du texte long ou une image peut déborder d'un conteneur Flex s'il ne possède pas de `min-width: 0` explicite, là où Chromium se montre souvent plus tolérant et compresse automatiquement l'élément.
-  * **Lissage des polices (Font Antialiasing) :** Le rendu sous-pixel de Chromium peut faire paraître la police moderne **Geist** ([package.json:L13](file:///home/amine/Desktop/Code/Transcendence/frontend/package.json#L13)) légèrement plus fine ou délavée que sur Firefox, où la graisse est rendue de manière plus prononcée.
+  * **Lissage des polices (Font Antialiasing) :** Le rendu sous-pixel de Chromium peut faire paraître la police moderne **Geist** ([package.json:L13]) légèrement plus fine ou délavée que sur Firefox, où la graisse est rendue de manière plus prononcée.
   * **Hauteur dynamique de Viewport (`100vh` vs `dvh`) :** Sur mobiles, l'apparition/disparition dynamique de la barre d'adresse de Chromium Android et Safari iOS fausse le calcul du `100vh` standard.
 * **Solutions apportées :**
   * **Styles & Préfixes :** Intégration de **Tailwind CSS v4** couplé à **PostCSS / Autoprefixer** pour injecter automatiquement les préfixes vendeurs requis et standardiser le rendu des calques.
-  * **Scrollbars universelles :** Notre design system implémente simultanément les règles W3C (`scrollbar-width`/`scrollbar-color`) pour Firefox et les pseudo-éléments `-webkit-` pour Chromium, assurant des barres de défilement fines et stylisées dans le chat ([GlobalChat.tsx](file:///home/amine/Desktop/Code/Transcendence/frontend/src/components/GlobalChat.tsx)) et les listes d'amis sur tous les moteurs.
-  * **Contraintes Flex strictes :** Nos composants de structure ([Layout.tsx](file:///home/amine/Desktop/Code/Transcendence/frontend/src/components/Layout.tsx)) déclarent systématiquement les contraintes de débordement (`min-w-0`, `overflow-hidden`, `truncate`), empêchant toute casse de mise en page sous Firefox.
+  * **Scrollbars universelles :** Notre design system implémente simultanément les règles W3C (`scrollbar-width`/`scrollbar-color`) pour Firefox et les pseudo-éléments `-webkit-` pour Chromium, assurant des barres de défilement fines et stylisées dans le chat ([GlobalChat.tsx]) et les listes d'amis sur tous les moteurs.
+  * **Contraintes Flex strictes :** Nos composants de structure ([Layout.tsx]) déclarent systématiquement les contraintes de débordement (`min-w-0`, `overflow-hidden`, `truncate`), empêchant toute casse de mise en page sous Firefox.
   * **Antialiasing global :** Application des classes d'antialiasing (`-webkit-font-smoothing: antialiased;` et `-moz-osx-font-smoothing: grayscale;`) pour une netteté typographique uniforme.
   * **Viewports modernes :** Utilisation des unités de viewport dynamiques (**`dvh`**) pour garantir une interface sans débordement vertical sur écrans mobiles et de bureau.
 
