@@ -129,6 +129,8 @@ model Daily_Reward  {
 	xp_points				Int 		@default(0)
 	level					Int 		@default(0)
 	reward_date				DateTime 	@default(now())
+	attempts				Int 		@default(0)
+	attempts_date			DateTime?
 
 	user_id					String		@unique
 	user 					User 		@relation(fields: [user_id], references: [id])

@@ -85,9 +85,11 @@ export class DailymatchesService {
 		return Value.split(',').map(item => item.trim());
 	}
 
-	async verifyGuess(guessName: string, attempts: number, userId?: string) {
+	async verifyGuess(guessName: string, userId?: string) {
 		const todayChamp = await this.selectDayChamp();
 		const guessedChamp = await this.championsService.getExactChampByName(guessName);
+		let attemptCount: number | undefined;
+
 		if (!guessedChamp) {
 			throw new NotFoundException("Can't find the champion");
 		}
@@ -104,14 +106,17 @@ export class DailymatchesService {
 		const guessedRegions = this.parseToArrays(guessedChamp.region);
 		const todayRegions = this.parseToArrays(todayChamp.region);
 
-		const isWin = guessedChamp.name === todayChamp.name;
-		if (isWin && userId) {
+		const isWin = guessedChamp.id === todayChamp.id;
+		if (userId) {
 			const userExists = await this.prisma.user.findUnique({
 				where: { id: userId },
 				select: { id: true },
 			});
 			if (userExists) {
-				await this.gamificationService.rewardWin(userId, attempts);
+				attemptCount = await this.gamificationService.registerAttempt(userId);
+				if (isWin) {
+					await this.gamificationService.rewardWin(userId);
+				}
 			}
 		}
 		return {
@@ -145,7 +150,8 @@ export class DailymatchesService {
 				status: guessedChamp.release_year === todayChamp.release_year ? 'correct' : 
 				guessedChamp.release_year < todayChamp.release_year ? 'higher' : 'lower'
 			},
-			isWin: guessedChamp.name === todayChamp.name
+			isWin,
+			attemptCount,
 		}
 	}
 

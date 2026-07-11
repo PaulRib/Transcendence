@@ -108,8 +108,7 @@ function ClassicGamePage() {
     if (guesses.some(g => g.name.toLowerCase() === validChamp.name.toLowerCase())) return;
 
     try {
-      const attempts = guesses.length + 1
-      const result = await sendGuess(attempts, validChamp.name);
+      const result = await sendGuess(validChamp.name);
       const newGuesses = [result, ...guesses];
       const isWin = result.isWin;
       const newHasWon = isWin || hasWon;
