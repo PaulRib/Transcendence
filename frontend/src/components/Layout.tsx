@@ -7,7 +7,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import type { Language } from '../i18n/translations';
 import { GlobalChat } from './GlobalChat';
 import { useGameUniverse } from '../context/GameUniverseContext';
-import { Globe, Swords, User, Languages, Settings, ShieldCheck, FileText } from 'lucide-react';
+import { Globe, Swords, User, Languages, Settings} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Toaster } from './ui/sonner';
 import { 
@@ -54,7 +54,7 @@ function Layout() {
         <div className="min-h-screen flex flex-col bg-transparent">
             <DynamicBackground />
 
-            <header className="px-3 py-3 sm:px-6 sm:py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
+            <header className="fixed top-0 px-3 py-3 sm:px-6 sm:py-4 border-b border-white/20 bg-[#1d1d20]/33 backdrop-blur-md flex justify-between items-center relative z-[999]">
                 <nav className="flex justify-center items-center gap-4">
                     <Link to="/" className="p-0 flex items-center bg-transparent group">
                         <img
@@ -174,21 +174,6 @@ function Layout() {
                                 </DropdownMenuRadioGroup>
                             </DropdownMenuSubContent>
                         </DropdownMenuSub>
-
-                        <DropdownMenuSeparator className="bg-white/10" />
-
-                        <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2">
-                            <Link to="/privacy" className="flex items-center">
-                                <ShieldCheck size={16} className="mr-2 text-indigo-400" />
-                                {t("nav.privacyPolicy")}
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2">
-                            <Link to="/terms" className="flex items-center">
-                                <FileText size={16} className="mr-2 text-purple-400" />
-                                {t("nav.termsOfService")}
-                            </Link>
-                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

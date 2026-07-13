@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "@fontsource-variable/geist";
 
 :root {
   font-family: 'Geist Variable', system-ui, Arial, sans-serif;
@@ -14,13 +13,14 @@
 
 * {
   box-sizing: border-box;
-}
-
+}  
 html,
 body,
 #root {
   margin: 0;
   min-height: 100vh;
+  overscroll-behavior-y: none;                                                                                  
+
 }
 
 body {
