@@ -13,15 +13,16 @@ export class PublicApiRateLimitGuard implements CanActivate {
 		const request = context.switchToHttp().getRequest();
 
 		const apiKey = request.headers["x-api-key"];
-		const identifier = Array.isArray(apiKey) ? apiKey[0] : apiKey ?? request.ip ?? "anonymous";
+		if (!apiKey || Array.isArray(apiKey))
+			throw new HttpException("Public API rate limit exceeded", HttpStatus.TOO_MANY_REQUESTS);
 
 		const limit = Number(process.env.PUBLIC_API_RATE_LIMIT ?? 60);
 		const now = Date.now();
 		const windowMs = 60 * 1000;
 
-		const current = this.hits.get(identifier);
+		const current = this.hits.get(apiKey);
 		if (!current || current.resetAt <= now) {
-			this.hits.set(identifier, {
+			this.hits.set(apiKey, {
 				count: 1,
 				resetAt: now + windowMs,
 			});

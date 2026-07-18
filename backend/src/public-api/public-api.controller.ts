@@ -7,7 +7,7 @@ import { PublicApiRateLimitGuard } from "./public-api-rate-limit.guard";
 import { PublicApiService } from "./public-api.service";
 
 @Controller("public/champions")
-@UseGuards(PublicApiRateLimitGuard, PublicApiKeyGuard)
+@UseGuards(PublicApiKeyGuard, PublicApiRateLimitGuard)
 export class PublicApiController {
 	constructor(private readonly publicApiService: PublicApiService) {}
 
