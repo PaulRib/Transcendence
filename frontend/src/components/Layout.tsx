@@ -10,6 +10,7 @@ import { useGameUniverse } from '../context/GameUniverseContext';
 import { Globe, Swords, User, Languages, Settings} from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar';
 import { Toaster } from './ui/sonner';
+import { toast } from 'sonner';
 import { 
     DropdownMenu, 
     DropdownMenuTrigger, 
@@ -34,6 +35,7 @@ function Layout() {
 
     const handleLogout = () => {
         logout();
+        toast.success(t("nav.logoutSuccess"));
         navigate('/');
     };
 

@@ -6,7 +6,6 @@ import { Heading } from '../components/ui/heading';
 import { useLanguage } from "../i18n/LanguageContext";
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { FormError } from '../components/ui/form-error';
 import { toast } from "sonner";
 
 function RegisterPage() {
@@ -15,7 +14,6 @@ function RegisterPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -29,9 +27,8 @@ function RegisterPage() {
       });
       navigate('/login');
       toast.success(t("register.success").replace("{username}", user.username));
-      setError(null);
     } catch (error) {
-      setError(error instanceof Error ? error.message : t("register.error"));
+      toast.error(error instanceof Error ? error.message : t("register.error"));
       setMessage(null);
     }
   };
@@ -46,18 +43,24 @@ function RegisterPage() {
           placeholder={t("register.usernamePlaceholder")}
           value={username}
           onChange={(event) => setUsername(event.target.value)}
+          required
+          minLength={3}
+          maxLength={30}
         />
         <Input
           type="email"
           placeholder={t("register.emailPlaceholder")}
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          required
         />
         <Input
           type="password"
           placeholder={t("register.passwordPlaceholder")}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          required
+          minLength={8}
         />
         <Button type="submit">{t("register.submit")}</Button>
         <div className="text-xs text-slate-400 text-center leading-relaxed px-2 mt-1">
@@ -68,7 +71,6 @@ function RegisterPage() {
       </form>
 
       {message && <p>{message}</p>}
-      <FormError>{error}</FormError>
     </PageContainer>
   );
 }

@@ -162,6 +162,9 @@ function SettingsPage() {
                 value={pseudo} 
                 onChange={(e) => setPseudo(e.target.value)} 
                 className="max-w-md text-center"
+                required
+                minLength={3}
+                maxLength={30}
               />
             </div>
 
@@ -205,6 +208,7 @@ function SettingsPage() {
               value={currentPassword} 
               onChange={(e) => setCurrentPassword(e.target.value)} 
               className="max-w-md text-center"
+              required
             />
             <Input 
               type="password" 
@@ -212,6 +216,8 @@ function SettingsPage() {
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               className="max-w-md text-center"
+              required
+              minLength={8}
             />
             <Button type="submit">{t("settings.updatePassword")}</Button>
           </form>

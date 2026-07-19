@@ -6,6 +6,7 @@ import { useAuth } from '../auth/AuthContext';
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
+import { toast } from 'sonner';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { FormError } from '../components/ui/form-error';
@@ -17,7 +18,6 @@ function LoginPage() {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
   const oauthError = searchParams.get('oauthError');
   const [requires2FA, setRequires2FA] = useState(false);
@@ -36,17 +36,16 @@ function LoginPage() {
       if (loginResponse.requires2FA && loginResponse.userId) {
         setRequires2FA(true);
         setTempUserId(loginResponse.userId);
-        setError(null);
         return;
       }
 
       if (loginResponse.user) {
         login(loginResponse.user);
+        toast.success(t("login.success"));
         navigate('/');
-        setError(null);
       }
     } catch {
-      setError(t("login.invalidCredentials"));
+      toast.error(t("login.invalidCredentials"));
       setMessage(null);
     }
   };
@@ -58,10 +57,10 @@ function LoginPage() {
     try {
       const result = await authenticateTwoFactorLogin(tempUserId, twoFactorCode);
       login(result.user);
+      toast.success(t("login.success"));
       navigate('/');
-      setError(null);
     } catch {
-      setError(t("login.twoFactorInvalid"));
+      toast.error(t("login.twoFactorInvalid"));
     }
   };
 
@@ -105,12 +104,14 @@ function LoginPage() {
             placeholder={t("login.identifierPlaceholder")}
             value={identifier}
             onChange={(event) => setIdentifier(event.target.value)}
+            required
           />
           <Input
             type="password"
             placeholder={t("login.passwordPlaceholder")}
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+            required
           />
           <Button type="submit">{t("login.submit")}</Button>
 
@@ -151,7 +152,6 @@ function LoginPage() {
 
       {message && <p>{message}</p>}
       {oauthError === 'email_exists' && <FormError>{t("login.oauthEmailExists")}</FormError>}
-      <FormError>{error}</FormError>
     </PageContainer>
   );
 }
