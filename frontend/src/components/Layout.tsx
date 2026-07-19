@@ -82,7 +82,7 @@ function Layout() {
                                     </Button>
                                 </div>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="bg-[#1d1d20] border-white/10 text-white min-w-[160px] mt-2 shadow-[0_4px_20px_rgba(0,0,0,0.5)]" align="end">
+                            <DropdownMenuContent className="bg-black/40 backdrop-blur-md rounded-xl border border-white/10 text-white min-w-[160px] mt-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)]" align="end">
                                 <DropdownMenuItem asChild className="hover:bg-white/10 cursor-pointer py-2.5">
                                     <Link to="/profile">{t("nav.profile")}</Link>
                                 </DropdownMenuItem>
@@ -152,7 +152,7 @@ function Layout() {
                             </Button>
                         </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-[#1d1d20] border-white/20 text-white min-w-[200px] mb-2" align="start" side="top">
+                    <DropdownMenuContent className="bg-black/40 backdrop-blur-md rounded-xl border border-white/10 text-white min-w-[200px] mb-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)]" align="start" side="top">
                         <DropdownMenuItem className="hover:bg-white/10 cursor-pointer py-2" onSelect={handleToggleUniverse}>
                             {universe === 'league' ? (
                                 <><Globe size={16} className="mr-2 text-blue-400" />{t("nav.countryMode")}</>
@@ -168,7 +168,7 @@ function Layout() {
                                 <Languages size={16} className="mr-2" />
                                 {t("nav.language")}
                             </DropdownMenuSubTrigger>
-                            <DropdownMenuSubContent className="bg-[#1d1d20]  text-white ml-2" sideOffset={8}>
+                            <DropdownMenuSubContent className="bg-black/40 backdrop-blur-md rounded-xl border border-white/10 text-white ml-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)]" sideOffset={8}>
                                 <DropdownMenuRadioGroup value={language} onValueChange={(val) => setLanguage(val as Language)}>
                                     <DropdownMenuRadioItem value="fr" className="cursor-pointer hover:bg-white/10">Français (FR)</DropdownMenuRadioItem>
                                     <DropdownMenuRadioItem value="en" className="cursor-pointer hover:bg-white/10">English (EN)</DropdownMenuRadioItem>

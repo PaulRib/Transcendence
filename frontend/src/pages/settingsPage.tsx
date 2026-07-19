@@ -182,7 +182,7 @@ function SettingsPage() {
                   <DialogTrigger asChild>
                     <Button variant="outline" type="button">{t("settings.changeAvatar")}</Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-3xl bg-[#1d1d20] border-white/10 text-white">
+                  <DialogContent className="max-w-3xl bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-transparent !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
                     <DialogHeader>
                       <DialogTitle>{t("settings.newAvatar")}</DialogTitle>
                     </DialogHeader>
@@ -239,7 +239,7 @@ function SettingsPage() {
                 <Button type="button" onClick={handleOpen2FASetting} className="bg-emerald-600 hover:bg-emerald-700">
                   {t("settings.twoFactorEnable")}
                 </Button>
-                <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
+                <DialogContent className="max-w-md bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-0 !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col items-center">
                   <DialogHeader>
                     <DialogTitle className="text-center">{t("settings.twoFactorSetupTitle")}</DialogTitle>
                   </DialogHeader>
@@ -273,7 +273,7 @@ function SettingsPage() {
                 <Button type="button" variant="destructive" onClick={() => setIsDisableDialogOpen(true)}>
                   {t("settings.twoFactorDisable")}
                 </Button>
-                <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
+                <DialogContent className="max-w-md bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-0 !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col items-center">
                   <DialogHeader>
                     <DialogTitle className="text-center">{t("settings.twoFactorDisable")}</DialogTitle>
                   </DialogHeader>
