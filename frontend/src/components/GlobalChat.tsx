@@ -247,6 +247,7 @@ export function GlobalChat() {
                 setMessage('');
                 setChatNotice(null);
                 setTypingUserId(null);
+				setError(null);
                 if (typingStopTimeout.current) {
                   clearTimeout(typingStopTimeout.current);
                 }
