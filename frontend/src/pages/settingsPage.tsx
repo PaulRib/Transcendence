@@ -27,6 +27,7 @@ function SettingsPage() {
   const [twoFactorInput, setTwoFactorInput] = useState('');
   const [is2FADialogOpen, setIs2FADialogOpen] = useState(false);
   const [isDisableDialogOpen, setIsDisableDialogOpen] = useState(false);
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   const handleOpen2FASetting = async () => {
     setError(null);
@@ -91,8 +92,8 @@ function SettingsPage() {
     loadProfile();
   }, [currentUser, t]);
   
-  const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleUpdateProfile = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     
     if (!currentUser) {
       toast.error(t("settings.notConnected"));
@@ -166,6 +167,7 @@ function SettingsPage() {
                 minLength={3}
                 maxLength={30}
               />
+              <Button type="submit" className="px-6">{t("settings.save")}</Button>
             </div>
 
             {/* Avatar section */}
@@ -178,7 +180,7 @@ function SettingsPage() {
                   <AvatarFallback className="text-3xl text-white">{(pseudo || 'U').charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
 
-                <Dialog>
+                <Dialog open={isAvatarDialogOpen} onOpenChange={setIsAvatarDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" type="button">{t("settings.changeAvatar")}</Button>
                   </DialogTrigger>
@@ -187,14 +189,12 @@ function SettingsPage() {
                       <DialogTitle>{t("settings.newAvatar")}</DialogTitle>
                     </DialogHeader>
                     <div className="py-4">
-                      <AvatarPicker currentAvatar={avatarUrl} onAvatarChange={setAvatarUrl} />
+                      <AvatarPicker currentAvatar={avatarUrl} onAvatarChange={setAvatarUrl} onValidate={() => { setIsAvatarDialogOpen(false); handleUpdateProfile(); }} />
                     </div>
                   </DialogContent>
                 </Dialog>
               </div>
             </div>
-
-            <Button type="submit" className="w-fit px-8 mt-4">{t("settings.save")}</Button>
           </form>
         </div>
 

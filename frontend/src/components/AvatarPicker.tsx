@@ -15,9 +15,10 @@ const DEFAULT_AVATARS = [
 type AvatarPickerProps = {
   currentAvatar: string | null;
   onAvatarChange: (newAvatar: string | null) => void;
+  onValidate: () => void;
 };
 
-export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProps) {
+export function AvatarPicker({ currentAvatar, onAvatarChange, onValidate }: AvatarPickerProps) {
   const [activeTab, setActiveTab] = useState<'default' | 'link' | 'upload'>('default');
   const [linkInput, setLinkInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -102,6 +103,12 @@ export function AvatarPicker({ currentAvatar, onAvatarChange }: AvatarPickerProp
           </Button>
         </div>
       )}
+      
+      <div className="flex justify-center pt-4 mt-2 border-t border-white/10">
+        <Button type="button" onClick={onValidate} className="px-8">
+          {t("settings.save")}
+        </Button>
+      </div>
     </div>
   );
 }
