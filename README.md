@@ -68,7 +68,7 @@ Key features:
 
 | Team member | 42 login | Assigned role(s) | Main responsibilities |
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
-| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (zrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
+| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players, content moderation AI, Infinite mode, Daily Loldle game mode. |
 | Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system (`shadcn`/Tailwind), responsive layouts, avatar management (`AvatarPicker`), browser compatibility, 2FA frontend UI/integration (`requires2FA` login modal & settings), UI polish. |
 | Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. |
 
@@ -709,7 +709,7 @@ Main areas:
 
 - Backend & Frontend multiplayer architecture and game socket.
 - Ranked matchmaking flow and turn-based guessing game loop.
-- Remote player access setup (HTTPS & Zrok tunnel).
+- Remote player access setup (HTTPS).
 - Game modes (Daily Loldle and Infinite guessing modes).
 - AI content moderation.
 - Anticheat backend logic & security verification.
@@ -728,7 +728,6 @@ Detailed contribution:
   - Saved daily game progress in the client's LocalStorage to persist states on refresh.
   - Handled match victory screens with delay transitions.
 - **Remote Access & Networking**:
-  - Implemented tunnel-based remote player testing via Zrok (`42dle.shares.zrok.io`).
   - Set up and tested HTTPS support for the project.
 - **Anticheat & Security**:
   - Implemented turn-verification on the backend to enforce valid guess orders and prevent exploits.
@@ -752,7 +751,7 @@ How they were addressed:
 
 - Kept all critical validation, champion identities, and turn logic on the backend; the frontend only receives comparison results.
 - Built a custom health check script in Docker/Docker Compose that polls the Postgres port before booting NestJS.
-- Tested remote connectivity using tunnels to simulate actual network latency and cookie behaviors across different hosts.
+- Tested remote connectivity to simulate actual network latency and cookie behaviors across different hosts.
 
 ### Amine
 
