@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { GamificationService } from '../gamification/gamification.service';
@@ -86,6 +86,9 @@ export class DailymatchesService {
 	}
 
 	async verifyGuess(guessName: string, attempts: number, userId?: string) {
+		if (!guessName || typeof guessName !== 'string' || typeof attempts !== 'number') {
+			throw new BadRequestException("Arguments must respect the good form");
+		}
 		const todayChamp = await this.selectDayChamp();
 		const guessedChamp = await this.championsService.getExactChampByName(guessName);
 		if (!guessedChamp) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ChampionsService } from '../champions/champions.service';
 import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
@@ -36,6 +36,9 @@ export class InfinitematchesService {
 	}
 
 	async verifyInfiniteGuess(guessName: string, targetId: string) {
+	if (!guessName || !targetId || typeof guessName !== 'string' || typeof targetId !== 'string') {
+		throw new BadRequestException('Arguments must be string');
+	}
     const todayChamp = await this.championsService.getExactChampById(targetId);
     const guessedChamp = await this.championsService.getExactChampByName(guessName);
     

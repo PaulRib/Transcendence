@@ -271,6 +271,9 @@ Login/register examples depend on the current database state and should be teste
 
 ## Database Schema
 
+![alt text](MCD.png)
+
+
 The project uses PostgreSQL with Prisma models. The main relations are:
 
 ```txt
