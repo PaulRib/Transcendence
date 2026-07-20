@@ -85,8 +85,8 @@ export class DailymatchesService {
 		return Value.split(',').map(item => item.trim());
 	}
 
-	async verifyGuess(guessName: string, attempts: number, userId?: string) {
-		if (!guessName || typeof guessName !== 'string' || typeof attempts !== 'number') {
+	async verifyGuess(guessName: string, userId?: string) {
+		if (!guessName || typeof guessName !== 'string') {
 			throw new BadRequestException("Arguments must respect the good form");
 		}
 		const todayChamp = await this.selectDayChamp();
