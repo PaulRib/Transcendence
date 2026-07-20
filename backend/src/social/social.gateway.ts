@@ -167,7 +167,6 @@ OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
 			this.server.to(`user:${data.receiverId}`).emit('message_received', createdMessage);
 		}
 		catch (error: any) {
-			console.error("Erreur dans handleSendMessage :", error);
 			client.emit('message_error', {
 				receiverId: data.receiverId,
 				message: error.message
