@@ -302,7 +302,7 @@ function RankedGamePage({ socket, matchId, starterUserId, initialMatchData }: Ra
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   if (universe === 'country') {
-    return <Navigate to="/countrydle" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const oppParticipant = matchData?.participants?.find((p: any) => p.user_id !== currentUser?.id);

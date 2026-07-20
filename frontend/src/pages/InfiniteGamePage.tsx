@@ -110,7 +110,7 @@ function InfiniteGamePage() {
   const isInputValid = championNames.some(c => c.name.toLowerCase() === inputValue.trim().toLowerCase());
 
   if (universe === 'country') {
-    return <Navigate to="/countrydle" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (
