@@ -56,7 +56,7 @@ curl -k -X POST \
   https://localhost:8443/api/public/champions
 ```
 
-### Get Champion By his name
+### Find a champion by name in the list
 
 ```bash
 curl -k -s \
@@ -90,4 +90,3 @@ The API only returns champion gameplay fields:
 id, name, gender, position, species, resource_type, range_type, region, release_year
 ```
 
-It does not expose users, passwords, emails, OAuth data, 2FA secrets, chat messages, or friend data.
