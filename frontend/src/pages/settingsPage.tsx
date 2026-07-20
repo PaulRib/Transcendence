@@ -27,6 +27,7 @@ function SettingsPage() {
   const [twoFactorInput, setTwoFactorInput] = useState('');
   const [is2FADialogOpen, setIs2FADialogOpen] = useState(false);
   const [isDisableDialogOpen, setIsDisableDialogOpen] = useState(false);
+  const [isAvatarDialogOpen, setIsAvatarDialogOpen] = useState(false);
 
   const handleOpen2FASetting = async () => {
     setError(null);
@@ -91,8 +92,8 @@ function SettingsPage() {
     loadProfile();
   }, [currentUser, t]);
   
-  const handleUpdateProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleUpdateProfile = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     
     if (!currentUser) {
       toast.error(t("settings.notConnected"));
@@ -162,7 +163,11 @@ function SettingsPage() {
                 value={pseudo} 
                 onChange={(e) => setPseudo(e.target.value)} 
                 className="max-w-md text-center"
+                required
+                minLength={3}
+                maxLength={30}
               />
+              <Button type="submit" className="px-6">{t("settings.save")}</Button>
             </div>
 
             {/* Avatar section */}
@@ -175,23 +180,21 @@ function SettingsPage() {
                   <AvatarFallback className="text-3xl text-white">{(pseudo || 'U').charAt(0).toUpperCase()}</AvatarFallback>
                 </Avatar>
 
-                <Dialog>
+                <Dialog open={isAvatarDialogOpen} onOpenChange={setIsAvatarDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline" type="button">{t("settings.changeAvatar")}</Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-3xl bg-[#1d1d20] border-white/10 text-white">
+                  <DialogContent className="max-w-3xl bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-transparent !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
                     <DialogHeader>
                       <DialogTitle>{t("settings.newAvatar")}</DialogTitle>
                     </DialogHeader>
                     <div className="py-4">
-                      <AvatarPicker currentAvatar={avatarUrl} onAvatarChange={setAvatarUrl} />
+                      <AvatarPicker currentAvatar={avatarUrl} onAvatarChange={setAvatarUrl} onValidate={() => { setIsAvatarDialogOpen(false); handleUpdateProfile(); }} />
                     </div>
                   </DialogContent>
                 </Dialog>
               </div>
             </div>
-
-            <Button type="submit" className="w-fit px-8 mt-4">{t("settings.save")}</Button>
           </form>
         </div>
 
@@ -205,6 +208,7 @@ function SettingsPage() {
               value={currentPassword} 
               onChange={(e) => setCurrentPassword(e.target.value)} 
               className="max-w-md text-center"
+              required
             />
             <Input 
               type="password" 
@@ -212,6 +216,8 @@ function SettingsPage() {
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               className="max-w-md text-center"
+              required
+              minLength={8}
             />
             <Button type="submit">{t("settings.updatePassword")}</Button>
           </form>
@@ -233,7 +239,7 @@ function SettingsPage() {
                 <Button type="button" onClick={handleOpen2FASetting} className="bg-emerald-600 hover:bg-emerald-700">
                   {t("settings.twoFactorEnable")}
                 </Button>
-                <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
+                <DialogContent className="max-w-md bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-0 !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col items-center">
                   <DialogHeader>
                     <DialogTitle className="text-center">{t("settings.twoFactorSetupTitle")}</DialogTitle>
                   </DialogHeader>
@@ -267,7 +273,7 @@ function SettingsPage() {
                 <Button type="button" variant="destructive" onClick={() => setIsDisableDialogOpen(true)}>
                   {t("settings.twoFactorDisable")}
                 </Button>
-                <DialogContent className="max-w-md bg-[#1d1d20] border-white/10 text-white flex flex-col items-center">
+                <DialogContent className="max-w-md bg-black/40 backdrop-blur-md rounded-xl !border-none !ring-0 !outline-none text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] flex flex-col items-center">
                   <DialogHeader>
                     <DialogTitle className="text-center">{t("settings.twoFactorDisable")}</DialogTitle>
                   </DialogHeader>
