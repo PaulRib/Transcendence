@@ -55,7 +55,37 @@ export class GamificationService {
 		});
 	}
 
-	async rewardWin(userId: string, attempts: number) {
+	async registerAttempt(userId: string): Promise<number> {
+		const stats = await this.getOrCreateStats(userId);
+		const today = new Date();
+
+		const isSameAttemptDay =
+			stats.attempts_date !== null &&
+			this.isSameDay(stats.attempts_date, today);
+
+		const updatedStats = await this.prisma.daily_Reward.update({
+			where: {
+				user_id: userId,
+			},
+			data: isSameAttemptDay
+				? {
+					attempts: {
+						increment: 1,
+					},
+				}
+				: {
+					attempts: 1,
+					attempts_date: today,
+				},
+			select: {
+				attempts: true,
+			},
+		});
+
+		return updatedStats.attempts;
+	}
+
+	async rewardWin(userId: string) {
 		const stats = await this.getOrCreateStats(userId);
 		const today = new Date();
 
@@ -71,8 +101,8 @@ export class GamificationService {
 			? stats.streak_count + 1
 			: 1;
 
-		const safeAttempts = Number.isFinite(attempts) && attempts > 0
-			? Math.floor(attempts)
+		const safeAttempts = stats.attempts > 0
+			? stats.attempts
 			: 10;
 
 		const attemptXp = Math.max(110 - safeAttempts * 10, 10);
