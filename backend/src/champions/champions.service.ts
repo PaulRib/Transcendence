@@ -12,9 +12,15 @@ export class ChampionsService {
   }
 
   async getExactChampByName(name: string) {
-	return this.prisma.champion.findUnique({
-		where: {name},
-	})
+	try {
+		const champ =  this.prisma.champion.findUnique({
+			where: {name},
+		})
+		return (champ);
+	}
+	catch {
+		return null;
+	}
   }
 
   async getExactChampById(id: string) {
