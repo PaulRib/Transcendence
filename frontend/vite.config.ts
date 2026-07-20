@@ -11,6 +11,6 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.shares.zrok.io', 'localhost', '127.0.0.1'],
+    allowedHosts: ['localhost', '127.0.0.1'],
   },
 })
