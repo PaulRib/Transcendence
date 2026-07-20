@@ -18,6 +18,14 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+src/champions/champions.service.spec.ts
+src/dailymatches/dailymatches.service.spec.ts
+src/gamification/gamification.service.spec.ts
+src/infinitematches/infinitematches.service.spec.ts
+src/multiplayer/multiplayer.gateway.spec.ts
+src/multiplayer/multiplayer.service.spec.ts
+src/users/users.service.spec.ts
+
 
 # IDEs and editors
 /.idea
