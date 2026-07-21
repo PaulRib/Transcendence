@@ -109,6 +109,17 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		@MessageBody() data: { GuessedChamp: string, matchId: string }
 	) {
 		try {
+			if (
+				!data ||
+				typeof data.GuessedChamp !== 'string' ||
+				typeof data.matchId !== 'string' ||
+				!data.GuessedChamp ||
+				!data.matchId
+			) {
+				client.emit('game_error', { message: 'Invalid guess data' });
+				return;
+			}
+
 			const user = client.data.user;
 			const starterUserId = this.matchStarters.get(data.matchId) || '';
 			const result = await this.multiplayerService.processPlayerTurn(
@@ -146,6 +157,11 @@ import { WebSocketGateway, WebSocketServer, OnGatewayConnection,
 		@ConnectedSocket() client: Socket,
 		@MessageBody() data: { matchId: string }
 	) {
+		if (!data || typeof data.matchId !== 'string' || !data.matchId) {
+			client.emit('game_error', { message: 'Invalid match id' });
+			return;
+		}
+
 		const userId = client.data.user.id;
 		const pendingReconnect = this.reconnectTimeouts.get(userId);
 
