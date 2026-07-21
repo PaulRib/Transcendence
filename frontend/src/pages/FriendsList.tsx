@@ -102,10 +102,23 @@ function FriendsList() {
     };
   }, [socket]);
 
-  async function handleSendFriendRequest() {
+  async function handleSendFriendRequest(event?: React.FormEvent) {
+    if (event) {
+      event.preventDefault();
+    }
+
     const trimmedUsername = usernameToAdd.trim();
 
     if (!trimmedUsername) {
+      return;
+    }
+
+    if (currentUser?.username && trimmedUsername.toLowerCase() === currentUser.username.toLowerCase()) {
+      toast.error(t("friends.cantSelfAdd"));
+      return;
+    }
+
+    if (trimmedUsername.length < 3 || trimmedUsername.length > 30) {
       return;
     }
 
@@ -117,7 +130,7 @@ function FriendsList() {
       setError(null);
       toast.success(t("friends.requestSent"));
     } catch {
-     toast.error(t("friends.cantsend"));
+      toast.error(t("friends.cantsend"));
     }
   }
 
@@ -171,7 +184,7 @@ function FriendsList() {
         </section>
       )}
 
-      <section className="mb-8 flex flex-col gap-2 text-left">
+      <form onSubmit={handleSendFriendRequest} className="mb-8 flex flex-col gap-2 text-left">
         <div className="flex gap-3">
           <div className="relative flex-1">
             <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
@@ -181,16 +194,19 @@ function FriendsList() {
               value={usernameToAdd}
               onChange={(event) => setUsernameToAdd(event.target.value)}
               className="h-12 pl-10"
+              required
+              minLength={3}
+              maxLength={30}
             />
           </div>
           <Button
+            type="submit"
             className="h-12 bg-blue-600 px-6 font-medium hover:bg-blue-500"
-            onClick={handleSendFriendRequest}
           >
             {t("friends.add")}
           </Button>
         </div>
-      </section>
+      </form>
 
       <section className="flex flex-col gap-3">
         {friends.length > 0 ? (

@@ -186,6 +186,7 @@ export const translations = {
 			requestSent: "Demande d'ami envoyée",
 			cantaccept: "Impossible d'accepter la demande",
 			cantcharge: "Impossible de charger les amis",
+			cantSelfAdd: "Vous ne pouvez pas vous ajouter vous-même",
 			expired: "Session expirée",
 		},
 		leaderboard: {
@@ -576,6 +577,7 @@ export const translations = {
 			requestSent: "Friend request sent",
 			cantaccept: "Unable to accept request",
 			cantcharge: "Unable to load friends",
+			cantSelfAdd: "You cannot add yourself",
 			expired: "Session expired",
 		},
 		leaderboard: {
@@ -966,6 +968,7 @@ export const translations = {
 			requestSent: "Запрос в друзья отправлен",
 			cantaccept: "Не удалось принять запрос",
 			cantcharge: "Не удалось загрузить друзей",
+			cantSelfAdd: "Вы не можете добавить самого себя",
 			expired: "Сессия истекла",
 		},
 		leaderboard: {

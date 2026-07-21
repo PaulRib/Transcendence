@@ -219,7 +219,7 @@ export function GlobalChat() {
     e.preventDefault();
     const trimmedMessage = message.trim();
 
-    if (!socket || !selectedFriend || !trimmedMessage) {
+    if (!socket || !selectedFriend || !trimmedMessage || trimmedMessage.length > 1000) {
       return;
     }
 
@@ -368,10 +368,16 @@ export function GlobalChat() {
             <Input 
               value={message}
               onChange={(e) => handleMessageChange(e.target.value)}
-              placeholder= {t("chat.messagePlaceholder")}
+              placeholder={t("chat.messagePlaceholder")}
               className="flex-1 h-10 m-0 !mt-0 !mb-0 bg-[#2a2a35] border-white/5 focus-visible:ring-blue-500"
+              maxLength={1000}
             />
-            <Button type="submit" aria-label={t('chat.send')} className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors">
+            <Button 
+              type="submit" 
+              disabled={!message.trim()} 
+              aria-label={t('chat.send')} 
+              className="h-10 w-10 p-0 flex items-center justify-center m-0 !mt-0 !mb-0 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+            >
               <Send size={18} className="ml-[-2px]" />
             </Button>
           </form>
