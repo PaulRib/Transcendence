@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { CountriesService } from '../countries/countries.service';
 import { NotFoundException, InternalServerErrorException } from '@nestjs/common';
@@ -73,6 +73,10 @@ export class DailycountrymatchesService {
   }
 
   async verifyGuess(guessName: string) {
+	if (!guessName || typeof guessName !== 'string') {
+		throw new BadRequestException("Arguments must respect the good form");
+	}
+
 	const todayCountry = await this.selectDayCountry();
 	const guessedCountry = await this.countriesService.getExactCountryByName(guessName);
 	if (!guessedCountry) {

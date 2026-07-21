@@ -13,14 +13,24 @@ export class CountriesService {
 	}
 
 	async getExactCountryByName(name: string) {
-		return this.prisma.country.findUnique({
-			where: { name },
-		});
+		try {
+			const country = await this.prisma.country.findUnique({
+				where: { name },
+			});
+			return country;
+		} catch {
+			return null;
+		}
 	}
 	
 	async getExactCountryById(id: string) {
-		return this.prisma.country.findUnique({
+		try {
+			const country = await this.prisma.country.findUnique({
 			where: { id },
 		});
+		return country;
+	 	} catch {
+			return null;
+		}
 	}
 }

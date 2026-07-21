@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class GamificationService {
@@ -24,6 +23,10 @@ export class GamificationService {
 	}
 
 	async getOrCreateStats(userId: string) {
+		if (!userId || typeof userId !== 'string') {
+			throw new BadRequestException('Invalid user id');
+		}
+
 		const existingStats = await this.prisma.daily_Reward.findUnique({
 			where: { user_id: userId },
 		});
@@ -44,6 +47,15 @@ export class GamificationService {
 				});
 			}
 			return existingStats;
+		}
+
+		const userExists = await this.prisma.user.findUnique({
+			where: { id: userId },
+			select: { id: true },
+		});
+
+		if (!userExists) {
+			throw new NotFoundException('User not found');
 		}
 
 		return this.prisma.daily_Reward.create({
@@ -130,6 +142,14 @@ export class GamificationService {
 	}
 
 	async updateRankedElo(winnerId: string, loserId: string) {
+		if (!winnerId || !loserId || typeof winnerId !== 'string' || typeof loserId !== 'string') {
+			throw new BadRequestException('Invalid player ids');
+		}
+
+		if (winnerId === loserId) {
+			throw new BadRequestException('Winner and loser cannot be the same user');
+		}
+
 		const [winner, loser] = await Promise.all([
 			this.prisma.user.findUnique({
 				where: { id: winnerId },
@@ -170,6 +190,10 @@ export class GamificationService {
 	}
 
 	async updateDrawElo(playerIds: string[]) {
+		if (!Array.isArray(playerIds) || playerIds.some((id) => !id || typeof id !== 'string')) {
+			throw new BadRequestException('Invalid player ids');
+		}
+
 		if (playerIds.length === 0) {
 			return;
 		}

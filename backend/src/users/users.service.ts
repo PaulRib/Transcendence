@@ -16,6 +16,10 @@ type UserForLogin = {
     is_two_factor_enabled: boolean;
 };
 
+type OAuthUser = PublicUser & {
+    is_two_factor_enabled: boolean;
+};
+
 @Injectable()
 export class UsersService {
    constructor (private readonly prisma: PrismaService) {}
@@ -204,7 +208,7 @@ export class UsersService {
         });
     }
 
-    async findUserByOauth(provider: string, oauthId: string) {
+    async findUserByOauth(provider: string, oauthId: string): Promise<OAuthUser | null> {
         return this.prisma.user.findFirst({
             where: {
                 oauth_provider: provider,
@@ -217,11 +221,12 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
+                is_two_factor_enabled: true,
             },
         });
     }
 
-    async createOauthUser(username: string, email: string, avatarUrl: string | null, provider: string, oauthId: string): Promise<PublicUser> {
+    async createOauthUser(username: string, email: string, avatarUrl: string | null, provider: string, oauthId: string): Promise<OAuthUser> {
         return this.prisma.user.create({
             data: {
                 username,
@@ -238,6 +243,7 @@ export class UsersService {
                 elo_rating: true,
                 ranked_wins: true,
                 ranked_losses: true,
+                is_two_factor_enabled: true,
             },
         });
     }

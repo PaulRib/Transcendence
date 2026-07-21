@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Request, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { GamificationService } from './gamification.service';
 
@@ -14,6 +14,9 @@ export class GamificationController {
 
 	@Get('users/:userId')
 	getUserStats(@Param('userId') userId: string) {
+		if (!userId || typeof userId !== 'string') {
+			throw new BadRequestException('Invalid user id');
+		}
 		return this.gamificationService.getOrCreateStats(userId);
 	}
 
