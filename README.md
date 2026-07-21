@@ -585,7 +585,7 @@ Current module list from the team planning:
 
 | Module | Type | Points | Team member(s) | Implementation summary |
 | --- | --- | ---: | --- | --- |
-| Framework backend and frontend | Major | 2 | Mehdi | React/Vite frontend, NestJS backend, structured API/frontend separation. TODO: confirm shared contribution. |
+| Framework backend and frontend | Major | 2 | Mehdi | React/Vite frontend, NestJS backend, structured API/frontend separation. |
 | User management and authentication | Major | 2 | Mehdi, Murad | Local auth, JWT cookies, `/auth/me`, profile/settings, 42 OAuth, 2FA. |
 | Real-time features with WebSockets | Major | 2 | Paul, Mehdi | Socket.IO social and game namespaces, realtime chat, presence, game invites, multiplayer rooms. |
 | User interaction | Major | 2 | Mehdi, Amine | Friends, private chat, profiles, online status, block system, frontend user interaction pages. |
