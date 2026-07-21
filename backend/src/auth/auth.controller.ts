@@ -70,12 +70,20 @@ export class AuthController {
         try {
             const loginResponse = await this.authService.loginWith42(code);
 
-            response.cookie('access_token', loginResponse.access_token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            maxAge: 24 * 60 * 60 * 1000,
-        });
+            if ('requires2FA' in loginResponse && loginResponse.requires2FA) {
+                return response.redirect(
+                    `${process.env.FRONTEND_URL}/login?requires2FA=true&userId=${loginResponse.userId}`,
+                );
+            }
+
+            if ('access_token' in loginResponse) {
+                response.cookie('access_token', loginResponse.access_token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax',
+                    maxAge: 24 * 60 * 60 * 1000,
+                });
+            }
 
             return response.redirect(`${process.env.FRONTEND_URL}/auth/42/callback?`);
         } catch {

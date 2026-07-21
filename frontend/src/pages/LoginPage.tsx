@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { loginUser, redirectToFortyTwoLogin } from '../api/auth.api';
 import { authenticateTwoFactorLogin } from '../api/two-factor.api';
@@ -23,6 +23,16 @@ function LoginPage() {
   const [requires2FA, setRequires2FA] = useState(false);
   const [tempUserId, setTempUserId] = useState<string | null>(null);
   const [twoFactorCode, setTwoFactorCode] = useState('');
+
+  useEffect(() => {
+    const requires2FAParam = searchParams.get('requires2FA');
+    const userIdParam = searchParams.get('userId');
+
+    if (requires2FAParam === 'true' && userIdParam) {
+      setRequires2FA(true);
+      setTempUserId(userIdParam);
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
