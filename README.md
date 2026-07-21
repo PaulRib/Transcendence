@@ -22,55 +22,19 @@ Key features:
 - Multiplayer ranked game mode.
 - Remote players support.
 - Match history, ranking data, Elo/ranked wins, and gamification.
+- Secured public API for LolDle champion data.
 - Multiple languages.
 - Custom frontend design system.
 - PostgreSQL database managed through Prisma ORM.
 - Docker-based deployment with a reverse proxy.
 
-## Table of Contents
-
-- [Description](#description)
-- [Team Information](#team-information)
-- [Project Management](#project-management)
-- [Technical Stack](#technical-stack)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
-  - [Infrastructure](#infrastructure)
-- [Instructions](#instructions)
-  - [Prerequisites](#prerequisites)
-  - [Environment setup](#environment-setup)
-  - [Run with Docker](#run-with-docker)
-  - [Prisma setup](#prisma-setup)
-  - [Manual local development](#manual-local-development)
-  - [Useful test endpoints](#useful-test-endpoints)
-- [Usage Overview](#usage-overview)
-- [Database Schema](#database-schema)
-- [Features List](#features-list)
-  - [Authentication and users](#authentication-and-users)
-  - [Friends and user interaction](#friends-and-user-interaction)
-  - [Private chat and advanced chat](#private-chat-and-advanced-chat)
-  - [Realtime features](#realtime-features)
-  - [Multiplayer game](#multiplayer-game)
-  - [Gamification and statistics](#gamification-and-statistics)
-  - [Game modes and data](#game-modes-and-data)
-  - [Frontend UI and design](#frontend-ui-and-design)
-- [Modules](#modules)
-- [Individual Contributions](#individual-contributions)
-  - [Mehdi](#mehdi)
-  - [Paul](#paul)
-  - [Amine](#amine)
-  - [Murad](#murad)
-- [Security Notes](#security-notes)
-- [Resources](#resources)
-- [License / Credits](#license--credits)
-
 ## Team Information
 
 | Team member | 42 login | Assigned role(s) | Main responsibilities |
 | Mehdi | `<meel-war>` | Product Owner, Technical Lead, Developer, backend/frontend integration, auth/social/chat contributor | Authentication flow, users/profile integration, friends system, global chat integration, social socket integration, real-time chat features, game invitations through social socket, read receipts, typing indicator, project understanding/documentation support. |
-| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players, content moderation AI, Infinite mode, Daily Loldle game mode. |
+| Paul | `<pribolzi>` | Product Owner, Project Manager, Developer, gameplay/multiplayer contributor | Multiplayer game logic, matchmaking, game socket, remote players (zrok tunnel), content moderation AI, Infinite mode, Daily Loldle game mode. |
 | Amine | `<mbenzira>` | Developer, frontend/design contributor | Visual interface, custom design system (`shadcn`/Tailwind), responsive layouts, avatar management (`AvatarPicker`), browser compatibility, 2FA frontend UI/integration (`requires2FA` login modal & settings), UI polish. |
-| Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages. |
+| Murad | `<mubersan>` | Developer, gamification/auth contributor | Gamification, leaderboard/statistics, match history, remote authentication with 42, multiple languages, secured public API. |
 
 ## Project Management
 
@@ -270,9 +234,6 @@ Login/register examples depend on the current database state and should be teste
 9. Check profile, leaderboard, match history, and gamification progress.
 
 ## Database Schema
-
-![alt text](MCD.png)
-
 
 The project uses PostgreSQL with Prisma models. The main relations are:
 
@@ -534,6 +495,31 @@ Murad contribution details:
 - Added the top-10 leaderboard endpoint ordered by Elo and connected it to `LeaderboardPage`.
 - Connected authenticated match-history data to `MatchHistoryPage`, including opponent, result, Elo variation, avatar, and localized date.
 
+### Public API
+
+Implemented by: Murad.
+
+- Secured public API for LolDle champion data.
+- API-key authentication separated from JWT authentication.
+- Read and write API keys with explicit write permission for `POST`, `PUT`, and `DELETE`.
+- Rate limiting for public API requests.
+- Public API documentation with `curl` examples.
+
+Murad contribution details:
+
+- Created an independent `PublicApiModule` with its own controller, service, guards, DTOs, and documentation.
+- Implemented public champion endpoints:
+  - `GET /api/public/champions`;
+  - `GET /api/public/champions/:id`;
+  - `POST /api/public/champions`;
+  - `PUT /api/public/champions/:id`;
+  - `DELETE /api/public/champions/:id`.
+- Added `PublicApiKeyGuard` to keep API-key authentication separate from `JwtAuthGuard`.
+- Added explicit read/write permission handling so a read key cannot create, update, or delete data.
+- Added a public API rate-limit guard using `PUBLIC_API_RATE_LIMIT`.
+- Limited returned fields to public champion gameplay data and avoided exposing user, auth, chat, friend, OAuth, or 2FA data.
+- Documented the API in `docs/public-api.md` with security notes and request examples.
+
 ### Game modes and data
 
 Implemented by: Paul (Daily & Infinite Loldle modes, Multiplayer), Murad (Countrydle mode).
@@ -599,10 +585,11 @@ Current module list from the team planning:
 
 | Module | Type | Points | Team member(s) | Implementation summary |
 | --- | --- | ---: | --- | --- |
-| Framework backend and frontend | Major | 2 | Mehdi | React/Vite frontend, NestJS backend, structured API/frontend separation.|
+| Framework backend and frontend | Major | 2 | Mehdi | React/Vite frontend, NestJS backend, structured API/frontend separation. TODO: confirm shared contribution. |
 | User management and authentication | Major | 2 | Mehdi, Murad | Local auth, JWT cookies, `/auth/me`, profile/settings, 42 OAuth, 2FA. |
 | Real-time features with WebSockets | Major | 2 | Paul, Mehdi | Socket.IO social and game namespaces, realtime chat, presence, game invites, multiplayer rooms. |
 | User interaction | Major | 2 | Mehdi, Amine | Friends, private chat, profiles, online status, block system, frontend user interaction pages. |
+| Public API with secured API key | Major | 2 | Murad | Independent public API for LolDle champion data, API-key auth, read/write permissions, rate limiting, documentation, and CRUD endpoints. |
 | Multiplayer | Major | 2 | Paul | Ranked multiplayer game, matchmaking, turns, match state. |
 | Remote players | Major | 2 | Paul | Remote multiplayer through Socket.IO game gateway. |
 | ORM for database | Minor | 1 | Paul | Prisma ORM with PostgreSQL schema and migrations. |
@@ -610,13 +597,13 @@ Current module list from the team planning:
 | Multiple languages | Minor | 1 | Murad | French, English, Russian translations through frontend i18n context. |
 | Remote authentication | Minor | 1 | Murad | 42 OAuth login and callback. |
 | Custom-made design system | Minor | 1 | Amine | Custom UI components (`shadcn`/Tailwind), rich aesthetics, consistent visual styling. |
-| Compatibility with at least 2 additional browsers | Minor | 1 | Amine | Tested and verified cross-browser compatibility across Google Chrome, Mozilla Firefox, Microsoft Edge and Brave Browser on Linux. |
+| Compatibility with at least 2 additional browsers | Minor | 1 | Amine | Tested and verified cross-browser compatibility across Google Chrome, Mozilla Firefox . |
 | Game stats and match history | Minor | 1 | Murad | Match history pages and ranked statistics. |
 | Advanced chat features | Minor | 1 | Mehdi | Persistent private chat, typing indicator, read receipts, block messages, game invites from chat, profile access. |
 | Content moderation AI | Minor | 1 | Paul | TensorFlow toxicity model used to block toxic messages. |
 | 2FA | Minor | 1 | Amine | Two-factor authentication frontend UI, QR Code generation modal, and two-step login verification flow (`requires2FA`). |
 
-Total planned points: 22.
+Total planned points: 24.
 
 ## Individual Contributions
 
@@ -712,7 +699,7 @@ Main areas:
 
 - Backend & Frontend multiplayer architecture and game socket.
 - Ranked matchmaking flow and turn-based guessing game loop.
-- Remote player access setup (HTTPS).
+- Remote player access setup (HTTPS & Zrok tunnel).
 - Game modes (Daily Loldle and Infinite guessing modes).
 - AI content moderation.
 - Anticheat backend logic & security verification.
@@ -731,6 +718,7 @@ Detailed contribution:
   - Saved daily game progress in the client's LocalStorage to persist states on refresh.
   - Handled match victory screens with delay transitions.
 - **Remote Access & Networking**:
+  - Implemented tunnel-based remote player testing via Zrok (`42dle.shares.zrok.io`).
   - Set up and tested HTTPS support for the project.
 - **Anticheat & Security**:
   - Implemented turn-verification on the backend to enforce valid guess orders and prevent exploits.
@@ -754,7 +742,7 @@ How they were addressed:
 
 - Kept all critical validation, champion identities, and turn logic on the backend; the frontend only receives comparison results.
 - Built a custom health check script in Docker/Docker Compose that polls the Postgres port before booting NestJS.
-- Tested remote connectivity to simulate actual network latency and cookie behaviors across different hosts.
+- Tested remote connectivity using tunnels to simulate actual network latency and cookie behaviors across different hosts.
 
 ### Amine
 
@@ -811,6 +799,7 @@ Main areas:
 - Match history frontend integration.
 - Internationalization in French, English, and Russian.
 - Countrydle game mode and country data.
+- Secured public API for LolDle champion data.
 
 Detailed contribution:
 
@@ -840,6 +829,12 @@ Detailed contribution:
 - **Countrydle**:
   - Implemented the country guessing mode with country suggestions, duplicate-guess prevention, comparison feedback, and victory handling.
   - Added the country API integration, daily country match logic, Prisma models/migration, and country seed data.
+- **Public API**:
+  - Created an independent `PublicApiModule` for external access to LolDle champion data.
+  - Added secured API-key authentication that stays separate from JWT/cookie authentication.
+  - Added separate read and write API permissions so destructive actions require the write key.
+  - Implemented public CRUD endpoints for champions with DTO validation and safe public field selection.
+  - Added rate limiting for public API requests and documented usage in `docs/public-api.md`.
 
 Challenges:
 
