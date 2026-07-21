@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Button } from "../components/ui/button";
 import { PageContainer } from '../components/ui/page-content';
 import { Heading } from '../components/ui/heading';
 import { useLanguage } from '../i18n/LanguageContext';
-import { FileText, Scale, UserCheck, AlertTriangle, Copyright, BookOpen, ArrowLeft } from 'lucide-react';
+import { FileText, Scale, UserCheck, AlertTriangle, Copyright, BookOpen} from 'lucide-react';
 
 export function TermsOfServicePage() {
   const { t } = useLanguage();
@@ -20,12 +19,6 @@ export function TermsOfServicePage() {
             <p className="text-xs sm:text-sm text-slate-400 font-medium mt-1">{t("terms.lastUpdated")}</p>
           </div>
         </div>
-        <Button asChild variant="outline" className="border-white/20 hover:bg-white/10 text-slate-200">
-          <Link to="/" className="flex items-center gap-2">
-            <ArrowLeft size={16} />
-            {t("notFound.button")}
-          </Link>
-        </Button>
       </div>
 
       <div className="space-y-6 text-slate-300 w-full leading-relaxed">
