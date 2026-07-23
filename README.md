@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by <meel-war>, <pribolzi>, <mbenzira>, <mubersan>.*
+*This project has been created as part of the 42 curriculum by **meel-war**, **pribolzi**, **mbenzira**, **mubersan**.*
 
 # 42dle - ft_transcendence
 
