@@ -883,13 +883,6 @@ Official documentation and references:
 
 AI usage:
 
-- AI tools such as ChatGPT/Codex - Gemini/AntiGravity were used as programming assistants during development.
-- AI was used to:
-  - explain unfamiliar concepts such as DTOs, JWT, guards, cookies, Prisma relations, React Context, and Socket.IO;
-  - help debug integration issues;
-  - review code snippets and point out mistakes;
-- AI was not treated as the source of truth for project rules or security decisions.
-- Final code decisions, testing, integration, and responsibility remained with the team.
 - The README was assisted by AI.
 
 ## License / Credits
